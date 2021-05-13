@@ -1,15 +1,11 @@
 import React from "react";
 import ImportModal from "./ImportModal";
 import NodeModal from "./NodeModal";
-import SingleModal from "./SingleModal";
-import ThresholdModal from "./ThresholdModal";
 import { MODAL_TYPE } from "../../../common/Enum";
 
 const modalMap = {
     [MODAL_TYPE.import]: ImportModal,
     [MODAL_TYPE.common]: NodeModal,
-    [MODAL_TYPE.single]: SingleModal,
-    [MODAL_TYPE.threshold]: ThresholdModal,
 }
 
 const DrawflowModal = (props) => {

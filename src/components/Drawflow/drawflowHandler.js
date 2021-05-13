@@ -74,9 +74,11 @@ const findIndexByElement = (elmt) => {
   return -1;
 }
 
-export default {
+const handler = {
   createCurvature,
   getCanvasInfo,
   getPos,
   findIndexByElement,
 }
+
+export default handler

@@ -1,32 +1,30 @@
-import React from "react";
-import MenuCommonBlock from "./MenuCommonBlock";
-import { NODE_BLOCK_TYPE } from "../../../common/Enum";
-
 const FilterList = (props) => {
-    const { filterObj, editLock, onDragStart, isIncludeAndSearch } = props;
+    const { filterObj, editLock, searchWord } = props;
+    const searchArr = searchWord.toLowerCase().split(" ").filter(item => item.length > 0);
 
+    const onMouseDownCapture = () => {
+        console.log('Mouse down')
+    }
+    console.log(searchArr)
     return (
-    <div
-        className="drawflow-node-list-wrap"
-    >
-        {filterObj.list.map((item, idx) => {
-            const label = `[${item.type.slice(0, 1)}] ${item.name}`;
-            return (
-            isIncludeAndSearch(label) &&
-            <MenuCommonBlock
-                key={"drawflow-sidemenu-block-" + idx}
-                label={label}
-                editLock={editLock}
-                onDragStart={e => {
-                    onDragStart(e, {
-                        nodeType: NODE_BLOCK_TYPE.FILTER,
-                        index: idx,
-                        modalType: filterObj.modalType,
-                    });
-                }}
-            />);
-        })}
-    </div>
+        <div
+            className="drawflow-node-list-wrap"
+        >
+            {filterObj.list.map((item, idx) => {
+                const label = JSON.stringify(item, null, 2)
+                return (
+                    (searchArr.find(word => label.toLowerCase().includes(word)) || !searchArr.length) &&
+                    <div
+                        key={"drawflow-sidemenu-block-" + idx}
+                        className="drawflow-node-block"
+                        data-draggable={!editLock}
+                        onMouseDownCapture={onMouseDownCapture}
+                    >
+                        {label}
+                    </div>
+                );
+            })}
+        </div>
     );
 }
 

@@ -1,4 +1,4 @@
-import Nodes from "../components/Drawflow/Nodes";
+import Nodes from "../components/Drawflow/Nodes"
 
 const CURV = 0.5;
 
@@ -47,6 +47,12 @@ const MODAL_LABEL = {
     [MODAL_TYPE[RULES.CORRELATION]]: "Correlation Rule Modal",
 }
 
+const NODE_COMPONENT = {
+    [NODE_BLOCK_TYPE.FILTER]: Nodes.Common,
+    [NODE_BLOCK_TYPE.SINGLE]: Nodes.Round,
+    [NODE_BLOCK_TYPE.THRESHOLD]: Nodes.Round,
+}
+
 export {
     CURV,
     LIST_TYPE,
@@ -56,4 +62,5 @@ export {
     MODAL_LABEL,
     NODE_BLOCK_TYPE,
     PAGE,
+    NODE_COMPONENT,
 }

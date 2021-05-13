@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { NODE_BLOCK_TYPE } from "../../common/Enum";
 import handler from "./drawflowHandler";
 
 const DrawflowNodeBlock = ({
@@ -24,17 +23,17 @@ const DrawflowNodeBlock = ({
         const canvas = handler.getCanvasInfo();
         const widthZoom = (canvas.width / (canvas.width * zoom)) || 0;
         const heightZoom = (canvas.height / (canvas.height * zoom)) || 0;
-        const x = size.width/2 + (pos.x - canvas.x ) * widthZoom;
-        const y = size.height/2 + (pos.y - canvas.y ) * heightZoom;
+        const x = size.width / 2 + (pos.x - canvas.x) * widthZoom;
+        const y = size.height / 2 + (pos.y - canvas.y) * heightZoom;
 
-        return {x, y};
+        return { x, y };
     }
 
     const portComponent = (type) => {
         let arr = [];
 
-        for(let i=1;i<=params.port[type];i++) {
-            const port = 
+        for (let i = 1; i <= params.port[type]; i++) {
+            const port =
                 <div
                     key={`drawflow-node-${type}put-${i}`}
                     className={`${type}put`}
@@ -46,14 +45,14 @@ const DrawflowNodeBlock = ({
         }
 
         return (
-        <div className={`${type}puts`}>
-            {arr.map(ele => ele)}
-        </div>
+            <div className={`${type}puts`}>
+                {arr.map(ele => ele)}
+            </div>
         );
     }
 
     useEffect(() => {
-        if(ref.current) {
+        if (ref.current) {
             const inputs = Array.from(ref.current.querySelector(".inputs").children);
             const outputs = Array.from(ref.current.querySelector(".outputs").children);
             setRefs({
@@ -65,7 +64,7 @@ const DrawflowNodeBlock = ({
 
     const getPortPos = (type, i, elmt) => {
         const key = `${params.id}_${type}_${i}`;
-        if(!ports[key]) {
+        if (!ports[key]) {
             const rect = elmt.getBoundingClientRect();
             const size = {
                 width: elmt.offsetWidth,
@@ -82,7 +81,7 @@ const DrawflowNodeBlock = ({
     }
 
     useEffect(() => {
-        if(refs.inputs && refs.outputs && params.port.in === refs.inputs.length && params.port.out === refs.outputs.length) {
+        if (refs.inputs && refs.outputs && params.port.in === refs.inputs.length && params.port.out === refs.outputs.length) {
             let newPorts = {};
             newPorts = Object.assign(newPorts, refs.inputs.reduce((acc, elmt, i) => {
                 return Object.assign(acc, getPortPos("in", i + 1, elmt));
@@ -95,60 +94,59 @@ const DrawflowNodeBlock = ({
     }, [refs]);
 
     useEffect(() => {
-        const isShowModalByCreate = params.type === NODE_BLOCK_TYPE.FILTER;
-        if(params.data.create && isShowModalByCreate) {
-            showModal(params.modalType);
+        if (params.data.create) {
+            // showModal(params.modalType);
         }
     }, [params.data]);
 
     const className = `drawflow-node-block-${params.type.replace(/\s/g, "").toLowerCase()}`;
 
     return (
-    // If you want, change styled component. My case is not supported styled component...
-    <>
-        <div
-            ref={ref}
-            className={"drawflow-node-block-default " + className}
-            style={{
-                top: params.pos.y + "px",
-                left: params.pos.x + "px",
-                cursor: editLock?"auto": "move",
-            }}
-            onMouseDown={e => {
-                if(e.currentTarget.classList.contains(className)) {
-                    event.select(e, params.id);
-                }
-            }}
-            onMouseMove={e => {
-                event.moveNode(e, params.id);
-            }}
-            onContextMenu={e => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowButton(params.id);
-            }}
-            onDoubleClick={() => {
-                showModal(params.modalType);
-            }}
-        >
-            {portComponent("in")}
+        // If you want, change styled component. My case is not supported styled component...
+        <>
             <div
-                className="drawflow-node-content"
-            >
-                <NodeContent
-                    {...params}
-                />
-            </div>
-            {portComponent("out")}
-            <button
+                ref={ref}
+                className={"drawflow-node-block-default " + className}
                 style={{
-                    display: showButton === params.id?"block":"none"
+                    top: params.pos.y + "px",
+                    left: params.pos.x + "px",
+                    cursor: editLock ? "auto" : "move",
                 }}
-                className="drawflow-delete"
-                onMouseDown={(e) => {e.stopPropagation(); event.deleteNode()}}
-            >X</button>
-        </div>
-    </>
+                onMouseDown={e => {
+                    if (e.currentTarget.classList.contains(className)) {
+                        event.select(e, params.id);
+                    }
+                }}
+                onMouseMove={e => {
+                    event.moveNode(e, params.id);
+                }}
+                onContextMenu={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowButton(params.id);
+                }}
+                onDoubleClick={() => {
+                    showModal(params.modalType);
+                }}
+            >
+                {portComponent("in")}
+                <div
+                    className="drawflow-node-content"
+                >
+                    <NodeContent
+                        {...params}
+                    />
+                </div>
+                {portComponent("out")}
+                <button
+                    style={{
+                        display: showButton === params.id ? "block" : "none"
+                    }}
+                    className="drawflow-delete"
+                    onMouseDown={(e) => { e.stopPropagation(); event.deleteNode() }}
+                >X</button>
+            </div>
+        </>
     );
 }
 

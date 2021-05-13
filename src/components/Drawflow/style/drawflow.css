@@ -5,6 +5,10 @@
   --sidemenu-width: 235px;
 }
 
+.node-block {
+  max-width: 200px;
+}
+
 html, body {
   margin: 0px;
   padding: 0px;

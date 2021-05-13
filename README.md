@@ -4,13 +4,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 And, Convert [Drawflow](https://github.com/jerosoler/Drawflow) for react.
 
-## Information
-
-- Stopped development.
-
-- Additional is develop for private repository.
-  - Because, that contains company dependency business logic.
-
 ## Start
 
 ### `yarn install`

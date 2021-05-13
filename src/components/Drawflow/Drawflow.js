@@ -4,9 +4,8 @@ import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
 import DrawflowNodeBlock from "./DrawflowNodeBlock";
 import Connection from "./Connection";
 import DrawflowModal from "./Modal";
-import Nodes from "./Nodes";
 import handler from "./drawflowHandler";
-import { MODAL_TYPE, MODAL_LABEL, LIST_TYPE, NODE_BLOCK_TYPE } from "../../common/Enum";
+import { MODAL_TYPE, MODAL_LABEL, NODE_COMPONENT } from "../../common/Enum";
 import "./style/drawflow.css";
 
 class Drawflow extends React.Component {
@@ -41,11 +40,7 @@ class Drawflow extends React.Component {
             modalType: null,
         }
         this.tmpPorts = {};
-        this.NodeComponent = {
-            [NODE_BLOCK_TYPE.FILTER]: Nodes.Common,
-            [NODE_BLOCK_TYPE.SINGLE]: Nodes.Round,
-            [NODE_BLOCK_TYPE.THRESHOLD]: Nodes.Round,
-        }
+        this.NodeComponent = NODE_COMPONENT
     }
 
     /**
@@ -81,24 +76,14 @@ class Drawflow extends React.Component {
         });
     }
 
-    getDataByIndex = {
-        [LIST_TYPE.FILTER]: (idx) => {
-            return this.props.dataObj.list[idx];
-        },
-        [LIST_TYPE.RULE]: (idx, type) => {
-            return this.props.dataObj[type].list[idx];
-        },
-    }
-
     addNodeToDrawFlow = (data, x, y) => {
-        const { type } = this.props;
         const { config } = this.state;
         if (this.props.editLock) return;
         const pos = handler.getPos(x, y, config.zoom.value);
         const nodeInfo = { ...data };
         delete nodeInfo.index;
         delete nodeInfo.menuType;
-        this.addNode(nodeInfo, { in: 1, out: 1 }, pos, this.getDataByIndex[type](data.index, data.menuType));
+        this.addNode(nodeInfo, { in: 1, out: 1 }, pos, {a: data.index, b: data.menuType});
     }
 
     drop = (e) => {
@@ -178,6 +163,7 @@ class Drawflow extends React.Component {
     }
 
     drawConnections = (start, end, points, idx, svgKey) => {
+        // return <div key={idx}>f</div>
         const { connections, config } = this.state;
         let circles = points.reduce((acc, val, i) => {
             const key = "draw-flow-svg-" + idx + "circle-" + i;
@@ -191,6 +177,7 @@ class Drawflow extends React.Component {
             }
             acc.push(
                 <Connection.Circle
+                    key={key}
                     property={property}
                     points={connections[svgKey]}
                     svgKey={svgKey}
@@ -510,16 +497,10 @@ class Drawflow extends React.Component {
         }
     }
 
-    onChangeSearchWord = e => {
-        this.props.setSearchWord({
-            searchWord: e.target.value,
-        });
-    }
-
     load = async (data) => {
-        const { dataObj } = this.props;
         const { connections } = data;
-        if (!dataObj || !connections) return;
+        if (!connections) console.log('bad')
+        if (!connections) return;
 
         let obj = {
             connections,
@@ -611,11 +592,11 @@ class Drawflow extends React.Component {
             connections,
         }, config.connectionsLabelEnable ? { connectionsLabel } : {});
         if (!navigator.clipboard || !navigator.clipboard.writeText) {
-            alert("clipboard api를 지원하지 않는 브라우저입니다.");
+            alert("clipboard api");
             return;
         }
         navigator.clipboard.writeText(JSON.stringify(exportData, null, 2)).then(() => {
-            alert("json 데이터가 클립보드에 저장되었습니다.");
+            alert("json export");
         });
     }
 
@@ -803,7 +784,7 @@ class Drawflow extends React.Component {
                                         y: ports[endKey].y,
                                     }
                                     return (
-                                        <>
+                                        <div key={idx}>
                                             <svg
                                                 key={"drawflow-svg-" + idx}
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -815,7 +796,7 @@ class Drawflow extends React.Component {
                                                 <div>
                                                     {this.drawConnectionsLabel([start, ...points, end], connectionsLabel[key])}
                                                 </div>}
-                                        </>
+                                        </div>
                                     );
                                 })}
                                 {this.state.newPathDirection && this.newPath()}
