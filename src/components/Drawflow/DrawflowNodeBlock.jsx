@@ -19,16 +19,6 @@ const DrawflowNodeBlock = ({
     });
     const ref = useRef(null);
 
-    const getPortPosWithZoom = (size, pos) => {
-        const canvas = handler.getCanvasInfo();
-        const widthZoom = (canvas.width / (canvas.width * zoom)) || 0;
-        const heightZoom = (canvas.height / (canvas.height * zoom)) || 0;
-        const x = size.width / 2 + (pos.x - canvas.x) * widthZoom;
-        const y = size.height / 2 + (pos.y - canvas.y) * heightZoom;
-
-        return { x, y };
-    }
-
     const portComponent = (type) => {
         let arr = [];
 
@@ -46,7 +36,7 @@ const DrawflowNodeBlock = ({
 
         return (
             <div className={`${type}puts`}>
-                {arr.map(ele => ele)}
+                {arr}
             </div>
         );
     }
@@ -75,7 +65,7 @@ const DrawflowNodeBlock = ({
                 y: rect.y,
             };
             return {
-                [key]: getPortPosWithZoom(size, pos),
+                [key]: handler.getPortPosWithZoom(size, pos, zoom),
             }
         }
     }
@@ -101,53 +91,50 @@ const DrawflowNodeBlock = ({
 
     const className = `drawflow-node-block-${params.type.replace(/\s/g, "").toLowerCase()}`;
 
-    return (
-        // If you want, change styled component. My case is not supported styled component...
-        <>
-            <div
-                ref={ref}
-                className={"drawflow-node-block-default " + className}
-                style={{
-                    top: params.pos.y + "px",
-                    left: params.pos.x + "px",
-                    cursor: editLock ? "auto" : "move",
-                }}
-                onMouseDown={e => {
-                    if (e.currentTarget.classList.contains(className)) {
-                        event.select(e, params.id);
-                    }
-                }}
-                onMouseMove={e => {
-                    event.moveNode(e, params.id);
-                }}
-                onContextMenu={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowButton(params.id);
-                }}
-                onDoubleClick={() => {
-                    showModal(params.modalType);
-                }}
-            >
-                {portComponent("in")}
-                <div
-                    className="drawflow-node-content"
-                >
-                    <NodeContent
-                        {...params}
-                    />
-                </div>
-                {portComponent("out")}
-                <button
-                    style={{
-                        display: showButton === params.id ? "block" : "none"
-                    }}
-                    className="drawflow-delete"
-                    onMouseDown={(e) => { e.stopPropagation(); event.deleteNode() }}
-                >X</button>
-            </div>
-        </>
-    );
+    return <div
+        ref={ref}
+        className={"drawflow-node-block-default " + className}
+        style={{
+            top: params.pos.y + "px",
+            left: params.pos.x + "px",
+            cursor: editLock ? "auto" : "move",
+        }}
+        onMouseDown={e => {
+            if (e.currentTarget.classList.contains(className)) {
+                event.select(e, params.id);
+            }
+        }}
+        onMouseMove={e => {
+            event.moveNode(e, params.id);
+        }}
+        onContextMenu={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowButton(params.id);
+        }}
+        onDoubleClick={() => {
+            showModal(params.modalType);
+        }}
+    >
+        {portComponent("in")}
+        <div
+            className="drawflow-node-content"
+        >
+            <NodeContent
+                {...params}
+            />
+        </div>
+        {portComponent("out")}
+        <button
+            style={{
+                display: showButton === params.id ? "block" : "none"
+            }}
+            className="drawflow-delete"
+            onMouseDown={(e) => { e.stopPropagation(); event.deleteNode() }}
+        >X</button>
+    </div>
+
+
 }
 
 export default DrawflowNodeBlock;

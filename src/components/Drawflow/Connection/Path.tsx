@@ -1,50 +1,64 @@
-import React from "react";
+import { MouseEvent } from "react";
+import { pos } from "../../../types";
 import handler from "../drawflowHandler";
 
-const Path = (props) => {
+type Props = {
+    editLock: boolean,
+    points?: pos[],
+    zoom: number,
+    start: pos,
+    end: pos,
+    svgKey?: string,
+    d: any,
+    select: Function,
+    setConnections: Function,
+}
+
+const Path = (props: Props) => {
     const { editLock, points, zoom, start, end, svgKey, d } = props;
 
-    const customSort = (arrX, arrY, quadrant) => {
+    const customSort = (arrX: number[], arrY: number[], quadrant: 1 | 2 | 3 | 4) => {
         let result = [];
         let cloneX = [...arrX], cloneY = [...arrY];
 
-        const pop = (popXY) => {
+        const pop = (popXY: pos) => {
             cloneX = cloneX.filter(item => popXY.x !== item);
             cloneY = cloneY.filter(item => popXY.y !== item);
         }
         const next = () => {
-            const result = quadrant === 1 ? {x: Math.min(...cloneX), y: Math.min(...cloneY)}:
-                           quadrant === 2 ? {x: Math.max(...cloneX), y: Math.min(...cloneY)}:
-                           quadrant === 3 ? {x: Math.max(...cloneX), y: Math.max(...cloneY)}:
-                                            {x: Math.min(...cloneX), y: Math.max(...cloneY)};
+            const result =
+                quadrant === 1 ? { x: Math.min(...cloneX), y: Math.min(...cloneY) } :
+                    quadrant === 2 ? { x: Math.max(...cloneX), y: Math.min(...cloneY) } :
+                        quadrant === 3 ? { x: Math.max(...cloneX), y: Math.max(...cloneY) } :
+                            { x: Math.min(...cloneX), y: Math.max(...cloneY) };
             pop(result);
             return result;
         }
-        while(cloneX.length > 0) {
+        while (cloneX.length > 0) {
             result.push(next());
         }
         return result;
     }
 
-    const sortPoints = (points, start, end) => {
+    const sortPoints = (points: pos[], start: pos, end: pos) => {
         let result = null;
-        let arrayX = [];
-        let arrayY = [];
+        let arrayX: number[] = [];
+        let arrayY: number[] = [];
         points.reduce((_, val) => {
             arrayX.push(val.x);
             arrayY.push(val.y);
             return null;
         }, null);
 
-        if(start.x <= end.x && start.y <= end.y) {
+        if (start.x <= end.x && start.y <= end.y) {
             // 1 quadrant
             result = customSort(arrayX, arrayY, 1);
         }
-        else if(start.x <= end.x && start.y > end.y) {
+        else if (start.x <= end.x && start.y > end.y) {
             // 4 quadrant
             result = customSort(arrayX, arrayY, 4);
         }
-        else if(start.x > end.x && start.y <= end.y) {
+        else if (start.x > end.x && start.y <= end.y) {
             // 2 quadrant
             result = customSort(arrayX, arrayY, 2);
         }
@@ -56,15 +70,15 @@ const Path = (props) => {
         return result;
     }
 
-    const onMouseDown = e => {
-        if(editLock) return;
+    const onMouseDown = (e: MouseEvent) => {
+        if (editLock) return;
         props.select(e, svgKey);
     }
 
-    const onDoubleClick = e => {
-        if(editLock || !svgKey) return;
+    const onDoubleClick = (e: MouseEvent) => {
+        if (editLock || !svgKey) return;
         const pos = handler.getPos(e.clientX, e.clientY, zoom);
-        const newPoints = sortPoints([...points, pos], start, end);
+        const newPoints = sortPoints([...points ?? [], pos], start, end);
         props.setConnections(svgKey, newPoints);
     }
 

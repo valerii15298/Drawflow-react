@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const NodeModal = (props) => {
   const { title, close, data, setData } = props;
   const [value, setValue] = useState("");
-  console.log(data)
+  // console.log(data)
 
   const cancel = () => {
     close();

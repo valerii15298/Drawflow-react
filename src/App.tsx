@@ -4,31 +4,25 @@ import FilterList from "./components/Drawflow/NodeListMenu/FilterList";
 import mock from "./components/Drawflow/Mock";
 import './App.css';
 
-function App() {
-  // TODO change logic
+import { block, data } from './types'
 
-  //* original data list
-  const [dataObj, setDataObj] = useState(null);
-  const [canvasData, setCanvasData] = useState(null);
+function App() {
+
+  const [dataObj, setDataObj] = useState<block[] | null>(null);
+  const [canvasData, setCanvasData] = useState<data | null>(null);
   const [editLock, setEditLock] = useState(false);
   const [searchWord, setSearchWord] = useState("");
 
+  //load mock data
   useEffect(() => {
     mock.getFilters(5).then(data => {
-      console.log('filters', data)
       setDataObj(data)
     })
 
     mock.getDummy().then(data => {
-      console.log('dummy', data)
       setCanvasData(data);
     })
   }, []);
-
-  const isIncludeAndSearch = (target) => {
-    const arr = searchWord.toLowerCase().split(" ").filter(item => item.length > 0);
-    return arr.filter(word => target.toLowerCase().includes(word)).length === arr.length;
-  }
 
   return (
     <div className="App">
@@ -45,9 +39,8 @@ function App() {
             <div className="drawflow-node-list-flex">
               <FilterList
                 searchWord={searchWord}
-                filterObj={dataObj}
+                list={dataObj}
                 editLock={editLock}
-                isIncludeAndSearch={isIncludeAndSearch}
               />
             </div>
           </div>

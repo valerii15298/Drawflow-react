@@ -1,6 +1,8 @@
 import { CURV as curv } from "../../common/Enum";
 
-const createCurvature = (start, end, type) => {
+import { pos } from "../../types";
+
+const createCurvature = (start: pos, end: pos, type: string) => {
   let hx1 = null;
   let hx2 = null;
 
@@ -46,7 +48,7 @@ const createCurvature = (start, end, type) => {
 
 const getCanvasInfo = () => {
   // TODO : replace querySelector to someting
-  const canvas = document.querySelector("#drawflow").querySelector(".drawflow");
+  const canvas = (document.querySelector("#drawflow") as HTMLElement).querySelector(".drawflow") as HTMLElement;
   const canvasRect = canvas.getBoundingClientRect();
   return {
     x: canvasRect.x,
@@ -56,7 +58,7 @@ const getCanvasInfo = () => {
   };
 }
 
-const getPos = (clientX, clientY, zoom) => {
+const getPos = (clientX: number, clientY: number, zoom: number) => {
   const { x, y, width, height } = getCanvasInfo();
   return {
     x: clientX * (width / (width * zoom)) - (x * (width / (width * zoom))),
@@ -64,8 +66,8 @@ const getPos = (clientX, clientY, zoom) => {
   }
 }
 
-const findIndexByElement = (elmt) => {
-  const { parentElement } = elmt;
+const findIndexByElement = (elmt: HTMLElement) => {
+  const parentElement = elmt.parentElement as HTMLElement;
   const arr = Array.from(parentElement.childNodes);
 
   for (let i = 0; i < arr.length; i++) {
@@ -74,11 +76,24 @@ const findIndexByElement = (elmt) => {
   return -1;
 }
 
+// my code
+
+const getPortPosWithZoom = (size:{width: number, height: number}, pos: pos, zoom: number) => {
+  const canvas = handler.getCanvasInfo();
+  const widthZoom = (canvas.width / (canvas.width * zoom)) || 0;
+  const heightZoom = (canvas.height / (canvas.height * zoom)) || 0;
+  const x = size.width / 2 + (pos.x - canvas.x) * widthZoom;
+  const y = size.height / 2 + (pos.y - canvas.y) * heightZoom;
+
+  return { x, y };
+}
+
 const handler = {
   createCurvature,
   getCanvasInfo,
   getPos,
   findIndexByElement,
+  getPortPosWithZoom,
 }
 
 export default handler

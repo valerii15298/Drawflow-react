@@ -194,7 +194,7 @@ button {
 }
 
 .drawflow-node-block {
-  line-height: 35px;
+  /* line-height: 35px; */
   border-bottom: 1px solid var(--border-color);
   padding: 0 5px;
   cursor: move;
