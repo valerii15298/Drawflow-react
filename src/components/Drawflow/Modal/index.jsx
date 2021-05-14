@@ -1,4 +1,3 @@
-import React from "react";
 import ImportModal from "./ImportModal";
 import NodeModal from "./NodeModal";
 import { MODAL_TYPE } from "../../../common/Enum";

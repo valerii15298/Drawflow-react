@@ -75,23 +75,24 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
         });
     }
 
-    addNodeToDrawFlow = (data: any, x: number, y: number) => {
+    addNodeToDrawFlow = (data: block, x: number, y: number) => {
         const { config } = this.state;
         if (this.props.editLock) return;
         const pos = handler.getPos(x, y, config.zoom.value);
         const nodeInfo = { ...data };
-        delete nodeInfo.index;
-        delete nodeInfo.menuType;
+        // delete nodeInfo.index;
+        // delete nodeInfo.menuType;
 
         // get template data from store
         this.addNode(nodeInfo, { in: 1, out: 1 }, pos, data);
     }
 
-    // drop = (e: any) => {
-    //     e.preventDefault();
-    //     const data = JSON.parse(e.dataTransfer.getData("data"));
-    //     this.addNodeToDrawFlow(data, e.clientX, e.clientY);
-    // }
+    drop = (e: any) => {
+        e.preventDefault();
+        console.log('Drop')
+        // const data = JSON.parse(e.dataTransfer.getData("data"));
+        // this.addNodeToDrawFlow(data, e.clientX, e.clientY);
+    }
 
     unSelect = (e: MouseEvent) => {
         e.stopPropagation();
@@ -724,6 +725,8 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
                             onMouseUp={this.onMouseUpCanvas}
                             onMouseMove={this.onMouseMoveCanvas}
                             onDragOver={e => { e.preventDefault() }}
+                            onMouseEnter={e => console.log('Mouse enter')}
+                            onDragEnter={this.drop}
                         >
                             <DrawflowAdditionalArea
                                 importJson={this.importJson}

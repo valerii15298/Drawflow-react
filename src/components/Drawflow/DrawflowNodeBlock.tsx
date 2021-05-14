@@ -1,25 +1,46 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, } from "react";
+import { node, ports, portType } from "../../types";
 import handler from "./drawflowHandler";
 
-const DrawflowNodeBlock = ({
-    zoom,
-    NodeContent,
-    params,
-    editLock,
-    ports,
-    pushPorts,
-    showButton,
-    setShowButton,
-    showModal,
-    event,
-}) => {
+type Props = {
+    zoom: number,
+    NodeContent: any,
+    params: node,
+    editLock: boolean,
+    ports: ports,
+    pushPorts: (ports: ports) => void,
+    showButton: number | null,
+    setShowButton: (nodeId: number) => void,
+    showModal: (type: string) => void,
+    event: {
+        select: any,
+        moveNode: any,
+        createPath: any,
+        deleteNode: any,
+    },
+}
+
+const DrawflowNodeBlock = (props: Props) => {
+    const {
+        zoom,
+        NodeContent,
+        params,
+        editLock,
+        ports,
+        pushPorts,
+        showButton,
+        setShowButton,
+        showModal,
+        event,
+    } = props;
+
     const [refs, setRefs] = useState({
         inputs: [],
         outputs: [],
     });
     const ref = useRef(null);
 
-    const portComponent = (type) => {
+    const portComponent = (type: portType) => {
         let arr = [];
 
         for (let i = 1; i <= params.port[type]; i++) {
@@ -43,16 +64,16 @@ const DrawflowNodeBlock = ({
 
     useEffect(() => {
         if (ref.current) {
+            //@ts-ignore
             const inputs = Array.from(ref.current.querySelector(".inputs").children);
+            //@ts-ignore
             const outputs = Array.from(ref.current.querySelector(".outputs").children);
-            setRefs({
-                inputs,
-                outputs,
-            });
+            //@ts-ignore
+            setRefs({ inputs, outputs, });
         }
     }, [ref]);
 
-    const getPortPos = (type, i, elmt) => {
+    const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
         const key = `${params.id}_${type}_${i}`;
         if (!ports[key]) {
             const rect = elmt.getBoundingClientRect();

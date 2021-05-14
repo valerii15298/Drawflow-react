@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler } from "react";
+import { MouseEvent } from "react";
 
 const CircleComponent = (props: any) => {
     const { property, points, svgKey, i, editLock } = props;

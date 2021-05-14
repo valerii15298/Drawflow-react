@@ -13,7 +13,18 @@ export type port = {
     out: number,
 }
 
-export type block = { name: string, type: string, value: string }
+export type portType = 'in' | 'out'
+
+export type ports = {
+    [propName: string]: pos
+}
+
+export type block = {
+    name: string,
+    type: string,
+    value: string,
+    create?: boolean
+}
 
 export type node = {
     id: number
@@ -23,7 +34,6 @@ export type node = {
     port: port,
     pos: pos
 }
-
 
 export type Nodes = {
     [propName: string]: node
