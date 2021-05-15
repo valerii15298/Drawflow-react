@@ -8,18 +8,17 @@ const modalMap = {
 }
 
 const DrawflowModal = (props) => {
-    const { type, close, title, data, setData, event } = props;
+    const { type, close, data, setData, event } = props;
     const Component = modalMap[type];
     return (
-    <div className="drawflow-modal-container">
-        <Component
-            title={title}
-            close={close}
-            data={data}
-            setData={setData}
-            {...event}
-        />
-    </div>
+        <div className="drawflow-modal-container">
+            <Component
+                close={close}
+                data={data}
+                setData={setData}
+                {...event}
+            />
+        </div>
     );
 }
 

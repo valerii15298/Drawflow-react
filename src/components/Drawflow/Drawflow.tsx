@@ -5,17 +5,19 @@ import DrawflowNodeBlock from "./DrawflowNodeBlock";
 import Connection from "./Connection";
 import DrawflowModal from "./Modal";
 import handler from "./drawflowHandler";
-import { MODAL_TYPE, MODAL_LABEL, NODE_COMPONENT } from "../../common/Enum";
+import { MODAL_TYPE, NODE_COMPONENT } from "../../common/Enum";
+import Node from './Node'
 import "./style/drawflow.css";
 
-import { port, pos, block, data, stateData, clientPos } from '../../types'
+import { port, pos, block, data, stateData, clientPos, ports } from '../../types'
 
+type Props = { canvasData: data, editLock: boolean, setEditLock: React.Dispatch<React.SetStateAction<boolean>> }
 
-class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, setEditLock: React.Dispatch<React.SetStateAction<boolean>> }, stateData> {
+class Drawflow extends React.Component<Props, stateData> {
     tmpPorts: any
     NodeComponent: any
 
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             nodeId: 1,
@@ -49,6 +51,10 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
         this.NodeComponent = NODE_COMPONENT
     }
 
+    node(id: number) {
+        return new Node(id, this)
+    }
+
     addNode = (nodeInfo: any, port: port, pos: pos, data: block) => {
         const { nodeId, drawflow } = this.state;
         const params = {
@@ -80,16 +86,18 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
         if (this.props.editLock) return;
         const pos = handler.getPos(x, y, config.zoom.value);
         const nodeInfo = { ...data };
-        // delete nodeInfo.index;
-        // delete nodeInfo.menuType;
 
         // get template data from store
-        this.addNode(nodeInfo, { in: 1, out: 1 }, pos, data);
+        this.addNode(nodeInfo, { in: 1, out: 2 }, pos, data);
     }
 
-    drop = (e: any) => {
-        e.preventDefault();
+    drop = () => {
+        // e.preventDefault();
         console.log('Drop')
+        console.log(this.node(1).setPos({ x: 0, y: 0 }))
+        // e.dataTransfer
+        // console.log(e.dataTransfer)
+        // e.dataTransfer.dropEffect = 'move'
         // const data = JSON.parse(e.dataTransfer.getData("data"));
         // this.addNodeToDrawFlow(data, e.clientX, e.clientY);
     }
@@ -261,7 +269,7 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
         return Object.keys(ports).filter(key => key.split(/_/g)[0] === "" + nodeId);
     }
 
-    setPosByNodeId = (nodeId: number, pos: pos, ports: any) => {
+    setPosByNodeId = (nodeId: number, pos: pos, ports: ports | null = null) => {
         const { drawflow } = this.state;
         this.setState({
             drawflow: {
@@ -274,8 +282,8 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
                     }
                 }
             },
-            ports,
         });
+        ports && this.setState({ ports })
     }
 
     movePosition = (nodeId: number, pos: pos) => {
@@ -684,7 +692,6 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
                 {this.state.modalType &&
                     <DrawflowModal
                         type={this.state.modalType}
-                        title={MODAL_LABEL[this.state.modalType]}
                         data={this.state.selectId && this.state.drawflow[this.state.selectId as any].data}
                         setData={(data: any) => {
                             const { drawflow, selectId } = this.state;
@@ -725,8 +732,7 @@ class Drawflow extends React.Component<{ canvasData: data, editLock: boolean, se
                             onMouseUp={this.onMouseUpCanvas}
                             onMouseMove={this.onMouseMoveCanvas}
                             onDragOver={e => { e.preventDefault() }}
-                            onMouseEnter={e => console.log('Mouse enter')}
-                            onDragEnter={this.drop}
+                            onMouseEnter={this.drop}
                         >
                             <DrawflowAdditionalArea
                                 importJson={this.importJson}

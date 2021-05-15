@@ -2,21 +2,10 @@ import Nodes from "../components/Drawflow/Nodes"
 
 const CURV = 0.5;
 
-const LIST_TYPE = {
-    FILTER: "filter",
-    RULE: "rule",
-}
-
 const RULES = {
     SINGLE: "single",
     THRESHOLD: "threshold",
     CORRELATION: "correlation",
-}
-
-const RULES_LIST_TYPE = {
-    [RULES.SINGLE]: LIST_TYPE.FILTER,
-    [RULES.THRESHOLD]: LIST_TYPE.FILTER,
-    [RULES.CORRELATION]: LIST_TYPE.RULE,
 }
 
 const NODE_BLOCK_TYPE = {
