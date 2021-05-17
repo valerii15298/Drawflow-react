@@ -1,4 +1,4 @@
-import { Grabme, More } from "../../../svg"
+import { Grabme, More } from "../../svg"
 
 const Common = (props: object) => {
     return <div className="node-block" >

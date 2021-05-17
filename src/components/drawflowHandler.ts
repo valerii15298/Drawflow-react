@@ -1,6 +1,6 @@
-import { CURV as curv } from "../../common/Enum";
+import { CURV as curv } from "../types";
 
-import { pos } from "../../types";
+import { pos } from "../types";
 
 const createCurvature = (start: pos, end: pos, type: string) => {
   let hx1 = null;

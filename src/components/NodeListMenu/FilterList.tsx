@@ -1,4 +1,4 @@
-import { block } from '../../../types'
+import { block } from '../../types'
 
 type Props = {
     list: Array<block>

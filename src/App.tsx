@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Drawflow from './components/Drawflow/Drawflow';
-import FilterList from "./components/Drawflow/NodeListMenu/FilterList";
-import mock from "./components/Drawflow/Mock";
+import Drawflow from './components/Drawflow';
+import FilterList from "./components/NodeListMenu/FilterList";
+import mock from "./components/Mock";
 import './App.css';
 
 import { block, data } from './types'

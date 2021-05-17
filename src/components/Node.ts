@@ -1,4 +1,4 @@
-import { port, pos } from "../../types";
+import { port, pos } from "../types";
 import Drawflow from "./Drawflow";
 
 export default class Node {

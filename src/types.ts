@@ -1,3 +1,22 @@
+import NodeComponents from "./components/NodeComponents"
+
+export enum NODE_TYPE {
+    START = 'START',
+    MIDDLE = 'MIDDLE',
+    END = 'END',
+}
+
+export const NODE_COMPONENT = {
+    [NODE_TYPE.MIDDLE]: NodeComponents.Common,
+}
+
+export const CURV = 0.5;
+
+export enum MODAL_TYPE  {
+    import = "import",
+    common = "common",
+}
+
 export type pos = {
     x: number,
     y: number,
@@ -29,9 +48,8 @@ export type block = {
 export type node = {
     id: number
     type: string
-    modalType: string,
     data: block
-    port: port,
+    port: port
     pos: pos
 }
 

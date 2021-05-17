@@ -5,17 +5,19 @@ import DrawflowNodeBlock from "./DrawflowNodeBlock";
 import Connection from "./Connection";
 import DrawflowModal from "./Modal";
 import handler from "./drawflowHandler";
-import { MODAL_TYPE, NODE_COMPONENT } from "../../common/Enum";
 import Node from './Node'
 import "./style/drawflow.css";
 
-import { port, pos, block, data, stateData, clientPos, ports } from '../../types'
+import { port, pos, block, data, stateData, clientPos, ports, NODE_TYPE } from '../types'
+
+import { MODAL_TYPE, NODE_COMPONENT } from '../types'
 
 type Props = { canvasData: data, editLock: boolean, setEditLock: React.Dispatch<React.SetStateAction<boolean>> }
 
 class Drawflow extends React.Component<Props, stateData> {
     tmpPorts: any
     NodeComponent: any
+    nodeRefs: { [propName: number]: HTMLElement } = {}
 
     constructor(props: Props) {
         super(props);
@@ -55,12 +57,11 @@ class Drawflow extends React.Component<Props, stateData> {
         return new Node(id, this)
     }
 
-    addNode = (nodeInfo: any, port: port, pos: pos, data: block) => {
+    addNode = (port: port, pos: pos, data: block) => {
         const { nodeId, drawflow } = this.state;
         const params = {
             id: nodeId,
-            type: nodeInfo.nodeType,
-            modalType: nodeInfo.modalType,
+            type: NODE_TYPE.MIDDLE,
             data: {
                 ...data,
                 create: true,
@@ -79,27 +80,26 @@ class Drawflow extends React.Component<Props, stateData> {
                 [nodeId]: { ...params },
             }
         });
+        return nodeId;
     }
 
-    addNodeToDrawFlow = (data: block, x: number, y: number) => {
-        const { config } = this.state;
+    drop = (e: MouseEvent) => {
         if (this.props.editLock) return;
-        const pos = handler.getPos(x, y, config.zoom.value);
-        const nodeInfo = { ...data };
+        // if (!this.props.dragging) return;
+        const { clientX, clientY } = e;
+        const pos = handler.getPos(clientX, clientY, this.state.config.zoom.value);
 
-        // get template data from store
-        this.addNode(nodeInfo, { in: 1, out: 2 }, pos, data);
-    }
+        // // get template data from store
+        const data = {
+            name: 'Node name',
+            type: 'sdd',
+            value: 'Node value',
+        }
 
-    drop = () => {
-        // e.preventDefault();
-        console.log('Drop')
-        console.log(this.node(1).setPos({ x: 0, y: 0 }))
-        // e.dataTransfer
-        // console.log(e.dataTransfer)
-        // e.dataTransfer.dropEffect = 'move'
-        // const data = JSON.parse(e.dataTransfer.getData("data"));
-        // this.addNodeToDrawFlow(data, e.clientX, e.clientY);
+        const id = this.addNode({ in: 1, out: 2 }, pos, data)
+        console.log(id)
+        console.log(this.nodeRefs)
+        // console.log(this.node(1).setPos({ x: 0, y: 0 }))
     }
 
     unSelect = (e: MouseEvent) => {
@@ -687,6 +687,13 @@ class Drawflow extends React.Component<Props, stateData> {
                 deleteNode: this.deleteNode,
             };
 
+        const keys = Object.keys(this.nodeRefs).filter(key => key in this.state.drawflow)
+        for (let key in this.nodeRefs) {
+            if (!keys.includes(key)) {
+                delete this.nodeRefs[key]
+            }
+        }
+
         return (
             <div className="drawflow-container">
                 {this.state.modalType &&
@@ -752,8 +759,11 @@ class Drawflow extends React.Component<Props, stateData> {
                                     transform: `translate(${this.state.config.canvasTranslate.x}px, ${this.state.config.canvasTranslate.y}px) scale(${this.state.config.zoom.value})`
                                 }}
                             >
-                                {Object.values(this.state.drawflow).map((node: any, idx) =>
-                                    <DrawflowNodeBlock
+                                {Object.values(this.state.drawflow).map((node: any, idx) => {
+                                    return <DrawflowNodeBlock
+                                        updateRef={(elem: HTMLElement) => {
+                                            this.nodeRefs[node.id] = elem
+                                        }}
                                         key={"drawflow-node-block-" + idx}
                                         zoom={this.state.config.zoom.value}
                                         NodeContent={this.NodeComponent[node.type]}
@@ -774,6 +784,7 @@ class Drawflow extends React.Component<Props, stateData> {
                                         }}
                                         event={nodeBlockEvent}
                                     />
+                                }
                                 )}
                                 {Object.entries(this.state.connections).map(([key, points]: [key: any, points: any], idx) => {
                                     // key: fromId_portNum_toId_portNum

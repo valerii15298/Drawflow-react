@@ -1,13 +1,12 @@
-import { data } from "../../../types"
-
+import { data } from "../../types"
+import { NODE_TYPE } from "../../types"
 
 const getData =  async (): Promise<data> => {
   return {
     "nodes": {
       "1": {
         "id": 1,
-        "type": "filter",
-        "modalType": "common",
+        "type": NODE_TYPE.MIDDLE,
         "data": {
           "type": "Numeric",
           "name": "HLuF7rwKIuD",
@@ -24,8 +23,7 @@ const getData =  async (): Promise<data> => {
       },
       "2": {
         "id": 2,
-        "type": "filter",
-        "modalType": "common",
+        "type": NODE_TYPE.MIDDLE,
         "data": {
           "type": "String",
           "name": "y24mqVYQtD",
@@ -42,8 +40,7 @@ const getData =  async (): Promise<data> => {
       },
       "3": {
         "id": 3,
-        "type": "filter",
-        "modalType": "common",
+        "type": NODE_TYPE.MIDDLE,
         "data": {
           "type": "String",
           "name": "y24mqVYQtD",
@@ -60,8 +57,7 @@ const getData =  async (): Promise<data> => {
       },
       "4": {
         "id": 4,
-        "type": "filter",
-        "modalType": "common",
+        "type": NODE_TYPE.MIDDLE,
         "data": {
           "type": "String",
           "name": "1qdlCNXqYBsE",

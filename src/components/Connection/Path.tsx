@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { pos } from "../../../types";
+import { pos } from "../../types";
 import handler from "../drawflowHandler";
 
 type Props = {

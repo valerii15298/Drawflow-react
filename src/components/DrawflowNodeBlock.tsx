@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, } from "react";
-import { node, ports, portType } from "../../types";
+import { node, ports, portType } from "../types";
 import handler from "./drawflowHandler";
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
         createPath: any,
         deleteNode: any,
     },
+    updateRef: any
 }
 
 const DrawflowNodeBlock = (props: Props) => {
@@ -32,6 +33,7 @@ const DrawflowNodeBlock = (props: Props) => {
         setShowButton,
         showModal,
         event,
+        updateRef,
     } = props;
 
     const [refs, setRefs] = useState({
@@ -70,6 +72,7 @@ const DrawflowNodeBlock = (props: Props) => {
             const outputs = Array.from(ref.current.querySelector(".outputs").children);
             //@ts-ignore
             setRefs({ inputs, outputs, });
+            updateRef(ref.current)
         }
     }, [ref]);
 
@@ -134,7 +137,7 @@ const DrawflowNodeBlock = (props: Props) => {
             setShowButton(params.id);
         }}
         onDoubleClick={() => {
-            showModal(params.modalType);
+            showModal('common');
         }}
     >
         {portComponent("in")}

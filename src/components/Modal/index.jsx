@@ -1,6 +1,6 @@
 import ImportModal from "./ImportModal";
 import NodeModal from "./NodeModal";
-import { MODAL_TYPE } from "../../../common/Enum";
+import { MODAL_TYPE } from "../../types";
 
 const modalMap = {
     [MODAL_TYPE.import]: ImportModal,
