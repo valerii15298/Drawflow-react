@@ -87,9 +87,6 @@ const getData =  async (): Promise<data> => {
         }
       ]
     },
-    "connectionsLabel": {
-      "1_1_3_1": "test label",
-    }
   }
 }
 

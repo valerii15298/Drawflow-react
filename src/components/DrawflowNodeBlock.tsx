@@ -2,39 +2,17 @@ import { useEffect, useState, useRef, } from "react";
 import { node, ports, portType } from "../types";
 import handler from "./drawflowHandler";
 
-type Props = {
-    zoom: number,
-    NodeContent: any,
-    params: node,
-    editLock: boolean,
-    ports: ports,
-    pushPorts: (ports: ports) => void,
-    showButton: number | null,
-    setShowButton: (nodeId: number) => void,
-    showModal: (type: string) => void,
-    event: {
-        select: any,
-        moveNode: any,
-        createPath: any,
-        deleteNode: any,
-    },
-    updateRef: any
-}
+import { actions } from '../redux/drawflowSlice'
+import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import NodeComponent from "./NodeComponents";
 
-const DrawflowNodeBlock = (props: Props) => {
-    const {
-        zoom,
-        NodeContent,
-        params,
-        editLock,
-        ports,
-        pushPorts,
-        showButton,
-        setShowButton,
-        showModal,
-        event,
-        updateRef,
-    } = props;
+
+const DrawflowNodeBlock = ({ id }: { id: number }) => {
+    const { selectId, select, ports, config, drawflow: { [id]: node } } =
+        useAppSelector(s => s.drawflowSlice)
+    const dispatch = useAppDispatch()
+    const { port, pos } = node;
+    const { zoom } = config
 
     const [refs, setRefs] = useState({
         inputs: [],
@@ -45,13 +23,29 @@ const DrawflowNodeBlock = (props: Props) => {
     const portComponent = (type: portType) => {
         let arr = [];
 
-        for (let i = 1; i <= params.port[type]; i++) {
+        for (let i = 1; i <= port[type]; i++) {
+            const key = `${type}put-${i}`;
             const port =
                 <div
-                    key={`drawflow-node-${type}put-${i}`}
-                    className={`${type}put`}
+                    onMouseDown={(e) => {
+                        e.stopPropagation()
+                        dispatch(actions.select({
+                            type: (type + 'put') as ('input' | 'output'),
+                            portId: i,
+                            selectId: node.id
+                        }))
+                    }}
+                    key={key}
+                    className={`${type}put ${key}`}
                     onMouseUp={e => {
-                        event.createPath(e, params.id, i);
+                        if (type !== "in" || typeof selectId !== "number" || !select?.portId) return
+                        const endId = node.id
+                        const endPort = i
+                        const startId = selectId
+                        const startPort = select.portId;
+                        // if connect to same node
+                        if (startId === endId) return
+                        dispatch(actions.addConnection({ startId, startPort, endId, endPort }))
                     }}
                 ></div>;
             arr.push(port);
@@ -72,12 +66,12 @@ const DrawflowNodeBlock = (props: Props) => {
             const outputs = Array.from(ref.current.querySelector(".outputs").children);
             //@ts-ignore
             setRefs({ inputs, outputs, });
-            updateRef(ref.current)
+            // updateRef(ref.current)
         }
     }, [ref]);
 
     const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
-        const key = `${params.id}_${type}_${i}`;
+        const key = `${id}_${type}_${i}`;
         if (!ports[key]) {
             const rect = elmt.getBoundingClientRect();
             const size = {
@@ -89,13 +83,13 @@ const DrawflowNodeBlock = (props: Props) => {
                 y: rect.y,
             };
             return {
-                [key]: handler.getPortPosWithZoom(size, pos, zoom),
+                [key]: handler.getPortPosWithZoom(size, pos, zoom.value),
             }
         }
     }
 
     useEffect(() => {
-        if (refs.inputs && refs.outputs && params.port.in === refs.inputs.length && params.port.out === refs.outputs.length) {
+        if (refs.inputs && refs.outputs && port.in === refs.inputs.length && port.out === refs.outputs.length) {
             let newPorts = {};
             newPorts = Object.assign(newPorts, refs.inputs.reduce((acc, elmt, i) => {
                 return Object.assign(acc, getPortPos("in", i + 1, elmt));
@@ -103,59 +97,54 @@ const DrawflowNodeBlock = (props: Props) => {
             newPorts = Object.assign(newPorts, refs.outputs.reduce((acc, elmt, i) => {
                 return Object.assign(acc, getPortPos("out", i + 1, elmt));
             }, {}));
-            pushPorts(newPorts);
+            dispatch(actions.pushPorts(newPorts))
         }
     }, [refs]);
 
-    useEffect(() => {
-        if (params.data.create) {
-            // showModal(params.modalType);
-        }
-    }, [params.data]);
-
-    const className = `drawflow-node-block-${params.type.replace(/\s/g, "").toLowerCase()}`;
+    const className =
+        `drawflow-node-block-default` + (selectId === id ? ' select' : '')
 
     return <div
         ref={ref}
         className={"drawflow-node-block-default " + className}
         style={{
-            top: params.pos.y + "px",
-            left: params.pos.x + "px",
-            cursor: editLock ? "auto" : "move",
+            top: pos.y + "px",
+            left: pos.x + "px",
+            // cursor: editLock ? "auto" : "move",
         }}
         onMouseDown={e => {
-            if (e.currentTarget.classList.contains(className)) {
-                event.select(e, params.id);
-            }
+            e.stopPropagation()
+            dispatch(actions.select({ type: 'node', selectId: id }))
         }}
         onMouseMove={e => {
-            event.moveNode(e, params.id);
+            // move node
+            if (!config.drag) return;
+            if (id !== selectId) return;
+            const { movementX, movementY } = e;
+            if (movementX === 0 && movementY === 0) return;
+            dispatch(actions.movePosition({ nodeId: id, pos: { x: movementX, y: movementY } }))
         }}
         onContextMenu={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            setShowButton(params.id);
+            // TODO show delete button
         }}
         onDoubleClick={() => {
-            showModal('common');
+            // show node settings
         }}
     >
         {portComponent("in")}
         <div
             className="drawflow-node-content"
         >
-            <NodeContent
-                {...params}
-            />
+            <NodeComponent.Common {...node} />
         </div>
         {portComponent("out")}
-        <button
+        {/* <button
             style={{
-                display: showButton === params.id ? "block" : "none"
+                display: showButton === id ? "block" : "none"
             }}
             className="drawflow-delete"
             onMouseDown={(e) => { e.stopPropagation(); event.deleteNode() }}
-        >X</button>
+        >X</button> */}
     </div>
 
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import Drawflow from './components/Drawflow';
+// import Drawflow from './components/Drawflow';
+import { DrawflowHook as Drawflow } from './components/DrawflowHook';
 import FilterList from "./components/NodeListMenu/FilterList";
 import mock from "./components/Mock";
 import './App.css';
@@ -46,8 +47,6 @@ function App() {
           </div>
           <Drawflow
             canvasData={canvasData}
-            editLock={editLock}
-            setEditLock={setEditLock}
           />
         </>}
     </div>

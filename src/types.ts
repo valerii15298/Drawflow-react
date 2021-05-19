@@ -6,15 +6,11 @@ export enum NODE_TYPE {
     END = 'END',
 }
 
-export const NODE_COMPONENT = {
-    [NODE_TYPE.MIDDLE]: NodeComponents.Common,
-}
-
 export const CURV = 0.5;
 
-export enum MODAL_TYPE  {
-    import = "import",
-    common = "common",
+export enum MODAL_TYPE {
+    NODE_SETTINGS = "NODE_SETTINGS",
+    GROUP_SETTINGS = "GROUP_SETTINGS",
 }
 
 export type pos = {
@@ -53,17 +49,26 @@ export type node = {
     pos: pos
 }
 
-export type Nodes = {
-    [propName: string]: node
+export type addNode = {
+    type: string
+    data: block
+    port: port
+    pos: pos
 }
 
 
+export type drawflow = {
+    [id: number]: node
+}
+
+export type connections = {
+    [propName: string]: pos[]
+}
+
 export type data = {
-    nodes: Nodes,
-    connections: {
-        [propName: string]: pos[]
-    },
-    connectionsLabel: {
+    nodes: drawflow,
+    connections: connections,
+    connectionsLabel?: {
         [propName: string]: string
     },
 }
@@ -82,22 +87,16 @@ export type stateData = {
             tick: number,
         },
     },
-    drawflow: {
-        [propName: number]: node
-    },
+    drawflow: drawflow,
     modalType: string | null,
     newPathDirection: clientPos | null,
-    ports: {
-        [propName: string]: pos
-    }
-    connections: {
-        [propName: string]: pos[]
-    },
+    ports: ports,
+    connections: connections,
     connectionsLabel: {
         [propName: string]: string
     },
     selectId: string | number | null,
-    select: any,
-    selectPoint: { i: number, svgKey: string } | null,
+    select: { type: string, portId?: number, selectId?: string | number } | null,
+    selectPath: string | null,
     showButton: number | null,
 }

@@ -1,96 +1,32 @@
 import { MouseEvent } from "react";
-import { pos } from "../../types";
-import handler from "../drawflowHandler";
+import { actions } from '../../redux/drawflowSlice'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
 type Props = {
-    editLock: boolean,
-    points?: pos[],
-    zoom: number,
-    start: pos,
-    end: pos,
     svgKey?: string,
-    d: any,
-    select: Function,
-    setConnections: Function,
+    d: string,
 }
 
 const Path = (props: Props) => {
-    const { editLock, points, zoom, start, end, svgKey, d } = props;
+    const { svgKey, d } = props;
+    const state = useAppSelector(s => s.drawflowSlice)
+    const { selectId } = state;
+    const dispatch = useAppDispatch()
 
-    const customSort = (arrX: number[], arrY: number[], quadrant: 1 | 2 | 3 | 4) => {
-        let result = [];
-        let cloneX = [...arrX], cloneY = [...arrY];
 
-        const pop = (popXY: pos) => {
-            cloneX = cloneX.filter(item => popXY.x !== item);
-            cloneY = cloneY.filter(item => popXY.y !== item);
-        }
-        const next = () => {
-            const result =
-                quadrant === 1 ? { x: Math.min(...cloneX), y: Math.min(...cloneY) } :
-                    quadrant === 2 ? { x: Math.max(...cloneX), y: Math.min(...cloneY) } :
-                        quadrant === 3 ? { x: Math.max(...cloneX), y: Math.max(...cloneY) } :
-                            { x: Math.min(...cloneX), y: Math.max(...cloneY) };
-            pop(result);
-            return result;
-        }
-        while (cloneX.length > 0) {
-            result.push(next());
-        }
-        return result;
-    }
+    const className = "main-path " + ((selectId === svgKey && svgKey) ? 'select' : '')
 
-    const sortPoints = (points: pos[], start: pos, end: pos) => {
-        let result = null;
-        let arrayX: number[] = [];
-        let arrayY: number[] = [];
-        points.reduce((_, val) => {
-            arrayX.push(val.x);
-            arrayY.push(val.y);
-            return null;
-        }, null);
+    return <path
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+        d={d}
+        onMouseDown={(e) => {
+            e.stopPropagation()
+            // if (editLock) return;
+            dispatch(actions.select({ type: 'path', selectId: svgKey }))
+        }}
+    ></path>
 
-        if (start.x <= end.x && start.y <= end.y) {
-            // 1 quadrant
-            result = customSort(arrayX, arrayY, 1);
-        }
-        else if (start.x <= end.x && start.y > end.y) {
-            // 4 quadrant
-            result = customSort(arrayX, arrayY, 4);
-        }
-        else if (start.x > end.x && start.y <= end.y) {
-            // 2 quadrant
-            result = customSort(arrayX, arrayY, 2);
-        }
-        else {  // start.x > end.x && start.y > end.y
-            // 3 quadrant
-            result = customSort(arrayX, arrayY, 3);
-        }
-
-        return result;
-    }
-
-    const onMouseDown = (e: MouseEvent) => {
-        if (editLock) return;
-        props.select(e, svgKey);
-    }
-
-    const onDoubleClick = (e: MouseEvent) => {
-        if (editLock || !svgKey) return;
-        const pos = handler.getPos(e.clientX, e.clientY, zoom);
-        const newPoints = sortPoints([...points ?? [], pos], start, end);
-        props.setConnections(svgKey, newPoints);
-    }
-
-    return (
-        <path
-            xmlns="http://www.w3.org/2000/svg"
-            className="main-path"
-            d={d}
-            onMouseDown={onMouseDown}
-            onDoubleClick={onDoubleClick}
-        ></path>
-    );
 }
 
 export default Path;

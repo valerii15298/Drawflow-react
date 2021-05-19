@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
-import App from './TestApp';
+import App from './App';
+// import App from './TestApp';
 import reportWebVitals from './reportWebVitals';
 
 import { store } from './redux/store'

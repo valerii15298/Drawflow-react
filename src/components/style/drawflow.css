@@ -78,6 +78,11 @@ button {
   height: 15px;
   width: 15px;
   border: 2px solid var(--border-color);
+  /* position: absolute;
+  left: 50%;
+  top: 100%;
+  background: red;
+  transform: translateY(-50%); */
 }
 
 .drawflow-main #drawflow .drawflow .inputs .input:hover,
@@ -92,8 +97,8 @@ button {
 }
 
 .drawflow-main #drawflow .drawflow .outputs {
-  position: absolute;
-  right: -8px;
+  /* position: absolute; */
+  /* right: -8px; */
   background-color: #777;
 }
 

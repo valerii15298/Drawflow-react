@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { MouseEvent } from "react";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
@@ -8,11 +10,17 @@ import handler from "./drawflowHandler";
 import Node from './Node'
 import "./style/drawflow.css";
 
-import { port, pos, block, data, stateData, clientPos, ports, NODE_TYPE } from '../types'
+import { port, pos, block, data, stateData, clientPos, ports, NODE_TYPE, node } from '../types'
 
 import { MODAL_TYPE, NODE_COMPONENT } from '../types'
 
 type Props = { canvasData: data, editLock: boolean, setEditLock: React.Dispatch<React.SetStateAction<boolean>> }
+
+const newDraw = (props: Props) => {
+    return <div></div>
+}
+
+const sObj = {}
 
 class Drawflow extends React.Component<Props, stateData> {
     tmpPorts: any
@@ -44,17 +52,13 @@ class Drawflow extends React.Component<Props, stateData> {
             ports: {},
             select: null,
             selectId: null,
-            selectPoint: null,
+            selectPath: null,
             showButton: null,
             newPathDirection: null,
             modalType: null,
         }
         this.tmpPorts = {};
         this.NodeComponent = NODE_COMPONENT
-    }
-
-    node(id: number) {
-        return new Node(id, this)
     }
 
     addNode = (port: port, pos: pos, data: block) => {
@@ -64,7 +68,6 @@ class Drawflow extends React.Component<Props, stateData> {
             type: NODE_TYPE.MIDDLE,
             data: {
                 ...data,
-                create: true,
             },
             port,
             pos: {
@@ -105,7 +108,8 @@ class Drawflow extends React.Component<Props, stateData> {
     unSelect = (e: MouseEvent) => {
         e.stopPropagation();
         const { select, config } = this.state;
-        if (select) select.classList.remove("select");
+        // TODO instead document use current drawflow node
+        // if (select) document.querySelector('.select')?.classList.remove("select");
         this.setState({
             config: {
                 ...config,
@@ -113,7 +117,7 @@ class Drawflow extends React.Component<Props, stateData> {
             },
             select: null,
             selectId: null,
-            selectPoint: null,
+            selectPath: null,
             showButton: null,
         });
     }
@@ -121,44 +125,38 @@ class Drawflow extends React.Component<Props, stateData> {
     select = (e: any, selectInfo: any) => {
         e.stopPropagation();
         const { config, select } = this.state;
-        if (select) select.classList.remove("select");
+
+        // TODO instead document use current drawflow node
+        // if (select) document.querySelector('.select')?.classList.remove("select");
+
         let target = e.currentTarget;
-        const isPort = e.target.classList.contains("input") || e.target.classList.contains("output");
-        const isNotSeletElement = target.tagName === "circle" || isPort;
-        if (!isNotSeletElement)
-            target.classList.add("select");
+        const isInput = e.target.classList.contains("input");
+        const isOutput = e.target.classList.contains("output");
+
+        const isPort = isInput || isOutput;
+
         if (isPort) target = e.target;
+
+        const newSelect: { type?: string, id?: number } = {}
+        if (isPort) {
+            newSelect.type = isInput ? 'input' : 'output'
+            newSelect.id = handler.findIndexByElement(target) + 1;
+        }
+        else if (e.currentTarget.closest('.drawflow-node-block-default')) {
+            newSelect.type = 'node';
+        }
+        else if (typeof selectInfo === 'string') {
+            newSelect.type = 'path';
+        }
+
+
         this.setState({
             config: {
                 ...config,
                 drag: isPort ? false : true,
             },
-            select: target,
-            selectId: selectInfo && !selectInfo.svgKey ? selectInfo : null,
-            selectPoint: selectInfo && selectInfo.svgKey ? selectInfo : null,
-        });
-    }
-
-    movePoint = (e: MouseEvent, svgKey: any, i: any) => {
-        const { config, select } = this.state;
-        if (!config.drag) return;
-        if (e.target !== select) return;
-        const { movementX, movementY } = e;
-        if (movementX === 0 && movementY === 0) return;
-
-        const { connections } = this.state;
-        const oldPos = connections[svgKey][i];
-        const after = {
-            x: oldPos.x + movementX,
-            y: oldPos.y + movementY,
-        }
-        let clone = [...connections[svgKey]];
-        clone[i] = after;
-        this.setState({
-            connections: {
-                ...connections,
-                [svgKey]: clone,
-            }
+            select: newSelect,
+            selectId: selectInfo && !selectInfo.svgKey ? selectInfo : null
         });
     }
 
@@ -172,104 +170,12 @@ class Drawflow extends React.Component<Props, stateData> {
         });
     }
 
-    drawConnections = (start: any, end: any, points: Array<pos>, idx: string | number, svgKey: string) => {
-        const { connections, config } = this.state;
-        let circles = points.reduce((acc: Array<JSX.Element>, val, i) => {
-            const key = "draw-flow-svg-" + idx + "circle-" + i;
-            const property = {
-                key,
-                style: {
-                    cursor: this.props.editLock ? "auto" : "move",
-                },
-                cx: val.x,
-                cy: val.y,
-            }
-            acc.push(
-                <Connection.Circle
-                    key={key}
-                    property={property}
-                    points={connections[svgKey]}
-                    svgKey={svgKey}
-                    i={i}
-                    editLock={this.props.editLock}
-                    select={this.select}
-                    movePoint={this.movePoint}
-                    setConnections={this.setConnections}
-                />);
-            return acc;
-        }, []);
-
-        let d = null;
-        if (points.length > 0) {
-            let paths = null;
-            paths = [{ start: start, end: points[0], type: "open" }];
-            for (let i = 0; i < points.length - 1; i++) {
-                paths.push({ start: { ...points[i] }, end: { ...points[i + 1] }, type: "openclose" });
-            }
-            paths.push({ start: points.slice(-1)[0], end: end, type: "close" });
-            d = paths.reduce((acc, val) => {
-                return acc + handler.createCurvature(val.start, val.end, val.type) + " ";
-            }, "");
-        }
-        else {
-            d = handler.createCurvature(start, end, "openclose");
-        }
-
-        return (
-            <>
-                <Connection.Path
-                    editLock={this.props.editLock}
-                    points={connections[svgKey]}
-                    zoom={config.zoom.value}
-                    start={start}
-                    end={end}
-                    svgKey={svgKey}
-                    d={d}
-                    select={this.select}
-                    setConnections={this.setConnections}
-                />
-                {circles.map(comp => comp)}
-            </>
-        );
-    }
-
-    // TODO : label div size에 따라 위치 조정 필요
-    // TODO : style(z-index, border, background, etc...) 조정 필요
-    drawConnectionsLabel = (points: pos[], label: string) => {
-        // calc label position
-        const pointsLength = points.length;
-        const mid = Math.floor(pointsLength / 2);
-        let pos: pos;
-        if (pointsLength % 2 === 1) {
-            pos = points[mid];
-        } else {      // even
-            const start = points[mid - 1];
-            const end = points[mid];
-            pos = {
-                x: Math.abs(end.x + start.x) / 2,
-                y: Math.abs(end.y + start.y) / 2,
-            }
-        }
-
-        return (
-            <div
-                style={{
-                    position: "absolute",
-                    top: pos.y,
-                    left: pos.x,
-                    border: "1px solid red"
-                }}
-            >
-                {label}
-            </div>);
-    }
-
     getPortListByNodeId = (nodeId: number) => {
         const { ports } = this.state;
         return Object.keys(ports).filter(key => key.split(/_/g)[0] === "" + nodeId);
     }
 
-    setPosByNodeId = (nodeId: number, pos: pos, ports: ports | null = null) => {
+    setPosByNodeId = (nodeId: number, pos: pos, ports: ports) => {
         const { drawflow } = this.state;
         this.setState({
             drawflow: {
@@ -303,9 +209,9 @@ class Drawflow extends React.Component<Props, stateData> {
     }
 
     moveNode = (e: MouseEvent, nodeId: number) => {
-        const { config, select } = this.state;
+        const { config, selectId } = this.state;
         if (!config.drag) return;
-        if (e.currentTarget !== select) return;
+        if (nodeId !== selectId) return;
         const { movementX, movementY } = e;
         if (movementX === 0 && movementY === 0) return;
 
@@ -313,45 +219,6 @@ class Drawflow extends React.Component<Props, stateData> {
             x: movementX,
             y: movementY,
         });
-    }
-
-    setPosWithCursorOut = (e: any) => {
-        const { config, selectId, selectPoint } = this.state;
-        //* typeof selectId === string -> path
-        const exitCond = (!this.state.select || !config.drag) || (!selectId && !selectPoint) || ((typeof selectId) === (typeof ""));
-        if (exitCond) return;
-
-        const mousePos = handler.getPos(e.clientX, e.clientY, config.zoom.value);
-        const select = {
-            top: this.state.select.style.top.slice(0, -2) * 1,
-            left: this.state.select.style.left.slice(0, -2) * 1,
-            width: this.state.select.clientWidth,
-            height: this.state.select.clientHeight,
-        };
-        const isInX = mousePos.x >= select.left && mousePos.x <= select.left + select.width;
-        const isInY = mousePos.y >= select.top && mousePos.y <= select.top + select.height;
-        if (isInX && isInY) return;
-        const pos = {
-            x: mousePos.x - select.width / 2 - select.left,
-            y: mousePos.y - select.height / 2 - select.top,
-        }
-        if (selectId && typeof selectId === 'number') {
-            this.movePosition(selectId, pos);
-        } else if (selectPoint) {
-            const { svgKey, i } = selectPoint;
-            const after = {
-                x: pos.x,
-                y: pos.y,
-            }
-            let clone = [...this.state.connections[svgKey]];
-            clone[i] = after;
-            this.setState({
-                connections: {
-                    ...this.state.connections,
-                    [svgKey]: clone,
-                }
-            });
-        }
     }
 
     moveCanvas = (e: MouseEvent<HTMLElement>) => {
@@ -389,7 +256,7 @@ class Drawflow extends React.Component<Props, stateData> {
 
     deleteNode = () => {
         if (this.props.editLock) return;
-        const { connections, drawflow, ports, select, selectId } = this.state;
+        const { connections, drawflow, ports, selectId } = this.state;
         if (!selectId || (typeof selectId !== 'number')) return;
         let obj = {
             connections: { ...connections },
@@ -415,13 +282,13 @@ class Drawflow extends React.Component<Props, stateData> {
         // 3. find in drawflow
         delete obj.drawflow[selectId];
         // 4. remove class "select"
-        if (select) select.classList.remove("select");
+        // if (select) select.classList.remove("select");
         // 5. state clear
         const newState = {
             ...obj,
             select: null,
             selectId: null,
-            selectPoint: null,
+            selectPath: null,
             showButton: null,
         }
         // 4. set state
@@ -440,6 +307,7 @@ class Drawflow extends React.Component<Props, stateData> {
     }
 
     pushPorts = (ports: any) => {
+        // console.log('pushPorts', this.state.ports)
         this.tmpPorts = {
             ...this.tmpPorts,
             ...this.state.ports,
@@ -458,7 +326,7 @@ class Drawflow extends React.Component<Props, stateData> {
         if (canvasDrag) this.moveCanvas(e);
 
         const { select } = this.state;
-        if (select && select.classList.contains("output")) {
+        if (select && select.type === ("output")) {
             const { clientX, clientY } = e;
 
             this.setState({
@@ -468,7 +336,6 @@ class Drawflow extends React.Component<Props, stateData> {
                 },
             });
         }
-        this.setPosWithCursorOut(e);
     }
 
     onMouseDownCanvas = (e: any) => {
@@ -489,7 +356,7 @@ class Drawflow extends React.Component<Props, stateData> {
             }
         }
         const { select } = this.state;
-        if (select && select.classList.contains("output")) {
+        if (select && select.type === ("output")) {
             obj.select = null;
         }
         this.setState(obj);
@@ -498,7 +365,7 @@ class Drawflow extends React.Component<Props, stateData> {
     onKeyDown = (e: any) => {
         if (e.key === "Delete") {
             const { select } = this.state;
-            if (select && select.tagName === "path") {
+            if (select && select.type === "path") {
                 this.pathDelete();
             }
             else {
@@ -509,7 +376,6 @@ class Drawflow extends React.Component<Props, stateData> {
 
     load = async (data: data) => {
         const { connections } = data;
-        if (!connections) console.log('bad')
         if (!connections) return;
 
         let obj: any = {
@@ -537,8 +403,9 @@ class Drawflow extends React.Component<Props, stateData> {
 
     newPath = () => {
         const { select, config, ports, selectId, newPathDirection } = this.state;
-        const idx = handler.findIndexByElement(select);
-        const startKey = `${selectId}_out_${idx + 1}`;
+        const idx = select.id;
+        if (!idx) console.error(select);
+        const startKey = `${selectId}_out_${idx}`;
 
         if (!ports[startKey]) return null;
 
@@ -557,13 +424,7 @@ class Drawflow extends React.Component<Props, stateData> {
                 className="drawflow-connection"
             >
                 <Connection.Path
-                    editLock={this.props.editLock}
-                    zoom={zoom}
-                    start={start}
-                    end={end}
                     d={d}
-                    select={this.select}
-                    setConnections={this.setConnections}
                 />
             </svg>
         );
@@ -584,30 +445,10 @@ class Drawflow extends React.Component<Props, stateData> {
 
     /* Button Function Area Start */
     importJson = () => {
-        this.setState({
-            modalType: MODAL_TYPE.import,
-        });
     }
 
     exportJson = () => {
-        const { drawflow, connections, connectionsLabel, config } = this.state;
-        const nodes = Object.entries(drawflow).reduce((acc, [nodeId, data]) => {
-            return {
-                ...acc,
-                [nodeId]: data,
-            }
-        }, {});
-        const exportData = Object.assign({
-            nodes,
-            connections,
-        }, config.connectionsLabelEnable ? { connectionsLabel } : {});
-        if (!navigator.clipboard || !navigator.clipboard.writeText) {
-            alert("clipboard api");
-            return;
-        }
-        navigator.clipboard.writeText(JSON.stringify(exportData, null, 2)).then(() => {
-            alert("json export");
-        });
+
     }
 
     clear = () => {
@@ -629,7 +470,7 @@ class Drawflow extends React.Component<Props, stateData> {
             ports: {},
             select: null,
             selectId: null,
-            selectPoint: null,
+            selectPath: null,
             showButton: null,
             newPathDirection: null,
             modalType: null,
@@ -681,7 +522,7 @@ class Drawflow extends React.Component<Props, stateData> {
                 createPath: (e: any, endId: number, endPort: number) => {
                     const { selectId, select } = this.state;
                     if (selectId === endId) return;
-                    const startPort = handler.findIndexByElement(select) + 1;
+                    const startPort = select.id;
                     this.createPath(e, selectId as number, startPort, endId, endPort);
                 },
                 deleteNode: this.deleteNode,
@@ -744,7 +585,6 @@ class Drawflow extends React.Component<Props, stateData> {
                             <DrawflowAdditionalArea
                                 importJson={this.importJson}
                                 exportJson={this.exportJson}
-                                clear={this.clear}
                                 editLock={this.props.editLock}
                                 setEditorMode={this.props.setEditLock}
                             />
@@ -759,12 +599,12 @@ class Drawflow extends React.Component<Props, stateData> {
                                     transform: `translate(${this.state.config.canvasTranslate.x}px, ${this.state.config.canvasTranslate.y}px) scale(${this.state.config.zoom.value})`
                                 }}
                             >
-                                {Object.values(this.state.drawflow).map((node: any, idx) => {
+                                {Object.values(this.state.drawflow).map((node: node) => {
                                     return <DrawflowNodeBlock
                                         updateRef={(elem: HTMLElement) => {
                                             this.nodeRefs[node.id] = elem
                                         }}
-                                        key={"drawflow-node-block-" + idx}
+                                        key={"drawflow-node-block-" + node.id}
                                         zoom={this.state.config.zoom.value}
                                         NodeContent={this.NodeComponent[node.type]}
                                         params={node}
@@ -786,9 +626,9 @@ class Drawflow extends React.Component<Props, stateData> {
                                     />
                                 }
                                 )}
-                                {Object.entries(this.state.connections).map(([key, points]: [key: any, points: any], idx) => {
+                                {Object.entries(this.state.connections).map(([key]: [key: string, points: any], idx) => {
                                     // key: fromId_portNum_toId_portNum
-                                    const { ports, connectionsLabel, config } = this.state;
+                                    const { ports } = this.state;
                                     const arr = key.split("_");
                                     const startKey = `${arr[0]}_out_${arr[1]}`;
                                     const endKey = `${arr[2]}_in_${arr[3]}`;
@@ -803,6 +643,7 @@ class Drawflow extends React.Component<Props, stateData> {
                                         x: ports[endKey].x,
                                         y: ports[endKey].y,
                                     }
+                                    const d = handler.createCurvature(start, end, "openclose");
                                     return (
                                         <div key={idx}>
                                             <svg
@@ -810,12 +651,11 @@ class Drawflow extends React.Component<Props, stateData> {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 className="drawflow-connection"
                                             >
-                                                {this.drawConnections(start, end, points, idx, key)}
+                                                <Connection.Path
+                                                    svgKey={key}
+                                                    d={d}
+                                                />
                                             </svg>
-                                            {config.connectionsLabelEnable &&
-                                                <div>
-                                                    {this.drawConnectionsLabel([start, ...points, end], connectionsLabel[key])}
-                                                </div>}
                                         </div>
                                     );
                                 })}
