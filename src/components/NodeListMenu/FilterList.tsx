@@ -1,14 +1,21 @@
-import { block } from '../../types'
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchNodeTemplates } from '../../redux/store';
 
 type Props = {
-    list: Array<block>
-    editLock: boolean,
     searchWord: string
 }
 
 const FilterList = (props: Props) => {
-    const { list, editLock, searchWord } = props;
+    const { searchWord } = props;
+    const list = useAppSelector(s => s.templates)
+    const dispatch = useAppDispatch()
     const searchArr = searchWord.toLowerCase().split(" ").filter(item => item.length > 0);
+    
+
+    useEffect(() => {
+        dispatch(fetchNodeTemplates())
+    }, [])
 
     const onMouseDownCapture = () => {
         console.log('Mouse down')
@@ -26,7 +33,6 @@ const FilterList = (props: Props) => {
                     <div
                         key={"drawflow-sidemenu-block-" + idx}
                         className="drawflow-node-block"
-                        draggable={!editLock}
                         onMouseDownCapture={onMouseDownCapture}
                     >
                         <pre>{`Type: ${type}\nValue: ${value + name}`}</pre>

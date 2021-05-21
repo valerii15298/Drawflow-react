@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { actions } from '../../redux/drawflowSlice'
+import { actions, selectActiveDrawflow } from '../../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const Path = (props: Props) => {
     const { svgKey, d } = props;
-    const state = useAppSelector(s => s.drawflowSlice)
+    const state = useAppSelector(selectActiveDrawflow)
     const { selectId } = state;
     const dispatch = useAppDispatch()
 

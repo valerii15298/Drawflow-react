@@ -1,5 +1,5 @@
-import { data } from "../../types"
-import { NODE_TYPE } from "../../types"
+import { data } from "../types"
+import { NODE_TYPE } from "../types"
 
 const getData =  async (): Promise<data> => {
   return {
@@ -14,7 +14,7 @@ const getData =  async (): Promise<data> => {
         },
         "port": {
           "in": 1,
-          "out": 1
+          "out": 2
         },
         "pos": {
           "x": 43.3125,

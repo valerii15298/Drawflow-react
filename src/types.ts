@@ -1,9 +1,11 @@
-import NodeComponents from "./components/NodeComponents"
-
 export enum NODE_TYPE {
     START = 'START',
     MIDDLE = 'MIDDLE',
     END = 'END',
+}
+
+export enum Slices {
+    Drawflow = 'drawflow'
 }
 
 export const CURV = 0.5;
@@ -41,13 +43,7 @@ export type block = {
     create?: boolean
 }
 
-export type node = {
-    id: number
-    type: string
-    data: block
-    port: port
-    pos: pos
-}
+
 
 export type addNode = {
     type: string
@@ -56,6 +52,9 @@ export type addNode = {
     pos: pos
 }
 
+export interface node extends addNode {
+    id: number
+}
 
 export type drawflow = {
     [id: number]: node
@@ -73,7 +72,7 @@ export type data = {
     },
 }
 
-export type stateData = {
+export interface stateData {
     nodeId: number,
     canvasDrag: boolean,
     config: {
@@ -99,4 +98,10 @@ export type stateData = {
     select: { type: string, portId?: number, selectId?: string | number } | null,
     selectPath: string | null,
     showButton: number | null,
+    editLock: boolean,
+}
+
+export interface drawflows {
+    version: number
+    flows: stateData[]
 }

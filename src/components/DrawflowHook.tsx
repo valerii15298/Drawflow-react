@@ -1,14 +1,15 @@
 import handler from "./drawflowHandler"
-import { actions } from '../redux/drawflowSlice'
+import { actions, selectActiveDrawflow } from '../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { clientPos, data, node, pos } from "../types"
 import Connection from "./Connection";
 import DrawflowNodeBlock from "./DrawflowNodeBlock";
 import { useEffect } from "react";
-import "./style/drawflow.css";
+import { fetchFlowVersion } from "../redux/store";
+import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
+import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
 
 export const NewPath = () => {
-    const state = useAppSelector(s => s.drawflowSlice)
+    const state = useAppSelector(selectActiveDrawflow)
 
     const { select, config, ports, selectId, newPathDirection } = state;
     if (!select?.portId) { console.error(`Select port id not set!`); return null }
@@ -38,7 +39,7 @@ export const NewPath = () => {
 }
 
 export const ConnectionList = () => {
-    const { connections, ports } = useAppSelector(s => s.drawflowSlice)
+    const { connections, ports } = useAppSelector(selectActiveDrawflow)
 
     const conns = Object.entries(connections).map(([key]) => {
         // key: fromId_portNum_toId_portNum
@@ -77,9 +78,9 @@ export const ConnectionList = () => {
 }
 
 export const NodeList = () => {
-    const { drawflow } = useAppSelector(s => s.drawflowSlice)
+    const drawflow = useAppSelector(s => selectActiveDrawflow(s).drawflow)
 
-    return <>{Object.values(drawflow).map((node: node) => {
+    return <>{Object.values(drawflow).map((node) => {
         return <DrawflowNodeBlock
             // updateRef={(elem: HTMLElement) => {
             //     this.nodeRefs[node.id] = elem
@@ -92,16 +93,16 @@ export const NodeList = () => {
 }
 
 
-export const DrawflowHook = (props: { canvasData: data }) => {
-    const { canvasData } = props;
-    const { select, config: { canvasTranslate: { x, y }, zoom }, newPathDirection } = useAppSelector(s => s.drawflowSlice)
+export const Drawflow = () => {
+    const { select, config: { canvasTranslate: { x, y }, zoom }, newPathDirection }
+        = useAppSelector(selectActiveDrawflow)
 
     const dispatch = useAppDispatch()
+
     useEffect(() => {
-        if (canvasData) {
-            dispatch(actions.load({ drawflow: canvasData.nodes, connections: canvasData.connections }))
-        }
+        dispatch(fetchFlowVersion())
     }, [])
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Delete") {
@@ -117,7 +118,7 @@ export const DrawflowHook = (props: { canvasData: data }) => {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         }
-    }, [canvasData, dispatch, select?.type])
+    }, [dispatch, select?.type])
 
 
     return <div className="drawflow-container">
@@ -127,7 +128,7 @@ export const DrawflowHook = (props: { canvasData: data }) => {
                     id="drawflow"
                     className="parent-drawflow"
                     onMouseDown={(e) => {
-                        if (e.currentTarget.className !== "drawflow" && !e.currentTarget.classList.contains("drawflow")) return;
+                        if (!e.currentTarget.classList.contains("parent-drawflow")) return;
                         dispatch(actions.canvasDrag(true))
                         dispatch(actions.unSelect())
                     }}
@@ -136,9 +137,10 @@ export const DrawflowHook = (props: { canvasData: data }) => {
                         const { clientX, clientY, movementX, movementY } = e
                         dispatch(actions.canvasMouseMove({ clientX, clientY, movementX, movementY }))
                     }}
-                    onDragOver={e => { e.preventDefault() }}
-                // onMouseEnter={this.drop}
+                    onMouseEnter={() => console.log('mouse enter')}
                 >
+                    <DrawflowAdditionalArea/>
+                    <DrawflowZoomArea/>
                     <div
                         className="drawflow"
                         style={{
@@ -152,6 +154,7 @@ export const DrawflowHook = (props: { canvasData: data }) => {
                 </div>
             </div>
         </div>
+        <button onClick={() => dispatch(fetchFlowVersion())}>Fetch flow version</button>
     </div>
 
 }

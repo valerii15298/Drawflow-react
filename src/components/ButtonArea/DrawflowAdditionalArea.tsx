@@ -1,27 +1,18 @@
-type Props = {
-    importJson: (...rest: any) => any,
-    exportJson: (...rest: any) => any,
-    editLock: boolean,
-    setEditorMode: (editLock: boolean) => any,
-}
+import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-const DrawflowAdditionalArea = (props: Props) => {
-    const { importJson, exportJson, editLock, setEditorMode } = props;
-
-    const changeMode = () => {
-        setEditorMode(!editLock);
-    }
+const DrawflowAdditionalArea = () => {
+    const editLock = useAppSelector(s => selectActiveDrawflow(s).editLock)
+    const dispatch = useAppDispatch()
 
     return (
         <div className="drawflow-additional">
             {!editLock &&
                 <>
-                    <button className="drawflow-additional-button" onClick={importJson}>Import</button>
-                    <button className="drawflow-additional-button" onClick={exportJson}>Export</button>
                     <button className="drawflow-additional-button" onClick={() => console.log('clear')}>Clear</button>
                 </>
             }
-            <button className="drawflow-additional-button" onClick={changeMode}>{editLock ? "UnLock" : "Lock"}</button>
+            <button className="drawflow-additional-button" onClick={() => dispatch(actions.setEditLock(!editLock))}>{editLock ? "UnLock" : "Lock"}</button>
         </div>
     );
 }

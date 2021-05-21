@@ -1,56 +1,32 @@
 import { useState, useEffect } from 'react';
-// import Drawflow from './components/Drawflow';
-import { DrawflowHook as Drawflow } from './components/DrawflowHook';
+import { Drawflow } from './components/DrawflowHook';
 import FilterList from "./components/NodeListMenu/FilterList";
-import mock from "./components/Mock";
-import './App.css';
-
-import { block, data } from './types'
+import './drawflow.scss'
 
 function App() {
 
-  const [dataObj, setDataObj] = useState<block[] | null>(null);
-  const [canvasData, setCanvasData] = useState<data | null>(null);
-  const [editLock, setEditLock] = useState(false);
   const [searchWord, setSearchWord] = useState("");
-
-  //load mock data
-  useEffect(() => {
-    mock.getFilters(5).then(data => {
-      setDataObj(data)
-    })
-
-    mock.getDummy().then(data => {
-      setCanvasData(data);
-    })
-  }, []);
 
   return (
     <div className="App">
-      {canvasData && dataObj &&
-        <>
-          <div className="drawflow-node-list">
-            <div className="drawflow-node-list-search">
-              <input
-                type="text"
-                placeholder="Search templates"
-                onChange={e => { setSearchWord(e.target.value) }}
-              />
-            </div>
-            <div className="drawflow-node-list-flex">
-              <FilterList
-                searchWord={searchWord}
-                list={dataObj}
-                editLock={editLock}
-              />
-            </div>
-          </div>
-          <Drawflow
-            canvasData={canvasData}
+      <div className="drawflow-node-list">
+        <div className="drawflow-node-list-search">
+          <input
+            type="text"
+            placeholder="Search templates"
+            onChange={e => { setSearchWord(e.target.value) }}
           />
-        </>}
+        </div>
+        <div className="drawflow-node-list-flex">
+          <FilterList
+            searchWord={searchWord}
+          />
+        </div>
+      </div>
+      <Drawflow />
     </div>
-  );
+  )
+
 }
 
 export default App;

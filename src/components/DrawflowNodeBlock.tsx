@@ -2,14 +2,14 @@ import { useEffect, useState, useRef, } from "react";
 import { node, ports, portType } from "../types";
 import handler from "./drawflowHandler";
 
-import { actions } from '../redux/drawflowSlice'
+import { actions, selectActiveDrawflow } from '../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import NodeComponent from "./NodeComponents";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
     const { selectId, select, ports, config, drawflow: { [id]: node } } =
-        useAppSelector(s => s.drawflowSlice)
+        useAppSelector(selectActiveDrawflow)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
     const { zoom } = config
@@ -18,7 +18,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         inputs: [],
         outputs: [],
     });
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
+
+    const [startPos, setStartPos] = useState({ shiftX: 0, shiftY: 0 })
 
     const portComponent = (type: portType) => {
         let arr = [];
@@ -101,28 +103,33 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         }
     }, [refs]);
 
-    const className =
-        `drawflow-node-block-default` + (selectId === id ? ' select' : '')
-
     return <div
         ref={ref}
-        className={"drawflow-node-block-default " + className}
+        className={"drawflow-node-block-default " + (selectId === id ? ' select' : '')}
         style={{
             top: pos.y + "px",
             left: pos.x + "px",
-            // cursor: editLock ? "auto" : "move",
+            cursor: "move",
         }}
         onMouseDown={e => {
             e.stopPropagation()
+            const shiftX = e.pageX;
+            const shiftY = e.pageY;
+            // const {pageX, pageY} = e;
+            setStartPos({ shiftX, shiftY });
             dispatch(actions.select({ type: 'node', selectId: id }))
         }}
         onMouseMove={e => {
             // move node
             if (!config.drag) return;
             if (id !== selectId) return;
-            const { movementX, movementY } = e;
-            if (movementX === 0 && movementY === 0) return;
-            dispatch(actions.movePosition({ nodeId: id, pos: { x: movementX, y: movementY } }))
+
+            const { shiftX, shiftY } = startPos
+            const { pageX, pageY } = e
+            setStartPos({ shiftX: pageX, shiftY: pageY });
+            const x = pageX - shiftX
+            const y = pageY - shiftY
+            dispatch(actions.movePosition({ nodeId: id, pos: { x, y } }))
         }}
         onContextMenu={e => {
             // TODO show delete button

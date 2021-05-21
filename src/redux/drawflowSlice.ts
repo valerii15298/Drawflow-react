@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { addNode, connections, drawflow, node, ports, pos, stateData } from '../types'
+import { addNode, connections, drawflow, node, ports, pos, Slices, stateData } from '../types'
 import type { RootState } from './store'
-
+import mock from "../Mock";
 
 // Define the initial state using that type
 const initialState: stateData = {
@@ -31,13 +31,9 @@ const initialState: stateData = {
   showButton: null,
   newPathDirection: null,
   modalType: null,
+  editLock: false
 }
 
-export const fetchPosts = createAsyncThunk('fetchPosts', async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts').then(r => r.json())
-  // console.log('response', response)
-  return response.slice(0, 10)
-})
 
 const getPortListByNodeId = (nodeId: number, state: stateData) => {
   const { ports } = state;
@@ -45,9 +41,12 @@ const getPortListByNodeId = (nodeId: number, state: stateData) => {
 }
 
 const slice = createSlice({
-  name: 'drawflow',
+  name: Slices.Drawflow,
   initialState,
   reducers: {
+    setEditLock: (state, { payload }: PayloadAction<boolean>) => {
+      state.editLock = payload
+    },
     addNode: (state, { payload }: PayloadAction<addNode>) => {
       state.drawflow[state.nodeId] = { ...payload, id: state.nodeId }
       state.selectId = state.nodeId++
@@ -69,6 +68,11 @@ const slice = createSlice({
     },
     movePosition: (state, { payload: { nodeId, pos } }: PayloadAction<{ nodeId: number, pos: pos }>) => {
       const portKeys = getPortListByNodeId(nodeId, state);
+      const coef = (state.config.zoom.value)
+      pos.x /= coef
+      pos.y /= coef
+
+
       // update ports position
       state.ports = portKeys.reduce((acc, portKey) => {
         acc[portKey] = {
@@ -169,6 +173,7 @@ const slice = createSlice({
       }
       if (payload === null) {
         state.config.canvasTranslate = { x: 0, y: 0 }
+        zoom.value = 1
       }
 
     }
@@ -181,10 +186,6 @@ const slice = createSlice({
     // builder.addCase(fetchPosts.pending, (state, action) => {
     //   state.status = 'loading'
     // })
-    // builder.addCase(fetchPosts.fulfilled, (state, action) => {
-    //   state.status = 'succeeded'
-    //   state.posts = state.posts.concat(action.payload)
-    // })
     // builder.addCase(fetchPosts.rejected, (state, action) => {
     //   state.status = 'failed'
     //   state.error = action.error.message
@@ -196,4 +197,4 @@ export const actions = slice.actions
 export const drawflowSlice = slice.reducer
 
 // Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value
+export const selectActiveDrawflow = (state: RootState) => state.flows[state.version]
