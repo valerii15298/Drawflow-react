@@ -68,6 +68,10 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             const outputs = Array.from(ref.current.querySelector(".outputs").children);
             //@ts-ignore
             setRefs({ inputs, outputs, });
+
+            const {offsetHeight, offsetWidth} = ref.current
+            dispatch(actions.nodeSize({height: offsetHeight, width: offsetWidth, id}))
+            // dispatch node id width, height
             // updateRef(ref.current)
         }
     }, [ref]);
@@ -105,7 +109,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
     return <div
         ref={ref}
-        className={"drawflow-node-block-default " + (selectId === id ? ' select' : '')}
+        className={`node-${id} drawflow-node-block-default` + (selectId === id ? ' select' : '')}
         style={{
             top: pos.y + "px",
             left: pos.x + "px",

@@ -2,10 +2,7 @@ import { Grabme, More } from "../../svg"
 
 const Common = (props: object) => {
     return <div className="node-block" >
-        {/* {JSON.stringify(props, null, 2)} */}
-        dwwfr rfe rfe f
-        fwefewrfwe
-        fwerfwer
+        {JSON.stringify(props, null, 2)}
     </div>
 }
 

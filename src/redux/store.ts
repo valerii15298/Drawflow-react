@@ -1,15 +1,16 @@
-import { combineReducers, configureStore, createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit'
-import { block, drawflows, Slices } from '../types'
+import { configureStore, createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit'
+import { flowType,  Slices } from '../types'
 import { drawflowSlice } from './drawflowSlice'
 import mock from '../Mock'
+import {initialState as drawflowInitialState} from './drawflowSlice'
+
 const changeVersion = createAction<number>('versions/changed')
 
-const st = drawflowSlice(undefined, { type: 'init' });
-
-const initialState = {
+const initialState: flowType = {
   version: 0,
-  flows: [st, st],
-  templates: [] as block[]
+  flows: [drawflowInitialState, drawflowInitialState],
+  templates: [],
+  dragTemplate: 0
 }
 
 export const fetchNodeTemplates = createAsyncThunk('fetchPosts', async () => {

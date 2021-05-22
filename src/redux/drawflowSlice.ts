@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { addNode, connections, drawflow, node, ports, pos, Slices, stateData } from '../types'
+import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData } from '../types'
 import type { RootState } from './store'
-import mock from "../Mock";
 
-// Define the initial state using that type
-const initialState: stateData = {
+export const initialState: stateData = {
   nodeId: 1,
   canvasDrag: false,
   config: {
@@ -40,6 +38,30 @@ const getPortListByNodeId = (nodeId: number, state: stateData) => {
   return Object.keys(ports).filter(key => key.split(/_/g)[0] === "" + nodeId);
 }
 
+const addNode = (state: stateData, { payload }: PayloadAction<dataNode>) => {
+  state.drawflow[state.nodeId] = { ...payload, id: state.nodeId, height: 0, width: 0 }
+  state.selectId = state.nodeId++
+}
+
+// load version from server
+const load = (state: stateData, { payload }: PayloadAction<{ drawflow: drawflow, connections: connections }>) => {
+  state.drawflow = payload.drawflow
+  state.nodeId = Object.keys(payload.drawflow).length + 1
+  state.connections = payload.connections
+}
+
+const addConnection = (state: stateData, { payload: { startId, startPort, endId, endPort } }:
+  PayloadAction<{ startId: number, startPort: number, endId: number, endPort: number }>) => {
+  const key = `${startId}_${startPort}_${endId}_${endPort}`;
+  const { connections } = state;
+
+  // if such connection already exist
+  if (connections[key] !== undefined) return;
+
+  // add connection:
+  connections[key] = []
+}
+
 const slice = createSlice({
   name: Slices.Drawflow,
   initialState,
@@ -47,10 +69,7 @@ const slice = createSlice({
     setEditLock: (state, { payload }: PayloadAction<boolean>) => {
       state.editLock = payload
     },
-    addNode: (state, { payload }: PayloadAction<addNode>) => {
-      state.drawflow[state.nodeId] = { ...payload, id: state.nodeId }
-      state.selectId = state.nodeId++
-    },
+    addNode,
     unSelect: (state) => {
       state.config.drag = false
       state.select = null
@@ -62,9 +81,6 @@ const slice = createSlice({
       state.config.drag = type === 'node'
       state.select = payload
       state.selectId = selectId ?? null;
-    },
-    setConnections: (state, { payload: { svgKey, newConnections } }: PayloadAction<{ svgKey: string, newConnections: pos[] }>) => {
-      state.connections[svgKey] = newConnections;
     },
     movePosition: (state, { payload: { nodeId, pos } }: PayloadAction<{ nodeId: number, pos: pos }>) => {
       const portKeys = getPortListByNodeId(nodeId, state);
@@ -138,28 +154,13 @@ const slice = createSlice({
       state.selectId = null
       state.showButton = null
     },
-
     deletePath: (state) => {
       const { selectId, connections } = state;
       if (typeof selectId === 'string')
         delete connections[selectId];
     },
-    load: (state, { payload }: PayloadAction<{ drawflow: drawflow, connections: connections }>) => {
-      state.drawflow = payload.drawflow
-      state.nodeId = Object.keys(payload.drawflow).length + 1
-      state.connections = payload.connections
-    },
-    addConnection: (state, { payload: { startId, startPort, endId, endPort } }:
-      PayloadAction<{ startId: number, startPort: number, endId: number, endPort: number }>) => {
-      const key = `${startId}_${startPort}_${endId}_${endPort}`;
-      const { connections } = state;
-
-      // if such connection already exist
-      if (connections[key] !== undefined) return;
-
-      // add connection:
-      connections[key] = []
-    },
+    load,
+    addConnection,
     clear: () => initialState,
     pushPorts: (state, { payload }: PayloadAction<ports>) => {
       state.ports = { ...state.ports, ...payload }
@@ -175,21 +176,12 @@ const slice = createSlice({
         state.config.canvasTranslate = { x: 0, y: 0 }
         zoom.value = 1
       }
-
+    },
+    nodeSize: (state, { payload: { height, width, id } }: PayloadAction<{ id: number, height: number, width: number }>) => {
+      state.drawflow[id].height = height
+      state.drawflow[id].width = width
     }
 
-
-  },
-
-
-  extraReducers: builder => {
-    // builder.addCase(fetchPosts.pending, (state, action) => {
-    //   state.status = 'loading'
-    // })
-    // builder.addCase(fetchPosts.rejected, (state, action) => {
-    //   state.status = 'failed'
-    //   state.error = action.error.message
-    // })
   },
 })
 

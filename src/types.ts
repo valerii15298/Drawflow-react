@@ -45,15 +45,17 @@ export type block = {
 
 
 
-export type addNode = {
+export type dataNode = {
     type: string
     data: block
     port: port
     pos: pos
 }
 
-export interface node extends addNode {
+export interface node extends dataNode {
     id: number
+    height: number
+    width: number
 }
 
 export type drawflow = {
@@ -101,7 +103,9 @@ export interface stateData {
     editLock: boolean,
 }
 
-export interface drawflows {
+export interface flowType {
     version: number
     flows: stateData[]
+    dragTemplate: number
+    templates: block[]
 }

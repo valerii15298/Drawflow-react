@@ -19,7 +19,9 @@ const getData =  async (): Promise<data> => {
         "pos": {
           "x": 43.3125,
           "y": 14
-        }
+        },
+        "height": 0,
+        "width": 0,
       },
       "2": {
         "id": 2,
@@ -31,12 +33,14 @@ const getData =  async (): Promise<data> => {
         },
         "port": {
           "in": 1,
-          "out": 1
+          "out": 2
         },
         "pos": {
           "x": 469.3125,
           "y": 286
-        }
+        },
+        "height": 0,
+        "width": 0,
       },
       "3": {
         "id": 3,
@@ -48,12 +52,14 @@ const getData =  async (): Promise<data> => {
         },
         "port": {
           "in": 1,
-          "out": 1
+          "out": 2
         },
         "pos": {
           "x": 436.8125,
           "y": 92
-        }
+        },
+        "height": 0,
+        "width": 0,
       },
       "4": {
         "id": 4,
@@ -65,12 +71,14 @@ const getData =  async (): Promise<data> => {
         },
         "port": {
           "in": 1,
-          "out": 1
+          "out": 2
         },
         "pos": {
           "x": 36.3125,
           "y": 209
-        }
+        },
+        "height": 0,
+        "width": 0,
       }
     },
     "connections": {
