@@ -7,6 +7,7 @@
 
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 
 .App {
@@ -15,6 +16,7 @@
   margin: 0;
   padding: 10px;
   padding-right: 25px;
+  display: flex;
 }
 
 html,
@@ -29,54 +31,7 @@ button {
   cursor: pointer;
 }
 
-.drawflow-node-list {
-  display: inline-block;
-  overflow: auto;
-  width: var(--sidemenu-width);
-  height: 100%;
-  border-right: 1px solid var(--border-color);
-}
-
-.drawflow-node-list-search {
-  height: 30px;
-}
-
-.drawflow-node-list-category {
-  position: absolute;
-  margin-top: -30px;
-  line-height: 20px;
-  font-size: 14px;
-  font-weight: bold;
-  border: 2px solid lightcoral;
-}
-
-.drawflow-node-list-wrap {
-  overflow: scroll;
-  height: 100%;
-}
-
-.drawflow-node-list-flex {
-  height: calc(100% - 30px);
-}
-
-.drawflow-node-list-flex > .drawflow-node-list-category-wrap {
-  height: 50%;
-  border-bottom: 1px solid black;
-  padding-top: 30px;
-}
-
-.drawflow-container {
-  display: inline-block;
-  width: calc(100% - var(--sidemenu-width));
-  height: 100%;
-}
-
-.drawflow-wrapper {
-  height: 100%;
-  display: flex;
-}
-
-.drawflow-main {
+.drawflows {
   width: 100%;
 }
 
@@ -84,7 +39,7 @@ button {
   width: 100%;
   height: 100%;
   position: relative;
-  user-select: none;
+  
 
   .input,
   .output {
@@ -142,6 +97,7 @@ button {
 
 .parent-drawflow {
   position: relative;
+  flex: 1 1 1;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -168,12 +124,12 @@ button {
   background-color: #ddd;
   font-weight: bold;
   z-index: 1;
-}
 
-.drawflow-additional .drawflow-additional-button {
-  background-color: #333;
-  color: #fff;
-  border-radius: 4px;
+  .drawflow-additional-button {
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+  }
 }
 
 .drawflow-zoom {
@@ -206,5 +162,6 @@ button {
   &.select {
     box-shadow: 0 2px 15px 2px var(--border-color);
     border: 2px solid blue;
+    z-index: 2;
   }
 }

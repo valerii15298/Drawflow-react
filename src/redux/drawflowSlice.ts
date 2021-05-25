@@ -41,6 +41,8 @@ const getPortListByNodeId = (nodeId: number, state: stateData) => {
 const addNode = (state: stateData, { payload }: PayloadAction<dataNode>) => {
   state.drawflow[state.nodeId] = { ...payload, id: state.nodeId, height: 0, width: 0 }
   state.selectId = state.nodeId++
+  state.select = {type: 'node', selectId: state.selectId}
+  state.config.drag = true
 }
 
 // load version from server

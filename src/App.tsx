@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Drawflow } from './components/DrawflowHook';
 import FilterList from "./components/NodeListMenu/FilterList";
+import { useAppDispatch } from './redux/hooks';
+import { fetchFlowVersion } from './redux/store';
+
 import './drawflow.scss'
 
 function App() {
 
   const [searchWord, setSearchWord] = useState("");
+  const dispatch = useAppDispatch()
 
   return (
     <div className="App">
@@ -23,7 +27,12 @@ function App() {
           />
         </div>
       </div>
-      <Drawflow />
+      <div className="drawflows">
+        <div>
+          <button onClick={() => dispatch(fetchFlowVersion())}>Fetch flow version</button>
+        </div>
+        <Drawflow />
+      </div>
     </div>
   )
 

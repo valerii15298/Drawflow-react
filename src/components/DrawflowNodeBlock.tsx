@@ -69,8 +69,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             //@ts-ignore
             setRefs({ inputs, outputs, });
 
-            const {offsetHeight, offsetWidth} = ref.current
-            dispatch(actions.nodeSize({height: offsetHeight, width: offsetWidth, id}))
+            const { offsetHeight, offsetWidth } = ref.current
+            dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
             // dispatch node id width, height
             // updateRef(ref.current)
         }
@@ -115,12 +115,14 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             left: pos.x + "px",
             cursor: "move",
         }}
+        onMouseEnter={e => {
+            const { pageX, pageY } = e;
+            setStartPos({ shiftX: pageX, shiftY: pageY });
+        }}
         onMouseDown={e => {
             e.stopPropagation()
-            const shiftX = e.pageX;
-            const shiftY = e.pageY;
-            // const {pageX, pageY} = e;
-            setStartPos({ shiftX, shiftY });
+            const { pageX, pageY } = e;
+            setStartPos({ shiftX: pageX, shiftY: pageY });
             dispatch(actions.select({ type: 'node', selectId: id }))
         }}
         onMouseMove={e => {
@@ -130,9 +132,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
             const { shiftX, shiftY } = startPos
             const { pageX, pageY } = e
-            setStartPos({ shiftX: pageX, shiftY: pageY });
             const x = pageX - shiftX
             const y = pageY - shiftY
+            setStartPos({ shiftX: pageX, shiftY: pageY });
             dispatch(actions.movePosition({ nodeId: id, pos: { x, y } }))
         }}
         onContextMenu={e => {

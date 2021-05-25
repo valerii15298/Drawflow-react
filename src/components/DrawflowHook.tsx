@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { fetchFlowVersion } from "../redux/store";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
+import { testNode } from "../Mock";
 
 export const NewPath = () => {
     const state = useAppSelector(selectActiveDrawflow)
@@ -121,40 +122,37 @@ export const Drawflow = () => {
     }, [dispatch, select?.type])
 
 
-    return <div className="drawflow-container">
-        <div className="drawflow-wrapper">
-            <div className="drawflow-main">
-                <div
-                    id="drawflow"
-                    className="parent-drawflow"
-                    onMouseDown={(e) => {
-                        if (!e.currentTarget.classList.contains("parent-drawflow")) return;
-                        dispatch(actions.canvasDrag(true))
-                        dispatch(actions.unSelect())
-                    }}
-                    onMouseUp={() => dispatch(actions.canvasMouseUp())}
-                    onMouseMove={(e) => {
-                        const { clientX, clientY, movementX, movementY } = e
-                        dispatch(actions.canvasMouseMove({ clientX, clientY, movementX, movementY }))
-                    }}
-                    onMouseEnter={() => console.log('mouse enter')}
-                >
-                    <DrawflowAdditionalArea/>
-                    <DrawflowZoomArea/>
-                    <div
-                        className="drawflow"
-                        style={{
-                            transform: `translate(${x}px, ${y}px) scale(${zoom.value})`
-                        }}
-                    >
-                        <NodeList />
-                        <ConnectionList />
-                        {newPathDirection && <NewPath />}
-                    </div>
-                </div>
+    return (
+        <div
+            id="drawflow"
+            className="parent-drawflow"
+            onMouseDown={(e) => {
+                if (!e.currentTarget.classList.contains("parent-drawflow")) return;
+                dispatch(actions.canvasDrag(true))
+                dispatch(actions.unSelect())
+            }}
+            onMouseUp={() => dispatch(actions.canvasMouseUp())}
+            onMouseMove={(e) => {
+                const { clientX, clientY, movementX, movementY } = e
+                dispatch(actions.canvasMouseMove({ clientX, clientY, movementX, movementY }))
+            }}
+            onMouseEnter={(e) => {
+                const node = testNode()
+                dispatch(actions.addNode(node))
+            }}
+        >
+            <DrawflowAdditionalArea />
+            <DrawflowZoomArea />
+            <div
+                className="drawflow"
+                style={{
+                    transform: `translate(${x}px, ${y}px) scale(${zoom.value})`
+                }}
+            >
+                <NodeList />
+                <ConnectionList />
+                {newPathDirection && <NewPath />}
             </div>
         </div>
-        <button onClick={() => dispatch(fetchFlowVersion())}>Fetch flow version</button>
-    </div>
-
+    )
 }
