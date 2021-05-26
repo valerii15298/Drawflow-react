@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import handler from '../components/drawflowHandler'
 import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData } from '../types'
 import type { RootState } from './store'
 
@@ -41,7 +42,7 @@ const getPortListByNodeId = (nodeId: number, state: stateData) => {
 const addNode = (state: stateData, { payload }: PayloadAction<dataNode>) => {
   state.drawflow[state.nodeId] = { ...payload, id: state.nodeId, height: 0, width: 0 }
   state.selectId = state.nodeId++
-  state.select = {type: 'node', selectId: state.selectId}
+  state.select = { type: 'node', selectId: state.selectId }
   state.config.drag = true
 }
 
@@ -119,6 +120,26 @@ const slice = createSlice({
         state.config.canvasTranslate.y += movementY
       } else if (state.select?.type === 'output') {
         state.newPathDirection = { clientX, clientY }
+      } else if (state.config.drag && typeof state.selectId === 'number') {
+        const nodeId = state.selectId
+        const pos = {x: movementX, y: movementY}
+        const portKeys = getPortListByNodeId(nodeId, state);
+        const coef = (state.config.zoom.value)
+        pos.x /= 1.25 * coef
+        pos.y /= 1.25 * coef
+
+        // update ports position
+        state.ports = portKeys.reduce((acc, portKey) => {
+          acc[portKey] = {
+            x: acc[portKey].x + pos.x,
+            y: acc[portKey].y + pos.y,
+          };
+          return acc;
+        }, { ...state.ports });
+
+        // update node position
+        state.drawflow[nodeId].pos.x += pos.x
+        state.drawflow[nodeId].pos.y += pos.y
       }
     },
     canvasMouseUp: (state) => {

@@ -20,8 +20,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     });
     const ref = useRef<HTMLDivElement>(null);
 
-    const [startPos, setStartPos] = useState({ shiftX: 0, shiftY: 0 })
-
     const portComponent = (type: portType) => {
         let arr = [];
 
@@ -115,27 +113,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             left: pos.x + "px",
             cursor: "move",
         }}
-        onMouseEnter={e => {
-            const { pageX, pageY } = e;
-            setStartPos({ shiftX: pageX, shiftY: pageY });
-        }}
         onMouseDown={e => {
             e.stopPropagation()
-            const { pageX, pageY } = e;
-            setStartPos({ shiftX: pageX, shiftY: pageY });
             dispatch(actions.select({ type: 'node', selectId: id }))
-        }}
-        onMouseMove={e => {
-            // move node
-            if (!config.drag) return;
-            if (id !== selectId) return;
-
-            const { shiftX, shiftY } = startPos
-            const { pageX, pageY } = e
-            const x = pageX - shiftX
-            const y = pageY - shiftY
-            setStartPos({ shiftX: pageX, shiftY: pageY });
-            dispatch(actions.movePosition({ nodeId: id, pos: { x, y } }))
         }}
         onContextMenu={e => {
             // TODO show delete button

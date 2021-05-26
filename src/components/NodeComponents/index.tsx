@@ -1,8 +1,10 @@
+import { useState } from "react"
 import { Grabme, More } from "../../svg"
 
 const Common = (props: object) => {
+    const [s, setS] = useState(props)
     return <div className="node-block" >
-        {JSON.stringify(props, null, 2)}
+        {JSON.stringify(s, null, 2)}
     </div>
 }
 

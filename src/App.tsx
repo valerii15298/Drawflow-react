@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Drawflow } from './components/DrawflowHook';
 import FilterList from "./components/NodeListMenu/FilterList";
 import { useAppDispatch } from './redux/hooks';
-import { fetchFlowVersion } from './redux/store';
+import { changeVersion, fetchFlowVersion } from './redux/store';
 
 import './drawflow.scss'
 
@@ -30,6 +30,10 @@ function App() {
       <div className="drawflows">
         <div>
           <button onClick={() => dispatch(fetchFlowVersion())}>Fetch flow version</button>
+
+          <button onClick={() => dispatch(changeVersion(0))}>Version 1</button>
+          <button onClick={() => dispatch(changeVersion(1))}>Version 2</button>
+          <button onClick={() => dispatch(changeVersion(2))}>Version 3</button>
         </div>
         <Drawflow />
       </div>

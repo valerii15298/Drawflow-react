@@ -4,11 +4,11 @@ import { drawflowSlice } from './drawflowSlice'
 import mock from '../Mock'
 import {initialState as drawflowInitialState} from './drawflowSlice'
 
-const changeVersion = createAction<number>('versions/changed')
+export const changeVersion = createAction<number>('versions/changed')
 
 const initialState: flowType = {
   version: 0,
-  flows: [drawflowInitialState, drawflowInitialState],
+  flows: [drawflowInitialState, drawflowInitialState, drawflowInitialState],
   templates: [],
   dragTemplate: 0
 }

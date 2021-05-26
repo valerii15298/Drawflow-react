@@ -34,6 +34,7 @@ const FilterList = (props: Props) => {
                         key={"drawflow-sidemenu-block-" + idx}
                         className="drawflow-node-block"
                         onMouseDownCapture={onMouseDownCapture}
+                        draggable={true}
                     >
                         <pre>{`Type: ${type}\nValue: ${value + name}`}</pre>
                     </div>

@@ -138,6 +138,9 @@ export const Drawflow = () => {
             }}
             onMouseEnter={(e) => {
                 const node = testNode()
+                node.pos = handler.getPos(e.clientX, e.clientY, zoom.value)
+                node.pos.x -= 10
+                node.pos.y -= 10
                 dispatch(actions.addNode(node))
             }}
         >
