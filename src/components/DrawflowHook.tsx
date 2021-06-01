@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import Connection from "./Connection";
 import DrawflowNodeBlock from "./DrawflowNodeBlock";
 import { useEffect } from "react";
-import { fetchFlowVersion } from "../redux/store";
+import { addNewNode, fetchFlowVersion } from "../redux/store";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
 import { testNode } from "../Mock";
@@ -133,15 +133,12 @@ export const Drawflow = () => {
             }}
             onMouseUp={() => dispatch(actions.canvasMouseUp())}
             onMouseMove={(e) => {
-                const { clientX, clientY, movementX, movementY, pageX, pageY } = e
+                const { clientX, clientY, movementX, movementY } = e
                 dispatch(actions.canvasMouseMove({ clientX, clientY, movementX, movementY }))
             }}
             onMouseEnter={(e) => {
-                // const node = testNode()
-                // node.pos = handler.getPos(e.clientX, e.clientY, zoom.value)
-                // node.pos.x -= 10
-                // node.pos.y -= 10
-                // dispatch(actions.addNode(node))
+                const { clientX, clientY } = e
+                dispatch(addNewNode({ clientX, clientY }))
             }}
         >
             <DrawflowAdditionalArea />

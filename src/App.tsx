@@ -5,6 +5,7 @@ import { useAppDispatch } from './redux/hooks';
 import { changeVersion, fetchFlowVersion } from './redux/store';
 
 import './drawflow.scss'
+import { actions } from './redux/drawflowSlice';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <button onClick={() => dispatch(changeVersion(0))}>Version 1</button>
           <button onClick={() => dispatch(changeVersion(1))}>Version 2</button>
           <button onClick={() => dispatch(changeVersion(2))}>Version 3</button>
+          <button onClick={() => dispatch(actions.align())}>Align</button>
         </div>
         <Drawflow />
       </div>

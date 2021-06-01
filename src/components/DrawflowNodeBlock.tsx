@@ -8,7 +8,7 @@ import NodeComponent from "./NodeComponents";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-    const { selectId, select, ports, config, drawflow: { [id]: node } } =
+    const { nodeId, selectId, select, ports, config, drawflow: { [id]: node } } =
         useAppSelector(selectActiveDrawflow)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
@@ -73,6 +73,14 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             // updateRef(ref.current)
         }
     }, [ref]);
+
+    useEffect(() => {
+        // when add new node shift it to left and up
+        if (ref.current && nodeId - 1 === id && config.drag) {
+            const { offsetHeight, offsetWidth } = ref.current
+            dispatch(actions.moveNode({ nodeId: id, dx: -offsetWidth * 0.2, dy: -offsetHeight * 0.2 }))
+        }
+    }, [])
 
     const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
         const key = `${id}_${type}_${i}`;

@@ -1,6 +1,11 @@
-import { CURV as curv } from "../types";
+import { CURV as curv, stateData } from "../types";
 
 import { pos } from "../types";
+
+export const getPortListByNodeId = (nodeId: number, state: stateData) => {
+  const { ports } = state;
+  return Object.keys(ports).filter(key => key.split(/_/g)[0] === "" + nodeId);
+}
 
 const createCurvature = (start: pos, end: pos, type: string) => {
   let hx1 = null;

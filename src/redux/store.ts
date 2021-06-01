@@ -1,10 +1,12 @@
-import { configureStore, createAction, createAsyncThunk, createReducer } from '@reduxjs/toolkit'
-import { flowType,  Slices } from '../types'
-import { drawflowSlice } from './drawflowSlice'
-import mock from '../Mock'
-import {initialState as drawflowInitialState} from './drawflowSlice'
+import { configureStore, createAction, createAsyncThunk, createReducer, PayloadAction } from '@reduxjs/toolkit'
+import { clientPos, flowType, Slices, stateData } from '../types'
+import { addNode, drawflowSlice } from './drawflowSlice'
+import mock, { testNode } from '../Mock'
+import { initialState as drawflowInitialState } from './drawflowSlice'
+import handler from '../components/drawflowHandler'
 
 export const changeVersion = createAction<number>('versions/changed')
+export const addNewNode = createAction<clientPos>('addNewNode')
 
 const initialState: flowType = {
   version: 0,
@@ -27,6 +29,15 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeVersion, (state, { payload }) => {
       state.version = payload
     })
+    .addCase(addNewNode, (appState: flowType, { payload: { clientX, clientY } }: PayloadAction<clientPos>) => {
+      if (!appState.dragTemplate) return;
+
+      const state = appState.flows[appState.version]
+      const node = testNode()
+      node.pos = handler.getPos(clientX, clientY, state.config.zoom.value)
+      state.mouseBlockDragPos = { clientX, clientY };
+      addNode(state, node)
+    })
     .addCase(fetchNodeTemplates.fulfilled, (state, action) => {
       state.templates = action.payload
     })
@@ -39,7 +50,8 @@ const reducer = createReducer(initialState, (builder) => {
           payload: { drawflow, connections }
         })
     })
-    // reducer foe drawflow
+
+    // reducer for drawflow
     .addMatcher(
       (action) => action.type.startsWith(Slices.Drawflow),
       (state, action) => {

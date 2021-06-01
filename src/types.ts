@@ -108,6 +108,8 @@ export interface stateData {
 export interface flowType {
     version: number
     flows: stateData[]
-    dragTemplate: number
+    dragTemplate?: number
     templates: block[]
 }
+
+export type addConnectionType = { startId: number, startPort: number, endId: number, endPort: number }
