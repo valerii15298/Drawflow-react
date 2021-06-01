@@ -101,6 +101,8 @@ export interface stateData {
     selectPath: string | null,
     showButton: number | null,
     editLock: boolean,
+    mouseBlockDragPos: { clientX?: number, clientY?: number },
+
 }
 
 export interface flowType {

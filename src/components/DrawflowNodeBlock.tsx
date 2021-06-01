@@ -115,7 +115,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         }}
         onMouseDown={e => {
             e.stopPropagation()
+            const { clientX, clientY } = e
             dispatch(actions.select({ type: 'node', selectId: id }))
+            dispatch(actions.setMouseBlockDragPos({ clientX, clientY }))
         }}
         onContextMenu={e => {
             // TODO show delete button

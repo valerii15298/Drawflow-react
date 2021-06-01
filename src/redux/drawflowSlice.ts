@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import handler from '../components/drawflowHandler'
-import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData } from '../types'
+import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos } from '../types'
 import type { RootState } from './store'
 
 export const initialState: stateData = {
@@ -30,7 +30,8 @@ export const initialState: stateData = {
   showButton: null,
   newPathDirection: null,
   modalType: null,
-  editLock: false
+  editLock: false,
+  mouseBlockDragPos: { clientX: undefined, clientY: undefined },
 }
 
 
@@ -45,7 +46,9 @@ const addNode = (state: stateData, { payload }: PayloadAction<dataNode>) => {
   state.select = { type: 'node', selectId: state.selectId }
   state.config.drag = true
 }
-
+const setMouseBlockDragPos = (state: stateData, { payload }: PayloadAction<clientPos>) => {
+  state.mouseBlockDragPos = payload
+}
 // load version from server
 const load = (state: stateData, { payload }: PayloadAction<{ drawflow: drawflow, connections: connections }>) => {
   state.drawflow = payload.drawflow
@@ -73,6 +76,7 @@ const slice = createSlice({
       state.editLock = payload
     },
     addNode,
+    setMouseBlockDragPos,
     unSelect: (state) => {
       state.config.drag = false
       state.select = null
@@ -122,24 +126,25 @@ const slice = createSlice({
         state.newPathDirection = { clientX, clientY }
       } else if (state.config.drag && typeof state.selectId === 'number') {
         const nodeId = state.selectId
-        const pos = {x: movementX, y: movementY}
-        const portKeys = getPortListByNodeId(nodeId, state);
+        const { clientX: prevX, clientY: prevY } = state.mouseBlockDragPos as clientPos
+        state.mouseBlockDragPos = { clientX, clientY }
+        const portKeys = getPortListByNodeId(nodeId, state)
         const coef = (state.config.zoom.value)
-        pos.x /= 1.25 * coef
-        pos.y /= 1.25 * coef
+        const dx = (clientX - prevX) / coef
+        const dy = (clientY - prevY) / coef
 
         // update ports position
         state.ports = portKeys.reduce((acc, portKey) => {
           acc[portKey] = {
-            x: acc[portKey].x + pos.x,
-            y: acc[portKey].y + pos.y,
+            x: acc[portKey].x + dx,
+            y: acc[portKey].y + dy,
           };
           return acc;
         }, { ...state.ports });
 
         // update node position
-        state.drawflow[nodeId].pos.x += pos.x
-        state.drawflow[nodeId].pos.y += pos.y
+        state.drawflow[nodeId].pos.x += dx
+        state.drawflow[nodeId].pos.y += dy
       }
     },
     canvasMouseUp: (state) => {
