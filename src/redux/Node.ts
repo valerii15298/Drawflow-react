@@ -40,7 +40,7 @@ export class Flow {
         // add connection:
         connections[key] = []
     }
-    
+
     setLaneNumbers() {
 
     }

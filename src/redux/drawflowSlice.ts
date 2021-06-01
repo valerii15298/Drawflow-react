@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk, current } from '@reduxjs/toolkit'
 import handler, { getPortListByNodeId } from '../components/drawflowHandler'
 import { testNode } from '../Mock'
-import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType } from '../types'
+import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType, loadType } from '../types'
 import { Flow } from './Node'
 import type { RootState } from './store'
 
@@ -36,9 +36,6 @@ export const initialState: stateData = {
   mouseBlockDragPos: { clientX: undefined, clientY: undefined },
 }
 
-
-
-
 export const addNode = (state: stateData, payload: dataNode) => {
   state.drawflow[state.nodeId] = { ...payload, id: state.nodeId, height: 0, width: 0 }
   state.selectId = state.nodeId++
@@ -64,7 +61,7 @@ export const moveNode = (state: stateData, { dx, dy, nodeId }: moveNodeType) => 
 }
 
 // load version from server
-type loadType = { drawflow: drawflow, connections: connections }
+
 const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
   Object.assign(state, initialState)
   state.drawflow = payload.drawflow
@@ -142,6 +139,7 @@ const slice = createSlice({
       if (state.select?.type === 'output') {
         state.select = null
       }
+      // (new Flow(state)).alignAll()
     },
     deleteNode: (state) => {
       const { connections, drawflow, ports, selectId } = state;

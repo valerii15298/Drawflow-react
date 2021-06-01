@@ -113,3 +113,4 @@ export interface flowType {
 }
 
 export type addConnectionType = { startId: number, startPort: number, endId: number, endPort: number }
+export type loadType = { drawflow: drawflow, connections: connections }
