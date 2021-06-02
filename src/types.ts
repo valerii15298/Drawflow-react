@@ -56,6 +56,9 @@ export interface node extends dataNode {
     id: number
     height: number
     width: number
+    lane: number
+    position: number
+    head: number
 }
 
 export type drawflow = {
@@ -102,7 +105,7 @@ export interface stateData {
     showButton: number | null,
     editLock: boolean,
     mouseBlockDragPos: { clientX?: number, clientY?: number },
-
+    portToConnect?: string
 }
 
 export interface flowType {
@@ -114,3 +117,4 @@ export interface flowType {
 
 export type addConnectionType = { startId: number, startPort: number, endId: number, endPort: number }
 export type loadType = { drawflow: drawflow, connections: connections }
+export type moveNodeType = { dx: number, dy: number, nodeId: number }

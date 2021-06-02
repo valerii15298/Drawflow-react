@@ -1,11 +1,13 @@
 import { current } from "@reduxjs/toolkit";
-import { addConnectionType, node, port, pos, stateData } from "../types";
-import { moveNode } from "./drawflowSlice";
+import { getPortListByNodeId } from "../components/drawflowHandler";
+import { addConnectionType, moveNodeType, node, port, pos, stateData } from "../types";
 
 export class Flow {
     // readonly because we are using only immer.js with redux-toolkit
     public readonly state: stateData
     public readonly nodes: { [id: number]: Node } = {}
+    public readonly distanceToConnect = 100
+    public readonly distanceToDisconnect = 0
 
     constructor(state: stateData) {
         this.state = state
@@ -14,7 +16,7 @@ export class Flow {
     }
 
     get heads() {
-        return []
+        return Object.entries(this.nodes).filter(([id, node]) => !node.parent).map(el => el[1])
     }
 
     getNode(id: number) {
@@ -41,8 +43,81 @@ export class Flow {
         connections[key] = []
     }
 
-    setLaneNumbers() {
+    moveNode({ dx, dy, nodeId }: moveNodeType) {
+        // update ports position
+        const { state } = this
+        const portKeys = getPortListByNodeId(nodeId, state)
+        state.ports = portKeys.reduce((acc, portKey) => {
+            acc[portKey] = {
+                x: acc[portKey].x + dx,
+                y: acc[portKey].y + dy,
+            };
+            return acc;
+        }, { ...state.ports });
 
+        // update node position
+        state.drawflow[nodeId].pos.x += dx
+        state.drawflow[nodeId].pos.y += dy
+
+        /**
+         * Attachment
+         * 
+         * traverse all other nodes except this one,
+         * check if their ports are free for new conn, check distance
+         */
+
+        const currentNode = this.getNode(nodeId)
+        if (currentNode.parentConnection) {
+            // remove connection
+            delete this.state.connections[currentNode.parentConnection]
+        }
+        const nodeInPortPos = currentNode.portInPos
+        if (!nodeInPortPos) return
+        const portDistances: Array<{ key: string, distance: number }> = []
+        Object.entries(this.nodes).forEach(([id, node]) => {
+            if (Number(id) === nodeId) return
+
+            node.outPorts.forEach(([key, pos]) => {
+                const distance = Math.hypot(nodeInPortPos.x - pos.x, nodeInPortPos.y - pos.y)
+                portDistances.push({ key, distance })
+            })
+        });
+        portDistances.sort((a, b) => (a.distance - b.distance))
+        if (portDistances.length) {
+            const nearestPort = portDistances[0]
+            if (nearestPort.distance < this.distanceToConnect) {
+                // set state to
+                this.state.portToConnect = nearestPort.key
+            } else {
+                this.state.portToConnect = undefined
+            }
+        }
+    }
+
+    setLaneNumbers() {
+        let laneNodes = this.heads
+        laneNodes.forEach(node => node.update({ head: node.id, lane: 0 }))
+
+        while (laneNodes.length) {
+            const nextLaneNodes: Array<Node> = [];
+            laneNodes.forEach(node => {
+                let lane = node.lane + 1
+                const { subnodes, head } = node
+                if (subnodes.length) {
+                    for (const sub of subnodes) {
+                        sub.update({ lane: lane++, head })
+                    }
+                }
+                const nextNodes = node.clildren(1)
+                nextNodes.forEach(nextNode => nextNode.update({ head, lane }))
+                nextLaneNodes.push(...nextNodes)
+            })
+            laneNodes = nextLaneNodes;
+        }
+    }
+
+    setFlowNodeFullWidth(node: Node) {
+        
     }
 }
 
@@ -59,8 +134,24 @@ class Node {
         this.nodeState = this.state.drawflow[this.id]
     }
 
+    get head() {
+        return this.nodeState.head
+    }
+
+    get lane() {
+        return this.nodeState.lane
+    }
+
     get port(): port {
         return this.nodeState.port
+    }
+
+    get portInPos(): pos | undefined {
+        return Object.entries(this.state.ports).find(([key, value]) => key === `${this.id}_in_1`)?.[1]
+    }
+
+    get outPorts() {
+        return Object.entries(this.state.ports).filter(([key, pos]) => key.startsWith(`${this.id}_out`))
     }
 
     get parent(): Node | null {
@@ -68,10 +159,27 @@ class Node {
         return parentId ? this.flow.getNode(Number(parentId)) : null
     }
 
+    get parentConnection() {
+        return Object.keys(this.state.connections).find((key) => {
+            const arr = key.split('_').map(Number)
+            return arr[0] === this.parent?.id && arr[2] === this.id && arr[3] === 1
+        })
+    }
+
     clildren(portId: number) {
         return Object.keys(this.state.connections)
             .filter(key => key.split('_')[0] === this.id.toString() && key.split('_')[1] === portId.toString())
             .map(conn => this.flow.getNode(Number((conn.split('_')[2]))))
+    }
+
+    setLaneNumbers() {
+        if (this.parent) return
+
+        let lane = 0
+        const head = this.id
+        this.update({ lane, head })
+        let node = this
+
     }
 
     get out1() {
@@ -136,7 +244,11 @@ class Node {
     setPos(newPos: pos) {
         const { pos } = this;
         const { x, y } = newPos;
-        moveNode(this.state, { nodeId: this.id, dx: x - pos.x, dy: y - pos.y })
+        this.flow.moveNode({ nodeId: this.id, dx: x - pos.x, dy: y - pos.y })
+    }
+
+    update(data: node | any) {
+
     }
 }
 

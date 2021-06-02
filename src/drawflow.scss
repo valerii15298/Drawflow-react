@@ -10,10 +10,12 @@
   user-select: none;
 }
 
+#root {
+  height: 100%;
+}
+
 .App {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
+  height: 100%;
   padding: 10px;
   padding-right: 25px;
   display: flex;
@@ -23,145 +25,157 @@ html,
 body {
   margin: 0px;
   padding: 0px;
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 }
 
 button {
   cursor: pointer;
 }
 
-.drawflows {
-  width: 100%;
-}
-
-.drawflow {
-  width: 100%;
+.flow {
   height: 100%;
-  position: relative;
-  
-
-  .input,
-  .output {
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    background-color: red;
-    position: absolute;
-  }
-  .inputs {
-    .input {
-      right: 50%;
-      top: 0;
-      transform: translate(50%, -50%);
-    }
-  }
-
-  .outputs {
-    .output-1 {
-      right: 50%;
-      top: 100%;
-      transform: translate(50%, -50%);
-    }
-    .output-2 {
-      right: 0;
-      top: 50%;
-      transform: translate(50%, -50%);
-    }
-  }
-
-  .drawflow-connection path.main-path {
-    fill: none;
-    stroke-width: 5px;
-    stroke: steelblue;
-    transform: translate(-9999px, -9999px);
-
-    &:hover {
-      stroke-width: 6px;
-      stroke: purple;
-      cursor: pointer;
-    }
-    &.select {
-      stroke-width: 7px;
-      stroke: red;
-    }
-  }
-  svg {
-    overflow: visible;
-  }
-  .drawflow-connection {
-    position: absolute;
-    transform: translate(9999px, 9999px);
-  }
+  width: 100%;
 }
 
 .parent-drawflow {
   position: relative;
-  flex: 1 1 1;
-  width: 100%;
   height: 100%;
   overflow: hidden;
   background: var(--background-color);
   background-size: 25px 25px;
-  background-image: linear-gradient(
-      to right,
+  background-image: linear-gradient(to right,
       var(--background-plaid-color) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
+      transparent 1px),
+    linear-gradient(to bottom,
       var(--background-plaid-color) 1px,
-      transparent 1px
-    );
-  outline: none;
-}
+      transparent 1px);
 
-.drawflow-additional {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  background-color: #ddd;
-  font-weight: bold;
-  z-index: 1;
+  .drawflow {
+    width: 100%;
+    height: 100%;
+    position: relative;
 
-  .drawflow-additional-button {
+    .indicator {
+      width: 15px;
+      height: 15px;
+      border-radius: 60px;
+      background-color: #217ce8;
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.3s cubic-bezier(0.05, 0.03, 0.35, 1);
+    }
+
+    .invisible {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .input,
+    .output {
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background-color: red;
+      position: absolute;
+    }
+
+    .inputs {
+      .input {
+        right: 50%;
+        top: 0;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    .outputs {
+      .output-1 {
+        right: 50%;
+        top: 100%;
+        transform: translate(50%, -50%);
+      }
+
+      .output-2 {
+        right: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    svg {
+      overflow: visible;
+    }
+
+    .drawflow-connection {
+      position: absolute;
+
+      path.main-path {
+        fill: none;
+        stroke-width: 5px;
+        stroke: steelblue;
+
+        &:hover {
+          stroke-width: 6px;
+          stroke: purple;
+          cursor: pointer;
+        }
+
+        &.select {
+          stroke-width: 7px;
+          stroke: red;
+        }
+      }
+    }
+  }
+
+  .drawflow-additional {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    font-weight: bold;
+    z-index: 1;
+
+    .drawflow-additional-button {
+      background-color: #333;
+      color: #fff;
+      border-radius: 4px;
+    }
+  }
+
+  .drawflow-zoom {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    font-weight: bold;
+    z-index: 1;
+  }
+
+  .drawflow-zoom-button {
     background-color: #333;
     color: #fff;
     border-radius: 4px;
+    padding: 3px 10px;
   }
-}
 
-.drawflow-zoom {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  background-color: #ddd;
-  font-weight: bold;
-  z-index: 1;
-}
+  .drawflow-node-block-default {
+    display: inline-block;
+    position: absolute;
+    padding: 5px;
+    width: 200px;
+    min-height: 60px;
+    background-color: lightgray;
+    box-sizing: content-box;
+    z-index: 1;
 
-.drawflow-zoom-button {
-  background-color: #333;
-  color: #fff;
-  border-radius: 4px;
-  padding: 3px 10px;
-}
-
-.drawflow-node-block-default {
-  display: inline-block;
-  position: absolute;
-  padding: 5px;
-  width: 200px;
-  min-height: 60px;
-  background-color: lightgray;
-  box-sizing: content-box;
-  z-index: 1;
-
-  &.select {
-    box-shadow: 0 2px 15px 2px var(--border-color);
-    border: 2px solid blue;
-    z-index: 2;
+    &.select {
+      box-shadow: 0 2px 15px 2px var(--border-color);
+      border: 2px solid blue;
+      z-index: 2;
+    }
   }
+
 }

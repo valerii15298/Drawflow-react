@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Drawflow } from './components/DrawflowHook';
-import FilterList from "./components/NodeListMenu/FilterList";
+import FilterList from "./components/FilterList";
 import { useAppDispatch } from './redux/hooks';
 import { changeVersion, fetchFlowVersion } from './redux/store';
 
@@ -28,7 +28,7 @@ function App() {
           />
         </div>
       </div>
-      <div className="drawflows">
+      <div className="flow">
         <div>
           <button onClick={() => dispatch(fetchFlowVersion())}>Fetch flow version</button>
 
@@ -41,7 +41,6 @@ function App() {
       </div>
     </div>
   )
-
 }
 
 export default App;

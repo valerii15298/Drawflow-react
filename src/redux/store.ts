@@ -7,6 +7,7 @@ import handler from '../components/drawflowHandler'
 
 export const changeVersion = createAction<number>('versions/changed')
 export const addNewNode = createAction<clientPos>('addNewNode')
+export const dragTemplate = createAction<number>('dragTemplate')
 
 const initialState: flowType = {
   version: 0,
@@ -37,6 +38,10 @@ const reducer = createReducer(initialState, (builder) => {
       node.pos = handler.getPos(clientX, clientY, state.config.zoom.value)
       state.mouseBlockDragPos = { clientX, clientY };
       addNode(state, node)
+      appState.dragTemplate = undefined
+    })
+    .addCase(dragTemplate, (appState, {payload}) => {
+      appState.dragTemplate = payload
     })
     .addCase(fetchNodeTemplates.fulfilled, (state, action) => {
       state.templates = action.payload

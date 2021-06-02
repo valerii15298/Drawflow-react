@@ -8,7 +8,7 @@ import NodeComponent from "./NodeComponents";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-    const { nodeId, selectId, select, ports, config, drawflow: { [id]: node } } =
+    const { portToConnect, nodeId, selectId, select, ports, config, drawflow: { [id]: node } } =
         useAppSelector(selectActiveDrawflow)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
@@ -25,6 +25,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
         for (let i = 1; i <= port[type]; i++) {
             const key = `${type}put-${i}`;
+            const portKey = `${id}_${type}_${i}`
             const port =
                 <div
                     onMouseDown={(e) => {
@@ -36,7 +37,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
                         }))
                     }}
                     key={key}
-                    className={`${type}put ${key}`}
+                    className={`${type}put ${key} ${portKey}`}
                     onMouseUp={e => {
                         if (type !== "in" || typeof selectId !== "number" || !select?.portId) return
                         const endId = node.id
@@ -47,7 +48,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
                         if (startId === endId) return
                         dispatch(actions.addConnection({ startId, startPort, endId, endPort }))
                     }}
-                ></div>;
+                >
+                    <div className={`indicator ${(portToConnect === portKey && ' ') || 'invisible'}`}></div>
+                </div>;
             arr.push(port);
         }
 
@@ -69,18 +72,10 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
-            // dispatch node id width, height
-            // updateRef(ref.current)
         }
     }, [ref]);
 
-    useEffect(() => {
-        // when add new node shift it to left and up
-        if (ref.current && nodeId - 1 === id && config.drag) {
-            const { offsetHeight, offsetWidth } = ref.current
-            dispatch(actions.moveNode({ nodeId: id, dx: -offsetWidth * 0.2, dy: -offsetHeight * 0.2 }))
-        }
-    }, [])
+    
 
     const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
         const key = `${id}_${type}_${i}`;
@@ -111,7 +106,15 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             }, {}));
             dispatch(actions.pushPorts(newPorts))
         }
-    }, [refs]);
+    }, [dispatch, port, refs]);
+
+    useEffect(() => {
+        // when add new node shift it to left and up
+        if (ref.current && nodeId - 1 === id && config.drag) {
+            const { offsetHeight, offsetWidth } = ref.current
+            dispatch(actions.moveNode({ nodeId: id, dx: -offsetWidth * 0.2, dy: -offsetHeight * 0.2 }))
+        }
+    }, [])
 
     return <div
         ref={ref}

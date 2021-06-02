@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk, current } from '@reduxjs/toolkit'
 import handler, { getPortListByNodeId } from '../components/drawflowHandler'
 import { testNode } from '../Mock'
-import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType, loadType } from '../types'
+import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType, loadType, moveNodeType } from '../types'
 import { Flow } from './Node'
 import type { RootState } from './store'
 
@@ -43,23 +43,6 @@ export const addNode = (state: stateData, payload: dataNode) => {
   state.config.drag = true
 }
 
-type moveNodeType = { dx: number, dy: number, nodeId: number }
-export const moveNode = (state: stateData, { dx, dy, nodeId }: moveNodeType) => {
-  // update ports position
-  const portKeys = getPortListByNodeId(nodeId, state)
-  state.ports = portKeys.reduce((acc, portKey) => {
-    acc[portKey] = {
-      x: acc[portKey].x + dx,
-      y: acc[portKey].y + dy,
-    };
-    return acc;
-  }, { ...state.ports });
-
-  // update node position
-  state.drawflow[nodeId].pos.x += dx
-  state.drawflow[nodeId].pos.y += dy
-}
-
 // load version from server
 
 const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
@@ -73,11 +56,13 @@ const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
 const align = (state: stateData) => {
   const flow = new Flow(state)
   // const { isSub, id } = flow.getNode(1)
-  console.log(flow.getNode(1).isSub)
+  // console.log(flow.getNode(1).isSub)
+  flow.setLaneNumbers()
 
 }
-const setLaneNumbers = (state: stateData) => {
+const setLaneNumbers = () => {
   // iterate over nodes and add to state numbers(id, position, lane, etc: then this data will be rendered in every node)
+  // let laneNodes = this.heads
 }
 
 
@@ -90,7 +75,7 @@ const slice = createSlice({
     },
     align,
     addNode: (state: stateData, { payload }: PayloadAction<dataNode>) => addNode(state, payload),
-    moveNode: (state, action: PayloadAction<moveNodeType>) => moveNode(state, action.payload),
+    moveNode: (state, action: PayloadAction<moveNodeType>) => (new Flow(state)).moveNode(action.payload),
     setMouseBlockDragPos: (state: stateData, { payload }: PayloadAction<clientPos>) => {
       state.mouseBlockDragPos = payload
     },
@@ -128,18 +113,26 @@ const slice = createSlice({
         state.mouseBlockDragPos = { clientX, clientY }
         const coef = (state.config.zoom.value)
         const dx = (clientX - prevX) / coef
-        const dy = (clientY - prevY) / coef
-        moveNode(state, { nodeId, dy, dx })
+        const dy = (clientY - prevY) / coef;
+        (new Flow(state)).moveNode({ nodeId, dy, dx })
       }
     },
     canvasMouseUp: (state) => {
+      const flow = new Flow(state)
+      if (state.portToConnect) {
+        const [startId, _, startPort] = state.portToConnect.split('_').map(v => Number(v))
+        const endId = Number(state.selectId)
+        const endPort = 1
+        flow.addConnection({startId, startPort, endId, endPort})
+      }
+      state.portToConnect = undefined
       state.newPathDirection = null
       state.canvasDrag = false
       state.config.drag = false
       if (state.select?.type === 'output') {
         state.select = null
       }
-      // (new Flow(state)).alignAll()
+      // ().alignAll()
     },
     deleteNode: (state) => {
       const { connections, drawflow, ports, selectId } = state;
