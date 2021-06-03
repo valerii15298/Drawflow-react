@@ -185,6 +185,7 @@ const slice = createSlice({
     nodeSize: (state, { payload: { height, width, id } }: PayloadAction<{ id: number, height: number, width: number }>) => {
       state.drawflow[id].height = height
       state.drawflow[id].width = width
+      // align(state)
     }
   },
 })

@@ -77,6 +77,7 @@ export class Flow {
         if (currentNode.parentConnection) {
             // remove connection
             delete this.state.connections[currentNode.parentConnection]
+            this.alignAll()
         }
         const nodeInPortPos = currentNode.portInPos
         if (!nodeInPortPos) return
@@ -112,7 +113,7 @@ export class Flow {
                 let lane = node.lane as number + 1
                 const { subnodes, head } = node
                 if (subnodes.length) {
-                    console.log({ subnodes })
+                    // console.log({ subnodes })
                     for (const sub of subnodes) {
                         sub.update({ lane: lane++, head })
                     }

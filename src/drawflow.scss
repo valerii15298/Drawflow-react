@@ -96,9 +96,9 @@ button {
       }
 
       .output-2 {
-        right: 0;
+        left: 100%;
         top: 50%;
-        transform: translate(50%, -50%);
+        transform: translate(-50%, -50%);
       }
     }
 
@@ -171,9 +171,33 @@ button {
     box-sizing: content-box;
     z-index: 1;
 
+    .drawflow-node-content {
+      max-height: 100%;
+      overflow: hidden;      
+    }
+
     &.select {
       box-shadow: 0 2px 15px 2px var(--border-color);
       z-index: 2;
+    }
+
+    &.subnode {
+      width: 100px;
+      height: 60px;
+      
+      .output-2 {
+        display: none;
+      }
+
+      .output-1 {
+        left: 100%;
+        top: 50%;
+      }
+
+      .input-1 {
+        left: 0;
+        top: 50%;
+      }
     }
   }
 

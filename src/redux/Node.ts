@@ -67,7 +67,7 @@ export default class Node {
 
     alignChildren() {
         const { out1 } = this
-        if (!out1.length) return
+        this.update({isSub: false})
 
         let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
         for (const node of out1) {
@@ -78,10 +78,12 @@ export default class Node {
         }
 
         const { subnodes } = this
+        // console.log(subnodes)
         if (subnodes.length) {
             xPos = this.pos.x + this.width + this.spacingX
             subnodes.forEach(subNode => {
                 subNode.setPos({ x: xPos, y: this.pos.y })
+                subNode.update({ isSub: true })
                 xPos += subNode.width + this.spacingX
             })
         }
@@ -97,16 +99,12 @@ export default class Node {
         return this.children(1);
     }
 
-    get firstSubnode() {
+    get firstSubnode(): Node | undefined {
         return this.children(2)[0];
     }
 
-
-
-    get subnodes() {
-        return this.children(2)
-        // const { flowLine } = this;
-        // return flowLine ? flowLine.flowLineNodes : []
+    get subnodes(): Node[] {
+        return this.firstSubnode?.flowLine?.flowLineNodes || []
     }
 
     get isSub(): boolean {
@@ -126,15 +124,15 @@ export default class Node {
     /**
      * If not flow line, - returns null
      */
-    get flowLine(): null | { flowLineNodes: Node[], hasSubnodes: Node } {
-        const flowLineNodes = [];
+    get flowLine(): null | { flowLineNodes: Node[], hasSubnodes: Node | undefined } {
+        const flowLineNodes: Node[] = [this];
         let node: Node = this;
         let hasSubnodes = node.firstSubnode;
 
         while (node.out1.length === 1) {
-            flowLineNodes.push(node);
             hasSubnodes = hasSubnodes || node.firstSubnode;
             node = node.out1[0]
+            flowLineNodes.push(node);
         }
 
         return (node.out1.length > 1) ? null : { flowLineNodes, hasSubnodes };

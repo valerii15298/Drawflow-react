@@ -1,11 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import { Grabme, More } from "../svg"
 
 export const Round = (props: any) => {
-    const [a] = useState(props)
+    // const [a] = useState(props)
     return (
         <div className="node-block" >
-            {JSON.stringify(a, null, 2)}
+            {JSON.stringify(props, null, 2)}
         </div>
     )
 

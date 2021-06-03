@@ -60,8 +60,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
         }
-    }, [dispatch, id, ref, node])
-
+    })
 
     useEffect(() => {
         const getPortPos = (type: portType, i: number, elmt: Element) => {
@@ -88,7 +87,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         }
 
 
-    }, [dispatch, id, node.pos.x, node.pos.y]);
+    }, [dispatch, id, node]);
 
     useEffect(() => {
         // when add new node shift it to left and up
@@ -102,7 +101,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     return (
         <div
             ref={ref}
-            className={`node-${id} drawflow-node-block-default` + (selectId === id ? ' select' : '')}
+            className={`node-${id} drawflow-node-block-default`
+                + (selectId === id ? ' select' : '')
+                + (node.isSub ? ' subnode' : '')}
             style={{
                 top: pos.y + "px",
                 left: pos.x + "px",
