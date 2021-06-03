@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/Drawflow-react/static/css/main.3d6efcb1.chunk.css",
-    "main.js": "/Drawflow-react/static/js/main.da118eca.chunk.js",
-    "main.js.map": "/Drawflow-react/static/js/main.da118eca.chunk.js.map",
+    "main.css": "/Drawflow-react/static/css/main.5bf7f96b.chunk.css",
+    "main.js": "/Drawflow-react/static/js/main.acfaa615.chunk.js",
+    "main.js.map": "/Drawflow-react/static/js/main.acfaa615.chunk.js.map",
     "runtime-main.js": "/Drawflow-react/static/js/runtime-main.7c688e6f.js",
     "runtime-main.js.map": "/Drawflow-react/static/js/runtime-main.7c688e6f.js.map",
-    "static/js/2.33285545.chunk.js": "/Drawflow-react/static/js/2.33285545.chunk.js",
-    "static/js/2.33285545.chunk.js.map": "/Drawflow-react/static/js/2.33285545.chunk.js.map",
+    "static/js/2.54a97d9f.chunk.js": "/Drawflow-react/static/js/2.54a97d9f.chunk.js",
+    "static/js/2.54a97d9f.chunk.js.map": "/Drawflow-react/static/js/2.54a97d9f.chunk.js.map",
     "index.html": "/Drawflow-react/index.html",
-    "static/css/main.3d6efcb1.chunk.css.map": "/Drawflow-react/static/css/main.3d6efcb1.chunk.css.map",
-    "static/js/2.33285545.chunk.js.LICENSE.txt": "/Drawflow-react/static/js/2.33285545.chunk.js.LICENSE.txt"
+    "static/css/main.5bf7f96b.chunk.css.map": "/Drawflow-react/static/css/main.5bf7f96b.chunk.css.map",
+    "static/js/2.54a97d9f.chunk.js.LICENSE.txt": "/Drawflow-react/static/js/2.54a97d9f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.7c688e6f.js",
-    "static/js/2.33285545.chunk.js",
-    "static/css/main.3d6efcb1.chunk.css",
-    "static/js/main.da118eca.chunk.js"
+    "static/js/2.54a97d9f.chunk.js",
+    "static/css/main.5bf7f96b.chunk.css",
+    "static/js/main.acfaa615.chunk.js"
   ]
 }
