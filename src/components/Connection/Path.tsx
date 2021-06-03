@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 import { actions, selectActiveDrawflow } from '../../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 

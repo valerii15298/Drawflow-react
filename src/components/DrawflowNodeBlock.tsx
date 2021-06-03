@@ -1,10 +1,9 @@
-import { useEffect, useState, useRef, } from "react";
+import { useEffect, useRef, } from "react";
 import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from '../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { Round } from "./NodeComponents";
-import { RootState } from "../redux/store";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
@@ -13,10 +12,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     const dispatch = useAppDispatch()
     const { port, pos } = node;
 
-    const [refs, setRefs] = useState({
-        inputs: [],
-        outputs: [],
-    });
     const ref = useRef<HTMLDivElement>(null);
 
     const portComponent = (type: portType) => {
@@ -62,17 +57,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
     useEffect(() => {
         if (ref.current) {
-            //@ts-ignore
-            const inputs = Array.from(ref.current.querySelector(".inputs").children);
-            //@ts-ignore
-            const outputs = Array.from(ref.current.querySelector(".outputs").children);
-            //@ts-ignore
-            setRefs({ inputs, outputs, });
-        }
-    }, [ref]);
-
-    useEffect(() => {
-        if (ref.current) {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
         }
@@ -80,7 +64,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
 
     useEffect(() => {
-        const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
+        const getPortPos = (type: portType, i: number, elmt: Element) => {
             const key = `${id}_${type}_${i}`;
             const x = parseInt(getComputedStyle(elmt).left) + node.pos.x
             const y = parseInt(getComputedStyle(elmt).top) + node.pos.y
@@ -90,17 +74,21 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             }
         }
 
-        if (refs.inputs && refs.outputs && port.in === refs.inputs.length && port.out === refs.outputs.length) {
+        if (ref.current) {
+            const inputs = Array.from((ref.current.querySelector(".inputs") as HTMLDivElement).children);
+            const outputs = Array.from((ref.current.querySelector(".outputs") as HTMLDivElement).children);
             let newPorts = {};
-            newPorts = Object.assign(newPorts, refs.inputs.reduce((acc, elmt, i) => {
+            newPorts = Object.assign(newPorts, inputs.reduce((acc, elmt, i) => {
                 return Object.assign(acc, getPortPos(portType.in, i + 1, elmt));
             }, {}));
-            newPorts = Object.assign(newPorts, refs.outputs.reduce((acc, elmt, i) => {
+            newPorts = Object.assign(newPorts, outputs.reduce((acc, elmt, i) => {
                 return Object.assign(acc, getPortPos(portType.out, i + 1, elmt));
             }, {}));
             dispatch(actions.pushPorts(newPorts))
         }
-    }, [pos, dispatch, refs.inputs, refs.outputs, port.in, port.out, id, node.pos.x, node.pos.y]);
+
+
+    }, [dispatch, id, node.pos.x, node.pos.y]);
 
     useEffect(() => {
         // when add new node shift it to left and up
@@ -108,6 +96,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.moveNode({ nodeId: id, dx: -offsetWidth * 0.2, dy: -offsetHeight * 0.2 }))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

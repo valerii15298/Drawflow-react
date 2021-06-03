@@ -1,4 +1,3 @@
-import { getPortListByNodeId } from "../components/drawflowHandler";
 import { addConnectionType, moveNodeType, stateData } from "../types";
 import Node from './Node'
 
@@ -45,14 +44,14 @@ export class Flow {
             || this.getNode(endId).parent)
             return false
         const nodeIn = this.getNode(endId)
-        const nodeOut = this.getNode(startId)
+        // const nodeOut = this.getNode(startId)
 
         const flowLine = nodeIn.flowLine
 
         const connectAsSub = startPort === 2
 
         if (connectAsSub) {
-            // if (!flowLine || flowLine.hasSubnodes) { return false }
+            if (!flowLine || flowLine.hasSubnodes) { return false }
         }
         
         return true

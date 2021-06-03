@@ -1,7 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk, current } from '@reduxjs/toolkit'
-import handler, { getPortListByNodeId } from '../components/drawflowHandler'
-import { testNode } from '../Mock'
-import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType, loadType, moveNodeType } from '../types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType } from '../types'
 import { Flow } from './Flow'
 import type { RootState } from './store'
 
@@ -59,11 +57,6 @@ const align = (state: stateData) => {
   // console.log(flow.getNode(1).calculateFullWidth())
   // flow.setLaneNumbers()
   flow.alignAll()
-
-}
-const setLaneNumbers = () => {
-  // iterate over nodes and add to state numbers(id, position, lane, etc: then this data will be rendered in every node)
-  // let laneNodes = this.heads
 }
 
 
@@ -121,7 +114,8 @@ const slice = createSlice({
     canvasMouseUp: (state) => {
       const flow = new Flow(state)
       if (state.portToConnect) {
-        const [startId, _, startPort] = state.portToConnect.split('_').map(v => Number(v))
+        const [startId, , startPort] = state.portToConnect.split('_').map(v => Number(v))
+        // console.log([startId, startPort])
         const endId = Number(state.selectId)
         const endPort = 1
         flow.addConnection({ startId, startPort, endId, endPort })

@@ -98,7 +98,7 @@ export const Drawflow = () => {
 
     useEffect(() => {
         dispatch(fetchFlowVersion())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {

@@ -1,5 +1,5 @@
 import { configureStore, createAction, createAsyncThunk, createReducer, PayloadAction } from '@reduxjs/toolkit'
-import { clientPos, flowType, Slices, stateData } from '../types'
+import { clientPos, flowType, Slices } from '../types'
 import { addNode, drawflowSlice } from './drawflowSlice'
 import mock, { testNode } from '../Mock'
 import { initialState as drawflowInitialState } from './drawflowSlice'
