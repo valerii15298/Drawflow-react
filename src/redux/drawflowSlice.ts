@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk, current } from '@reduxjs/
 import handler, { getPortListByNodeId } from '../components/drawflowHandler'
 import { testNode } from '../Mock'
 import { dataNode, connections, drawflow, node, ports, pos, Slices, stateData, clientPos, flowType, addConnectionType, loadType, moveNodeType } from '../types'
-import { Flow } from './Node'
+import { Flow } from './Flow'
 import type { RootState } from './store'
 
 export const initialState: stateData = {
