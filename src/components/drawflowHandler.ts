@@ -1,4 +1,4 @@
-import { CURV as curv, stateData } from "../types";
+import { CURV, stateData } from "../types";
 
 import { pos } from "../types";
 
@@ -7,48 +7,14 @@ export const getPortListByNodeId = (nodeId: number, state: stateData) => {
   return Object.keys(ports).filter(key => key.split(/_/g)[0] === "" + nodeId);
 }
 
-const createCurvature = (start: pos, end: pos, type: string) => {
-  let hx1 = null;
-  let hx2 = null;
+const createCurvature = (start: pos, end: pos) => {
+  let hx1, hx2
+  let curv = (start.x >= end.x) ? -CURV : CURV
 
-  //type openclose open close other
-  switch (type) {
-    case 'open':
-      if (start.x >= end.x) {
-        hx1 = start.x + Math.abs(end.x - start.x) * curv;
-        hx2 = end.x - Math.abs(end.x - start.x) * (curv * -1);
-      } else {
-        hx1 = start.x + Math.abs(end.x - start.x) * curv;
-        hx2 = end.x - Math.abs(end.x - start.x) * curv;
-      }
-      return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
+  hx1 = start.x + Math.abs(end.x - start.x) * curv;
+  hx2 = end.x - Math.abs(end.x - start.x) * curv;
 
-    case 'close':
-      if (start.x >= end.x) {
-        hx1 = start.x + Math.abs(end.x - start.x) * (curv * -1);
-        hx2 = end.x - Math.abs(end.x - start.x) * curv;
-      } else {
-        hx1 = start.x + Math.abs(end.x - start.x) * curv;
-        hx2 = end.x - Math.abs(end.x - start.x) * curv;
-      }
-      return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
-
-    case 'other':
-      if (start.x >= end.x) {
-        hx1 = start.x + Math.abs(end.x - start.x) * (curv * -1);
-        hx2 = end.x - Math.abs(end.x - start.x) * (curv * -1);
-      } else {
-        hx1 = start.x + Math.abs(end.x - start.x) * curv;
-        hx2 = end.x - Math.abs(end.x - start.x) * curv;
-      }
-      return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
-
-    default:
-      hx1 = start.x + Math.abs(end.x - start.x) * curv;
-      hx2 = end.x - Math.abs(end.x - start.x) * curv;
-
-      return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
-  }
+  return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
 }
 
 const getCanvasInfo = () => {
@@ -81,9 +47,7 @@ const findIndexByElement = (elmt: HTMLElement) => {
   return -1;
 }
 
-// my code
-
-const getPortPosWithZoom = (size:{width: number, height: number}, pos: pos, zoom: number) => {
+const getPortPosWithZoom = (size: { width: number, height: number }, pos: pos, zoom: number) => {
   const canvas = handler.getCanvasInfo();
   const widthZoom = (canvas.width / (canvas.width * zoom)) || 0;
   const heightZoom = (canvas.height / (canvas.height * zoom)) || 0;

@@ -56,8 +56,9 @@ const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
 const align = (state: stateData) => {
   const flow = new Flow(state)
   // const { isSub, id } = flow.getNode(1)
-  // console.log(flow.getNode(1).isSub)
-  flow.setLaneNumbers()
+  // console.log(flow.getNode(1).calculateFullWidth())
+  // flow.setLaneNumbers()
+  flow.alignAll()
 
 }
 const setLaneNumbers = () => {
@@ -75,7 +76,7 @@ const slice = createSlice({
     },
     align,
     addNode: (state: stateData, { payload }: PayloadAction<dataNode>) => addNode(state, payload),
-    moveNode: (state, action: PayloadAction<moveNodeType>) => (new Flow(state)).moveNode(action.payload),
+    moveNode: (state, action: PayloadAction<moveNodeType>) => (new Flow(state)).dragNode(action.payload),
     setMouseBlockDragPos: (state: stateData, { payload }: PayloadAction<clientPos>) => {
       state.mouseBlockDragPos = payload
     },
@@ -114,7 +115,7 @@ const slice = createSlice({
         const coef = (state.config.zoom.value)
         const dx = (clientX - prevX) / coef
         const dy = (clientY - prevY) / coef;
-        (new Flow(state)).moveNode({ nodeId, dy, dx })
+        (new Flow(state)).dragNode({ nodeId, dy, dx })
       }
     },
     canvasMouseUp: (state) => {

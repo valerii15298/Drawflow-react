@@ -1,6 +1,7 @@
 import { current } from "@reduxjs/toolkit";
 import { getPortListByNodeId } from "../components/drawflowHandler";
-import { addConnectionType, moveNodeType, node, port, pos, stateData } from "../types";
+import { addConnectionType, moveNodeType, node, port, pos, stateData, updateNode } from "../types";
+import lodash from 'lodash'
 
 export class Flow {
     // readonly because we are using only immer.js with redux-toolkit
@@ -24,13 +25,15 @@ export class Flow {
     }
 
     alignAll() {
-        console.log(current(this.state))
-        this.state.drawflow[1].pos.x = 0
+        this.heads.forEach(node => {
+            node.calculateFullWidth()
+            node.alignChildren()
+        })
     }
 
     addConnection({ startId, startPort, endId, endPort }: addConnectionType) {
         // restric conns
-        if (this.getNode(startId).clildren(startPort).length || this.getNode(endId).parent)
+        if ((startPort === 2 && this.getNode(startId).children(startPort).length) || this.getNode(endId).parent)
             return
 
         const key = `${startId}_${startPort}_${endId}_${endPort}`;
@@ -58,6 +61,10 @@ export class Flow {
         // update node position
         state.drawflow[nodeId].pos.x += dx
         state.drawflow[nodeId].pos.y += dy
+    }
+
+    dragNode({ dx, dy, nodeId }: moveNodeType) {
+        this.moveNode({ dx, dy, nodeId })
 
         /**
          * Attachment
@@ -74,14 +81,15 @@ export class Flow {
         const nodeInPortPos = currentNode.portInPos
         if (!nodeInPortPos) return
         const portDistances: Array<{ key: string, distance: number }> = []
-        Object.entries(this.nodes).forEach(([id, node]) => {
-            if (Number(id) === nodeId) return
+        Object.entries(this.nodes)
+            .forEach(([id, node]) => {
+                if (Number(id) === nodeId) return
 
-            node.outPorts.forEach(([key, pos]) => {
-                const distance = Math.hypot(nodeInPortPos.x - pos.x, nodeInPortPos.y - pos.y)
-                portDistances.push({ key, distance })
-            })
-        });
+                node.outPorts.forEach(([key, pos]) => {
+                    const distance = Math.hypot(nodeInPortPos.x - pos.x, nodeInPortPos.y - pos.y)
+                    portDistances.push({ key, distance })
+                })
+            });
         portDistances.sort((a, b) => (a.distance - b.distance))
         if (portDistances.length) {
             const nearestPort = portDistances[0]
@@ -101,14 +109,15 @@ export class Flow {
         while (laneNodes.length) {
             const nextLaneNodes: Array<Node> = [];
             laneNodes.forEach(node => {
-                let lane = node.lane + 1
+                let lane = node.lane as number + 1
                 const { subnodes, head } = node
                 if (subnodes.length) {
+                    console.log({ subnodes })
                     for (const sub of subnodes) {
                         sub.update({ lane: lane++, head })
                     }
                 }
-                const nextNodes = node.clildren(1)
+                const nextNodes = node.children(1)
                 nextNodes.forEach(nextNode => nextNode.update({ head, lane }))
                 nextLaneNodes.push(...nextNodes)
             })
@@ -117,7 +126,7 @@ export class Flow {
     }
 
     setFlowNodeFullWidth(node: Node) {
-        
+
     }
 }
 
@@ -126,6 +135,8 @@ class Node {
     private readonly state: stateData
     public readonly flow: Flow
     public readonly nodeState: node
+    public readonly spacingX = 20
+    public readonly spacingY = 20
 
     constructor(id: number, flow: Flow) {
         this.id = id
@@ -166,7 +177,38 @@ class Node {
         })
     }
 
-    clildren(portId: number) {
+    get fullWidth() {
+        return this.nodeState.fullWidth
+    }
+
+    calculateFullWidth() {
+        const children = this.out1
+        let fullChildrenWidth = 0
+        children.forEach(node => {
+            fullChildrenWidth += node.calculateFullWidth()
+        })
+        const rez = Math.max(this.width,
+            fullChildrenWidth + this.spacingX * (children.length - 1))
+        this.update({ fullWidth: rez })
+        return rez
+    }
+
+
+
+    alignChildren() {
+        const { out1 } = this
+        if (!out1.length) return
+
+        let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
+        for (const node of out1) {
+            const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2)
+            node.setPos({ x, y: node.pos.y })
+            // node.update({ pos: { x } })
+            xPos += node.calculateFullWidth() + this.spacingX
+        }
+    }
+
+    children(portId: number) {
         return Object.keys(this.state.connections)
             .filter(key => key.split('_')[0] === this.id.toString() && key.split('_')[1] === portId.toString())
             .map(conn => this.flow.getNode(Number((conn.split('_')[2]))))
@@ -183,16 +225,19 @@ class Node {
     }
 
     get out1() {
-        return this.clildren(1);
+        return this.children(1);
     }
 
     get firstSubnode() {
-        return this.clildren(2)[0];
+        return this.children(2)[0];
     }
 
+
+
     get subnodes() {
-        const { flowLine } = this;
-        return flowLine ? flowLine.flowLineNodes : []
+        return this.children(2)
+        // const { flowLine } = this;
+        // return flowLine ? flowLine.flowLineNodes : []
     }
 
     get isSub(): boolean {
@@ -247,8 +292,15 @@ class Node {
         this.flow.moveNode({ nodeId: this.id, dx: x - pos.x, dy: y - pos.y })
     }
 
-    update(data: node | any) {
-
+    update(data: updateNode) {
+        const newData = lodash.merge(this.nodeState, data)
+        Object.assign(this.nodeState, newData)
+        // for (const key in newData) {
+        //     if (key in this.nodeState) {
+        //         //@ts-ignore
+        //         this.nodeState[key] = newData[key]
+        //     }
+        // }
     }
 }
 

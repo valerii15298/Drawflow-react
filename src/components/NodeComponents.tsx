@@ -1,21 +1,15 @@
-import { useState } from "react"
-import { Grabme, More } from "../../svg"
+import { Grabme, More } from "../svg"
 
-const Common = (props: object) => {
-    const [s, setS] = useState(props)
-    return <div className="node-block" >
-        {JSON.stringify(s, null, 2)}
-    </div>
-}
+export const Round = (props: any) => {
+    return (
+        <div className="node-block" >
+            {/* {JSON.stringify(props, null, 2)} */}
+            dweferf
+            ferwf
+            ffwer fre f wefr ew fr ewrf ew rfwejrfhiweurfhuifh
+        </div>
+    )
 
-type Props = {
-    imgSrc: string,
-    setImgSrc: (imgSrc: string) => void,
-    name: string,
-    description: string
-}
-
-const Round = (props: Props) => {
     const { imgSrc, name, description } = props;
     return (
         <div className="blockelem create-flowy">
@@ -37,10 +31,3 @@ const Round = (props: Props) => {
             </div>
         </div>)
 }
-
-const NodeComponent = {
-    Common,
-    Round,
-};
-
-export default NodeComponent

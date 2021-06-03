@@ -8,7 +8,7 @@ export enum Slices {
     Drawflow = 'drawflow'
 }
 
-export const CURV = 0.5;
+export const CURV = 0.3;
 
 export enum MODAL_TYPE {
     NODE_SETTINGS = "NODE_SETTINGS",
@@ -36,6 +36,8 @@ export type ports = {
     [propName: string]: pos
 }
 
+
+
 export type block = {
     name: string,
     type: string,
@@ -56,10 +58,20 @@ export interface node extends dataNode {
     id: number
     height: number
     width: number
-    lane: number
-    position: number
-    head: number
+    lane?: number
+    position?: number
+    head?: number
+    fullWidth?: number
 }
+
+type RecursivePartial<T> = {
+    [P in keyof T]?:
+    T[P] extends (infer U)[] ? RecursivePartial<U>[] :
+    T[P] extends object ? RecursivePartial<T[P]> :
+    T[P];
+}
+
+export type updateNode = RecursivePartial<node>
 
 export type drawflow = {
     [id: number]: node

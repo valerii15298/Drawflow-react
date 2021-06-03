@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { addNewNode, fetchFlowVersion } from "../redux/store";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
-import { testNode } from "../Mock";
 
 export const NewPath = () => {
     const state = useAppSelector(selectActiveDrawflow)
@@ -26,7 +25,7 @@ export const NewPath = () => {
     const zoom = config.zoom.value;
     const { clientX, clientY } = newPathDirection;
     const end = handler.getPos(clientX, clientY, zoom);
-    const d = handler.createCurvature(start, end, "openclose");
+    const d = handler.createCurvature(start, end);
 
     return <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +60,7 @@ export const ConnectionList = () => {
             x: ports[endKey].x,
             y: ports[endKey].y,
         }
-        const d = handler.createCurvature(start, end, "openclose")
+        const d = handler.createCurvature(start, end)
         return <div key={key}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +82,6 @@ export const NodeList = () => {
 
     return <>{Object.values(drawflow).map((node) => {
         return <DrawflowNodeBlock
-            // updateRef={(elem: HTMLElement) => {
-            //     this.nodeRefs[node.id] = elem
-            // }}
             key={node.id}
             id={node.id}
         />
