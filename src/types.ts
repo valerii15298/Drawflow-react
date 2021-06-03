@@ -15,6 +15,11 @@ export enum MODAL_TYPE {
     GROUP_SETTINGS = "GROUP_SETTINGS",
 }
 
+export enum portType {
+    in='in',
+    out='out'
+}
+
 export type pos = {
     x: number,
     y: number,
@@ -30,7 +35,7 @@ export type port = {
     out: number,
 }
 
-export type portType = 'in' | 'out'
+
 
 export type ports = {
     [propName: string]: pos

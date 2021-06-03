@@ -133,7 +133,7 @@ const slice = createSlice({
       if (state.select?.type === 'output') {
         state.select = null
       }
-      // ().alignAll()
+      flow.alignAll()
     },
     deleteNode: (state) => {
       const { connections, drawflow, ports, selectId } = state;

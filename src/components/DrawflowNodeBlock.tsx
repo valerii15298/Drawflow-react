@@ -10,7 +10,6 @@ import { Round } from "./NodeComponents";
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
     const { portToConnect, nodeId, selectId, select, ports, config, drawflow: { [id]: node } } =
         useAppSelector(selectActiveDrawflow)
-    // console.log(node.lane)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
     const { zoom } = config
@@ -44,7 +43,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
                         const endId = id
                         const endPort = i
                         const startId = selectId
-                        const startPort = select.portId;
+                        const startPort = select.portId
                         // if connect to same node
                         if (startId === endId) return
                         dispatch(actions.addConnection({ startId, startPort, endId, endPort }))
@@ -78,36 +77,29 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
         }
-    })
+    }, [dispatch, id, ref, node])
 
-
-
-    const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
-        const key = `${id}_${type}_${i}`;
-        if (!ports[key]) {
-            const rect = elmt.getBoundingClientRect();
-            const size = {
-                width: elmt.offsetWidth,
-                height: elmt.offsetHeight,
-            };
-            const pos = {
-                x: rect.x,
-                y: rect.y,
-            };
-            return {
-                [key]: handler.getPortPosWithZoom(size, pos, zoom.value),
-            }
-        }
-    }
 
     useEffect(() => {
+        const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
+            const key = `${id}_${type}_${i}`;
+            if (!ports[key]) {
+                const x = parseInt(getComputedStyle(elmt).left) + node.pos.x
+                const y = parseInt(getComputedStyle(elmt).top) + node.pos.y
+
+                return {
+                    [key]: { x, y }
+                }
+            }
+        }
+
         if (refs.inputs && refs.outputs && port.in === refs.inputs.length && port.out === refs.outputs.length) {
             let newPorts = {};
             newPorts = Object.assign(newPorts, refs.inputs.reduce((acc, elmt, i) => {
-                return Object.assign(acc, getPortPos("in", i + 1, elmt));
+                return Object.assign(acc, getPortPos(portType.in, i + 1, elmt));
             }, {}));
             newPorts = Object.assign(newPorts, refs.outputs.reduce((acc, elmt, i) => {
-                return Object.assign(acc, getPortPos("out", i + 1, elmt));
+                return Object.assign(acc, getPortPos(portType.out, i + 1, elmt));
             }, {}));
             dispatch(actions.pushPorts(newPorts))
         }
@@ -143,13 +135,13 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
                 // show node settings
             }}
         >
-            {portComponent("in")}
+            {portComponent(portType.in)}
             <div
                 className="drawflow-node-content"
             >
-                <Round description="ded" name="deeded" imgSrc="dwedwedwed" />
+                <Round {...node} />
             </div>
-            {portComponent("out")}
+            {portComponent(portType.out)}
             {/* <button
             style={{
                 display: showButton === id ? "block" : "none"

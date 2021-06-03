@@ -124,10 +124,6 @@ export class Flow {
             laneNodes = nextLaneNodes;
         }
     }
-
-    setFlowNodeFullWidth(node: Node) {
-
-    }
 }
 
 class Node {
@@ -135,8 +131,8 @@ class Node {
     private readonly state: stateData
     public readonly flow: Flow
     public readonly nodeState: node
-    public readonly spacingX = 20
-    public readonly spacingY = 20
+    public readonly spacingX = 40
+    public readonly spacingY = 60
 
     constructor(id: number, flow: Flow) {
         this.id = id
@@ -202,9 +198,9 @@ class Node {
         let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
         for (const node of out1) {
             const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2)
-            node.setPos({ x, y: node.pos.y })
-            // node.update({ pos: { x } })
+            node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
             xPos += node.calculateFullWidth() + this.spacingX
+            node.alignChildren()
         }
     }
 
@@ -212,16 +208,6 @@ class Node {
         return Object.keys(this.state.connections)
             .filter(key => key.split('_')[0] === this.id.toString() && key.split('_')[1] === portId.toString())
             .map(conn => this.flow.getNode(Number((conn.split('_')[2]))))
-    }
-
-    setLaneNumbers() {
-        if (this.parent) return
-
-        let lane = 0
-        const head = this.id
-        this.update({ lane, head })
-        let node = this
-
     }
 
     get out1() {

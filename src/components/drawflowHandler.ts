@@ -49,10 +49,10 @@ const findIndexByElement = (elmt: HTMLElement) => {
 
 const getPortPosWithZoom = (size: { width: number, height: number }, pos: pos, zoom: number) => {
   const canvas = handler.getCanvasInfo();
-  const widthZoom = (canvas.width / (canvas.width * zoom)) || 0;
-  const heightZoom = (canvas.height / (canvas.height * zoom)) || 0;
-  const x = size.width / 2 + (pos.x - canvas.x) * widthZoom;
-  const y = size.height / 2 + (pos.y - canvas.y) * heightZoom;
+  const coef = 1 / zoom
+
+  const x = size.width / 2 + (pos.x - canvas.x) * coef;
+  const y = size.height / 2 + (pos.y - canvas.y) * coef;
 
   return { x, y };
 }
