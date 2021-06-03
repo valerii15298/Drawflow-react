@@ -124,7 +124,7 @@ const slice = createSlice({
         const [startId, _, startPort] = state.portToConnect.split('_').map(v => Number(v))
         const endId = Number(state.selectId)
         const endPort = 1
-        flow.addConnection({startId, startPort, endId, endPort})
+        flow.addConnection({ startId, startPort, endId, endPort })
       }
       state.portToConnect = undefined
       state.newPathDirection = null
@@ -173,7 +173,7 @@ const slice = createSlice({
       flow.addConnection(action.payload)
     },
     clear: () => initialState,
-    pushPorts: (state, { payload }: PayloadAction<ports>) => {
+    pushPorts: (state: stateData, { payload }: PayloadAction<ports>) => {
       state.ports = { ...state.ports, ...payload }
     },
     zoom: (state, { payload }: PayloadAction<boolean | null>) => {

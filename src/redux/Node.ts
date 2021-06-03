@@ -65,8 +65,6 @@ export default class Node {
         return rez
     }
 
-
-
     alignChildren() {
         const { out1 } = this
         if (!out1.length) return
@@ -77,6 +75,15 @@ export default class Node {
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
             xPos += node.calculateFullWidth() + this.spacingX
             node.alignChildren()
+        }
+
+        const { subnodes } = this
+        if (subnodes.length) {
+            xPos = this.pos.x + this.width + this.spacingX
+            subnodes.forEach(subNode => {
+                subNode.setPos({ x: xPos, y: this.pos.y })
+                xPos += subNode.width + this.spacingX
+            })
         }
     }
 

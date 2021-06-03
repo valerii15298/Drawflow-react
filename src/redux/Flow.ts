@@ -25,45 +25,42 @@ export class Flow {
     }
 
     alignAll() {
+        this.setLaneNumbers()
         this.heads.forEach(node => {
             // node.calculateFullWidth()
             node.alignChildren()
         })
     }
 
-    addConnection({ startId, startPort, endId, endPort }: addConnectionType) {
-        // restric conns
-        if ((startPort === 2 && this.getNode(startId).children(startPort).length) || this.getNode(endId).parent)
-            return
-
-
+    addConnection(conn: addConnectionType) {
+        const { startId, startPort, endId, endPort } = conn
+        if (!this.connectionAllowed(conn)) return
         const key = `${startId}_${startPort}_${endId}_${endPort}`;
         this.state.connections[key] = []
+        
     }
 
     connectionAllowed({ startId, startPort, endId, endPort }: addConnectionType): boolean {
         if ((startPort === 2 && this.getNode(startId).children(startPort).length)
             || this.getNode(endId).parent)
             return false
+        const nodeIn = this.getNode(endId)
+        const nodeOut = this.getNode(startId)
+
+        const flowLine = nodeIn.flowLine
+
+        const connectAsSub = startPort === 2
+
+        if (connectAsSub) {
+            // if (!flowLine || flowLine.hasSubnodes) { return false }
+        }
         
         return true
     }
 
     moveNode({ dx, dy, nodeId }: moveNodeType) {
-        // update ports position
-        const { state } = this
-        const portKeys = getPortListByNodeId(nodeId, state)
-        state.ports = portKeys.reduce((acc, portKey) => {
-            acc[portKey] = {
-                x: acc[portKey].x + dx,
-                y: acc[portKey].y + dy,
-            };
-            return acc;
-        }, { ...state.ports });
-
-        // update node position
-        state.drawflow[nodeId].pos.x += dx
-        state.drawflow[nodeId].pos.y += dy
+        this.state.drawflow[nodeId].pos.x += dx
+        this.state.drawflow[nodeId].pos.y += dy
     }
 
     dragNode({ dx, dy, nodeId }: moveNodeType) {
@@ -89,17 +86,16 @@ export class Flow {
             .filter(([_, node]) => node.head !== currentNodeHead)
             .forEach(([id, node]) => {
                 if (Number(id) === nodeId) return
-
                 node.outPorts.forEach(([key, pos]) => {
                     const distance = Math.hypot(nodeInPortPos.x - pos.x, nodeInPortPos.y - pos.y)
                     portDistances.push({ key, distance })
                 })
             });
         portDistances.sort((a, b) => (a.distance - b.distance))
+        
         if (portDistances.length) {
             const nearestPort = portDistances[0]
             if (nearestPort.distance < this.distanceToConnect) {
-                // set state to
                 this.state.portToConnect = nearestPort.key
             } else {
                 this.state.portToConnect = undefined

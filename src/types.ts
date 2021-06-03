@@ -57,6 +57,7 @@ export type dataNode = {
     data: block
     port: port
     pos: pos
+    isSub: boolean
 }
 
 export interface node extends dataNode {

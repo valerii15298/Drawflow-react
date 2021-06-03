@@ -1,18 +1,17 @@
 import { useEffect, useState, useRef, } from "react";
-import { node, ports, portType } from "../types";
-import handler from "./drawflowHandler";
+import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from '../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { Round } from "./NodeComponents";
+import { RootState } from "../redux/store";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-    const { portToConnect, nodeId, selectId, select, ports, config, drawflow: { [id]: node } } =
+    const { portToConnect, nodeId, selectId, select, config, drawflow: { [id]: node } } =
         useAppSelector(selectActiveDrawflow)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
-    const { zoom } = config
 
     const [refs, setRefs] = useState({
         inputs: [],
@@ -83,13 +82,11 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     useEffect(() => {
         const getPortPos = (type: portType, i: number, elmt: HTMLElement) => {
             const key = `${id}_${type}_${i}`;
-            if (!ports[key]) {
-                const x = parseInt(getComputedStyle(elmt).left) + node.pos.x
-                const y = parseInt(getComputedStyle(elmt).top) + node.pos.y
+            const x = parseInt(getComputedStyle(elmt).left) + node.pos.x
+            const y = parseInt(getComputedStyle(elmt).top) + node.pos.y
 
-                return {
-                    [key]: { x, y }
-                }
+            return {
+                [key]: { x, y }
             }
         }
 
@@ -103,7 +100,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             }, {}));
             dispatch(actions.pushPorts(newPorts))
         }
-    }, [dispatch, port, refs]);
+    }, [pos, dispatch, refs.inputs, refs.outputs, port.in, port.out, id, node.pos.x, node.pos.y]);
 
     useEffect(() => {
         // when add new node shift it to left and up

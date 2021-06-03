@@ -11,6 +11,8 @@ function App() {
 
   const [searchWord, setSearchWord] = useState("");
   const dispatch = useAppDispatch()
+  // console.log('Render App')
+    
 
   return (
     <div className="App">
