@@ -36,7 +36,6 @@ export class Flow {
         if (!this.connectionAllowed(conn)) return
         const key = `${startId}_${startPort}_${endId}_${endPort}`;
         this.state.connections[key] = []
-        
     }
 
     connectionAllowed({ startId, startPort, endId, endPort }: addConnectionType): boolean {
@@ -53,7 +52,7 @@ export class Flow {
         if (connectAsSub) {
             if (!flowLine || flowLine.hasSubnodes) { return false }
         }
-        
+
         return true
     }
 
@@ -92,7 +91,7 @@ export class Flow {
                 })
             });
         portDistances.sort((a, b) => (a.distance - b.distance))
-        
+
         if (portDistances.length) {
             const nearestPort = portDistances[0]
             if (nearestPort.distance < this.distanceToConnect) {
@@ -112,6 +111,7 @@ export class Flow {
             laneNodes.forEach(node => {
                 let lane = node.lane as number + 1
                 const { subnodes, head } = node
+                if (head === undefined) { console.error('head is undefined in setLaneNumbers'); return }
                 if (subnodes.length) {
                     // console.log({ subnodes })
                     for (const sub of subnodes) {

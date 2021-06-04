@@ -1,4 +1,5 @@
 import lodash from "lodash"
+import { subnodeStyle } from "../styles"
 import { node, port, pos, stateData, updateNode } from "../types"
 import { Flow } from "./Flow"
 
@@ -67,13 +68,14 @@ export default class Node {
 
     alignChildren() {
         const { out1 } = this
-        this.update({isSub: false})
+        this.update({ isSub: false, port: { out: 2 } })
 
         let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
         for (const node of out1) {
             const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2)
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
             xPos += node.calculateFullWidth() + this.spacingX
+            xPos += node.subnodesWidth
             node.alignChildren()
         }
 
@@ -82,8 +84,9 @@ export default class Node {
         if (subnodes.length) {
             xPos = this.pos.x + this.width + this.spacingX
             subnodes.forEach(subNode => {
-                subNode.setPos({ x: xPos, y: this.pos.y })
-                subNode.update({ isSub: true })
+                subNode.update({ isSub: true, port: { out: 1 }, ...subnodeStyle })
+                subNode.setPos({ x: xPos, y: this.pos.y + (this.height / 2 - subNode.height / 2) })
+                delete this.state.ports[`${subNode.id}_out_2`]
                 xPos += subNode.width + this.spacingX
             })
         }
@@ -105,6 +108,12 @@ export default class Node {
 
     get subnodes(): Node[] {
         return this.firstSubnode?.flowLine?.flowLineNodes || []
+    }
+
+    get subnodesWidth(): number {
+        return this.subnodes.reduce((acc, subNode) => {
+            return acc + subNode.width + this.spacingX
+        }, 0)
     }
 
     get isSub(): boolean {

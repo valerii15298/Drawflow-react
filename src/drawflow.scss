@@ -168,7 +168,7 @@ button {
     width: 200px;
     min-height: 60px;
     background-color: lightgray;
-    box-sizing: content-box;
+    // box-sizing: content-box;
     z-index: 1;
 
     .drawflow-node-content {
@@ -181,10 +181,7 @@ button {
       z-index: 2;
     }
 
-    &.subnode {
-      width: 100px;
-      height: 60px;
-      
+    &.subnode {      
       .output-2 {
         display: none;
       }

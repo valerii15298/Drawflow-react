@@ -4,6 +4,7 @@ import { portType } from "../types";
 import { actions, selectActiveDrawflow } from '../redux/drawflowSlice'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { Round } from "./NodeComponents";
+import { subnodeStyle } from "../styles";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
@@ -98,17 +99,22 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    let style = {
+        top: pos.y + "px",
+        left: pos.x + "px",
+        cursor: "move",
+    }
+    if (node.isSub) {
+        style = { ...style, ...subnodeStyle }
+    }
+
     return (
         <div
             ref={ref}
             className={`node-${id} drawflow-node-block-default`
                 + (selectId === id ? ' select' : '')
                 + (node.isSub ? ' subnode' : '')}
-            style={{
-                top: pos.y + "px",
-                left: pos.x + "px",
-                cursor: "move",
-            }}
+            style={style}
             onMouseDown={e => {
                 e.stopPropagation()
                 const { clientX, clientY } = e
