@@ -63,7 +63,7 @@ export default class Node {
         const rez = Math.max(this.width,
             fullChildrenWidth + this.spacingX * (children.length - 1))
         this.update({ fullWidth: rez })
-        return rez
+        return rez + this.subnodesWidth
     }
 
     alignChildren() {
@@ -72,10 +72,9 @@ export default class Node {
 
         let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
         for (const node of out1) {
-            const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2)
+            const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2) - node.subnodesWidth/2
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
             xPos += node.calculateFullWidth() + this.spacingX
-            xPos += node.subnodesWidth
             node.alignChildren()
         }
 
