@@ -52,6 +52,9 @@ export class Flow {
         if (connectAsSub) {
             if (!flowLine || flowLine.hasSubnodes) { return false }
         }
+        if (this.getNode(startId).out1.length && this.getNode(startId).isSub) {
+            return false
+        }
 
         return true
     }
