@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawflow } from './components/DrawflowHook';
 import FilterList from "./components/FilterList";
 import { useAppDispatch } from './redux/hooks';
@@ -12,7 +12,10 @@ function App() {
   const [searchWord, setSearchWord] = useState("");
   const dispatch = useAppDispatch()
   // console.log('Render App')
-    
+  useEffect(() => {
+    dispatch(actions.align())
+  }, [dispatch])
+
 
   return (
     <div className="App">
