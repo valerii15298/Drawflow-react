@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { addNewNode, fetchFlowVersion } from "../redux/store";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
+import { createSelector, createDraftSafeSelector } from "@reduxjs/toolkit";
 
 export const NewPath = () => {
     const state = useAppSelector(selectActiveDrawflow)
@@ -61,24 +62,29 @@ export const ConnectionList = () => {
             y: ports[endKey].y,
         }
         const d = handler.createCurvature(start, end)
-        return <div key={key}>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="drawflow-connection"
-            >
-                <Connection.Path
-                    svgKey={key}
-                    d={d}
-                />
-            </svg>
-        </div>
+        return (
+            <div key={key}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="drawflow-connection"
+                >
+                    <Connection.Path
+                        svgKey={key}
+                        d={d}
+                    />
+                </svg>
+            </div>
+        )
 
     })
     return <>{conns}</>
 }
 
+const selectDrawflow = createDraftSafeSelector(selectActiveDrawflow, (s) => s.drawflow)
+
 export const NodeList = () => {
-    const drawflow = useAppSelector(s => selectActiveDrawflow(s).drawflow)
+    const drawflow = useAppSelector(selectDrawflow)
+    // console.log(`Render NodeList`)
 
     return <>{Object.values(drawflow).map((node) => {
         return <DrawflowNodeBlock
@@ -93,6 +99,7 @@ export const NodeList = () => {
 export const Drawflow = () => {
     const { select, config: { canvasTranslate: { x, y }, zoom }, newPathDirection }
         = useAppSelector(selectActiveDrawflow)
+    // console.log(`Render Drawflow`)
 
     const dispatch = useAppDispatch()
 

@@ -8,7 +8,8 @@ import { subnodeStyle } from "../styles";
 
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-    const { portToConnect, nodeId, selectId, select, config, drawflow: { [id]: node } } =
+    // console.log(`Render node id: ${id}`)
+    const { portToConnect, nodeId, selectId, select, config: { drag }, drawflow: { [id]: node } } =
         useAppSelector(selectActiveDrawflow)
     const dispatch = useAppDispatch()
     const { port, pos } = node;
@@ -56,6 +57,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         );
     }
 
+    
+
     useEffect(() => {
         if (ref.current) {
             const { offsetHeight, offsetWidth } = ref.current
@@ -88,11 +91,11 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         }
 
 
-    }, [dispatch, id, node]);
+    }, [dispatch, id, node.pos.x, node.pos.y]);
 
     useEffect(() => {
         // when add new node shift it to left and up
-        if (ref.current && nodeId - 1 === id && config.drag) {
+        if (ref.current && nodeId - 1 === id && drag) {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.moveNode({ nodeId: id, dx: -offsetWidth * 0.2, dy: -offsetHeight * 0.2 }))
         }

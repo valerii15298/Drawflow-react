@@ -98,10 +98,13 @@ const slice = createSlice({
       if (state.canvasDrag) {
         state.config.canvasTranslate.x += movementX
         state.config.canvasTranslate.y += movementY
+        // console.log('Drag canvas')
       } else if (state.select?.type === 'output') {
         state.newPathDirection = { clientX, clientY }
+        // console.log('New path')
       } else if (state.config.drag && typeof state.selectId === 'number') {
         // move node
+        // console.log('Move node')
         const nodeId = state.selectId
         const { clientX: prevX, clientY: prevY } = state.mouseBlockDragPos as clientPos
         state.mouseBlockDragPos = { clientX, clientY }
