@@ -8,13 +8,9 @@ export const getPortListByNodeId = (nodeId: number, state: stateData) => {
 }
 
 const createCurvature = (start: pos, end: pos) => {
-  let hx1, hx2
-  let curv = (start.x >= end.x) ? -CURV : CURV
-
-  hx1 = start.x + Math.abs(end.x - start.x) * curv;
-  hx2 = end.x - Math.abs(end.x - start.x) * curv;
-
-  return ' M ' + start.x + ' ' + start.y + ' C ' + hx1 + ' ' + start.y + ' ' + hx2 + ' ' + end.y + ' ' + end.x + '  ' + end.y;
+  const halfHeiht = (start.y - end.y) / 2
+  const dx = start.x - end.x
+  return `M ${start.x} ${start.y} v ${-halfHeiht} h ${-dx} v ${-halfHeiht} `
 }
 
 const getCanvasInfo = () => {

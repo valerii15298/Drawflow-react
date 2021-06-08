@@ -60,27 +60,64 @@ export default class Node {
         children.forEach(node => {
             fullChildrenWidth += node.calculateFullWidth()
         })
-        const rez = Math.max(this.width,
+        let rez = Math.max(this.width,
             fullChildrenWidth + this.spacingX * (children.length - 1))
+
         this.update({ fullWidth: rez })
-        return rez + this.subnodesWidth
+        return rez
+    }
+
+    totalWidth() {
+        const { lastChildSubsWidth, pureWidth } = this
+
+        const rez = pureWidth + Math.max(lastChildSubsWidth, this.subnodesWidth - (pureWidth / 2 - this.width / 2), 0)
+
+        this.update({ fullWidth: rez })
+        return rez
+    }
+
+    get lastChildSubsWidth() {
+        return this.out1.length ? this.out1[this.out1.length - 1].subnodesWidth : 0
+    }
+
+    get pureWidth() {
+        const { childrenTotalWidth, lastChildSubsWidth } = this
+
+        return Math.max(this.width, childrenTotalWidth - lastChildSubsWidth)
+    }
+
+    get rightOffset() {
+        return this.totalWidth() - this.pureWidth
+    }
+
+    get childrenTotalWidth() {
+        const { out1 } = this
+        if (!out1.length) return 0
+
+        let totalWidth = 0
+        out1.forEach(node => {
+            totalWidth += node.totalWidth()
+        })
+        return totalWidth + this.spacingX * (out1.length - 1)
     }
 
     alignChildren() {
         const { out1 } = this
         this.update({ isSub: false, port: { out: 2 } })
 
-        let xPos = this.pos.x - (this.calculateFullWidth() / 2 - this.width / 2)
+        let xPos = this.pos.x - (this.pureWidth / 2 - this.width / 2)
+
         for (const node of out1) {
-            const x = xPos + (node.calculateFullWidth() / 2 - node.width / 2) - node.subnodesWidth/2
+            const x = xPos + (node.pureWidth / 2 - node.width / 2)
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
-            xPos += node.calculateFullWidth() + this.spacingX
+            xPos += node.totalWidth() + this.spacingX
             node.alignChildren()
         }
 
         const { subnodes } = this
         // console.log(subnodes)
         if (subnodes.length) {
+
             xPos = this.pos.x + this.width + this.spacingX
             subnodes.forEach(subNode => {
                 subNode.update({ isSub: true, port: { out: 1 }, ...subnodeStyle })
@@ -98,11 +135,11 @@ export default class Node {
     }
 
     get out1() {
-        return this.children(1);
+        return this.children(1)
     }
 
     get firstSubnode(): Node | undefined {
-        return this.children(2)[0];
+        return this.children(2)[0]
     }
 
     get subnodes(): Node[] {
