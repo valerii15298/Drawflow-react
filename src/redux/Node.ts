@@ -54,54 +54,31 @@ export default class Node {
         return this.nodeState.fullWidth
     }
 
-    totalWidth() {
-        const { lastChildSubsWidth, pureWidth } = this
+    get totalWidth() {
+        const { childrenTotalWidth } = this
+        let rez = this.pureWidth / 2 + Math.max(this.pureWidth / 2, this.subnodesWidth + this.width / 2)
 
-        const rez = pureWidth + Math.max(lastChildSubsWidth, this.subnodesWidth - (pureWidth / 2 - this.width / 2), 0)
-
-        this.update({ fullWidth: rez })
+        rez = Math.max(this.width + this.subnodesWidth, childrenTotalWidth, 0)
+        //@ts-ignore
+        this.update({ fullWidth: rez, pureWidth: this.pureWidth })
         return rez
     }
 
-    get lastChildSubsWidth() {
-        // let maxWidth = 0
-        // let tmpNode: Node = this
-        // while (tmpNode.out1.length === 1) {
-        //     maxWidth = Math.max(maxWidth, tmpNode.out1[0].subnodesWidth)
-        //     tmpNode = tmpNode.out1[0]
-        // }
-        // return tmpNode.out1.length ?
-        //     Math.max(tmpNode.out1[tmpNode.out1.length - 1].subnodesWidth, maxWidth) : maxWidth
-
-
-        return this.out1.length ? this.out1[this.out1.length - 1].subnodesWidth : 0
-    }
-
     get pureWidth() {
-        const { childrenTotalWidth, lastChildSubsWidth } = this
-
-        const pureWidth = Math.max(this.width, childrenTotalWidth - lastChildSubsWidth)
-        console.log({pureWidth, id: this.id})
-        return pureWidth
+        return Math.max(this.width, this.childrenPureWidth)
     }
 
-    get childrenPureWidth() {
+    get childrenPureWidth(): number {
         const { out1 } = this
         if (!out1.length) return 0
 
-        let totalWidth = 0
-        out1.forEach(node => {
-            totalWidth += node.totalWidth()
+        let width = out1[out1.length - 1].pureWidth
+        out1.forEach((node, index) => {
+            if (index !== (out1.length - 1)) {
+                width += node.totalWidth
+            }
         })
-        return totalWidth + this.spacingX * (out1.length - 1)
-    }
-
-    getPureWidth() {
-        
-    }
-
-    get rightOffset() {
-        return this.totalWidth() - this.pureWidth
+        return width + this.spacingX * (out1.length - 1)
     }
 
     get childrenTotalWidth() {
@@ -110,7 +87,7 @@ export default class Node {
 
         let totalWidth = 0
         out1.forEach(node => {
-            totalWidth += node.totalWidth()
+            totalWidth += node.totalWidth
         })
         return totalWidth + this.spacingX * (out1.length - 1)
     }
@@ -120,11 +97,15 @@ export default class Node {
         this.update({ isSub: false, port: { out: 2 } })
 
         let xPos = this.pos.x - (this.pureWidth / 2 - this.width / 2)
+        // if (out1.length) {
+        //     xPos += out1[out1.length - 1].pureWidth / 4
+        //     xPos -= out1[0].pureWidth / 4
+        // }
 
         for (const node of out1) {
             const x = xPos + (node.pureWidth / 2 - node.width / 2)
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
-            xPos += node.totalWidth() + this.spacingX
+            xPos += node.totalWidth + this.spacingX
             node.alignChildren()
         }
 
@@ -147,6 +128,14 @@ export default class Node {
             .filter(key => key.split('_')[0] === this.id.toString() && key.split('_')[1] === portId.toString())
             .map(conn => this.flow.getNode(Number((conn.split('_')[2]))))
     }
+
+    // get leftChildrenWidth() {
+
+    // }
+
+    // get rightChildrenWidth() {
+
+    // }
 
     get out1() {
         return this.children(1)
