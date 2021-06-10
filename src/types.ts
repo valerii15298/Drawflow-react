@@ -67,6 +67,7 @@ export interface node extends dataNode {
     lane?: number
     position?: number
     head?: number
+    positionNumber?: number
 }
 
 type RecursivePartial<T> = {
@@ -122,13 +123,13 @@ export interface stateData {
     showButton: number | null,
     editLock: boolean,
     mouseBlockDragPos: { clientX?: number, clientY?: number },
-    portToConnect?: string
+    portToConnect?: string | undefined
 }
 
 export interface flowType {
     version: number
     flows: stateData[]
-    dragTemplate?: number
+    dragTemplate?: number | undefined
     templates: block[]
 }
 

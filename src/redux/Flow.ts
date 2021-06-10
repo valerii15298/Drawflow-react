@@ -116,7 +116,6 @@ export class Flow {
                 const { subnodes, head } = node
                 if (head === undefined) { console.error('head is undefined in setLaneNumbers'); return }
                 if (subnodes.length) {
-                    // console.log({ subnodes })
                     for (const sub of subnodes) {
                         sub.update({ lane: lane++, head })
                     }
@@ -127,5 +126,18 @@ export class Flow {
             })
             laneNodes = nextLaneNodes;
         }
+
+        this.heads.forEach(node => {
+            const { head } = node
+            for (let laneNumber = 0, positionNumber = 0, nextLaneNodes: Array<Node> = [node]; nextLaneNodes.length; ++laneNumber) {
+
+                nextLaneNodes = Object.values(this.nodes).filter(nextNode => nextNode.lane === laneNumber && nextNode.head === head)
+
+                nextLaneNodes.forEach(nextNode => {
+                    nextNode.update({ positionNumber: positionNumber++ })
+                })
+            }
+        })
+
     }
 }
