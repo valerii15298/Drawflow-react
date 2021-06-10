@@ -94,26 +94,6 @@ export default class Node {
         }
     }
 
-    sideChildrenWidth(side: "left" | "right"): number {
-        const { out1, childrenTotalWidth } = this
-        if (!out1.length) {
-            if (side === "right") return this.width / 2 + this.subnodesWidth
-            return this.width / 2
-        }
-
-        if (out1.length === 1) {
-            return out1[0].sideChildrenWidth(side);
-        }
-
-        const leftChildWidth = out1[0].leftWidth
-        const rightChildWidth = out1[out1.length - 1].rightWidth
-        if (this.id === 4) console.log({ leftChildWidth, rightChildWidth })
-
-        return Number(side === "left") * leftChildWidth +
-            Number(side === "right") * rightChildWidth
-            + (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2
-    }
-
     get leftWidth(): number {
         const { out1, childrenTotalWidth } = this
         const selfLeftWidth = this.width / 2
@@ -167,16 +147,16 @@ export default class Node {
     }
 
     get isSub(): boolean {
-        let parent = this.parent
-        if (parent) {
-            if (parent.firstSubnode === this) return true
-            return parent.isSub
-        }
-        return false
+        return this.complexParentNode !== null
     }
 
-    get complexParentNode() {
+    get complexParentNode(): Node | null {
         // if is sub eturn complexNode to which belongs this subnode
+        let parent = this.parent
+        if (parent) {
+            if (parent.firstSubnode === this) return parent
+            return parent.complexParentNode
+        }
         return null
     }
 
@@ -202,10 +182,6 @@ export default class Node {
     }
     get width() {
         return this.state.drawflow[this.id].width
-    }
-
-    get data() {
-        return {}
     }
 
     get pos() {
