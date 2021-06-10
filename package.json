@@ -25,6 +25,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "commit": "yarn build ; yarn deploy ; git add * ; git add . ;",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
