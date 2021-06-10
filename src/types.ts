@@ -68,6 +68,9 @@ export interface node extends dataNode {
     position?: number
     head?: number
     positionNumber?: number
+    subnodesVisibility?: boolean
+    childrenVisibility?: boolean
+    visible?: boolean
 }
 
 type RecursivePartial<T> = {
@@ -84,7 +87,7 @@ export type drawflow = {
 }
 
 export type connections = {
-    [propName: string]: pos[]
+    [propName: string]: boolean
 }
 
 export type data = {
@@ -122,7 +125,7 @@ export interface stateData {
     selectPath: string | null,
     showButton: number | null,
     editLock: boolean,
-    mouseBlockDragPos: { clientX?: number, clientY?: number },
+    mouseBlockDragPos: { clientX?: number | undefined, clientY?: number | undefined },
     portToConnect?: string | undefined
 }
 

@@ -53,9 +53,6 @@ const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
 
 const align = (state: stateData) => {
   const flow = new Flow(state)
-  // const { isSub, id } = flow.getNode(1)
-  // console.log(flow.getNode(1).calculateFullWidth())
-  // flow.setLaneNumbers()
   flow.alignAll()
 }
 
@@ -113,6 +110,7 @@ const slice = createSlice({
         const dy = (clientY - prevY) / coef;
         (new Flow(state)).dragNode({ nodeId, dy, dx })
       }
+      // align(state)
     },
     canvasMouseUp: (state) => {
       const flow = new Flow(state)
@@ -188,7 +186,18 @@ const slice = createSlice({
     nodeSize: (state, { payload: { height, width, id } }: PayloadAction<{ id: number, height: number, width: number }>) => {
       state.drawflow[id].height = height
       state.drawflow[id].width = width
-      // align(state)
+    },
+    toggleSubnodes: (state, { payload: { id } }: PayloadAction<{ id: number }>) => {
+      const flow = new Flow(state)
+      const node = flow.getNode(id)
+      node.toggleSubnodesVisibility()
+      align(state)
+    },
+    toggleChildren: (state, { payload: { id } }: PayloadAction<{ id: number }>) => {
+      const flow = new Flow(state)
+      const node = flow.getNode(id)
+      node.toggleChildrenVisibility()
+      align(state)
     }
   },
 })

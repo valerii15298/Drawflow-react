@@ -42,41 +42,45 @@ export const NewPath = () => {
 export const ConnectionList = () => {
     const { connections, ports } = useAppSelector(selectActiveDrawflow)
 
-    const conns = Object.entries(connections).map(([key]) => {
-        // key: fromId_portNum_toId_portNum
-        const arr = key.split("_");
-        const startKey = `${arr[0]}_out_${arr[1]}`;
-        const endKey = `${arr[2]}_in_${arr[3]}`;
+    const conns = Object.entries(connections)
+        .filter(([, conn]) => conn)
+        .map(([key]) => {
+            // key: fromId_portNum_toId_portNum
+            const arr = key.split("_").map(Number);
 
-        if (!ports[startKey] || !ports[endKey]) {
-            // console.error(`No such connection`, key);
-            return null
-        };
 
-        const start = {
-            x: ports[startKey].x,
-            y: ports[startKey].y,
-        }
-        const end = {
-            x: ports[endKey].x,
-            y: ports[endKey].y,
-        }
-        const d = handler.createCurvature(start, end)
-        return (
-            <div key={key}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="drawflow-connection"
-                >
-                    <Connection.Path
-                        svgKey={key}
-                        d={d}
-                    />
-                </svg>
-            </div>
-        )
+            const startKey = `${arr[0]}_out_${arr[1]}`;
+            const endKey = `${arr[2]}_in_${arr[3]}`;
 
-    })
+            if (!ports[startKey] || !ports[endKey]) {
+                // console.error(`No such connection`, key);
+                return null
+            };
+
+            const start = {
+                x: ports[startKey].x,
+                y: ports[startKey].y,
+            }
+            const end = {
+                x: ports[endKey].x,
+                y: ports[endKey].y,
+            }
+            const d = handler.createCurvature(start, end)
+            return (
+                <div key={key}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="drawflow-connection"
+                    >
+                        <Connection.Path
+                            svgKey={key}
+                            d={d}
+                        />
+                    </svg>
+                </div>
+            )
+
+        })
     return <>{conns}</>
 }
 
@@ -86,13 +90,17 @@ export const NodeList = () => {
     const drawflow = useAppSelector(selectDrawflow)
     // console.log(`Render NodeList`)
 
-    return <>{Object.values(drawflow).map((node) => {
-        return <DrawflowNodeBlock
-            key={node.id}
-            id={node.id}
-        />
-    }
-    )}</>
+    return (
+        <>{Object.values(drawflow)
+            .filter(node => node.visible !== false)
+            .map((node) => {
+                return <DrawflowNodeBlock
+                    key={node.id}
+                    id={node.id}
+                />
+            })
+        }</>
+    )
 }
 
 

@@ -35,7 +35,7 @@ export class Flow {
         const { startId, startPort, endId, endPort } = conn
         if (!this.connectionAllowed(conn)) return
         const key = `${startId}_${startPort}_${endId}_${endPort}`;
-        this.state.connections[key] = []
+        this.state.connections[key] = true
     }
 
     connectionAllowed({ startId, startPort, endId, endPort }: addConnectionType): boolean {

@@ -57,7 +57,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         );
     }
 
-    
+
 
     useEffect(() => {
         if (ref.current) {
@@ -136,6 +136,13 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
                 className="drawflow-node-content"
             >
                 <Round {...node} />
+                <div className="" onClick={() => {
+                    dispatch(actions.toggleSubnodes({ id }))
+                }}>toggle sub</div>
+                <div onClick={() => {
+                    console.log(22)
+                    dispatch(actions.toggleChildren({ id }))
+                }}>toggle children</div>
             </div>
             {portComponent(portType.out)}
             {/* <button

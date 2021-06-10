@@ -3,26 +3,26 @@ import getFilters from "./fields.mock";
 import { data } from "../types"
 
 export const testNode = (): node => {
-    return {
-        id: 0,
-        "type": NODE_TYPE.MIDDLE,
-        "data": {
-            "type": "String",
-            "name": "1qdlCNXqYBsE",
-            "value": "qqweee"
-        },
-        "port": {
-            "in": 1,
-            "out": 2
-        },
-        "pos": {
-            "x": -20,
-            "y": 100
-        },
-        "isSub": false,
-        height: 0,
-        width: 0
-    }
+  return {
+    id: 0,
+    "type": NODE_TYPE.MIDDLE,
+    "data": {
+      "type": "Node type",
+      "name": "Node name",
+      "value": "Node value"
+    },
+    "port": {
+      "in": 1,
+      "out": 2
+    },
+    "pos": {
+      "x": -20,
+      "y": 100
+    },
+    "isSub": false,
+    height: 0,
+    width: 0
+  }
 }
 
 const getDummy = async (): Promise<data> => {
@@ -30,8 +30,8 @@ const getDummy = async (): Promise<data> => {
     "nodes": {
     },
     "connections": {
-      "1_1_3_1": [],
-      "4_1_2_1": []
+      "1_1_3_1": true,
+      "4_1_2_1": true
     },
   }
 
@@ -50,8 +50,8 @@ const getDummy = async (): Promise<data> => {
 
 
 const mock = {
-    getDummy,
-    getFilters,
+  getDummy,
+  getFilters,
 }
 
 export default mock

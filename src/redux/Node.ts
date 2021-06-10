@@ -51,6 +51,7 @@ export default class Node {
     }
 
     get totalWidth() {
+        if (this.nodeState.visible === false) return 0
         const totalWidth = Math.max(this.width + this.subnodesWidth, this.leftWidth + this.rightWidth)
         return totalWidth
     }
@@ -73,11 +74,12 @@ export default class Node {
 
         let xPos = this.pos.x - (this.leftWidth - this.width / 2)
 
-        if (this.id === 4) console.log(this.leftWidth, this.width)
         for (const node of out1) {
             const x = xPos + (node.leftWidth - node.width / 2)
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
-            xPos += node.totalWidth + this.spacingX
+            if (node.nodeState.visible !== false) {
+                xPos += node.totalWidth + this.spacingX
+            }
             node.alignChildren()
         }
 
@@ -95,6 +97,7 @@ export default class Node {
     }
 
     get leftWidth(): number {
+        if (this.nodeState.visible === false) return 0
         const { out1, childrenTotalWidth } = this
         const selfLeftWidth = this.width / 2
         if (!out1.length) {
@@ -109,6 +112,7 @@ export default class Node {
     }
 
     get rightWidth(): number {
+        if (this.nodeState.visible === false) return 0
         const { out1, childrenTotalWidth } = this
         const selfRightWidth = this.width / 2 + this.subnodesWidth
         if (!out1.length) {
@@ -120,6 +124,56 @@ export default class Node {
 
         let childrenRightWidth = rightChildWidth + (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2
         return Math.max(childrenRightWidth, selfRightWidth)
+    }
+
+    get allSuccessors(): Array<Node> {
+        const { subnodes, out1 } = this
+        const successors: Array<Node> = [...subnodes, ...out1]
+
+        subnodes.forEach(subNode => successors.push(subNode))
+        out1.forEach(node => successors.push(node))
+
+        return successors
+    }
+
+    toggleVisibility() {
+        const visible = this.nodeState.visible ?? true
+        console.log({ visible })
+        // set self visibility
+        this.update({ visible: !visible })
+
+        this.parentConnection && (this.state.connections[this.parentConnection] = !visible)
+
+        // set conns visibility to false
+        this.outConnections.forEach(connKey => {
+            this.state.connections[connKey] = !visible
+        })
+    }
+
+    toggleChildrenVisibility() {
+        const visibility = this.nodeState.childrenVisibility ?? true
+        this.update({ childrenVisibility: !visibility })
+        this.out1.forEach(node => {
+            node.toggleVisibility()
+        })
+    }
+
+    toggleSubnodesVisibility() {
+        const visibility = this.nodeState.subnodesVisibility ?? true
+        this.update({ subnodesVisibility: !visibility })
+        this.subnodes.forEach(node => {
+            node.toggleVisibility()
+        })
+    }
+
+    get outConnections() {
+        return Object.entries(this.state.connections)
+            .filter(([key,]) => {
+                // key: fromId_portNum_toId_portNum
+                const arr = key.split("_").map(Number);
+                return arr[0] === this.id
+            })
+            .map(arr => arr[0])
     }
 
     children(portId: number) {
