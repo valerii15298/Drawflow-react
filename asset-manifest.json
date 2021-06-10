@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Drawflow-react/static/css/main.629191d4.chunk.css",
-    "main.js": "/Drawflow-react/static/js/main.b7eb4d61.chunk.js",
-    "main.js.map": "/Drawflow-react/static/js/main.b7eb4d61.chunk.js.map",
+    "main.js": "/Drawflow-react/static/js/main.49fc809b.chunk.js",
+    "main.js.map": "/Drawflow-react/static/js/main.49fc809b.chunk.js.map",
     "runtime-main.js": "/Drawflow-react/static/js/runtime-main.7c688e6f.js",
     "runtime-main.js.map": "/Drawflow-react/static/js/runtime-main.7c688e6f.js.map",
     "static/js/2.335eac0e.chunk.js": "/Drawflow-react/static/js/2.335eac0e.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.7c688e6f.js",
     "static/js/2.335eac0e.chunk.js",
     "static/css/main.629191d4.chunk.css",
-    "static/js/main.b7eb4d61.chunk.js"
+    "static/js/main.49fc809b.chunk.js"
   ]
 }
