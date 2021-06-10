@@ -50,34 +50,9 @@ export default class Node {
         })
     }
 
-    get fullWidth() {
-        return this.nodeState.fullWidth
-    }
-
     get totalWidth() {
-        const { childrenTotalWidth } = this
-        let rez = this.pureWidth / 2 + Math.max(this.pureWidth / 2, this.subnodesWidth + this.width / 2)
-
-        rez = Math.max(this.width + this.subnodesWidth, childrenTotalWidth)
-        this.update({ fullWidth: rez })
-        return rez
-    }
-
-    get pureWidth() {
-        return Math.max(this.width, this.childrenPureWidth)
-    }
-
-    get childrenPureWidth(): number {
-        const { out1 } = this
-        if (!out1.length) return 0
-
-        let width = out1[out1.length - 1].pureWidth
-        out1.forEach((node, index) => {
-            if (index !== (out1.length - 1)) {
-                width += node.totalWidth
-            }
-        })
-        return width + this.spacingX * (out1.length - 1)
+        const totalWidth = Math.max(this.width + this.subnodesWidth, this.leftWidth + this.rightWidth)
+        return totalWidth
     }
 
     get childrenTotalWidth() {
@@ -95,10 +70,12 @@ export default class Node {
         const { out1 } = this
         this.update({ isSub: false, port: { out: 2 } })
 
-        let xPos = this.pos.x - (this.leftChildrenWidth - this.width / 2)
 
+        let xPos = this.pos.x - (this.leftWidth - this.width / 2)
+
+        if (this.id === 4) console.log(this.leftWidth, this.width)
         for (const node of out1) {
-            const x = xPos + (node.leftChildrenWidth - node.width / 2)
+            const x = xPos + (node.leftWidth - node.width / 2)
             node.setPos({ x, y: this.pos.y + this.height + this.spacingY })
             xPos += node.totalWidth + this.spacingX
             node.alignChildren()
@@ -117,22 +94,52 @@ export default class Node {
         }
     }
 
-    get leftChildrenWidth(): number {
-        const { out1 } = this
-        if (!out1.length) return this.width / 2
-        const leftChildWidth = out1[0].leftChildrenWidth
-        const rightChildWidth = out1[out1.length - 1].rightChildrenWidth
+    sideChildrenWidth(side: "left" | "right"): number {
+        const { out1, childrenTotalWidth } = this
+        if (!out1.length) {
+            if (side === "right") return this.width / 2 + this.subnodesWidth
+            return this.width / 2
+        }
 
-        return leftChildWidth + (this.totalWidth - leftChildWidth - rightChildWidth) / 2
+        if (out1.length === 1) {
+            return out1[0].sideChildrenWidth(side);
+        }
+
+        const leftChildWidth = out1[0].leftWidth
+        const rightChildWidth = out1[out1.length - 1].rightWidth
+        if (this.id === 4) console.log({ leftChildWidth, rightChildWidth })
+
+        return Number(side === "left") * leftChildWidth +
+            Number(side === "right") * rightChildWidth
+            + (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2
     }
 
-    get rightChildrenWidth(): number {
-        const { out1 } = this
-        if (!out1.length) return this.width / 2
-        const leftChildWidth = out1[0].leftChildrenWidth
-        const rightChildWidth = out1[out1.length - 1].rightChildrenWidth
+    get leftWidth(): number {
+        const { out1, childrenTotalWidth } = this
+        const selfLeftWidth = this.width / 2
+        if (!out1.length) {
+            return selfLeftWidth
+        }
 
-        return rightChildWidth + (this.totalWidth - leftChildWidth - rightChildWidth) / 2
+        const leftChildWidth = out1[0].leftWidth
+        const rightChildWidth = out1[out1.length - 1].rightWidth
+
+        let childrenRightWidth = leftChildWidth + (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2
+        return Math.max(childrenRightWidth, selfLeftWidth)
+    }
+
+    get rightWidth(): number {
+        const { out1, childrenTotalWidth } = this
+        const selfRightWidth = this.width / 2 + this.subnodesWidth
+        if (!out1.length) {
+            return selfRightWidth
+        }
+
+        const leftChildWidth = out1[0].leftWidth
+        const rightChildWidth = out1[out1.length - 1].rightWidth
+
+        let childrenRightWidth = rightChildWidth + (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2
+        return Math.max(childrenRightWidth, selfRightWidth)
     }
 
     children(portId: number) {

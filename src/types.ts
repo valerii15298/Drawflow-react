@@ -67,7 +67,6 @@ export interface node extends dataNode {
     lane?: number
     position?: number
     head?: number
-    fullWidth?: number
 }
 
 type RecursivePartial<T> = {
