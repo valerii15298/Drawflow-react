@@ -32,31 +32,53 @@ export class Flow {
     }
 
     addConnection(conn: addConnectionType) {
-        const { startId, startPort, endId, endPort } = conn
-        if (!this.connectionAllowed(conn)) return
-        const key = `${startId}_${startPort}_${endId}_${endPort}`;
-        this.state.connections[key] = true
-    }
-
-    connectionAllowed({ startId, startPort, endId, endPort }: addConnectionType): boolean {
-        if ((startPort === 2 && this.getNode(startId).children(startPort).length)
-            || this.getNode(endId).parent)
-            return false
+        let { startId, startPort, endId, endPort } = conn
         const nodeIn = this.getNode(endId)
-        // const nodeOut = this.getNode(startId)
+        const nodeOut = this.getNode(startId)
+        const connectAsSub = startPort === 2
+
+
+        if (this.getNode(endId).parent || nodeOut.nodeState.visible === false) {
+            return false
+        }
 
         const flowLine = nodeIn.flowLine
 
-        const connectAsSub = startPort === 2
-
-        if (connectAsSub) {
-            if (!flowLine || flowLine.hasSubnodes) { return false }
-        }
-        if (this.getNode(startId).out1.length && this.getNode(startId).isSub) {
+        if ((connectAsSub || nodeOut.isSub) && (!flowLine || flowLine.hasSubnodes)) {
             return false
         }
 
-        return true
+        // Insertion to into the subnodes
+        let nextNode = null;
+        if (connectAsSub && nodeOut.subnodes.length) {
+            if (nodeOut.nodeState.subnodesVisibility === false) {
+                // connect subnode to the end when subnodes are hidden
+                startId = nodeOut.subnodes[nodeOut.subnodes.length - 1].id
+                startPort = 1
+                const key = `${startId}_${startPort}_${endId}_${endPort}`;
+                this.state.connections[key] = true
+                const { flowLineNodes } = flowLine as { flowLineNodes: Node[] }
+                flowLineNodes.forEach(node => node.toggleVisibility())
+                return
+            } else {
+                nextNode = nodeOut.subnodes[0]
+            }
+        }
+        if (nodeOut.isSub && nodeOut.out1.length) {
+            nextNode = nodeOut.out1[0]
+        }
+
+        if (nextNode !== null) {
+            const keyToDelete = `${startId}_${startPort}_${nextNode.id}_1`
+            delete this.state.connections[keyToDelete]
+            const { flowLineNodes } = flowLine as { flowLineNodes: Node[] }
+            const lastNode = flowLineNodes[flowLineNodes.length - 1]
+            const keyToCreate = `${lastNode.id}_1_${nextNode.id}_1`
+            this.state.connections[keyToCreate] = true
+        }
+
+        const key = `${startId}_${startPort}_${endId}_${endPort}`;
+        this.state.connections[key] = true
     }
 
     moveNode({ dx, dy, nodeId }: moveNodeType) {

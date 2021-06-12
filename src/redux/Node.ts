@@ -126,19 +126,26 @@ export default class Node {
         return Math.max(childrenRightWidth, selfRightWidth)
     }
 
-    get allSuccessors(): Array<Node> {
+    get all2Successors(): Array<Node> {
         const { subnodes, out1 } = this
-        const successors: Array<Node> = [...subnodes, ...out1]
+        const successors: Array<Node> = [...out1]
 
         subnodes.forEach(subNode => successors.push(subNode))
-        out1.forEach(node => successors.push(node))
+        this.out1.forEach(node => successors.push(node))
 
         return successors
     }
 
+    get allSuccessors() {
+        const successors = [...this.out1, ...this.subnodes]
+        const allSuccessors = [...successors]
+        successors.forEach(node => allSuccessors.push(...node.allSuccessors))
+        return allSuccessors
+    }
+
     toggleVisibility() {
         const visible = this.nodeState.visible ?? true
-        console.log({ visible })
+        // console.log({ visible })
         // set self visibility
         this.update({ visible: !visible })
 
@@ -153,8 +160,9 @@ export default class Node {
     toggleChildrenVisibility() {
         const visibility = this.nodeState.childrenVisibility ?? true
         this.update({ childrenVisibility: !visibility })
-        this.out1.forEach(node => {
-            node.toggleVisibility()
+        const { subnodes, allSuccessors } = this
+        allSuccessors.forEach(node => {
+            if (!subnodes.includes(node)) { node.toggleVisibility() }
         })
     }
 
