@@ -31,6 +31,25 @@ export class Flow {
         })
     }
 
+    allowConnection(conn: addConnectionType) {
+        let { startId, startPort, endId } = conn
+        const nodeIn = this.getNode(endId)
+        const nodeOut = this.getNode(startId)
+        const connectAsSub = startPort === 2
+
+
+        if (nodeIn.parent || nodeOut.nodeState.visible === false) {
+            return false
+        }
+
+        const flowLine = nodeIn.flowLine
+
+        if ((connectAsSub || nodeOut.isSub) && (!flowLine || flowLine.hasSubnodes)) {
+            return false
+        }
+        return true
+    }
+
     addConnection(conn: addConnectionType) {
         let { startId, startPort, endId, endPort } = conn
         const nodeIn = this.getNode(endId)
@@ -38,7 +57,7 @@ export class Flow {
         const connectAsSub = startPort === 2
 
 
-        if (this.getNode(endId).parent || nodeOut.nodeState.visible === false) {
+        if (nodeIn.parent || nodeOut.nodeState.visible === false) {
             return false
         }
 
@@ -118,11 +137,23 @@ export class Flow {
         portDistances.sort((a, b) => (a.distance - b.distance))
 
         if (portDistances.length) {
-            const nearestPort = portDistances[0]
-            if (nearestPort.distance < this.distanceToConnect) {
-                this.state.portToConnect = nearestPort.key
-            } else {
-                this.state.portToConnect = undefined
+            let nearestPort = portDistances.shift() as { key: string; distance: number; }
+            // check if conn is allowed, or change filter before
+            // let [endId, , endPort] = nearestPort.key.split('_').map(Number)
+            // let allow = this.allowConnection({ startId: nodeId, startPort: 1, endId, endPort })
+            // while (!allow && portDistances.length) {
+            //     // console.log(nearestPort)
+            //     nearestPort = portDistances.shift() as { key: string; distance: number; }
+            //     [endId, , endPort] = nearestPort.key.split('_').map(Number)
+            //     // console.log({ startId: nodeId, startPort: 1, endId, endPort })
+            //     allow = this.allowConnection({ startId: nodeId, startPort: 1, endId, endPort })
+            // }
+            if (true) {
+                if (nearestPort.distance < this.distanceToConnect) {
+                    this.state.portToConnect = nearestPort.key
+                } else {
+                    this.state.portToConnect = undefined
+                }
             }
         }
     }

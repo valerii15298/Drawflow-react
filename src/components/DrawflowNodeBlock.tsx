@@ -64,7 +64,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             const { offsetHeight, offsetWidth } = ref.current
             dispatch(actions.nodeSize({ height: offsetHeight, width: offsetWidth, id }))
         }
-    })
+    }, [dispatch, id, node])
 
     useEffect(() => {
         const getPortPos = (type: portType, i: number, elmt: Element) => {

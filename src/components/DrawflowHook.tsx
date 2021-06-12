@@ -115,14 +115,6 @@ export const Drawflow = () => {
         dispatch(fetchFlowVersion())
     }, [dispatch])
 
-    // useEffect(() => {
-    //     // const handleKeyDown = 
-    //     document.addEventListener("keydown", handleKeyDown);
-    //     return () => {
-    //         document.removeEventListener("keydown", handleKeyDown);
-    //     }
-    // }, [dispatch, select?.type])
-
 
     return (
         <div
