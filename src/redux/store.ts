@@ -1,6 +1,6 @@
 import { configureStore, createAction, createAsyncThunk, createReducer, PayloadAction } from '@reduxjs/toolkit'
 import { clientPos, flowType, Slices } from '../types'
-import { addNode, drawflowSlice } from './drawflowSlice'
+import { drawflowSlice } from './drawflowSlice'
 import mock, { testNode } from '../Mock'
 import { initialState as drawflowInitialState } from './drawflowSlice'
 import handler from '../components/drawflowHandler'
@@ -37,10 +37,14 @@ const reducer = createReducer(initialState, (builder) => {
       const node = testNode()
       node.pos = handler.getPos(clientX, clientY, state.config.zoom.value)
       state.mouseBlockDragPos = { clientX, clientY };
-      addNode(state, node)
+      state.drawflow[state.nodeId] = { ...node, id: state.nodeId, height: 0, width: 0 }
+      state.selectId = state.nodeId++
+      state.select = { type: 'node', selectId: state.selectId }
+      state.config.drag = true
+      
       appState.dragTemplate = undefined
     })
-    .addCase(dragTemplate, (appState, {payload}) => {
+    .addCase(dragTemplate, (appState, { payload }) => {
       appState.dragTemplate = payload
     })
     .addCase(fetchNodeTemplates.fulfilled, (state, action) => {

@@ -127,6 +127,8 @@ export interface stateData {
     editLock: boolean,
     mouseBlockDragPos: { clientX?: number | undefined, clientY?: number | undefined },
     portToConnect?: string | undefined
+    nodeToCopyId?: number
+    clientCurrentMousePos?: clientPos
 }
 
 export interface flowType {

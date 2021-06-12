@@ -115,26 +115,34 @@ export const Drawflow = () => {
         dispatch(fetchFlowVersion())
     }, [dispatch])
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Delete") {
-                if (select?.type === "path") {
-                    dispatch(actions.deletePath())
-                }
-                else {
-                    dispatch(actions.deleteNode())
-                }
-            }
-        }
-        document.addEventListener("keydown", handleKeyDown);
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-        }
-    }, [dispatch, select?.type])
+    // useEffect(() => {
+    //     // const handleKeyDown = 
+    //     document.addEventListener("keydown", handleKeyDown);
+    //     return () => {
+    //         document.removeEventListener("keydown", handleKeyDown);
+    //     }
+    // }, [dispatch, select?.type])
 
 
     return (
         <div
+            tabIndex={0}
+            onKeyDownCapture={(e) => {
+                if (e.key === "Delete") {
+                    if (select?.type === "path") {
+                        dispatch(actions.deletePath())
+                    }
+                    else {
+                        dispatch(actions.deleteNode())
+                    }
+                }
+                if (e.ctrlKey && e.key === 'c' && select?.type === 'node' && typeof select.selectId === 'number') {
+                    dispatch(actions.copyNode(select.selectId))
+                }
+                if (e.ctrlKey && e.key === 'v') {
+                    dispatch(actions.insertCopiedNode())
+                }
+            }}
             id="drawflow"
             className="parent-drawflow"
             onMouseDown={(e) => {

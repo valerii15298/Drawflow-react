@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType } from '../types'
+import handler from '../components/drawflowHandler'
+import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType, pos } from '../types'
 import { Flow } from './Flow'
 import type { RootState } from './store'
 
@@ -34,12 +35,6 @@ export const initialState: stateData = {
   mouseBlockDragPos: { clientX: undefined, clientY: undefined },
 }
 
-export const addNode = (state: stateData, payload: dataNode) => {
-  state.drawflow[state.nodeId] = { ...payload, id: state.nodeId, height: 0, width: 0 }
-  state.selectId = state.nodeId++
-  state.select = { type: 'node', selectId: state.selectId }
-  state.config.drag = true
-}
 
 // load version from server
 
@@ -65,7 +60,6 @@ const slice = createSlice({
       state.editLock = payload
     },
     align,
-    addNode: (state: stateData, { payload }: PayloadAction<dataNode>) => addNode(state, payload),
     moveNode: (state, action: PayloadAction<moveNodeType>) => (new Flow(state)).dragNode(action.payload),
     setMouseBlockDragPos: (state: stateData, { payload }: PayloadAction<clientPos>) => {
       state.mouseBlockDragPos = payload
@@ -92,6 +86,7 @@ const slice = createSlice({
       state.canvasDrag = payload
     },
     canvasMouseMove: (state, { payload: { movementX, movementY, clientX, clientY } }: PayloadAction<{ clientX: number, clientY: number, movementX: number, movementY: number }>) => {
+      state.clientCurrentMousePos = { clientX, clientY }
       if (state.canvasDrag) {
         state.config.canvasTranslate.x += movementX
         state.config.canvasTranslate.y += movementY
@@ -198,7 +193,18 @@ const slice = createSlice({
       const node = flow.getNode(id)
       node.toggleChildrenVisibility()
       align(state)
-    }
+    },
+    copyNode: (state, { payload }: PayloadAction<number>) => {
+      state.nodeToCopyId = payload
+    },
+    insertCopiedNode: (state) => {
+      if (state.nodeToCopyId === undefined) return
+      const { clientX, clientY } = state.clientCurrentMousePos as clientPos
+      const node = JSON.parse(JSON.stringify(state.drawflow[state.nodeToCopyId]))
+      node.pos = handler.getPos(clientX, clientY, state.config.zoom.value)
+      state.drawflow[state.nodeId] = { ...node, id: state.nodeId, height: 0, width: 0 }
+      ++state.nodeId
+    },
   },
 })
 

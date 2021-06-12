@@ -112,7 +112,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     }
 
     return (
-        <div
+        <div 
             ref={ref}
             className={`node-${id} drawflow-node-block-default`
                 + (selectId === id ? ' select' : '')
