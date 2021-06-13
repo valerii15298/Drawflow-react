@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import handler from '../components/drawflowHandler'
-import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType, pos } from '../types'
+import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType, pos, portType } from '../types'
 import { Flow } from './Flow'
 import type { RootState } from './store'
 
@@ -70,11 +70,11 @@ const slice = createSlice({
       state.selectId = null
       state.showButton = null
     },
-    select: (state, { payload }: PayloadAction<{ type: 'node' | 'path' | 'input' | 'output', portId?: number, selectId?: string | number }>) => {
-      const { type, selectId } = payload;
+    select: (state, { payload }: PayloadAction<{ type: 'node' | 'path' | portType, portId?: number, selectId?: string | number }>) => {
+      const { type, selectId } = payload
       state.config.drag = type === 'node'
       state.select = payload
-      state.selectId = selectId ?? null;
+      state.selectId = selectId ?? null
     },
     moveCanvas: (state, { payload: { movementX, movementY } }: PayloadAction<{ movementX: number, movementY: number }>) => {
       if (state.canvasDrag) {
@@ -91,7 +91,7 @@ const slice = createSlice({
         state.config.canvasTranslate.x += movementX
         state.config.canvasTranslate.y += movementY
         // console.log('Drag canvas')
-      } else if (state.select?.type === 'output') {
+      } else if (state.select?.type === portType.out) {
         state.newPathDirection = { clientX, clientY }
         // console.log('New path')
       } else if (state.config.drag && typeof state.selectId === 'number') {
@@ -120,14 +120,14 @@ const slice = createSlice({
       state.newPathDirection = null
       state.canvasDrag = false
       state.config.drag = false
-      if (state.select?.type === 'output') {
+      if (state.select?.type === portType.out) {
         state.select = null
       }
       flow.alignAll()
     },
     deleteNode: (state) => {
-      const { connections, drawflow, ports, selectId } = state;
-      if (!selectId || (typeof selectId !== 'number')) return;
+      const { connections, drawflow, ports, selectId, select } = state;
+      if (!selectId || (typeof selectId !== 'number') || select?.type !== 'node') return;
 
       // 1. find in connections
       Object.keys(connections).reduce((_, val) => {
@@ -153,14 +153,22 @@ const slice = createSlice({
       state.showButton = null
     },
     deletePath: (state) => {
-      const { selectId, connections } = state
-      if (typeof selectId === 'string')
+      const { selectId, connections, select } = state
+      if (typeof selectId === 'string' && select?.type === "path")
         delete connections[selectId];
     },
     load,
-    addConnection: (state, action: PayloadAction<addConnectionType>) => {
+    portMouseUp: (state, { payload: { nodeId, portId, PortType } }: PayloadAction<{ PortType: portType, nodeId: number, portId: number }>) => {
+      const { selectId, select } = state
+      if (PortType !== portType.in || typeof selectId !== "number" || !select?.portId) return
+      const endId = nodeId
+      const endPort = portId
+      const startId = selectId
+      const startPort = select.portId
+      // if connect to same node
+      if (startId === endId) return
       const flow = new Flow(state)
-      flow.addConnection(action.payload)
+      flow.addConnection({ startId, startPort, endId, endPort })
     },
     clear: () => initialState,
     pushPorts: (state: stateData, { payload }: PayloadAction<ports>) => {
@@ -194,8 +202,9 @@ const slice = createSlice({
       node.toggleChildrenVisibility()
       align(state)
     },
-    copyNode: (state, { payload }: PayloadAction<number>) => {
-      state.nodeToCopyId = payload
+    copyNode: (state) => {
+      if (state.select?.type === 'node' && typeof state.select.selectId === 'number')
+        state.nodeToCopyId = state.select.selectId
     },
     insertCopiedNode: (state) => {
       if (state.nodeToCopyId === undefined) return

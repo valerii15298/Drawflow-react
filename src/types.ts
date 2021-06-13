@@ -71,6 +71,7 @@ export interface node extends dataNode {
     subnodesVisibility?: boolean
     childrenVisibility?: boolean
     visible?: boolean
+    selected?: boolean
 }
 
 type RecursivePartial<T> = {
@@ -121,7 +122,7 @@ export interface stateData {
         [propName: string]: string
     },
     selectId: string | number | null,
-    select: { type: string, portId?: number, selectId?: string | number } | null,
+    select: { type: portType | 'node' | 'path', portId?: number, selectId?: string | number } | null,
     selectPath: string | null,
     showButton: number | null,
     editLock: boolean,
