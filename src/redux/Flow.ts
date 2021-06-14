@@ -77,7 +77,7 @@ export class Flow {
                 const key = `${startId}_${startPort}_${endId}_${endPort}`;
                 this.state.connections[key] = true
                 const { flowLineNodes } = flowLine as { flowLineNodes: Node[] }
-                flowLineNodes.forEach(node => node.toggleVisibility())
+                flowLineNodes.forEach(node => node.toggleVisibility(false))
                 return
             } else {
                 nextNode = nodeOut.subnodes[0]
@@ -110,7 +110,7 @@ export class Flow {
 
         /**
          * Attachment
-         * 
+         *
          * traverse all other nodes except this one,
          * check if their ports are free for new conn, check distance
          */

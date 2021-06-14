@@ -57,10 +57,7 @@ export const Drawflow = () => {
           dispatch(actions.insertCopiedNode());
         }
       }}
-      id="drawflow"
-      className="parent-drawflow"
       onMouseDown={(e) => {
-        // if (!e.currentTarget.classList.contains("parent-drawflow")) return;
         dispatch(actions.canvasDrag(true));
         dispatch(actions.unSelect());
       }}

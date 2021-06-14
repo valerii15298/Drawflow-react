@@ -23,19 +23,9 @@ const DrawflowAdditionalArea = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <Div className="drawflow-additional">
-      {!editLock && (
-        <Button
-          className="drawflow-additional-button"
-          onClick={() => console.log("clear")}
-        >
-          Clear
-        </Button>
-      )}
-      <Button
-        className="drawflow-additional-button"
-        onClick={() => dispatch(actions.setEditLock(!editLock))}
-      >
+    <Div>
+      {!editLock && <Button>Clear</Button>}
+      <Button onClick={() => dispatch(actions.setEditLock(!editLock))}>
         {editLock ? "UnLock" : "Lock"}
       </Button>
     </Div>

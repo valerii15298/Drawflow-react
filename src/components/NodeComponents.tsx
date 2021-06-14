@@ -2,8 +2,6 @@
 // import { Grabme, More } from "../svg"
 
 import styled from "styled-components";
-import { actions } from "../redux/drawflowSlice";
-import { useAppDispatch } from "../redux/hooks";
 
 const StyledNode = styled.div`
   max-height: 100%;
@@ -11,11 +9,7 @@ const StyledNode = styled.div`
 `;
 
 export const Round = (props: any) => {
-  return (
-    <StyledNode className="node-block">
-      {JSON.stringify(props, null, 2)}
-    </StyledNode>
-  );
+  return <StyledNode>{JSON.stringify(props, null, 2)}</StyledNode>;
 
   // const { imgSrc, name, description } = props;
   // return (

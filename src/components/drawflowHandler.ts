@@ -1,4 +1,4 @@
-import { CURV, stateData } from "../types";
+import { stateData } from "../types";
 
 import { pos } from "../types";
 
@@ -14,8 +14,7 @@ const createCurvature = (start: pos, end: pos) => {
 }
 
 const getCanvasInfo = () => {
-  // TODO : replace querySelector to someting
-  const canvas = (document.querySelector("#drawflow") as HTMLElement).querySelector(".drawflow") as HTMLElement;
+  const canvas = document.querySelector(".drawflow") as HTMLElement;
   const canvasRect = canvas.getBoundingClientRect();
   return {
     x: canvasRect.x,

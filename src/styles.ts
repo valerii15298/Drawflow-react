@@ -3,3 +3,6 @@ export const subnodeStyle = {
     height: 60,
 }
 
+export const nodeStyle = {
+    width: 200,
+}

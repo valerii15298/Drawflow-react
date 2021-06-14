@@ -17,7 +17,10 @@ const initialState: flowType = {
 }
 
 export const fetchNodeTemplates = createAsyncThunk('fetchPosts', async () => {
-  return await mock.getFilters(5)
+  const data = await mock.getFilters(5)
+  console.log(data)
+
+  return data
 })
 
 export const fetchFlowVersion = createAsyncThunk('fetchFlowVersion', async () => {
@@ -41,7 +44,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.selectId = state.nodeId++
       state.select = { type: 'node', selectId: state.selectId }
       state.config.drag = true
-      
+
       appState.dragTemplate = undefined
     })
     .addCase(dragTemplate, (appState, { payload }) => {

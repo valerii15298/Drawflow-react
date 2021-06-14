@@ -143,17 +143,15 @@ export default class Node {
         return allSuccessors
     }
 
-    toggleVisibility() {
-        const visible = this.nodeState.visible ?? true
-        // console.log({ visible })
+    toggleVisibility(visible: boolean) {
         // set self visibility
-        this.update({ visible: !visible })
+        this.update({ visible })
 
-        this.parentConnection && (this.state.connections[this.parentConnection] = !visible)
+        this.parentConnection && (this.state.connections[this.parentConnection] = visible)
 
         // set conns visibility to false
         this.outConnections.forEach(connKey => {
-            this.state.connections[connKey] = !visible
+            this.state.connections[connKey] = visible
         })
     }
 
@@ -162,7 +160,7 @@ export default class Node {
         this.update({ childrenVisibility: !visibility })
         const { subnodes, allSuccessors } = this
         allSuccessors.forEach(node => {
-            if (!subnodes.includes(node)) { node.toggleVisibility() }
+            if (!subnodes.includes(node)) { node.toggleVisibility(!visibility) }
         })
     }
 
@@ -170,7 +168,7 @@ export default class Node {
         const visibility = this.nodeState.subnodesVisibility ?? true
         this.update({ subnodesVisibility: !visibility })
         this.subnodes.forEach(node => {
-            node.toggleVisibility()
+            node.toggleVisibility(!visibility)
         })
     }
 

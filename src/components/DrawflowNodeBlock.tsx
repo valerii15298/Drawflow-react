@@ -1,43 +1,13 @@
-import { useEffect, useMemo, useRef } from "react";
-import { port, portType, stateData } from "../types";
+import { useEffect, useRef } from "react";
+import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
+import styled, { css } from "styled-components";
 import { Round } from "./NodeComponents";
 import { subnodeStyle } from "../styles";
-import styled, { css } from "styled-components";
-import { createDraftSafeSelector } from "@reduxjs/toolkit";
-
-const Indicator = styled.div`
-  width: 15px;
-  height: 15px;
-  border-radius: 60px;
-  background-color: #217ce8;
-  opacity: 1;
-  transform: scale(1);
-  transition: all 0.3s cubic-bezier(0.05, 0.03, 0.35, 1);
-  ${({ theme }) =>
-    theme.visible ||
-    css`
-      opacity: 0;
-      transform: scale(0);
-    `}
-`;
-
-const selectPortToConnect = createDraftSafeSelector(
-  selectActiveDrawflow,
-  ({ portToConnect }) => portToConnect
-);
-
-const selectIsSub = (id: number) =>
-  createDraftSafeSelector(
-    selectActiveDrawflow,
-    ({
-      drawflow: {
-        [id]: { isSub },
-      },
-    }) => isSub
-  );
+import { Ports } from "./Ports";
 
 const isSelected = (id: number) =>
   createDraftSafeSelector(
@@ -45,94 +15,12 @@ const isSelected = (id: number) =>
     ({ selectId }) => id === selectId
   );
 
-const portStyle = styled.div`
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  background-color: red;
-  position: absolute;
-`;
-
-const Output1 = styled(portStyle)`
-  left: 50%;
-  top: 100%;
-  transform: translate(-50%, -50%);
-  ${({ theme }) =>
-    theme.isSub &&
-    css`
-      left: 100%;
-      top: 50%;
-    `}
-`;
-const Output2 = styled(portStyle)`
-  left: 100%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  ${({ theme }) =>
-    theme.isSub &&
-    css`
-      display: none;
-    `}
-`;
-
-const Input1 = styled(portStyle)`
-  left: 50%;
-  top: 0;
-  transform: translate(-50%, -50%);
-
-  ${({ theme }) =>
-    theme.isSub &&
-    css`
-      left: 0;
-      top: 50%;
-    `}
-`;
-const styledPorts = {
-  [portType.in]: [Input1],
-  [portType.out]: [Output1, Output2],
-};
-
-const Ports = (props: { type: portType; id: number; port: port }) => {
-  const { id, port, type } = props;
-  const dispatch = useAppDispatch();
-  const portToConnect = useAppSelector(selectPortToConnect);
-  const isSub = useAppSelector(selectIsSub(id));
-  let arr = [];
-
-  for (let i = 1; i <= port[type]; i++) {
-    const key = `${type}put-${i}`;
-    const portKey = `${id}_${type}_${i}`;
-    const StyledPort = styledPorts[type][i - 1];
-    const port = (
-      <StyledPort
-        theme={{ isSub }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          dispatch(
-            actions.select({
-              type,
-              portId: i,
-              selectId: id,
-            })
-          );
-        }}
-        key={key}
-        onMouseUp={(e) => {
-          dispatch(
-            actions.portMouseUp({ nodeId: id, portId: i, PortType: type })
-          );
-        }}
-      >
-        <Indicator theme={{ visible: portToConnect === portKey && " " }} />
-      </StyledPort>
-    );
-    arr.push(port);
-  }
-
-  return <div className={`${type}puts`}>{arr}</div>;
-};
-
-const BlockStyled = styled.div`
+const BlockStyled = styled.div<{
+  isSub: boolean;
+  x: number;
+  y: number;
+  selected: boolean;
+}>`
   display: inline-block;
   position: absolute;
   padding: 5px;
@@ -140,12 +28,22 @@ const BlockStyled = styled.div`
   min-height: 60px;
   background-color: #d3d3d3;
   z-index: 1;
-  ${({ theme }) =>
-    theme.selected &&
+  cursor: move;
+  top: ${({ y }) => y}px;
+  left: ${({ x }) => x}px;
+
+  ${({ isSub }) =>
+    isSub &&
+    css`
+      height: ${subnodeStyle.height}px;
+      width: ${subnodeStyle.width}px;
+    `}
+  ${({ selected }) =>
+    selected &&
     css`
       box-shadow: 0 2px 15px 2px #cacaca;
       z-index: 2;
-    `}
+    `};
 `;
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
@@ -221,20 +119,13 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let style = {
-    top: pos.y + "px",
-    left: pos.x + "px",
-    cursor: "move",
-  };
-  if (node.isSub) {
-    style = { ...style, ...subnodeStyle };
-  }
-
   return (
     <BlockStyled
-      theme={{ selected }}
+      selected={selected}
       ref={ref}
-      style={style}
+      x={pos.x}
+      y={pos.y}
+      isSub={node.isSub}
       onMouseDown={(e) => {
         e.stopPropagation();
         const { clientX, clientY } = e;
@@ -271,13 +162,18 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       )}
       <Ports id={id} port={port} type={portType.in} />
       <Ports id={id} port={port} type={portType.out} />
-      {/* <button
-            style={{
-                display: showButton === id ? "block" : "none"
-            }}
-            className="drawflow-delete"
-            onMouseDown={(e) => { e.stopPropagation(); event.deleteNode() }}
-        >X</button> */}
+      <button
+        style={
+          {
+            // display: showButton === id ? "block" : "none"
+          }
+        }
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        X
+      </button>
     </BlockStyled>
   );
 };
