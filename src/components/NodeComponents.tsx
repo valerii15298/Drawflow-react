@@ -11,11 +11,9 @@ const StyledNode = styled.div`
 `;
 
 export const Round = (props: any) => {
-  const dispatch = useAppDispatch();
   return (
     <StyledNode className="node-block">
       {JSON.stringify(props, null, 2)}
-      
     </StyledNode>
   );
 
