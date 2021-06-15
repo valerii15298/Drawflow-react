@@ -1,6 +1,6 @@
-import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
+import { actions } from "../redux/drawflowSlice";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { addNewNode, fetchFlowVersion } from "../redux/store";
 import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
 import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
@@ -9,6 +9,7 @@ import { NewPath } from "./NewPath";
 import { NodeList } from "./NodeList";
 import { ConnectionList } from "./ConnectionList";
 import styled from "styled-components";
+import { useActiveFlow } from "../redux/selectors";
 
 const ParentDrawflow = styled.div`
   position: relative;
@@ -27,20 +28,25 @@ const InnerDrawflow = styled.div`
 `;
 
 export const Drawflow = () => {
+  console.log(`Render Drawflow`);
+  // return null;
+
   const {
     config: {
-      canvasTranslate: { x, y },
+      // canvasTranslate: { x, y },
       zoom,
     },
     newPathDirection,
-  } = useAppSelector(selectActiveDrawflow);
-  // console.log(`Render Drawflow`)
+    canvasDrag,
+  } = useActiveFlow();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchFlowVersion());
   }, [dispatch]);
+
+  const flowRef = useRef<HTMLDivElement>(null);
 
   return (
     <ParentDrawflow
@@ -64,6 +70,18 @@ export const Drawflow = () => {
       onMouseUp={() => dispatch(actions.canvasMouseUp())}
       onMouseMove={(e) => {
         const { clientX, clientY, movementX, movementY } = e;
+        const { current: flowDiv } = flowRef;
+        if (canvasDrag && flowDiv) {
+          // console.log(flowDiv.style.transform);
+          const [x, y] = getComputedStyle(flowDiv)
+            .transform.match(/^matrix\((.+)\)$/)?.[1]
+            .split(",")
+            .slice(-2)
+            .map(Number) || [0, 0];
+          flowDiv.style.transform = `translate(${x + movementX}px, ${
+            y + movementY
+          }px) scale(${zoom.value})`;
+        }
         dispatch(
           actions.canvasMouseMove({ clientX, clientY, movementX, movementY })
         );
@@ -76,10 +94,13 @@ export const Drawflow = () => {
       <DrawflowAdditionalArea />
       <DrawflowZoomArea />
       <InnerDrawflow
+        ref={flowRef}
         className="drawflow"
-        style={{
-          transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
-        }}
+        style={
+          {
+            // transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
+          }
+        }
       >
         <NodeList />
         <ConnectionList />

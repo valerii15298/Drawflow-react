@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppSelector } from "../redux/hooks";
 import Connection from "./Connection";

@@ -16,8 +16,8 @@ export enum MODAL_TYPE {
 }
 
 export enum portType {
-    in='in',
-    out='out'
+    in = 'in',
+    out = 'out'
 }
 
 export type pos = {
@@ -60,6 +60,7 @@ export type dataNode = {
     isSub: boolean
 }
 
+
 export interface node extends dataNode {
     id: number
     height: number
@@ -73,6 +74,11 @@ export interface node extends dataNode {
     visible?: boolean
     selected?: boolean
 }
+
+export interface pureNode extends Omit<node, 'pos'> {
+    pos: undefined
+}
+
 
 type RecursivePartial<T> = {
     [P in keyof T]?:

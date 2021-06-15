@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { portType } from "../types";
+import { useEffect, useMemo, useRef } from "react";
+import { node, portType, pureNode } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
@@ -8,6 +8,7 @@ import styled, { css } from "styled-components";
 import { Round } from "./NodeComponents";
 import { subnodeStyle } from "../styles";
 import { Ports } from "./Ports";
+import { useSelector } from "react-redux";
 
 const isSelected = (id: number) =>
   createDraftSafeSelector(
@@ -17,8 +18,6 @@ const isSelected = (id: number) =>
 
 const BlockStyled = styled.div<{
   isSub: boolean;
-  x: number;
-  y: number;
   selected: boolean;
 }>`
   display: inline-block;
@@ -29,8 +28,6 @@ const BlockStyled = styled.div<{
   background-color: #d3d3d3;
   z-index: 1;
   cursor: move;
-  top: ${({ y }) => y}px;
-  left: ${({ x }) => x}px;
 
   ${({ isSub }) =>
     isSub &&
@@ -46,19 +43,46 @@ const BlockStyled = styled.div<{
     `};
 `;
 
+const selectNode = (id: number) => {
+  let obj: pureNode | {} = {};
+  return createDraftSafeSelector(selectActiveDrawflow, (state): pureNode => {
+    const tmp: pureNode = { ...state.drawflow[id], pos: undefined };
+    for (const key in tmp) {
+      if (key !== "pos") {
+        //@ts-ignore
+        if (JSON.stringify(tmp[key]) !== JSON.stringify(obj[key])) {
+          // console.log({ obj, tmp });
+          obj = {};
+          Object.assign(obj, tmp);
+          // obj = { ...tmp };
+          return obj as pureNode;
+        }
+      }
+    }
+    return obj as pureNode;
+  });
+};
+
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-  // console.log(`Render node id: ${id}`)
+  // console.log(`Render node id: ${id}`);
+  // return null;
   const {
     nodeId,
     config: { drag },
-    drawflow: { [id]: node },
+    drawflow: {
+      [id]: { pos },
+    },
   } = useAppSelector(selectActiveDrawflow);
 
-  const selected = useAppSelector(isSelected(id));
+  const selectIsSelected = useMemo(() => isSelected(id), [id]);
+  const selected = useAppSelector(selectIsSelected);
   const dispatch = useAppDispatch();
-  const { port, pos } = node;
 
   const ref = useRef<HTMLDivElement>(null);
+
+  const select_node = useMemo(() => selectNode(id), [id]);
+  const node = useSelector(select_node);
+  const { port } = node;
 
   useEffect(() => {
     if (ref.current) {
@@ -66,14 +90,16 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       dispatch(
         actions.nodeSize({ height: offsetHeight, width: offsetWidth, id })
       );
+      dispatch(actions.align());
+      // console.log("align node");
     }
   }, [dispatch, id, node]);
 
   useEffect(() => {
     const getPortPos = (type: portType, i: number, elmt: Element) => {
       const key = `${id}_${type}_${i}`;
-      const x = parseInt(getComputedStyle(elmt).left) + node.pos.x;
-      const y = parseInt(getComputedStyle(elmt).top) + node.pos.y;
+      const x = parseInt(getComputedStyle(elmt).left) + pos.x;
+      const y = parseInt(getComputedStyle(elmt).top) + pos.y;
 
       return {
         [key]: { x, y },
@@ -102,7 +128,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       );
       dispatch(actions.pushPorts(newPorts));
     }
-  }, [dispatch, id, node.pos.x, node.pos.y]);
+  }, [dispatch, id, pos.x, pos.y]);
 
   useEffect(() => {
     // when add new node shift it to left and up
@@ -123,8 +149,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     <BlockStyled
       selected={selected}
       ref={ref}
-      x={pos.x}
-      y={pos.y}
+      style={{ left: pos.x, top: pos.y }}
       isSub={node.isSub}
       onMouseDown={(e) => {
         e.stopPropagation();
@@ -139,7 +164,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         // show node settings
       }}
     >
-      <Round {...node} />
+      <Round {...node} {...pos} />
 
       {!node.isSub && (
         <>
@@ -152,7 +177,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
           </div>
           <div
             onClick={() => {
-              console.log(22);
               dispatch(actions.toggleChildren({ id }));
             }}
           >

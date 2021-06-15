@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import handler from '../components/drawflowHandler'
-import { dataNode, ports, Slices, stateData, clientPos, addConnectionType, loadType, moveNodeType, pos, portType } from '../types'
+import { ports, Slices, stateData, clientPos, loadType, moveNodeType, portType } from '../types'
 import { Flow } from './Flow'
 import type { RootState } from './store'
 
@@ -87,6 +87,7 @@ const slice = createSlice({
     },
     canvasMouseMove: (state, { payload: { movementX, movementY, clientX, clientY } }: PayloadAction<{ clientX: number, clientY: number, movementX: number, movementY: number }>) => {
       state.clientCurrentMousePos = { clientX, clientY }
+      // return undefined
       if (state.canvasDrag) {
         state.config.canvasTranslate.x += movementX
         state.config.canvasTranslate.y += movementY

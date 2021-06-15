@@ -1,17 +1,12 @@
-import { createDraftSafeSelector } from "@reduxjs/toolkit";
-import { selectActiveDrawflow } from "../redux/drawflowSlice";
-import { useAppSelector } from "../redux/hooks";
+import { useNodeIds } from "../redux/selectors";
 import DrawflowNodeBlock from "./DrawflowNodeBlock";
 
-const selectNodeIds = createDraftSafeSelector(selectActiveDrawflow, (s) =>
-  Object.entries(s.drawflow)
-    .filter(([id, { visible }]) => visible !== false)
-    .map(([id]) => Number(id))
-);
-
 export const NodeList = () => {
-  const drawflow = useAppSelector(selectNodeIds);
-  // console.log(`Render NodeList`)
+  console.log(`Render NodeList`);
+
+  const drawflow = useNodeIds();
+
+  // return null;
 
   return (
     <>

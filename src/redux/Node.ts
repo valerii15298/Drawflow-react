@@ -1,5 +1,4 @@
 import lodash from "lodash"
-import { subnodeStyle } from "../styles"
 import { node, port, pos, stateData, updateNode } from "../types"
 import { Flow } from "./Flow"
 
@@ -88,7 +87,7 @@ export default class Node {
 
             xPos = this.pos.x + this.width + this.spacingX
             subnodes.forEach(subNode => {
-                subNode.update({ isSub: true, port: { out: 1 }, ...subnodeStyle })
+                subNode.update({ isSub: true, port: { out: 1 } })
                 subNode.setPos({ x: xPos, y: this.pos.y + (this.height / 2 - subNode.height / 2) })
                 delete this.state.ports[`${subNode.id}_out_2`]
                 xPos += subNode.width + this.spacingX

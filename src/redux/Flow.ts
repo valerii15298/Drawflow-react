@@ -29,6 +29,7 @@ export class Flow {
             // node.calculateFullWidth()
             node.alignChildren()
         })
+        // console.log('Align all')
     }
 
     allowConnection(conn: addConnectionType) {

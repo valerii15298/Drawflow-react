@@ -18,7 +18,7 @@ const initialState: flowType = {
 
 export const fetchNodeTemplates = createAsyncThunk('fetchPosts', async () => {
   const data = await mock.getFilters(5)
-  console.log(data)
+  // console.log(data)
 
   return data
 })
