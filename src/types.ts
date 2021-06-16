@@ -137,7 +137,6 @@ export interface stateData {
     nodeToCopyId?: number
     clientCurrentMousePos?: clientPos
     computing?: number
-    nextComputing?: boolean
 }
 
 export interface flowType {

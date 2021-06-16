@@ -1,14 +1,12 @@
-import { useEffect, useMemo, useRef } from "react";
-import { node, portType, pureNode } from "../types";
+import { useEffect, useRef } from "react";
+import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import styled, { css } from "styled-components";
 import { Round } from "./NodeComponents";
 import { subnodeStyle } from "../styles";
 import { Ports } from "./Ports";
-import { useSelector } from "react-redux";
 import {
   useDrag,
   useNode,
@@ -44,7 +42,7 @@ const BlockStyled = styled.div<{
 `;
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-  console.log(`Render node id: ${id}`);
+  // console.log(`Render node id: ${id}`);
   // return null;
 
   const drag = useDrag();

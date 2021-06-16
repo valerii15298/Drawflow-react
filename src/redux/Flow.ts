@@ -117,8 +117,7 @@ export class Flow {
          * this action not often then 1 time per 200 milliseconds
          */
         const now = Date.now()
-        if (this.state.computing && (now - this.state.computing) < 50) {
-            this.state.nextComputing = true
+        if (this.state.computing && (now - this.state.computing) < 100) {
             return
         }
         this.state.computing = now
@@ -166,10 +165,6 @@ export class Flow {
             }
         } else {
             this.state.portToConnect = undefined
-        }
-        if (this.state.nextComputing === true) {
-            this.state.nextComputing = false;
-            this.toggleAvailablePortToConnect(nodeId)
         }
     }
 

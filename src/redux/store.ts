@@ -1,9 +1,10 @@
 import { configureStore, createAction, createAsyncThunk, createReducer, PayloadAction } from '@reduxjs/toolkit'
-import { clientPos, flowType, Slices } from '../types'
+import { clientPos, flowType, Slices, stateData } from '../types'
 import { drawflowSlice } from './drawflowSlice'
 import mock, { testNode } from '../Mock'
 import { initialState as drawflowInitialState } from './drawflowSlice'
 import handler from '../components/drawflowHandler'
+import { Flow } from './Flow'
 
 export const changeVersion = createAction<number>('versions/changed')
 export const addNewNode = createAction<clientPos>('addNewNode')

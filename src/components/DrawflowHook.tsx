@@ -48,6 +48,19 @@ export const Drawflow = () => {
 
   const flowRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const { current: flowDiv } = flowRef;
+    if (flowDiv) {
+      // console.log(flowDiv.style.transform);
+      const [x, y] = getComputedStyle(flowDiv)
+        .transform.match(/^matrix\((.+)\)$/)?.[1]
+        .split(",")
+        .slice(-2)
+        .map(Number) || [0, 0];
+      flowDiv.style.transform = `translate(${x}px, ${y}px) scale(${zoom.value})`;
+    }
+  }, [canvasDrag, zoom.value]);
+
   return (
     <ParentDrawflow
       tabIndex={0}
