@@ -1,9 +1,9 @@
 import { actions } from "../redux/drawflowSlice";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { useEffect, useRef } from "react";
 import { addNewNode, fetchFlowVersion } from "../redux/store";
-import DrawflowAdditionalArea from "./ButtonArea/DrawflowAdditionalArea";
-import DrawflowZoomArea from "./ButtonArea/DrawflowZoomArea";
+import DrawflowAdditionalArea from "./DrawflowAdditionalArea";
+import DrawflowZoomArea from "./DrawflowZoomArea";
 import { NewPath } from "./NewPath";
 
 import { NodeList } from "./NodeList";

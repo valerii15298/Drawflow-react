@@ -9,12 +9,12 @@ import { Round } from "./NodeComponents";
 import { subnodeStyle } from "../styles";
 import { Ports } from "./Ports";
 import { useSelector } from "react-redux";
-
-const isSelected = (id: number) =>
-  createDraftSafeSelector(
-    selectActiveDrawflow,
-    ({ selectId }) => id === selectId
-  );
+import {
+  useDrag,
+  useNode,
+  useNodeIsSelected,
+  useNodePos,
+} from "../redux/selectors";
 
 const BlockStyled = styled.div<{
   isSub: boolean;
@@ -43,45 +43,21 @@ const BlockStyled = styled.div<{
     `};
 `;
 
-const selectNode = (id: number) => {
-  let obj: pureNode | {} = {};
-  return createDraftSafeSelector(selectActiveDrawflow, (state): pureNode => {
-    const tmp: pureNode = { ...state.drawflow[id], pos: undefined };
-    for (const key in tmp) {
-      if (key !== "pos") {
-        //@ts-ignore
-        if (JSON.stringify(tmp[key]) !== JSON.stringify(obj[key])) {
-          // console.log({ obj, tmp });
-          obj = {};
-          Object.assign(obj, tmp);
-          // obj = { ...tmp };
-          return obj as pureNode;
-        }
-      }
-    }
-    return obj as pureNode;
-  });
-};
-
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
-  // console.log(`Render node id: ${id}`);
+  console.log(`Render node id: ${id}`);
   // return null;
-  const {
-    nodeId,
-    config: { drag },
-    drawflow: {
-      [id]: { pos },
-    },
-  } = useAppSelector(selectActiveDrawflow);
 
-  const selectIsSelected = useMemo(() => isSelected(id), [id]);
-  const selected = useAppSelector(selectIsSelected);
+  const drag = useDrag();
+  const nodeId = useAppSelector((s) => selectActiveDrawflow(s).nodeId);
+
+  const pos = useNodePos(id);
+
+  const selected = useNodeIsSelected(id);
   const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const select_node = useMemo(() => selectNode(id), [id]);
-  const node = useSelector(select_node);
+  const node = useNode(id);
   const { port } = node;
 
   useEffect(() => {
@@ -128,7 +104,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       );
       dispatch(actions.pushPorts(newPorts));
     }
-  }, [dispatch, id, pos.x, pos.y]);
+  }, [dispatch, id, pos]);
 
   useEffect(() => {
     // when add new node shift it to left and up

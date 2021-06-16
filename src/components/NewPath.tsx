@@ -1,6 +1,6 @@
 import { selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppSelector } from "../redux/hooks";
-import Connection from "./Connection";
+import { CirclePortComponent } from "./Circle";
 import handler from "./drawflowHandler";
 
 export const NewPath = () => {
@@ -30,5 +30,5 @@ export const NewPath = () => {
   const end = handler.getPos(clientX, clientY, zoom);
   const d = handler.createCurvature(start, end);
 
-  return <Connection.Path d={d} />;
+  return <CirclePortComponent d={d} />;
 };

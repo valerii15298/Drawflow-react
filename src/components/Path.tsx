@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
 
 const Svg = styled.svg`
   position: absolute;
@@ -23,10 +23,9 @@ type Props = {
   d: string;
 };
 
-const Path = (props: Props) => {
+export const Path = (props: Props) => {
   const { svgKey, d } = props;
-  const state = useAppSelector(selectActiveDrawflow);
-  const { selectId } = state;
+  const selectId = useAppSelector((s) => selectActiveDrawflow(s).selectId);
   const dispatch = useAppDispatch();
 
   return (
@@ -44,5 +43,3 @@ const Path = (props: Props) => {
     </Svg>
   );
 };
-
-export default Path;

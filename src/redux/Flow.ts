@@ -108,6 +108,20 @@ export class Flow {
 
     dragNode({ dx, dy, nodeId }: moveNodeType) {
         this.moveNode({ dx, dy, nodeId })
+        this.toggleAvailablePortToConnect(nodeId)
+    }
+
+    toggleAvailablePortToConnect(nodeId: number) {
+        /**
+         * Because of long computatuon we executing
+         * this action not often then 1 time per 200 milliseconds
+         */
+        const now = Date.now()
+        if (this.state.computing && (now - this.state.computing) < 50) {
+            this.state.nextComputing = true
+            return
+        }
+        this.state.computing = now
 
         /**
          * Attachment
@@ -115,6 +129,8 @@ export class Flow {
          * traverse all other nodes except this one,
          * check if their ports are free for new conn, check distance
          */
+
+        if (!this.state.config.drag) return
 
         const currentNode = this.getNode(nodeId)
         const currentNodeHead = currentNode.head
@@ -127,28 +143,20 @@ export class Flow {
         if (!nodeInPortPos) return
         const portDistances: Array<{ key: string, distance: number }> = []
         Object.entries(this.nodes)
-            .filter(([_, node]) => node.head !== currentNodeHead)
+            .filter(([_, node]) => node.head !== currentNodeHead && (node.nodeState.visible !== false))
             .forEach(([id, node]) => {
                 if (Number(id) === nodeId) return
                 node.outPorts.forEach(([key, pos]) => {
                     const distance = Math.hypot(nodeInPortPos.x - pos.x, nodeInPortPos.y - pos.y)
-                    portDistances.push({ key, distance })
+                    if (distance < this.distanceToConnect) {
+                        portDistances.push({ key, distance })
+                    }
                 })
             });
         portDistances.sort((a, b) => (a.distance - b.distance))
 
         if (portDistances.length) {
             let nearestPort = portDistances.shift() as { key: string; distance: number; }
-            // check if conn is allowed, or change filter before
-            // let [endId, , endPort] = nearestPort.key.split('_').map(Number)
-            // let allow = this.allowConnection({ startId: nodeId, startPort: 1, endId, endPort })
-            // while (!allow && portDistances.length) {
-            //     // console.log(nearestPort)
-            //     nearestPort = portDistances.shift() as { key: string; distance: number; }
-            //     [endId, , endPort] = nearestPort.key.split('_').map(Number)
-            //     // console.log({ startId: nodeId, startPort: 1, endId, endPort })
-            //     allow = this.allowConnection({ startId: nodeId, startPort: 1, endId, endPort })
-            // }
             if (true) {
                 if (nearestPort.distance < this.distanceToConnect) {
                     this.state.portToConnect = nearestPort.key
@@ -156,6 +164,12 @@ export class Flow {
                     this.state.portToConnect = undefined
                 }
             }
+        } else {
+            this.state.portToConnect = undefined
+        }
+        if (this.state.nextComputing === true) {
+            this.state.nextComputing = false;
+            this.toggleAvailablePortToConnect(nodeId)
         }
     }
 

@@ -1,7 +1,7 @@
-import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import styled, { css } from "styled-components";
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useNodeIsSub } from "../redux/selectors";
 import { portType, port } from "../types";
 
 const Indicator = styled.div<{ visible: boolean }>`
@@ -61,26 +61,13 @@ const styledPorts = {
   [portType.out]: [Output1, Output2],
 };
 
-const selectPortToConnect = createDraftSafeSelector(
-  selectActiveDrawflow,
-  ({ portToConnect }) => portToConnect
-);
-
-const selectIsSub = (id: number) =>
-  createDraftSafeSelector(
-    selectActiveDrawflow,
-    ({
-      drawflow: {
-        [id]: { isSub },
-      },
-    }) => isSub
-  );
-
 export const Ports = (props: { type: portType; id: number; port: port }) => {
   const { id, port, type } = props;
   const dispatch = useAppDispatch();
-  const portToConnect = useAppSelector(selectPortToConnect);
-  const isSub = useAppSelector(selectIsSub(id));
+  const portToConnect = useAppSelector(
+    (s) => selectActiveDrawflow(s).portToConnect
+  );
+  const isSub = useNodeIsSub(id);
   let arr = [];
 
   for (let i = 1; i <= port[type]; i++) {

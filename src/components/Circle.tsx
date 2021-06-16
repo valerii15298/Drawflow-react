@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 
-const CircleComponent = (props: any) => {
+export const CirclePortComponent = (props: any) => {
   const { property, svgKey, i, editLock } = props;
 
   const onMouseDown = (e: MouseEvent) => {
@@ -13,5 +13,3 @@ const CircleComponent = (props: any) => {
 
   return <circle {...property} r={6} onMouseDown={onMouseDown} />;
 };
-
-export default CircleComponent;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 const Div = styled.div`
   position: absolute;

@@ -136,6 +136,8 @@ export interface stateData {
     portToConnect?: string | undefined
     nodeToCopyId?: number
     clientCurrentMousePos?: clientPos
+    computing?: number
+    nextComputing?: boolean
 }
 
 export interface flowType {

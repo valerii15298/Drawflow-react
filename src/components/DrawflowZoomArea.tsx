@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { actions } from "../../redux/drawflowSlice";
-import { useAppDispatch } from "../../redux/hooks";
+import { actions } from "../redux/drawflowSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 const ZoomArea = styled.div`
   position: absolute;
