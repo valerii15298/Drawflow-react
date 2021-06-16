@@ -85,7 +85,6 @@ export const Drawflow = () => {
         const { clientX, clientY, movementX, movementY } = e;
         const { current: flowDiv } = flowRef;
         if (canvasDrag && flowDiv) {
-          // console.log(flowDiv.style.transform);
           const [x, y] = getComputedStyle(flowDiv)
             .transform.match(/^matrix\((.+)\)$/)?.[1]
             .split(",")
