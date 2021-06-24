@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { selectActiveDrawflow } from "./drawflowSlice";
 import { useAppSelector } from "./hooks";
 import { RootState } from "./store";
-import { pureNode } from "../types";
+import { portType, pureNode, purePort } from "../types";
+import handler from "../tools";
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -80,11 +81,46 @@ export const useNodeIsSelected = (id: number) =>
       () =>
         createDeepEqualSelector(
           (s: RootState) => {
-            return selectActiveDrawflow(s).selectId === id;
+            const select = selectActiveDrawflow(s).select;
+            return select?.selectId === id && select.type === "node";
           },
           (s) => s
         ),
       [id]
+    )
+  );
+
+export const usePathIsSelected = (id: number | undefined) =>
+  useAppSelector(
+    useMemo(
+      () =>
+        createDeepEqualSelector(
+          (s: RootState) => {
+            if (id === undefined) return false;
+            const select = selectActiveDrawflow(s).select;
+            return select?.type === "path" && select.selectId === id;
+          },
+          (s) => s
+        ),
+      [id]
+    )
+  );
+
+export const usePortIsActive = (port: purePort) =>
+  useAppSelector(
+    useMemo(
+      () =>
+        createDeepEqualSelector(
+          (s: RootState) => {
+            const { portToConnect } = selectActiveDrawflow(s);
+            if (portToConnect === undefined) return false;
+            const port2 = JSON.parse(JSON.stringify(portToConnect));
+            delete port2.pos;
+            return lodash.isEqual(port, port2);
+          },
+          (s) => s
+        ),
+      [port]
     )
   );
 
@@ -134,17 +170,44 @@ export const useDrag = () =>
     )
   );
 
-export const usePortPos = (id: string) =>
+export const usePortPos = ({
+  nodeId,
+  portId,
+  type,
+}: {
+  nodeId: number;
+  portId: number;
+  type: portType;
+}) =>
   useAppSelector(
     useMemo(
       () =>
         createDeepEqualSelector(
           (s: RootState) => {
-            return selectActiveDrawflow(s).ports[id];
+            return selectActiveDrawflow(s).ports.find(
+              (port) =>
+                port.nodeId === nodeId &&
+                port.portId === portId &&
+                port.type === type
+            )?.pos;
           },
           (s) => s
         ),
-      [id]
+      [nodeId, portId, type]
+    )
+  );
+
+export const useConnection = (index: number) =>
+  useAppSelector(
+    useMemo(
+      () =>
+        createDeepEqualSelector(
+          (s: RootState) => {
+            return selectActiveDrawflow(s).connections[index];
+          },
+          (s) => s
+        ),
+      [index]
     )
   );
 
@@ -156,7 +219,103 @@ export const useConnectionIds = () =>
           (s: RootState) => {
             const { connections } = selectActiveDrawflow(s);
 
-            return Object.entries(connections).filter(([, conn]) => conn);
+            return connections.reduce((acc: Array<number>, conn, index) => {
+              if (conn.visible) {
+                acc.push(index);
+              }
+              return acc;
+            }, []);
+          },
+          (s) => s
+        ),
+      []
+    )
+  );
+
+// export const usePortSelected = () =>
+//   useAppSelector(
+//     useMemo(
+//       () =>
+//         createDeepEqualSelector(
+//           (s: RootState) => {
+//             const state = selectActiveDrawflow(s);
+//             if (!state.select || state.select.type !== portType.out) return;
+//             return state.ports[state.select.selectId];
+//           },
+//           (s) => s
+//         ),
+//       []
+//     )
+//   );
+
+export const useConnectionCurvature = (index: number) =>
+  useAppSelector(
+    useMemo(
+      () =>
+        createDeepEqualSelector(
+          (s: RootState) => {
+            const state = selectActiveDrawflow(s);
+            const { startId, startPort, endId, endPort } =
+              state.connections[index];
+            const startPos = state.ports.find(
+              (port) =>
+                port.nodeId === startId &&
+                port.portId === startPort &&
+                port.type === portType.out
+            )?.pos;
+            const endPos = state.ports.find(
+              (port) =>
+                port.nodeId === endId &&
+                port.portId === endPort &&
+                port.type === portType.in
+            )?.pos;
+            const d =
+              startPos && endPos
+                ? handler.createCurvature(startPos, endPos)
+                : "";
+            return d;
+          },
+          (s) => s
+        ),
+      [index]
+    )
+  );
+
+export const useNewPathCurvature = () =>
+  useAppSelector(
+    useMemo(
+      () =>
+        createDeepEqualSelector(
+          (s: RootState) => {
+            const state = selectActiveDrawflow(s);
+            if (
+              !state.select ||
+              state.select.type !== portType.out ||
+              !state.newPathDirection
+            ) {
+              console.error("Cannot draw new path!");
+              return;
+            }
+            const selectedPort = state.ports[state.select.selectId];
+            if (!selectedPort) {
+              console.error("No start port in newPath");
+              return;
+            }
+            const startPos = selectedPort.pos;
+            if (!s.canvas) {
+              console.error("Canvas shape is not available");
+              return;
+            }
+
+            const { clientX, clientY } = state.newPathDirection;
+            const endPos = handler.getPos(
+              clientX,
+              clientY,
+              state.config.zoom.value,
+              s.canvas
+            );
+            const d = handler.createCurvature(startPos, endPos);
+            return d;
           },
           (s) => s
         ),

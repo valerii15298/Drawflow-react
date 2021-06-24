@@ -1,43 +1,52 @@
-import styled from "styled-components";
-import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import styled, { css } from "styled-components";
+import { actions } from "../redux/drawflowSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { usePathIsSelected } from "../redux/selectors";
 
 const Svg = styled.svg`
   position: absolute;
   overflow: visible;
 `;
 
-const StyledPath = styled.path`
+const StyledPath = styled.path<{
+  selected: boolean;
+}>`
   :hover {
     stroke-width: 6px;
     stroke: purple;
     cursor: pointer;
   }
   fill: none;
-  stroke-width: ${({ theme }) => (theme.selected ? 7 : 6)}px;
+  stroke-width: 6px;
   stroke: steelblue;
+  ${({ selected }) =>
+    selected &&
+    css`
+      stroke-width: 7px;
+      stroke: red;
+    `};
 `;
 
 type Props = {
-  svgKey?: string;
+  id?: number;
   d: string;
 };
 
 export const Path = (props: Props) => {
-  const { svgKey, d } = props;
-  const selectId = useAppSelector((s) => selectActiveDrawflow(s).selectId);
+  const { id, d } = props;
+  const selected = usePathIsSelected(id);
   const dispatch = useAppDispatch();
 
   return (
     <Svg>
       <StyledPath
-        theme={{ selected: selectId === svgKey && svgKey }}
+        selected={selected}
         d={d}
         onMouseDown={(e) => {
-          if (!svgKey) return;
+          if (id === undefined) return;
           e.stopPropagation();
           // if (editLock) return;
-          dispatch(actions.select({ type: "path", selectId: svgKey }));
+          dispatch(actions.select({ type: "path", selectId: id }));
         }}
       ></StyledPath>
     </Svg>

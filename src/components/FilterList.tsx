@@ -1,15 +1,22 @@
 import { useEffect } from "react";
+import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { dragTemplate, fetchNodeTemplates } from "../redux/store";
+import { NodeTemplate } from "./NodeTemplate";
 
-type Props = {
-  searchWord: string;
-};
+const ListDiv = styled.div`
+  padding: 0.5em;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(2.2em, 1fr));
+  grid-auto-rows: minmax(1em, auto);
+  grid-gap: 1em;
+  background-color: #f5f5f5;
+`;
 
-const FilterList = (props: Props) => {
-  const { searchWord } = props;
+const FilterList = (props: { searchWord: string }) => {
   const list = useAppSelector((s) => s.templates);
   const dispatch = useAppDispatch();
+  const { searchWord } = props;
   const searchArr = searchWord
     .toLowerCase()
     .split(" ")
@@ -20,26 +27,16 @@ const FilterList = (props: Props) => {
   }, [dispatch]);
 
   return (
-    <div>
+    <ListDiv>
       {list.map((item, idx) => {
-        const { name, type, value } = item;
         const label = JSON.stringify(item, null, 2);
 
         return (
           (searchArr.find((word) => label.toLowerCase().includes(word)) ||
-            !searchArr.length) && (
-            <div
-              key={idx}
-              onMouseDownCapture={(e) => {
-                dispatch(dragTemplate(1));
-              }}
-            >
-              <pre>{`Type: ${type}\nValue: ${value + name}`}</pre>
-            </div>
-          )
+            !searchArr.length) && <NodeTemplate key={idx} id={idx} {...item} />
         );
       })}
-    </div>
+    </ListDiv>
   );
 };
 

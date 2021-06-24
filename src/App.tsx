@@ -1,49 +1,46 @@
-import { useEffect, useState } from "react";
 import { Drawflow } from "./components/DrawflowHook";
-import FilterList from "./components/FilterList";
-import { useAppDispatch } from "./redux/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { changeVersion, fetchFlowVersion } from "./redux/store";
 
 import "./drawflow.scss";
-import { actions } from "./redux/drawflowSlice";
+import { Sidebar, ToggleSidebar } from "./components/Sidebar";
+import { Header } from "./components/Header";
+import styled from "styled-components";
+
+const VersionsDiv = styled.div`
+  display: flex;
+`;
 
 function App() {
-  const [searchWord, setSearchWord] = useState("");
-  const dispatch = useAppDispatch();
   console.log("Render App");
-  useEffect(() => {
-    dispatch(actions.align());
-  }, [dispatch]);
 
+  const dispatch = useAppDispatch();
+  const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
   return (
     <div className="App">
-      <div className="drawflow-node-list">
-        <div className="drawflow-node-list-search">
-          <input
-            type="text"
-            placeholder="Search templates"
-            onChange={(e) => {
-              setSearchWord(e.target.value);
-            }}
-          />
-        </div>
-        <div className="drawflow-node-list-flex">
-          <FilterList searchWord={searchWord} />
-        </div>
-      </div>
-      <div className="flow">
-        <div>
-          <button onClick={() => dispatch(fetchFlowVersion())}>
-            Fetch flow version
-          </button>
+      <Header />
+      <main>
+        <Sidebar />
+        <div className="flow">
+          <VersionsDiv>
+            {!sidebarVisible && <ToggleSidebar />}
+            <button onClick={() => dispatch(fetchFlowVersion())}>
+              Fetch flow version
+            </button>
 
-          <button onClick={() => dispatch(changeVersion(0))}>Version 1</button>
-          <button onClick={() => dispatch(changeVersion(1))}>Version 2</button>
-          <button onClick={() => dispatch(changeVersion(2))}>Version 3</button>
-          <button onClick={() => dispatch(actions.align())}>Align</button>
+            <button onClick={() => dispatch(changeVersion(0))}>
+              Version 1
+            </button>
+            <button onClick={() => dispatch(changeVersion(1))}>
+              Version 2
+            </button>
+            <button onClick={() => dispatch(changeVersion(2))}>
+              Version 3
+            </button>
+          </VersionsDiv>
+          <Drawflow />
         </div>
-        <Drawflow />
-      </div>
+      </main>
     </div>
   );
 }

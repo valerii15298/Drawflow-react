@@ -69,38 +69,29 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     }
   }, [dispatch, id, node]);
 
+  // update ports positions
   useEffect(() => {
-    const getPortPos = (type: portType, i: number, elmt: Element) => {
-      const key = `${id}_${type}_${i}`;
-      const x = parseInt(getComputedStyle(elmt).left) + pos.x;
-      const y = parseInt(getComputedStyle(elmt).top) + pos.y;
+    const getPorts = (type: portType, box: HTMLDivElement) => {
+      const puts = Array.from(
+        (box.querySelector(`.${type}puts`) as HTMLDivElement).children
+      );
+      return puts.map((elmt, portId) => {
+        const x = parseInt(getComputedStyle(elmt).left) + pos.x;
+        const y = parseInt(getComputedStyle(elmt).top) + pos.y;
 
-      return {
-        [key]: { x, y },
-      };
+        return {
+          nodeId: id,
+          pos: { x, y },
+          portId: portId + 1,
+          type,
+        };
+      });
     };
 
     if (ref.current) {
-      const inputs = Array.from(
-        (ref.current.querySelector(".inputs") as HTMLDivElement).children
-      );
-      const outputs = Array.from(
-        (ref.current.querySelector(".outputs") as HTMLDivElement).children
-      );
-      let newPorts = {};
-      newPorts = Object.assign(
-        newPorts,
-        inputs.reduce((acc, elmt, i) => {
-          return Object.assign(acc, getPortPos(portType.in, i + 1, elmt));
-        }, {})
-      );
-      newPorts = Object.assign(
-        newPorts,
-        outputs.reduce((acc, elmt, i) => {
-          return Object.assign(acc, getPortPos(portType.out, i + 1, elmt));
-        }, {})
-      );
-      dispatch(actions.pushPorts(newPorts));
+      const inputs = getPorts(portType.in, ref.current);
+      const outputs = getPorts(portType.out, ref.current);
+      dispatch(actions.pushPorts([...inputs, ...outputs]));
     }
   }, [dispatch, id, pos]);
 
@@ -160,18 +151,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       )}
       <Ports id={id} port={port} type={portType.in} />
       <Ports id={id} port={port} type={portType.out} />
-      <button
-        style={
-          {
-            // display: showButton === id ? "block" : "none"
-          }
-        }
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        X
-      </button>
+      <button>X</button>
     </BlockStyled>
   );
 };

@@ -5,8 +5,8 @@
 
 html,
 body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
 
@@ -14,9 +14,11 @@ body {
     height: 100%;
     .App {
       height: 100%;
-      padding: 10px;
-      padding-right: 25px;
-      display: flex;
+
+      main {
+        display: flex;
+        // grid-template-columns: auto 1fr;
+      }
 
       .flow {
         height: 100%;

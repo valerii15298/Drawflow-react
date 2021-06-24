@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
-import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { useNodeIsSub } from "../redux/selectors";
-import { portType, port } from "../types";
+import { actions } from "../redux/drawflowSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { useNodeIsSub, usePortIsActive } from "../redux/selectors";
+import { portType, port, purePort } from "../types";
 
 const Indicator = styled.div<{ visible: boolean }>`
   width: 15px;
@@ -61,43 +61,34 @@ const styledPorts = {
   [portType.out]: [Output1, Output2],
 };
 
+const Port = (port: purePort) => {
+  const { nodeId, portId, type } = port;
+  const dispatch = useAppDispatch();
+  const isActive = usePortIsActive(port);
+  const isSub = useNodeIsSub(nodeId);
+  const StyledPort = styledPorts[type][portId - 1];
+  return (
+    <StyledPort
+      isSub={isSub}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+        dispatch(actions.selectPort({ type, nodeId, portId }));
+      }}
+      onMouseUp={(e) => {
+        dispatch(actions.portMouseUp({ nodeId, portId, PortType: type }));
+      }}
+    >
+      <Indicator visible={isActive} />
+    </StyledPort>
+  );
+};
+
 export const Ports = (props: { type: portType; id: number; port: port }) => {
   const { id, port, type } = props;
-  const dispatch = useAppDispatch();
-  const portToConnect = useAppSelector(
-    (s) => selectActiveDrawflow(s).portToConnect
-  );
-  const isSub = useNodeIsSub(id);
   let arr = [];
 
   for (let i = 1; i <= port[type]; i++) {
-    const key = `${type}put-${i}`;
-    const portKey = `${id}_${type}_${i}`;
-    const StyledPort = styledPorts[type][i - 1];
-    const port = (
-      <StyledPort
-        isSub={isSub}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          dispatch(
-            actions.select({
-              type,
-              portId: i,
-              selectId: id,
-            })
-          );
-        }}
-        key={key}
-        onMouseUp={(e) => {
-          dispatch(
-            actions.portMouseUp({ nodeId: id, portId: i, PortType: type })
-          );
-        }}
-      >
-        <Indicator visible={!!(portToConnect === portKey && " ")} />
-      </StyledPort>
-    );
-    arr.push(port);
+    arr.push(<Port key={i} nodeId={id} portId={i} type={type} />);
   }
 
   return <div className={`${type}puts`}>{arr}</div>;
