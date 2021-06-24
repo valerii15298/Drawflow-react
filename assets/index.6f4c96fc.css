@@ -1,0 +1,1 @@
+*{box-sizing:border-box;user-select:none}body,html{margin:0;padding:0;height:100%;width:100%}body #root,html #root{height:100%}body #root .App,html #root .App{height:100%}body #root .App main,html #root .App main{display:flex}body #root .App .flow,html #root .App .flow{height:100%;width:100%}button{cursor:pointer}
