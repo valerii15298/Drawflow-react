@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Arrow } from "../svg";
 
 const HeaderSection = styled.section`
@@ -14,15 +14,15 @@ const FlowInfo = styled.div`
   justify-content: space-between;
 `;
 
-const ToggleSection = styled.div``;
-const ToggleButton = styled.button`
+const buttonCss = css`
   text-align: center;
   height: 39px;
   font-size: 14px;
   border: 1px solid #e8e8ef;
-  :hover {
-    opacity: 0.7;
-  }
+`;
+const ToggleSection = styled.div``;
+const ToggleButton = styled.button`
+  ${buttonCss}
   :focus {
     background-color: #fbfbfb;
     font-weight: bold;
@@ -33,12 +33,13 @@ const Controls = styled.div``;
 
 const CircleSpan = styled.button`
   margin: 0 10px;
-  background-color: #dbdee7;
-  height: 37px;
-  width: 37px;
+  background-color: #eaecf1;
+  height: 40px;
+  width: 40px;
   display: grid;
   place-items: center;
   border-radius: 50%;
+  border: none;
 `;
 const InfoDiv = styled.div`
   display: grid;
@@ -47,16 +48,38 @@ const InfoDiv = styled.div`
   }
 `;
 
+const FlowTitle = styled.div`
+  font-size: 16px;
+  color: #393c44;
+  font-family: Roboto;
+`;
+const FlowSubtitle = styled.div`
+  color: #808292;
+  font-size: 14px;
+`;
+
+const DeleteFlowButton = styled.button`
+  background-color: #e31c5c;
+  margin-right: 10px;
+  ${buttonCss}
+  color: white;
+`;
+const SaveFlowButton = styled.button`
+  background-color: #217ce8;
+  ${buttonCss}
+  color: white;
+`;
+
 export const Header = () => {
   return (
     <HeaderSection>
       <FlowInfo>
         <CircleSpan>
-          <Arrow height={15} />
+          <Arrow height={14} />
         </CircleSpan>
         <InfoDiv>
-          <div>Flow name</div>
-          <div>Flow description</div>
+          <FlowTitle>Flow name</FlowTitle>
+          <FlowSubtitle>Flow description</FlowSubtitle>
         </InfoDiv>
       </FlowInfo>
       <ToggleSection>
@@ -66,8 +89,8 @@ export const Header = () => {
         <ToggleButton>Settings</ToggleButton>
       </ToggleSection>
       <Controls>
-        <button>Delete flow</button>
-        <button>Save flow</button>
+        <DeleteFlowButton>Delete flow</DeleteFlowButton>
+        <SaveFlowButton>Save flow</SaveFlowButton>
       </Controls>
     </HeaderSection>
   );

@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 const VersionsDiv = styled.div`
   display: flex;
+  height: 40px;
 `;
 
 function App() {

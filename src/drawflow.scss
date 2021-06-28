@@ -17,7 +17,6 @@ body {
 
       main {
         display: flex;
-        // grid-template-columns: auto 1fr;
       }
 
       .flow {
@@ -30,4 +29,7 @@ body {
 
 button {
   cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
 }

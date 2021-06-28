@@ -92,6 +92,7 @@ export const Drawflow = () => {
 
   return (
     <ParentDrawflow
+      className={"drawflow"}
       tabIndex={0}
       onKeyDownCapture={(e) => {
         if (e.key === "Delete") {

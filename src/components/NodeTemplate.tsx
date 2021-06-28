@@ -54,10 +54,18 @@ export const NodeTemplate = (props: any) => {
         cloned.parentNode?.removeChild(cloned);
         return;
       }
-      cloned.style.left = clientX - dx + "px";
-      cloned.style.top = clientY - dy + "px";
+      cloned.style.left = clientX - dx + window.scrollX + "px";
+      cloned.style.top = clientY - dy + window.scrollY + "px";
     };
     document.addEventListener("mousemove", drag);
+    document.addEventListener(
+      "mouseup",
+      () => {
+        document.removeEventListener("mousemove", drag);
+        cloned.parentNode?.removeChild(cloned);
+      },
+      { once: true }
+    );
     const { height, width } = getComputedStyle(current);
     cloned.style.height = height;
     cloned.style.width = width;

@@ -1,6 +1,5 @@
 {
   "version": "0.0.0",
-  "homepage": "/Drawflow-react",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
