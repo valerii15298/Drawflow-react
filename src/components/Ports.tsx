@@ -74,7 +74,7 @@ const Port = (port: purePort) => {
         e.stopPropagation();
         dispatch(actions.selectPort({ type, nodeId, portId }));
       }}
-      onMouseUp={(e) => {
+      onMouseUp={() => {
         dispatch(actions.portMouseUp({ nodeId, portId, PortType: type }));
       }}
     >
@@ -85,7 +85,7 @@ const Port = (port: purePort) => {
 
 export const Ports = (props: { type: portType; id: number; port: port }) => {
   const { id, port, type } = props;
-  let arr = [];
+  const arr = [];
 
   for (let i = 1; i <= port[type]; i++) {
     arr.push(<Port key={i} nodeId={id} portId={i} type={type} />);

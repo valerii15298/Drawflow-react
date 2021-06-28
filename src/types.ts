@@ -87,7 +87,8 @@ export interface pureNode extends Omit<node, "pos"> {
 type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
-    : T[P] extends object
+    : // eslint-disable-next-line @typescript-eslint/ban-types
+    T[P] extends object
     ? RecursivePartial<T[P]>
     : T[P];
 };
@@ -121,7 +122,10 @@ export type data = {
   };
 };
 
-export type select = { type: portType | "node" | "path"; selectId: number };
+export type select = {
+  type: portType | "node" | "path";
+  selectId: number;
+};
 export interface stateData {
   nodeId: number;
   canvasDrag: boolean;
@@ -156,12 +160,35 @@ export interface stateData {
   computing?: number;
 }
 
+export type optStateData = RecursivePartial<stateData>;
+
 export type canvasShape = {
   x: number;
   y: number;
   width: number;
   height: number;
 };
+
+export type flowInfoStrict = {
+  flow_name: string;
+  flow_description: string;
+  flow_active: number;
+  run_times_max: number;
+  user_run_limit_seconds: number;
+  flow_story: string;
+  flow_canvas_background_image: string;
+  flow_canvas_background_opacity: string;
+};
+
+type RecursiveNull<T> = {
+  [P in keyof T]: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : // eslint-disable-next-line @typescript-eslint/ban-types
+    T[P] extends object
+    ? RecursivePartial<T[P]>
+    : T[P] | null;
+};
+export type flowInfo = RecursiveNull<flowInfoStrict>;
 
 export interface flowType {
   version: number;
@@ -170,7 +197,17 @@ export interface flowType {
   templates: block[];
   canvas?: canvasShape;
   sidebarVisible?: boolean;
+  flowInfo?: flowInfo;
+  groups: block[];
+  tabId: number;
 }
 
-export type loadType = { drawflow: drawflow; connections: connections };
-export type moveNodeType = { dx: number; dy: number; nodeId: number };
+export type loadType = {
+  drawflow: drawflow;
+  connections: connections;
+};
+export type moveNodeType = {
+  dx: number;
+  dy: number;
+  nodeId: number;
+};

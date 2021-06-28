@@ -8,7 +8,7 @@ const StyledNode = styled.div`
   overflow: hidden;
 `;
 
-export const Round = (props: any) => {
+export const Round = (props: Record<string, unknown>) => {
   return <StyledNode>{JSON.stringify(props, null, 2)}</StyledNode>;
 
   // const { imgSrc, name, description } = props;

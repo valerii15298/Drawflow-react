@@ -118,7 +118,7 @@ export default class Node {
     const leftChildWidth = out1[0].leftWidth;
     const rightChildWidth = out1[out1.length - 1].rightWidth;
 
-    let childrenRightWidth =
+    const childrenRightWidth =
       leftChildWidth +
       (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
     return Math.max(childrenRightWidth, selfLeftWidth);
@@ -135,7 +135,7 @@ export default class Node {
     const leftChildWidth = out1[0].leftWidth;
     const rightChildWidth = out1[out1.length - 1].rightWidth;
 
-    let childrenRightWidth =
+    const childrenRightWidth =
       rightChildWidth +
       (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
     return Math.max(childrenRightWidth, selfRightWidth);
@@ -227,7 +227,7 @@ export default class Node {
 
   get complexParentNode(): Node | null {
     // if is sub eturn complexNode to which belongs this subnode
-    let parent = this.parent;
+    const parent = this.parent;
     if (parent) {
       if (parent.firstSubnode === this) return parent;
       return parent.complexParentNode;
@@ -243,6 +243,7 @@ export default class Node {
     hasSubnodes: Node | undefined;
   } {
     const flowLineNodes: Node[] = [this];
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let node: Node = this;
     let hasSubnodes = node.firstSubnode;
 

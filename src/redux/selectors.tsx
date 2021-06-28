@@ -20,6 +20,7 @@ export const useNodeIds = () =>
           (s: RootState) => {
             const { drawflow } = selectActiveDrawflow(s);
             const data = Object.entries(drawflow)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               .filter(([id, { visible }]) => visible !== false)
               .map(([id]) => Number(id));
             return data;

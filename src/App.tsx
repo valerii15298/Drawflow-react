@@ -3,9 +3,12 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { changeVersion, fetchFlowVersion } from "./redux/store";
 
 import "./drawflow.scss";
+import "react-toggle/style.css";
 import { Sidebar, ToggleSidebar } from "./components/Sidebar";
 import { Header } from "./components/Header";
 import styled from "styled-components";
+import { useEffect } from "react";
+import { fetchFlow } from "./redux/api";
 
 const VersionsDiv = styled.div`
   display: flex;
@@ -17,6 +20,9 @@ function App() {
 
   const dispatch = useAppDispatch();
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
+  useEffect(() => {
+    dispatch(fetchFlow());
+  }, []);
   return (
     <div className="App">
       <Header />

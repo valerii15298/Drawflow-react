@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { dragTemplate, fetchNodeTemplates } from "../redux/store";
+import { fetchNodeTemplates } from "../redux/store";
 import { NodeTemplate } from "./NodeTemplate";
 
 const ListDiv = styled.div`

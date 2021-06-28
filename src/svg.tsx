@@ -29,7 +29,7 @@ export const More = () => (
   </svg>
 );
 
-export const MessageSvg = (props: any) => (
+export const MessageSvg = (props: Record<string, unknown>) => (
   <svg {...props} viewBox="0 0 24 24">
     <path
       fill="none"
@@ -41,7 +41,7 @@ export const MessageSvg = (props: any) => (
   </svg>
 );
 
-export const SearchIcon = (props: any) => (
+export const SearchIcon = (props: Record<string, unknown>) => (
   <svg {...props} viewBox="0 0 16 16" fill="none">
     <path
       d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z"
@@ -60,7 +60,7 @@ export const SearchIcon = (props: any) => (
   </svg>
 );
 
-export const Arrow = (props: any) => (
+export const Arrow = (props: Record<string, unknown>) => (
   <svg {...props} viewBox="0 0 10 14" fill="none">
     <path
       d="M8 2L2.18437 6.84636C2.08842 6.92631 2.08842 7.07369 2.18437 7.15364L8 12"
@@ -71,7 +71,7 @@ export const Arrow = (props: any) => (
   </svg>
 );
 
-export const Arrows = (props: any) => (
+export const Arrows = (props: Record<string, unknown>) => (
   <svg {...props} viewBox="0 0 1792 1792">
     <path
       fill="#217CE8"

@@ -59,6 +59,7 @@ export const testNode = (): node => {
 };
 
 const getDummy = async (): Promise<data> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: any = {
     nodes: {},
     connections: [],

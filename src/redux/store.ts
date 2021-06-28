@@ -6,7 +6,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { canvasShape, clientPos, flowType, Slices } from "../types";
-import { drawflowSlice, selectActiveDrawflow } from "./drawflowSlice";
+import { drawflowSlice, selectActiveDrawflow, setState } from "./drawflowSlice";
 import mock, { testNode } from "../mock";
 import { initialState as drawflowInitialState } from "./drawflowSlice";
 import handler from "../tools";
@@ -18,12 +18,19 @@ export const canvasShapeUpdated =
   createAction<canvasShape>("canvasShapeUpdated");
 export const insertCopiedNode = createAction("insertCopiedNode");
 export const toggleSidebar = createAction("toggleSidebar");
+export const setStateAction = createAction<Record<string, unknown>>("setState");
+
+export const flowTypeActions = {
+  setStateAction,
+};
 
 const initialState: flowType = {
   version: 0,
   flows: [drawflowInitialState, drawflowInitialState, drawflowInitialState],
   templates: [],
   dragTemplate: 0,
+  groups: [],
+  tabId: 0,
 };
 
 export const fetchNodeTemplates = createAsyncThunk("fetchPosts", async () => {
@@ -42,6 +49,7 @@ export const fetchFlowVersion = createAsyncThunk(
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(setStateAction, setState)
     .addCase(insertCopiedNode, (appState) => {
       const state = selectActiveDrawflow(appState);
       if (state.nodeToCopyId === undefined) return;

@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
+import { useAppSelector } from "../redux/hooks";
 import { Arrow } from "../svg";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import settingsPng from "../assets/flowsettings.png";
+import Toggle from "react-toggle";
 
 const HeaderSection = styled.section`
   display: flex;
@@ -19,17 +24,30 @@ const buttonCss = css`
   height: 39px;
   font-size: 14px;
   border: 1px solid #e8e8ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > * {
+    max-height: 90%;
+    max-width: 90%;
+  }
+  margin: 0;
 `;
-const ToggleSection = styled.div``;
+const ToggleSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const ToggleButton = styled.button`
   ${buttonCss}
   :focus {
-    background-color: #fbfbfb;
-    font-weight: bold;
+    background-color: #dfdfdf;
   }
 `;
 
-const Controls = styled.div``;
+const Controls = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const CircleSpan = styled.button`
   margin: 0 10px;
@@ -59,9 +77,11 @@ const FlowSubtitle = styled.div`
 `;
 
 const DeleteFlowButton = styled.button`
-  background-color: #e31c5c;
-  margin-right: 10px;
   ${buttonCss}
+
+  background-color: #e31c5c;
+  display: inline-block;
+  margin-right: 10px;
   color: white;
 `;
 const SaveFlowButton = styled.button`
@@ -70,7 +90,21 @@ const SaveFlowButton = styled.button`
   color: white;
 `;
 
+const ActiveLabel = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > span:first-child {
+    display: inline-block;
+    margin-right: 4px;
+  }
+`;
+
 export const Header = () => {
+  const flowInfo = useAppSelector((s) => s.flowInfo);
+
+  const { flow_name, flow_description, flow_active } = flowInfo || {};
+
   return (
     <HeaderSection>
       <FlowInfo>
@@ -78,15 +112,29 @@ export const Header = () => {
           <Arrow height={14} />
         </CircleSpan>
         <InfoDiv>
-          <FlowTitle>Flow name</FlowTitle>
-          <FlowSubtitle>Flow description</FlowSubtitle>
+          <FlowTitle>{flow_name || "Loading ..."}</FlowTitle>
+          <FlowSubtitle>{flow_description || "Loading ..."}</FlowSubtitle>
         </InfoDiv>
       </FlowInfo>
       <ToggleSection>
         <ToggleButton>Diagram view</ToggleButton>
         <ToggleButton>Code editor</ToggleButton>
-        <ToggleButton>Active</ToggleButton>
-        <ToggleButton>Settings</ToggleButton>
+        <ToggleButton>
+          <ActiveLabel>
+            <span>Active</span>
+            <Toggle
+              defaultChecked={!!flow_active}
+              icons={{
+                checked: null,
+                unchecked: null,
+              }}
+              onChange={(e) => console.log(e.target.checked)}
+            />
+          </ActiveLabel>
+        </ToggleButton>
+        <ToggleButton>
+          <img src={settingsPng} alt="" />
+        </ToggleButton>
       </ToggleSection>
       <Controls>
         <DeleteFlowButton>Delete flow</DeleteFlowButton>

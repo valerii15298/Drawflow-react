@@ -1,6 +1,5 @@
 import { select } from "./../types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import handler from "../tools";
 import {
   ports,
   Slices,
@@ -12,6 +11,7 @@ import {
 } from "../types";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
+import lodash from "lodash";
 
 export const initialState: stateData = {
   nodeId: 1,
@@ -56,10 +56,21 @@ const align = (state: stateData) => {
   flow.alignAll();
 };
 
+export const setState = (
+  state: Record<string, unknown>,
+  { payload }: PayloadAction<Record<string, unknown>>
+) => {
+  const newState = lodash.merge(state, payload);
+  for (const key in newState) {
+    state[key] = newState[key];
+  }
+};
+
 const slice = createSlice({
   name: Slices.Drawflow,
   initialState,
   reducers: {
+    setState,
     setEditLock: (state, { payload }: PayloadAction<boolean>) => {
       state.editLock = payload;
     },

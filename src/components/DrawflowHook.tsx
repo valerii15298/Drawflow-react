@@ -48,7 +48,7 @@ const updateTransform = (
 };
 
 export const Drawflow = () => {
-  console.log(`Render Drawflow`);
+  console.log("Render Drawflow");
   // return null;
 
   const {
@@ -106,7 +106,7 @@ export const Drawflow = () => {
           dispatch(insertCopiedNode());
         }
       }}
-      onMouseDown={(e) => {
+      onMouseDown={() => {
         dispatch(actions.canvasDrag(true));
         dispatch(actions.unSelect());
       }}

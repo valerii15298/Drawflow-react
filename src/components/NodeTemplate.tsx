@@ -18,8 +18,8 @@ const NodeDiv = styled.div`
   }
 `;
 
-export const NodeTemplate = (props: any) => {
-  const { name, type, value, id } = props;
+export const NodeTemplate = (props: Record<string, unknown>) => {
+  const { value, id } = props;
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const canvas = useAppSelector((s) => s.canvas);
@@ -28,7 +28,7 @@ export const NodeTemplate = (props: any) => {
     if (dragTemplate === undefined) {
       return;
     }
-    dispatch(dragTemplate(id));
+    dispatch(dragTemplate(id as number));
     const { current } = ref;
     if (!current) {
       console.error("No node to copy");

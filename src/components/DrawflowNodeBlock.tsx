@@ -107,7 +107,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         })
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -122,7 +121,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         dispatch(actions.select({ type: "node", selectId: id }));
         dispatch(actions.setMouseBlockDragPos({ clientX, clientY }));
       }}
-      onContextMenu={(e) => {
+      onContextMenu={() => {
         // TODO show delete button
       }}
       onDoubleClick={() => {

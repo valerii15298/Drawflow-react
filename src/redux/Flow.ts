@@ -19,7 +19,7 @@ export class Flow {
 
   get heads() {
     return Object.entries(this.nodes)
-      .filter(([id, node]) => !node.parent)
+      .filter(([, node]) => !node.parent)
       .map((el) => el[1]);
   }
 
@@ -37,7 +37,7 @@ export class Flow {
   }
 
   allowConnection(conn: addConnectionType) {
-    let { startId, startPort, endId } = conn;
+    const { startId, startPort, endId } = conn;
     const nodeIn = this.getNode(endId);
     const nodeOut = this.getNode(startId);
     const connectAsSub = startPort === 2;
@@ -58,6 +58,7 @@ export class Flow {
   }
 
   addConnection(conn: addConnectionType) {
+    // eslint-disable-next-line prefer-const
     let { startId, startPort, endId, endPort } = conn;
     const nodeIn = this.getNode(endId);
     // console.log(startId);
@@ -182,7 +183,7 @@ export class Flow {
 
     Object.entries(this.nodes)
       .filter(
-        ([_, node]) =>
+        ([, node]) =>
           node.head !== currentNodeHead && node.nodeState.visible !== false
       )
       .forEach(([id, node]) => {
