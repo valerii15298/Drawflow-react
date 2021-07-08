@@ -2,7 +2,7 @@ import { useNodeIds } from "../redux/selectors";
 import DrawflowNodeBlock from "./DrawflowNodeBlock";
 
 export const NodeList = () => {
-  console.log("Render NodeList");
+  // console.log("Render NodeList");
 
   const drawflow = useNodeIds();
 

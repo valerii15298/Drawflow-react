@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { toggleSidebar } from "../redux/store";
-import { Arrows, SearchIcon } from "../svg";
-import FilterList from "./FilterList";
+import { setStateAction, toggleSidebar } from "../redux/store";
+import { Arrows, SearchIcon, Settings } from "../svg";
+import { sideWindow } from "../types";
+import FilterList from "./TemplateNodesList";
 
 const SidebarDiv = styled.div`
-  min-width: 300px;
+  width: 300px;
+  order: -2;
+  max-height: 100vh;
 `;
 
 const GroupsDiv = styled.div`
@@ -70,39 +73,31 @@ const GroupList = ({
   selectedGroup: number;
   setSelectedGroup: (arg: number) => void;
 }) => {
-  const [groupList, setGroupList] = useState<Array<string>>(["Loading"]);
+  const dispatch = useAppDispatch();
+  const groups = useAppSelector((s) => s.groups);
 
-  useEffect(() => {
-    setGroupList([
-      "Triggers",
-      "Actions",
-      "Loggers",
-      "Feedbacks",
-      "Pushes",
-      "Notifications",
-      "Hooks",
-    ]);
-  }, []);
   return (
     <GroupsDiv>
-      {groupList.map((group, id) => {
-        return (
-          <GroupDiv
-            key={id}
-            selected={id === selectedGroup}
-            onClick={() => setSelectedGroup(id)}
-          >
-            {group}
-          </GroupDiv>
-        );
-      })}
+      {Object.values(groups).map(
+        ({ id, node_group_name, node_group_order }) => {
+          return (
+            <GroupDiv
+              key={id}
+              selected={id === selectedGroup}
+              onClick={() => setSelectedGroup(id)}
+            >
+              {node_group_name}
+            </GroupDiv>
+          );
+        }
+      )}
     </GroupsDiv>
   );
 };
 
 const SearchInput = styled.input`
   display: block;
-  width: 85%;
+  width: 75%;
   height: 40px;
   background-color: #fff;
   border: 1px solid #e8e8ef;
@@ -110,6 +105,7 @@ const SearchInput = styled.input`
   border-radius: 5px;
   text-indent: 35px;
   font-size: 16px;
+  margin-right: 3px;
 `;
 
 const SearchDiv = styled.div`
@@ -144,11 +140,18 @@ const SearchSpan = styled.span`
   }
 `;
 
+const OpenGroupSettingButton = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0;
+`;
+
 const SearchBar = ({
   setSearchWord,
 }: {
   setSearchWord: (value: string) => void;
 }) => {
+  const dispatch = useAppDispatch();
   return (
     <SearchDiv>
       <SearchSpan>
@@ -161,6 +164,17 @@ const SearchBar = ({
           setSearchWord(e.target.value);
         }}
       />
+      <OpenGroupSettingButton
+        onClick={() =>
+          dispatch(
+            setStateAction({
+              windowConfig: { sideId: sideWindow.groupSettings },
+            })
+          )
+        }
+      >
+        <Settings height={30} />
+      </OpenGroupSettingButton>
       <ToggleSidebar />
     </SearchDiv>
   );
@@ -177,11 +191,15 @@ const ExpandDiv = styled.div<{ opened: boolean }>`
       transform: rotate(180deg);
     `};
 `;
-export const ToggleSidebar = () => {
+export const ToggleSidebar = (props: any) => {
   const visible = useAppSelector((s) => s.sidebarVisible) ?? true;
   const dispatch = useAppDispatch();
   return (
-    <ExpandDiv opened={!visible} onClick={() => dispatch(toggleSidebar())}>
+    <ExpandDiv
+      {...props}
+      opened={!visible}
+      onClick={() => dispatch(toggleSidebar())}
+    >
       <Arrows height={40} />
     </ExpandDiv>
   );

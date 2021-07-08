@@ -6,13 +6,20 @@ export enum NODE_TYPE {
 
 export enum Slices {
   Drawflow = "drawflow",
+  Groups = "groups",
 }
 
-export const CURV = 0.3;
+export const CURV = 0.3 as const;
 
 export enum MODAL_TYPE {
   NODE_SETTINGS = "NODE_SETTINGS",
   GROUP_SETTINGS = "GROUP_SETTINGS",
+}
+
+export enum LocalStorageKey {
+  backgroundOpacity = "backgroundOpacity",
+  backgroundBlur = "backgroundBlur",
+  backgroundImageUrl = "backgroundImageUrl",
 }
 
 export enum portType {
@@ -51,12 +58,57 @@ export interface Port extends purePort {
 
 export type ports = Array<Port>;
 
+type dateTimeString = `${number}-${number}-${number}T${number}:${number}`;
+
 export type block = {
+  active: 0 | 1;
+  description: string;
+  execute_node_specific_date_time: dateTimeString;
+  execution_wait_time_seconds: number;
+  flow_action_scrdata_id: number;
+  flow_node_type_id: number;
+  icon_link: string;
+  icon_link_selected: string;
+  id_priority: number;
+  loop_cycle_reached_jump_to_node: number;
+  loop_cycles: number;
   name: string;
-  type: string;
-  value: string;
-  create?: boolean;
+  node_attributes: Record<string, unknown>;
+  node_object_lists: Record<string, unknown>;
+  node_scrdata_id: number;
+  node_story: string;
+  nodes_group_id: number;
+  nodes_id: number;
+  nodes_tooltip: string;
+  order: number;
+  node_settings_json: Record<string, unknown>;
+  node_response_settings_json: Record<string, unknown>;
 };
+
+// export const blockTypes = {
+//   active: "select",
+//   description: "text",
+//   execute_node_specific_date_time: "datetime",
+//   execution_wait_time_seconds: "number",
+//   flow_action_scrdata_id: "number",
+//   flow_node_type_id: "number",
+//   icon_link: "text",
+//   icon_link_selected: "text",
+//   id_priority: "number",
+//   loop_cycle_reached_jump_to_node: "number",
+//   loop_cycles: "number",
+//   name: "text",
+//   node_attributes: "any",
+//   node_object_lists: "any",
+//   node_scrdata_id: "number",
+//   node_story: "text",
+//   nodes_group_id: "number",
+//   nodes_id: "number",
+//   nodes_tooltip: "text",
+//   order: "number",
+//   node_settings_json: "any",
+//   node_response_settings_json: "any",
+// };
 
 export type dataNode = {
   type: string;
@@ -190,16 +242,61 @@ type RecursiveNull<T> = {
 };
 export type flowInfo = RecursiveNull<flowInfoStrict>;
 
+export enum mainWindow {
+  mainFlow,
+  codeEditor,
+  tem,
+  templateNodeSettings,
+}
+
+export enum sideWindow {
+  groupSettings,
+  flowSettings,
+  none,
+}
+
+export interface group {
+  id: number;
+  node_group_order: null | number;
+  node_group_name: string;
+  node_group_description: string;
+}
+
+export interface optGroup extends RecursivePartial<group> {
+  delete?: 0 | 1;
+}
+
+export interface step {
+  id: number;
+  node_group_order: null | number;
+  node_group_name: string;
+  node_group_description: string;
+}
+
+export type groups = {
+  [id: number]: group;
+};
+
 export interface flowType {
   version: number;
   flows: stateData[];
   dragTemplate?: number | undefined;
   templates: block[];
   canvas?: canvasShape;
+  precanvas?: canvasShape;
   sidebarVisible?: boolean;
   flowInfo?: flowInfo;
-  groups: block[];
-  tabId: number;
+  groups: groups;
+  windowConfig: {
+    id: number;
+    mainId: mainWindow;
+    sideId: sideWindow;
+    background: {
+      opacity: number;
+      blur: number;
+      imageUrl: string;
+    };
+  };
 }
 
 export type loadType = {
@@ -211,3 +308,5 @@ export type moveNodeType = {
   dy: number;
   nodeId: number;
 };
+
+export type setStateFunction = (state: Record<string, any>) => void;

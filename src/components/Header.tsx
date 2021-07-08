@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Arrow } from "../svg";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
 import settingsPng from "../assets/flowsettings.png";
 import Toggle from "react-toggle";
+import { setStateAction } from "../redux/store";
+import { mainWindow, sideWindow } from "../types";
+import { postFlow } from "../redux/api";
 
 const HeaderSection = styled.section`
   display: flex;
@@ -101,9 +102,11 @@ const ActiveLabel = styled.label`
 `;
 
 export const Header = () => {
+  const dispatch = useAppDispatch();
   const flowInfo = useAppSelector((s) => s.flowInfo);
 
   const { flow_name, flow_description, flow_active } = flowInfo || {};
+  // console.log({ flow_active });
 
   return (
     <HeaderSection>
@@ -117,28 +120,64 @@ export const Header = () => {
         </InfoDiv>
       </FlowInfo>
       <ToggleSection>
-        <ToggleButton>Diagram view</ToggleButton>
-        <ToggleButton>Code editor</ToggleButton>
+        <ToggleButton
+          onClick={() =>
+            dispatch(
+              setStateAction({
+                windowConfig: { mainId: mainWindow.mainFlow },
+              })
+            )
+          }
+        >
+          Diagram view
+        </ToggleButton>
+        <ToggleButton
+          onClick={() =>
+            dispatch(
+              setStateAction({
+                windowConfig: { mainId: mainWindow.codeEditor },
+              })
+            )
+          }
+        >
+          Code editor
+        </ToggleButton>
         <ToggleButton>
           <ActiveLabel>
             <span>Active</span>
             <Toggle
-              defaultChecked={!!flow_active}
+              checked={!!flow_active}
               icons={{
                 checked: null,
                 unchecked: null,
               }}
-              onChange={(e) => console.log(e.target.checked)}
+              onChange={(e) =>
+                dispatch(
+                  setStateAction({
+                    flowInfo: { flow_active: +e.target.checked },
+                  })
+                )
+              }
             />
           </ActiveLabel>
         </ToggleButton>
-        <ToggleButton>
+        <ToggleButton
+          onClick={() =>
+            dispatch(
+              setStateAction({
+                windowConfig: { sideId: sideWindow.flowSettings },
+              })
+            )
+          }
+        >
           <img src={settingsPng} alt="" />
         </ToggleButton>
       </ToggleSection>
       <Controls>
         <DeleteFlowButton>Delete flow</DeleteFlowButton>
-        <SaveFlowButton>Save flow</SaveFlowButton>
+        <SaveFlowButton onClick={() => dispatch(postFlow())}>
+          Save flow
+        </SaveFlowButton>
       </Controls>
     </HeaderSection>
   );

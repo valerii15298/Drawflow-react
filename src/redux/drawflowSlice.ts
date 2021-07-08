@@ -1,4 +1,4 @@
-import { select } from "./../types";
+import { select, setStateFunction } from "./../types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ports,
@@ -57,9 +57,13 @@ const align = (state: stateData) => {
 };
 
 export const setState = (
-  state: Record<string, unknown>,
-  { payload }: PayloadAction<Record<string, unknown>>
+  state: Record<string, any>,
+  { payload }: PayloadAction<Record<string, unknown> | setStateFunction>
 ) => {
+  if (typeof payload === "function") {
+    payload(state);
+    return;
+  }
   const newState = lodash.merge(state, payload);
   for (const key in newState) {
     state[key] = newState[key];

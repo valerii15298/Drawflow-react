@@ -5,11 +5,20 @@ import {
   createReducer,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { canvasShape, clientPos, flowType, Slices } from "../types";
+import {
+  canvasShape,
+  clientPos,
+  flowType,
+  mainWindow,
+  setStateFunction,
+  sideWindow,
+  Slices,
+} from "../types";
 import { drawflowSlice, selectActiveDrawflow, setState } from "./drawflowSlice";
 import mock, { testNode } from "../mock";
 import { initialState as drawflowInitialState } from "./drawflowSlice";
 import handler from "../tools";
+import { fetchGroups, fetchTemplateNodes } from "./api";
 
 export const changeVersion = createAction<number>("versions/changed");
 export const addNewNode = createAction<clientPos>("addNewNode");
@@ -18,7 +27,9 @@ export const canvasShapeUpdated =
   createAction<canvasShape>("canvasShapeUpdated");
 export const insertCopiedNode = createAction("insertCopiedNode");
 export const toggleSidebar = createAction("toggleSidebar");
-export const setStateAction = createAction<Record<string, unknown>>("setState");
+export const setStateAction = createAction<
+  Record<string, any> | setStateFunction
+>("setState");
 
 export const flowTypeActions = {
   setStateAction,
@@ -29,23 +40,18 @@ const initialState: flowType = {
   flows: [drawflowInitialState, drawflowInitialState, drawflowInitialState],
   templates: [],
   dragTemplate: 0,
-  groups: [],
-  tabId: 0,
+  groups: {},
+  windowConfig: {
+    id: 0,
+    mainId: mainWindow.mainFlow,
+    sideId: sideWindow.none,
+    background: {
+      opacity: 0,
+      blur: 0,
+      imageUrl: "",
+    },
+  },
 };
-
-export const fetchNodeTemplates = createAsyncThunk("fetchPosts", async () => {
-  const data = await mock.getFilters(10);
-  // console.log(data)
-
-  return data;
-});
-
-export const fetchFlowVersion = createAsyncThunk(
-  "fetchFlowVersion",
-  async () => {
-    return await mock.getDummy();
-  }
-);
 
 const reducer = createReducer(initialState, (builder) => {
   builder
@@ -79,6 +85,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeVersion, (state, { payload }) => {
       state.version = payload;
     })
+
     .addCase(toggleSidebar, (state) => {
       state.sidebarVisible = !(state.sidebarVisible ?? true);
     })
@@ -124,15 +131,21 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(canvasShapeUpdated, (appState, { payload }) => {
       appState.canvas = payload;
     })
-    .addCase(fetchNodeTemplates.fulfilled, (state, action) => {
-      state.templates = action.payload;
+
+    .addCase(fetchTemplateNodes.fulfilled, (state, { payload }) => {
+      console.log(payload);
+      state.templates = payload;
     })
-    .addCase(fetchFlowVersion.fulfilled, (state, action) => {
-      const { nodes: drawflow, connections } = action.payload;
-      state.flows[state.version] = drawflowSlice(state.flows[state.version], {
-        type: Slices.Drawflow + "/load",
-        payload: { drawflow, connections },
-      });
+
+    // .addCase(fetchFlowVersion.fulfilled, (state, action) => {
+    //   const { nodes: drawflow, connections } = action.payload;
+    //   state.flows[state.version] = drawflowSlice(state.flows[state.version], {
+    //     type: Slices.Drawflow + "/load",
+    //     payload: { drawflow, connections },
+    //   });
+    // })
+    .addCase(fetchGroups.fulfilled, (state, { payload }) => {
+      state.groups = payload;
     })
 
     // reducer for drawflow

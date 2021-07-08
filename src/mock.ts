@@ -1,4 +1,5 @@
-import { node, NODE_TYPE } from "./types";
+import { getTemplateNode } from "./components/TemplateNodesList";
+import { block, node, NODE_TYPE } from "./types";
 import { data } from "./types";
 
 const makeRandomNames = (
@@ -36,14 +37,12 @@ const getFilters = async (number: number) => {
 };
 
 export const testNode = (): node => {
+  const templateNode: block = getTemplateNode();
+
   return {
     id: 0,
     type: NODE_TYPE.MIDDLE,
-    data: {
-      type: "Node type",
-      name: "Node name",
-      value: "Node value",
-    },
+    data: templateNode,
     port: {
       in: 1,
       out: 2,
