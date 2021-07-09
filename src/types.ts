@@ -60,7 +60,7 @@ export type ports = Array<Port>;
 
 type dateTimeString = `${number}-${number}-${number}T${number}:${number}`;
 
-export type block = {
+export interface block {
   active: 0 | 1;
   description: string;
   execute_node_specific_date_time: dateTimeString;
@@ -83,7 +83,12 @@ export type block = {
   order: number;
   node_settings_json: Record<string, unknown>;
   node_response_settings_json: Record<string, unknown>;
-};
+}
+
+export const ObjectKeys = <O>(o: O) => {
+  return Object.keys(o) as (keyof O)[];
+}
+
 
 // export const blockTypes = {
 //   active: "select",
@@ -141,8 +146,8 @@ type RecursivePartial<T> = {
     ? RecursivePartial<U>[]
     : // eslint-disable-next-line @typescript-eslint/ban-types
     T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 export type updateNode = RecursivePartial<node>;
@@ -160,6 +165,7 @@ export interface addConnectionType {
   endId: number;
   endPort: number;
 }
+
 export interface connection extends addConnectionType {
   visible?: boolean;
 }
@@ -178,6 +184,7 @@ export type select = {
   type: portType | "node" | "path";
   selectId: number;
 };
+
 export interface stateData {
   nodeId: number;
   canvasDrag: boolean;
@@ -237,8 +244,8 @@ type RecursiveNull<T> = {
     ? RecursivePartial<U>[]
     : // eslint-disable-next-line @typescript-eslint/ban-types
     T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P] | null;
+      ? RecursivePartial<T[P]>
+      : T[P] | null;
 };
 export type flowInfo = RecursiveNull<flowInfoStrict>;
 
