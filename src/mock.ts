@@ -1,6 +1,5 @@
-import { getTemplateNode } from "./components/TemplateNodesList";
-import { block, node, NODE_TYPE } from "./types";
-import { data } from "./types";
+import { block, data, node, NODE_TYPE } from "./types";
+import { getTemplateNode } from "./models/getTemplateNode";
 
 const makeRandomNames = (
   length: number,

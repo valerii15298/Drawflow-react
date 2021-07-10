@@ -2,7 +2,7 @@ import { useRef } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { dragTemplate, setStateAction } from "../redux/store";
-import { MessageSvg, ThreeDots } from "../svg";
+import { ThreeDots } from "../svg";
 import { block, mainWindow } from "../types";
 
 const TapMoreButton = styled.button`

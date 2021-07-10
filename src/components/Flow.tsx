@@ -5,14 +5,12 @@ import { changeVersion } from "../redux/store";
 import "react-toggle/style.css";
 import { Sidebar, ToggleSidebar } from "./Sidebar";
 import { Header } from "./Header";
-import styled, { css } from "styled-components";
-import { useEffect, useRef } from "react";
+import styled from "styled-components";
+import { useEffect } from "react";
 import { fetchFlow, fetchGroups, fetchTemplateNodes } from "../redux/api";
 import { FlowInfoSettings } from "./FlowInfoSettings";
 import { mainWindow, sideWindow } from "../types";
 import { GroupsSettings } from "./GroupsSettings";
-
-import JSONEditor, { JSONEditorOptions } from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.css";
 import { TemplateNodeSettings } from "./NodeTemplateSettings";
 import { CodeEditor } from "./CodeEditor";

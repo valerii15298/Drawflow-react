@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
-import styled, {css} from "styled-components";
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {setStateAction, toggleSidebar} from "../redux/store";
-import {Arrows, SearchIcon, Settings} from "../svg";
-import {sideWindow} from "../types";
+import { useState } from "react";
+import styled, { css } from "styled-components";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setStateAction, toggleSidebar } from "../redux/store";
+import { Arrows, SearchIcon, Settings } from "../svg";
+import { sideWindow } from "../types";
 import FilterList from "./TemplateNodesList";
 
 const SidebarDiv = styled.div`
@@ -53,50 +53,50 @@ const GroupDiv = styled.div<{ selected: boolean }>`
     opacity: 0.5;
   }
 
-  ${({selected}) =>
-          selected &&
-          css`
-            order: -1;
+  ${({ selected }) =>
+    selected &&
+    css`
+      order: -1;
 
-            :after {
-              position: absolute;
-              display: block;
-              content: "";
-              width: 100%;
-              height: 4px;
-              background-color: #217ce8;
-              bottom: 0;
-            }
-          `};
+      :after {
+        position: absolute;
+        display: block;
+        content: "";
+        width: 100%;
+        height: 4px;
+        background-color: #217ce8;
+        bottom: 0;
+      }
+    `};
 `;
 
 const GroupList = ({
-                       selectedGroup,
-                       setSelectedGroup,
-                   }: {
-    selectedGroup: number;
-    setSelectedGroup: (arg: number) => void;
+  selectedGroup,
+  setSelectedGroup,
+}: {
+  selectedGroup: number;
+  setSelectedGroup: (arg: number) => void;
 }) => {
-    const dispatch = useAppDispatch();
-    const groups = useAppSelector((s) => s.groups);
+  const dispatch = useAppDispatch();
+  const groups = useAppSelector((s) => s.groups);
 
-    return (
-        <GroupsDiv>
-            {Object.values(groups).map(
-                ({id, node_group_name, node_group_order}) => {
-                    return (
-                        <GroupDiv
-                            key={id}
-                            selected={id === selectedGroup}
-                            onClick={() => setSelectedGroup(id)}
-                        >
-                            {node_group_name}
-                        </GroupDiv>
-                    );
-                }
-            )}
-        </GroupsDiv>
-    );
+  return (
+    <GroupsDiv>
+      {Object.values(groups).map(
+        ({ id, node_group_name, node_group_order }) => {
+          return (
+            <GroupDiv
+              key={id}
+              selected={id === selectedGroup}
+              onClick={() => setSelectedGroup(id)}
+            >
+              {node_group_name}
+            </GroupDiv>
+          );
+        }
+      )}
+    </GroupsDiv>
+  );
 };
 
 const SearchInput = styled.input`
@@ -154,38 +154,38 @@ const OpenGroupSettingButton = styled.button`
 `;
 
 const SearchBar = ({
-                       setSearchWord,
-                   }: {
-    setSearchWord: (value: string) => void;
+  setSearchWord,
+}: {
+  setSearchWord: (value: string) => void;
 }) => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    return (
-        <SearchDiv>
-            <SearchSpan>
-                <SearchIcon/>
-            </SearchSpan>
-            <SearchInput
-                type="text"
-                placeholder="Search templates"
-                onChange={(e) => {
-                    setSearchWord(e.target.value);
-                }}
-            />
-            <OpenGroupSettingButton
-                onClick={() =>
-                    dispatch(
-                        setStateAction({
-                            windowConfig: {sideId: sideWindow.groupSettings},
-                        })
-                    )
-                }
-            >
-                <Settings height={30}/>
-            </OpenGroupSettingButton>
-            <ToggleSidebar/>
-        </SearchDiv>
-    );
+  return (
+    <SearchDiv>
+      <SearchSpan>
+        <SearchIcon />
+      </SearchSpan>
+      <SearchInput
+        type="text"
+        placeholder="Search templates"
+        onChange={(e) => {
+          setSearchWord(e.target.value);
+        }}
+      />
+      <OpenGroupSettingButton
+        onClick={() =>
+          dispatch(
+            setStateAction({
+              windowConfig: { sideId: sideWindow.groupSettings },
+            })
+          )
+        }
+      >
+        <Settings height={30} />
+      </OpenGroupSettingButton>
+      <ToggleSidebar />
+    </SearchDiv>
+  );
 };
 
 const ExpandDiv = styled.div<{ opened: boolean }>`
@@ -193,42 +193,42 @@ const ExpandDiv = styled.div<{ opened: boolean }>`
     cursor: pointer;
   }
 
-  ${({opened}) =>
-          opened &&
-          css`
-            transform: rotate(180deg);
-          `};
+  ${({ opened }) =>
+    opened &&
+    css`
+      transform: rotate(180deg);
+    `};
 `;
 export const ToggleSidebar = (props: any) => {
-    const visible = useAppSelector((s) => s.sidebarVisible) ?? true;
-    const dispatch = useAppDispatch();
+  const visible = useAppSelector((s) => s.sidebarVisible) ?? true;
+  const dispatch = useAppDispatch();
 
-    return (
-        <ExpandDiv
-            {...props}
-            opened={!visible}
-            onClick={() => dispatch(toggleSidebar())}
-        >
-            <Arrows height={40}/>
-        </ExpandDiv>
-    );
+  return (
+    <ExpandDiv
+      {...props}
+      opened={!visible}
+      onClick={() => dispatch(toggleSidebar())}
+    >
+      <Arrows height={40} />
+    </ExpandDiv>
+  );
 };
 
 export const Sidebar = () => {
-    const [searchWord, setSearchWord] = useState("");
-    const [selectedGroup, setSelectedGroup] = useState<number>(0);
-    const visible = useAppSelector((s) => s.sidebarVisible);
+  const [searchWord, setSearchWord] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState<number>(0);
+  const visible = useAppSelector((s) => s.sidebarVisible);
 
-    if (visible === false) return null;
+  if (visible === false) return null;
 
-    return (
-        <SidebarDiv>
-            <SearchBar setSearchWord={setSearchWord}/>
-            <GroupList
-                selectedGroup={selectedGroup}
-                setSelectedGroup={setSelectedGroup}
-            />
-            <FilterList searchWord={searchWord}/>
-        </SidebarDiv>
-    );
+  return (
+    <SidebarDiv>
+      <SearchBar setSearchWord={setSearchWord} />
+      <GroupList
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+      />
+      <FilterList searchWord={searchWord} />
+    </SidebarDiv>
+  );
 };

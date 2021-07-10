@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Plus } from "../svg";
-import { block } from "../types";
 import { NodeDiv, NodeTemplate } from "./NodeTemplate";
 
 const ListDiv = styled.div`
@@ -25,31 +23,6 @@ const AddTemplateNodeDiv = styled(NodeDiv)`
     cursor: pointer;
   }
 `;
-
-export const getTemplateNode: () => block = () => ({
-  flow_node_type_id: 0,
-  nodes_id: 0,
-  node_scrdata_id: 0,
-  flow_action_scrdata_id: 0,
-  order: 0,
-  nodes_group_id: 0,
-  name: "**",
-  description: "**",
-  icon_link: "https://tastypoints.io/akm/tasty_images/pQ6hREGM.png",
-  icon_link_selected: "https://tastypoints.io/akm/tasty_images/pQ6hREGM.png",
-  nodes_tooltip: "",
-  id_priority: 0,
-  active: 0,
-  execution_wait_time_seconds: 0,
-  execute_node_specific_date_time: "2020-11-11T19:30",
-  loop_cycles: 0,
-  node_settings_json: {},
-  node_response_settings_json: {},
-  loop_cycle_reached_jump_to_node: 0,
-  node_attributes: {},
-  node_object_lists: {},
-  node_story: "Node story",
-});
 
 const TemplateNodesList = (props: { searchWord: string }) => {
   const list = useAppSelector((s) => s.templates);

@@ -2,12 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import { updateGroup } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { group, groups, optGroup } from "../types";
+import { groups } from "../types";
 import lodash from "lodash";
+import { Button } from "./Button";
+import { getGroupTemplate } from "../models/getGroupTemplate";
 
-const ControlButtonsDiv = styled.div`
-  /* text-align: center; */
-`;
+const ControlButtonsDiv = styled.div``;
 
 const GroupsDiv = styled.div`
   padding: 0 10px;
@@ -25,30 +25,13 @@ const GroupDiv = styled.div`
 `;
 const GroupIdSpan = styled.span`
   color: blue;
+
   ::before {
     margin-left: 8px;
     content: " ID.";
   }
 `;
 
-export const Button = styled.button`
-  /* margin-left: auto; */
-  padding: 4px 6px;
-  text-align: center;
-  outline: none;
-  color: #fff;
-  background-color: #217ce8;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 4px #999;
-  :active {
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-  }
-`;
 const AddNewGroupButton = styled(Button)`
   text-align: center;
 `;
@@ -65,7 +48,7 @@ const DivGroup1 = styled.div`
   justify-content: start;
   margin-bottom: 8px;
 `;
-// const DivGroup2 = styled.div``;
+
 const GroupsSettingsH1 = styled.h2`
   text-align: center;
   border-bottom: 2px solid blue;
@@ -90,13 +73,6 @@ const GroupDescriptionTextarea = styled.textarea`
   width: 90%;
   /* text-align: center; */
 `;
-
-const groupInfoTemplate: () => optGroup = () => ({
-  id: 0,
-  node_group_order: 0,
-  node_group_name: "Group name",
-  node_group_description: "Group description",
-});
 
 export const GroupsSettings = () => {
   const originalGroups = useAppSelector((s) => s.groups);
@@ -170,7 +146,7 @@ export const GroupsSettings = () => {
       <ControlButtonsDiv>
         <AddNewGroupButton
           onClick={() => {
-            dispatch(updateGroup(groupInfoTemplate()));
+            dispatch(updateGroup(getGroupTemplate()));
           }}
         >
           Add new
@@ -181,9 +157,7 @@ export const GroupsSettings = () => {
 };
 
 /**
+ * TODO
  * Adding new template node
  * Show templates related to groups
- *
- *
- *
  */

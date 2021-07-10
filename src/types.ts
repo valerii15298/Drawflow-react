@@ -87,8 +87,7 @@ export interface block {
 
 export const ObjectKeys = <O>(o: O) => {
   return Object.keys(o) as (keyof O)[];
-}
-
+};
 
 // export const blockTypes = {
 //   active: "select",
@@ -146,8 +145,8 @@ type RecursivePartial<T> = {
     ? RecursivePartial<U>[]
     : // eslint-disable-next-line @typescript-eslint/ban-types
     T[P] extends object
-      ? RecursivePartial<T[P]>
-      : T[P];
+    ? RecursivePartial<T[P]>
+    : T[P];
 };
 
 export type updateNode = RecursivePartial<node>;
@@ -244,8 +243,8 @@ type RecursiveNull<T> = {
     ? RecursivePartial<U>[]
     : // eslint-disable-next-line @typescript-eslint/ban-types
     T[P] extends object
-      ? RecursivePartial<T[P]>
-      : T[P] | null;
+    ? RecursivePartial<T[P]>
+    : T[P] | null;
 };
 export type flowInfo = RecursiveNull<flowInfoStrict>;
 

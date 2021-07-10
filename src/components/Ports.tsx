@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { actions } from "../redux/drawflowSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { useNodeIsSub, usePortIsActive } from "../redux/selectors";
-import { portType, port, purePort } from "../types";
+import { port, portType, purePort } from "../types";
 
 const Indicator = styled.div<{ visible: boolean }>`
   width: 15px;

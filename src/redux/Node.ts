@@ -5,11 +5,11 @@ import { Flow } from "./Flow";
 
 export default class Node {
   public readonly id: number;
-  private readonly state: stateData;
   public readonly flow: Flow;
   public readonly nodeState: node;
   public readonly spacingX = 40;
   public readonly spacingY = 60;
+  private readonly state: stateData;
 
   constructor(id: number, flow: Flow) {
     this.id = id;
@@ -76,37 +76,6 @@ export default class Node {
     return totalWidth + this.spacingX * (out1.length - 1);
   }
 
-  alignChildren() {
-    const { out1 } = this;
-    this.update({ isSub: false, port: { out: 2 } });
-
-    let xPos = this.pos.x - (this.leftWidth - this.width / 2);
-
-    for (const node of out1) {
-      const x = xPos + (node.leftWidth - node.width / 2);
-      node.setPos({ x, y: this.pos.y + this.height + this.spacingY });
-      if (node.nodeState.visible !== false) {
-        xPos += node.totalWidth + this.spacingX;
-      }
-      node.alignChildren();
-    }
-
-    const { subnodes } = this;
-    if (subnodes.length) {
-      xPos = this.pos.x + this.width + this.spacingX;
-      subnodes.forEach((subNode) => {
-        subNode.update({ isSub: true, port: { out: 1 } });
-        subNode.setPos({
-          x: xPos,
-          y: this.pos.y + (this.height / 2 - subNode.height / 2),
-        });
-
-        // delete this.state.ports[`${subNode.id}_out_2`]
-        xPos += subNode.width + this.spacingX;
-      });
-    }
-  }
-
   get leftWidth(): number {
     if (this.nodeState.visible === false) return 0;
     const { out1, childrenTotalWidth } = this;
@@ -158,49 +127,10 @@ export default class Node {
     return allSuccessors;
   }
 
-  toggleVisibility(visible: boolean) {
-    // set self visibility
-    this.update({ visible });
-
-    this.parentConnection && (this.parentConnection.visible = visible);
-
-    // set conns visibility to false
-    this.outConnections.forEach((conn) => {
-      conn.visible = visible;
-    });
-  }
-
-  toggleChildrenVisibility() {
-    const visibility = this.nodeState.childrenVisibility ?? true;
-    this.update({ childrenVisibility: !visibility });
-    const { subnodes, allSuccessors } = this;
-    allSuccessors.forEach((node) => {
-      if (!subnodes.includes(node)) {
-        node.toggleVisibility(!visibility);
-      }
-    });
-  }
-
-  toggleSubnodesVisibility() {
-    const visibility = this.nodeState.subnodesVisibility ?? true;
-    this.update({ subnodesVisibility: !visibility });
-    this.subnodes.forEach((node) => {
-      node.toggleVisibility(!visibility);
-    });
-  }
-
   get outConnections() {
     return this.state.connections.filter(({ startId }) => {
       return startId === this.id;
     });
-  }
-
-  children(portId: number) {
-    return this.state.connections
-      .filter(
-        ({ startId, startPort }) => startId === this.id && startPort === portId
-      )
-      .map((conn) => this.flow.getNode(conn.endId));
   }
 
   get out1() {
@@ -259,12 +189,83 @@ export default class Node {
   get height() {
     return this.state.drawflow[this.id].height;
   }
+
   get width() {
     return this.state.drawflow[this.id].width;
   }
 
   get pos() {
     return this.state.drawflow[this.id].pos;
+  }
+
+  alignChildren() {
+    const { out1 } = this;
+    this.update({ isSub: false, port: { out: 2 } });
+
+    let xPos = this.pos.x - (this.leftWidth - this.width / 2);
+
+    for (const node of out1) {
+      const x = xPos + (node.leftWidth - node.width / 2);
+      node.setPos({ x, y: this.pos.y + this.height + this.spacingY });
+      if (node.nodeState.visible !== false) {
+        xPos += node.totalWidth + this.spacingX;
+      }
+      node.alignChildren();
+    }
+
+    const { subnodes } = this;
+    if (subnodes.length) {
+      xPos = this.pos.x + this.width + this.spacingX;
+      subnodes.forEach((subNode) => {
+        subNode.update({ isSub: true, port: { out: 1 } });
+        subNode.setPos({
+          x: xPos,
+          y: this.pos.y + (this.height / 2 - subNode.height / 2),
+        });
+
+        // delete this.state.ports[`${subNode.id}_out_2`]
+        xPos += subNode.width + this.spacingX;
+      });
+    }
+  }
+
+  toggleVisibility(visible: boolean) {
+    // set self visibility
+    this.update({ visible });
+
+    this.parentConnection && (this.parentConnection.visible = visible);
+
+    // set conns visibility to false
+    this.outConnections.forEach((conn) => {
+      conn.visible = visible;
+    });
+  }
+
+  toggleChildrenVisibility() {
+    const visibility = this.nodeState.childrenVisibility ?? true;
+    this.update({ childrenVisibility: !visibility });
+    const { subnodes, allSuccessors } = this;
+    allSuccessors.forEach((node) => {
+      if (!subnodes.includes(node)) {
+        node.toggleVisibility(!visibility);
+      }
+    });
+  }
+
+  toggleSubnodesVisibility() {
+    const visibility = this.nodeState.subnodesVisibility ?? true;
+    this.update({ subnodesVisibility: !visibility });
+    this.subnodes.forEach((node) => {
+      node.toggleVisibility(!visibility);
+    });
+  }
+
+  children(portId: number) {
+    return this.state.connections
+      .filter(
+        ({ startId, startPort }) => startId === this.id && startPort === portId
+      )
+      .map((conn) => this.flow.getNode(conn.endId));
   }
 
   setPos(newPos: pos) {

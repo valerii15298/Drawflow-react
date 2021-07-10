@@ -1,16 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import mock from "../mock";
-import {
-  block,
-  flowInfo,
-  flowType,
-  group,
-  groups,
-  optGroup,
-  setStateFunction,
-  step,
-} from "../types";
-import { flowTypeActions, setStateAction } from "./store";
+import { block, flowInfo, flowType, group, groups, optGroup } from "../types";
+import { flowTypeActions } from "./store";
 
 const baseUrl =
   "https://valerii.educationhost.cloud?csurl=https://tastypoints.io/akm/restapi.php";

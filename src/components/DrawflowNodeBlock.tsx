@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import styled, { css } from "styled-components";
 import { Round } from "./NodeComponents";
 import { subnodeStyle } from "../styles";

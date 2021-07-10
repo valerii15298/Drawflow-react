@@ -1,7 +1,6 @@
 import {
   configureStore,
   createAction,
-  createAsyncThunk,
   createReducer,
   PayloadAction,
 } from "@reduxjs/toolkit";
@@ -14,9 +13,13 @@ import {
   sideWindow,
   Slices,
 } from "../types";
-import { drawflowSlice, selectActiveDrawflow, setState } from "./drawflowSlice";
-import mock, { testNode } from "../mock";
-import { initialState as drawflowInitialState } from "./drawflowSlice";
+import {
+  drawflowSlice,
+  initialState as drawflowInitialState,
+  selectActiveDrawflow,
+  setState,
+} from "./drawflowSlice";
+import { testNode } from "../mock";
 import handler from "../tools";
 import { fetchGroups, fetchTemplateNodes } from "./api";
 

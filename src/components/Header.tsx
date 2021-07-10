@@ -28,10 +28,12 @@ const buttonCss = css`
   display: flex;
   align-items: center;
   justify-content: center;
+
   > * {
     max-height: 90%;
     max-width: 90%;
   }
+
   margin: 0;
 `;
 const ToggleSection = styled.div`
@@ -62,7 +64,7 @@ const CircleSpan = styled.button`
 `;
 const InfoDiv = styled.div`
   display: grid;
-  place-items: left;
+  //place-items: left;
   div {
   }
 `;
@@ -70,7 +72,7 @@ const InfoDiv = styled.div`
 const FlowTitle = styled.div`
   font-size: 16px;
   color: #393c44;
-  font-family: Roboto;
+  font-family: Roboto, serif;
 `;
 const FlowSubtitle = styled.div`
   color: #808292;
@@ -78,7 +80,7 @@ const FlowSubtitle = styled.div`
 `;
 
 const DeleteFlowButton = styled.button`
-  ${buttonCss}
+  ${buttonCss};
 
   background-color: #e31c5c;
   display: inline-block;
@@ -87,7 +89,7 @@ const DeleteFlowButton = styled.button`
 `;
 const SaveFlowButton = styled.button`
   background-color: #217ce8;
-  ${buttonCss}
+  ${buttonCss};
   color: white;
 `;
 
@@ -95,6 +97,7 @@ const ActiveLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+
   > span:first-child {
     display: inline-block;
     margin-right: 4px;

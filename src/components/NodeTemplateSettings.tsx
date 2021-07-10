@@ -1,15 +1,15 @@
-import {FC, useEffect, useState} from "react";
-import styled, {css} from "styled-components";
-import {useAppSelector} from "../redux/hooks";
-import {block, ObjectKeys} from "../types";
-import {Arrow, Settings as SettingsIcon} from "../svg";
+import { FC, useEffect, useState } from "react";
+import styled, { css } from "styled-components";
+import { useAppSelector } from "../redux/hooks";
+import { block, ObjectKeys } from "../types";
+import { Arrow, Settings as SettingsIcon } from "../svg";
 
-import {Controller, FormProvider, useForm, useFormContext, useWatch} from "react-hook-form";
+import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
 
-import {getTemplateNode} from "./TemplateNodesList";
-import {CodeEditor} from "./CodeEditor";
-import {ToggleSidebar} from "./Sidebar";
-import {Button} from "./GroupsSettings";
+import { CodeEditor } from "./CodeEditor";
+import { ToggleSidebar } from "./Sidebar";
+import { Button } from "./Button";
+import { getTemplateNode } from "../models/getTemplateNode";
 
 const templateNode = getTemplateNode();
 
@@ -39,11 +39,11 @@ const LeftBarHeader = styled.header<{ shift: boolean }>`
   color: #1f1a1a;
   order: -1;
   position: relative;
-  ${({shift}) =>
-          shift &&
-          css`
-            padding-left: 0;
-          `}
+  ${({ shift }) =>
+    shift &&
+    css`
+      padding-left: 0;
+    `}
 `;
 
 const TitleImg = styled.img`
@@ -108,11 +108,11 @@ const ItemSettingLabel = styled.label`
 const ListSettingsDiv = styled.div``;
 
 // eslint-disable-next-line react/prop-types
-const StyledSummary: FC = ({children}) => {
+const StyledSummary: FC = ({ children }) => {
   return (
     <Summary>
       <ArrowSpan>
-        <Arrow/>
+        <Arrow />
       </ArrowSpan>
       <span>{children}</span>
     </Summary>
@@ -122,7 +122,7 @@ const StyledSummary: FC = ({children}) => {
 const SelectorButton = styled.button``;
 
 const Selector = () => {
-  return <SettingsIcon/>;
+  return <SettingsIcon />;
 };
 
 const defaultSettingsMap = {};
@@ -139,7 +139,7 @@ function setPropDyn(obj: Record<string, any>, arr: string[], value: string) {
   for (; i < arr.length - 1; i++) {
     obj = obj[arr[i]];
   }
-  if (typeof obj[arr[i]] === 'string') {
+  if (typeof obj[arr[i]] === "string") {
     obj[arr[i]] += value;
   }
 }
@@ -149,81 +149,88 @@ const getNestedObjectField = (obj: Record<string, any>, props: string[]) => {
     if (!(propName in obj)) {
       return undefined;
     }
-    obj = obj[propName]
+    obj = obj[propName];
   }
-  return obj
-}
+  return obj;
+};
 
-const SettingItem = ({path}: any) => {
-  const {register, getValues, setValue} = useFormContext();
+const SettingItem = ({ path }: any) => {
   const key = path[path.length - 1];
   const keyPath = `${path.join(".")}`;
 
-  // useEffect(() => {
-  //   console.log("Item mounted");
-  //   return console.log("Item Unmounted");
-  // }, [])
-
-  const field = register(keyPath, {
-    validate: value => {
+  const validate = (value: any) => {
+    const valid =
+      key in templateNode && value !== null
+        ? // @ts-ignore
+          typeof templateNode[key] === typeof value
+        : true;
+    if (!valid) {
       // @ts-ignore
-      const valid = (key in templateNode && value !== null) ? typeof templateNode[key] === typeof value : true;
-      if (!valid) {
-        // @ts-ignore
-        console.log({key, value, tvalue: templateNode[key]});
-        // @ts-ignore
-        setValue(keyPath, templateNode[key])
-      }
-      return valid
-    },
-  });
-  const values = getValues()
-  const value = getNestedObjectField(values, path)
-  const isNull = value === null;
-
-  //@ts-ignore
-  const typeVal = key in templateNode ? templateNode[key] : value;
-  let type = (typeof typeVal === "string" || isNull) ? "text" : typeof typeVal;
-  const {onChange, ...rest} = field
+      console.log({ key, value, properValue: templateNode[key] });
+    }
+    // console.log(valid);
+    return valid;
+  };
 
   const keyName = capitalize(key.replace(/_/g, " "));
   return (
     <ItemSettingLabel>
       {keyName}:
-      <input placeholder={key} {...rest} onChange={e => {
-        const {value} = e.target
-        setValue(keyPath, type === 'number' ? parseInt(value) : value);
-      }} type={type}/>
-      {/*<Controller*/}
-      {/*  name={keyPath}*/}
-      {/*  render={({ field }) => (*/}
-      {/*    <input*/}
-      {/*      type={type}*/}
-      {/*      {...field}*/}
-      {/*      onChange={(e) => {*/}
-      {/*        const {value} = e.target*/}
-      {/*        field.onChange(type === 'number' ? parseInt(value) : value);*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*  control={control}*/}
-      {/*/>*/}
+      <Controller
+        name={keyPath}
+        render={({ field }) => {
+          const { value } = field;
+          const isNull = value === null;
+          validate(value);
+
+          //@ts-ignore
+          const typeVal = key in templateNode ? templateNode[key] : value;
+          let type =
+            typeof typeVal === "string" || isNull ? "text" : typeof typeVal;
+
+          return (
+            <input
+              type={type}
+              {...field}
+              value={value ?? ""}
+              onChange={(e) => {
+                const { value } = e.target;
+                // console.log(value);
+                field.onChange(type === "number" ? parseInt(value) : value);
+              }}
+            />
+          );
+        }}
+      />
     </ItemSettingLabel>
   );
 };
 
-export const FormSettings = ({path, obj,}: { path: Array<string>; obj: any }) => {
+export const FormSettings = ({
+  path,
+  obj,
+}: {
+  path: Array<string>;
+  obj: any;
+}) => {
   if (typeof obj !== "object" || obj === null) {
-    return <SettingItem path={path}/>;
+    return <SettingItem path={path} />;
   }
 
-  const items = ObjectKeys(obj as Record<any, unknown>).map(key => {
-    const value = obj[key]
-    return <FormSettings key={[...path, key].join('.')} path={[...path, key]} obj={value}/>;
+  const items = ObjectKeys(obj as Record<any, unknown>).map((key) => {
+    const value = obj[key];
+    return (
+      <FormSettings
+        key={[...path, key].join(".")}
+        path={[...path, key]}
+        obj={value}
+      />
+    );
   });
   const key = path[path.length - 1];
   // @ts-ignore
-  const keyName = mapKeyToDisplayName[key] ?? capitalize(key.replace(/_/g, " "));
+  const keyName =
+    mapKeyToDisplayName[key] ?? capitalize(key.replace(/_/g, " "));
 
   return (
     <Details>
@@ -244,65 +251,75 @@ const ToggleSidebarDiv = styled.div`
 
 const SaveButton = styled(Button)``;
 
-const CancelButton = styled(Button)``;
+const ResetButton = styled(Button)``;
 const ControlsDiv = styled.div`
   text-align: center;
 `;
 
-const RightBar = ({setFormValues, control, remount, defaultValue}:
-                    { setFormValues: (p: block) => void, control: any, remount: () => void, defaultValue: block }) => {
-  const values = useWatch({control, defaultValue});
-  const [edited, setEdited] = useState<boolean>(false)
+const RightBar = ({
+  setFormValues,
+  control,
+  remount,
+  defaultValue,
+}: {
+  setFormValues: (p: block) => void;
+  control: any;
+  remount: () => void;
+  defaultValue: block;
+}) => {
+  const values = useWatch({ control, defaultValue });
+  const [edited, setEdited] = useState<boolean>(false);
 
-  return <div
-    onMouseLeave={() => edited && remount()}
-  >
-    <CodeEditor
-      values={values}
-      setValues={data => {
-        setEdited(true)
-        setFormValues(data)
-      }}/>
-  </div>
-}
+  return (
+    <div onMouseLeave={() => edited && remount()}>
+      <CodeEditor
+        values={values}
+        setValues={(data) => {
+          setEdited(true);
+          setFormValues(data);
+        }}
+      />
+    </div>
+  );
+};
 
-export const LeftBar = (props: { defaultValues: block, setControl: (p: any) => void }) => {
-  const {defaultValues, setControl} = props
-  const methods = useForm<block>({defaultValues})
+export const LeftBar = (props: {
+  defaultValues: block;
+  setControl: (p: any) => void;
+}) => {
+  const { defaultValues, setControl } = props;
+  const methods = useForm<block>({ defaultValues });
   const {
     handleSubmit,
-    formState: {errors},
-    getValues,
+    formState: { errors },
     reset,
-    control
+    control,
   } = methods;
 
   useEffect(() => {
     setControl(control);
-  }, [])
+  }, []);
 
-  const values = defaultValues
-  const {name, description, icon_link} = values;
+  const values = defaultValues;
+  const { name, description, icon_link } = values;
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
 
   const onSubmit = (data: any) => {
     console.clear();
-    console.log(JSON.stringify(data, null, 2))
-    console.log('submit', data.node_attributes.length);
-  }
+    console.log(JSON.stringify(data, null, 2));
+    console.log("submit", data.node_attributes.length);
+  };
 
   return (
     <FormProvider {...methods}>
-      <LeftBarForm
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <LeftBarForm onSubmit={handleSubmit(onSubmit)}>
         <LeftBarHeader shift={!sidebarVisible}>
           {!sidebarVisible && (
             <ToggleSidebarDiv>
-              <ToggleSidebar/>
+              <ToggleSidebar />
             </ToggleSidebarDiv>
           )}
-          <TitleImg src={icon_link}/>
+          <TitleImg src={icon_link} />
           <TitleInfoDiv>
             <TitleDiv>{name}</TitleDiv>
             <DescriptionDiv>{description}</DescriptionDiv>
@@ -316,7 +333,7 @@ export const LeftBar = (props: { defaultValues: block, setControl: (p: any) => v
                 (typeof value !== "object" || value === null) &&
                 !(key in mapKeyToDisplayName)
               ) {
-                return <SettingItem key={key} path={[key]}/>;
+                return <SettingItem key={key} path={[key]} />;
               }
               return null;
             })}
@@ -324,51 +341,58 @@ export const LeftBar = (props: { defaultValues: block, setControl: (p: any) => v
         </DefaultSettingsDetails>
         {ObjectKeys(mapKeyToDisplayName).map((key) => {
           return values[key] ? (
-            <FormSettings key={key} obj={values[key]} path={[key]}/>
+            <FormSettings key={key} obj={values[key]} path={[key]} />
           ) : null;
         })}
-        {Object.keys(errors).length && (<div>
-          <pre>Errors</pre>
-        </div>)}
+        {Object.keys(errors).length && (
+          <div>
+            <pre>Errors</pre>
+          </div>
+        )}
         <ControlsDiv>
           <SaveButton type="submit">Save</SaveButton>
-          <CancelButton onClick={() => reset()}>
-            Reset
-          </CancelButton>
+          <ResetButton onClick={() => reset()}>Reset</ResetButton>
         </ControlsDiv>
       </LeftBarForm>
     </FormProvider>
   );
 };
 
-
 export const NodeSettings = (props: { id: number }) => {
-  const {id} = props
+  const { id } = props;
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
   const json = useAppSelector((s) =>
-    s.templates.find(({nodes_id}) => nodes_id === id)
+    s.templates.find(({ nodes_id }) => nodes_id === id)
   ) as block;
-  const [defaultValues, setDefaultValues] = useState(json)
-  const [control, setControl] = useState()
+  const [defaultValues, setDefaultValues] = useState(json);
+  const [control, setControl] = useState();
 
-  return <NodeSettingsWrapper>
-    <TemplateNodeSettingsDiv>
-      <LeftBar key={`leftBar-${leftBarKey}`} defaultValues={defaultValues} setControl={setControl}/>
-      {control && <RightBar
-        key={`rightBarKey${rightBarKey}`}
-        remount={() => {
-          setRightBarKey(key => key + 1);
-        }}
-        setFormValues={(newData: block) => {
-          setDefaultValues(newData);
-          setLeftBarKey(key => key + 1);
-        }}
-        control={control}
-        defaultValue={defaultValues}
-      />}
-    </TemplateNodeSettingsDiv>
-  </NodeSettingsWrapper>
-}
+  return (
+    <NodeSettingsWrapper>
+      <TemplateNodeSettingsDiv>
+        <LeftBar
+          key={`leftBar-${leftBarKey}`}
+          defaultValues={defaultValues}
+          setControl={setControl}
+        />
+        {control && (
+          <RightBar
+            key={`rightBarKey${rightBarKey}`}
+            remount={() => {
+              setRightBarKey((key) => key + 1);
+            }}
+            setFormValues={(newData: block) => {
+              setDefaultValues(newData);
+              setLeftBarKey((key) => key + 1);
+            }}
+            control={control}
+            defaultValue={defaultValues}
+          />
+        )}
+      </TemplateNodeSettingsDiv>
+    </NodeSettingsWrapper>
+  );
+};
 
-export const TemplateNodeSettings = NodeSettings
+export const TemplateNodeSettings = NodeSettings;

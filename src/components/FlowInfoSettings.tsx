@@ -46,11 +46,13 @@ const BackgroundImages = styled.div`
   gap: 5px;
   margin-top: 10px;
   padding: 10px;
+
   button {
     background: none;
     border: none;
     outline: none;
   }
+
   img {
     height: 100px;
     width: 150px;
@@ -61,10 +63,12 @@ const BackgroundImages = styled.div`
 
 const BackgroundSettingsDiv = styled.div`
   background: #e8e8ef;
+
   label {
     margin: 10px;
     display: flex;
     flex-direction: column;
+
     input {
       margin-top: 2px;
     }

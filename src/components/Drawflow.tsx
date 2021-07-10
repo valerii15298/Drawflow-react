@@ -20,9 +20,7 @@ import { ConnectionList } from "./ConnectionList";
 import styled from "styled-components";
 import { useActiveFlow } from "../redux/selectors";
 import { canvasShape, LocalStorageKey } from "../types";
-//@ts-ignore
 import tilePng from "../assets/tile.png";
-// console.log(tilePng);
 
 const ParentDrawflow = styled.div`
   position: relative;
@@ -193,7 +191,7 @@ export const Drawflow = () => {
           backgroundImage: `url(${imageUrl})`,
           filter: `blur(${blur / 10}px)`,
         }}
-      ></BackgroundDiv>
+      />
       <DrawflowAdditionalArea />
       <DrawflowZoomArea />
       <InnerDrawflow

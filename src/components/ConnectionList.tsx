@@ -1,4 +1,4 @@
-import { useConnectionIds, useConnectionCurvature } from "../redux/selectors";
+import { useConnectionCurvature, useConnectionIds } from "../redux/selectors";
 import { Path } from "./Path";
 
 const Connection = ({ id }: { id: number }) => {

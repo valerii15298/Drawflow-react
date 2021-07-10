@@ -1,13 +1,13 @@
 import { select, setStateFunction } from "./../types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  ports,
-  Slices,
-  stateData,
   clientPos,
   loadType,
   moveNodeType,
+  ports,
   portType,
+  Slices,
+  stateData,
 } from "../types";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
