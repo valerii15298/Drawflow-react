@@ -228,8 +228,8 @@ export const FormSettings = ({
     );
   });
   const key = path[path.length - 1];
-  // @ts-ignore
   const keyName =
+    // @ts-ignore
     mapKeyToDisplayName[key] ?? capitalize(key.replace(/_/g, " "));
 
   return (

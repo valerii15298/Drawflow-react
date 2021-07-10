@@ -1,14 +1,16 @@
-import { select, setStateFunction } from "./../types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   clientPos,
   loadType,
   moveNodeType,
+  ObjectKeys,
   ports,
   portType,
+  select,
+  setStateFunction,
   Slices,
   stateData,
 } from "../types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
 import lodash from "lodash";
@@ -65,9 +67,9 @@ export const setState = (
     return;
   }
   const newState = lodash.merge(state, payload);
-  for (const key in newState) {
+  ObjectKeys(newState).forEach((key) => {
     state[key] = newState[key];
-  }
+  });
 };
 
 const slice = createSlice({

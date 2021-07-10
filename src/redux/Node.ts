@@ -1,6 +1,13 @@
-import { connection } from "./../types";
+import {
+  connection,
+  node,
+  port,
+  portType,
+  pos,
+  stateData,
+  updateNode,
+} from "../types";
 import lodash from "lodash";
-import { node, port, portType, pos, stateData, updateNode } from "../types";
 import { Flow } from "./Flow";
 
 export default class Node {
@@ -58,11 +65,10 @@ export default class Node {
 
   get totalWidth() {
     if (this.nodeState.visible === false) return 0;
-    const totalWidth = Math.max(
+    return Math.max(
       this.width + this.subnodesWidth,
       this.leftWidth + this.rightWidth
     );
-    return totalWidth;
   }
 
   get childrenTotalWidth() {
@@ -156,7 +162,7 @@ export default class Node {
   }
 
   get complexParentNode(): Node | null {
-    // if is sub eturn complexNode to which belongs this subnode
+    // if is sub return complexNode to which belongs this subnode
     const parent = this.parent;
     if (parent) {
       if (parent.firstSubnode === this) return parent;
@@ -165,10 +171,10 @@ export default class Node {
     return null;
   }
 
-  /**
-   * If not flow line, - returns null
-   */
   get flowLine(): null | {
+    /**
+     * If not flow line, - returns null
+     */
     flowLineNodes: Node[];
     hasSubnodes: Node | undefined;
   } {

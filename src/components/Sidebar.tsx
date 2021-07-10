@@ -38,9 +38,7 @@ const GroupDiv = styled.div<{ selected: boolean }>`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  font-family: Roboto;
-  color: #808292;
-  font-size: 14px;
+  font-family: Roboto, serif;
   height: 48px;
   width: calc(88% / 3);
   text-align: center;
@@ -105,7 +103,7 @@ const SearchInput = styled.input`
   height: 40px;
   background-color: #fff;
   border: 1px solid #e8e8ef;
-  box-shadow: 0px 2px 8px rgb(34 34 87 / 5%);
+  box-shadow: 0 2px 8px rgb(34 34 87 / 5%);
   border-radius: 5px;
   text-indent: 35px;
   font-size: 16px;

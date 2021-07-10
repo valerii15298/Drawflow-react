@@ -19,11 +19,12 @@ export const useNodeIds = () =>
         createDeepEqualSelector(
           (s: RootState) => {
             const { drawflow } = selectActiveDrawflow(s);
-            const data = Object.entries(drawflow)
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              .filter(([id, { visible }]) => visible !== false)
-              .map(([id]) => Number(id));
-            return data;
+            return (
+              Object.entries(drawflow)
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                .filter(([id, { visible }]) => visible !== false)
+                .map(([id]) => Number(id))
+            );
           },
           (s) => s
         ),
@@ -46,7 +47,7 @@ export const useActiveFlow = () =>
               newPathDirection,
               canvasDrag,
             } = state;
-            const obj = {
+            return {
               config: {
                 // canvasTranslate: { x, y },
                 zoom,
@@ -54,7 +55,6 @@ export const useActiveFlow = () =>
               newPathDirection,
               canvasDrag,
             };
-            return obj;
           },
           (s) => s
         ),
@@ -270,11 +270,9 @@ export const useConnectionCurvature = (index: number) =>
                 port.portId === endPort &&
                 port.type === portType.in
             )?.pos;
-            const d =
-              startPos && endPos
-                ? handler.createCurvature(startPos, endPos)
-                : "";
-            return d;
+            return startPos && endPos
+              ? handler.createCurvature(startPos, endPos)
+              : "";
           },
           (s) => s
         ),
@@ -315,8 +313,7 @@ export const useNewPathCurvature = () =>
               state.config.zoom.value,
               s.canvas
             );
-            const d = handler.createCurvature(startPos, endPos);
-            return d;
+            return handler.createCurvature(startPos, endPos);
           },
           (s) => s
         ),

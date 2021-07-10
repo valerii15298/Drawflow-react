@@ -5,10 +5,13 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import {
+  block,
   canvasShape,
   clientPos,
   flowType,
   mainWindow,
+  node,
+  NODE_TYPE,
   setStateFunction,
   sideWindow,
   Slices,
@@ -19,9 +22,30 @@ import {
   selectActiveDrawflow,
   setState,
 } from "./drawflowSlice";
-import { testNode } from "../mock";
 import handler from "../tools";
 import { fetchGroups, fetchTemplateNodes } from "./api";
+import { getTemplateNode } from "../models/getTemplateNode";
+
+export const testNode = (): node => {
+  const templateNode: block = getTemplateNode();
+
+  return {
+    id: 0,
+    type: NODE_TYPE.MIDDLE,
+    data: templateNode,
+    port: {
+      in: 1,
+      out: 2,
+    },
+    pos: {
+      x: -20,
+      y: 100,
+    },
+    isSub: false,
+    height: 0,
+    width: 0,
+  };
+};
 
 export const changeVersion = createAction<number>("versions/changed");
 export const addNewNode = createAction<clientPos>("addNewNode");

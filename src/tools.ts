@@ -1,9 +1,9 @@
 import { canvasShape, pos } from "./types";
 
 const createCurvature = (start: pos, end: pos) => {
-  const halfHeiht = (start.y - end.y) / 2;
+  const halfHeight = (start.y - end.y) / 2;
   const dx = start.x - end.x;
-  return `M ${start.x} ${start.y} v ${-halfHeiht} h ${-dx} v ${-halfHeiht} `;
+  return `M ${start.x} ${start.y} v ${-halfHeight} h ${-dx} v ${-halfHeight} `;
 };
 
 const getPos = (

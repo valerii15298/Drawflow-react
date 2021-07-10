@@ -49,7 +49,7 @@ export const Path = (props: Props) => {
           // if (editLock) return;
           dispatch(actions.select({ type: "path", selectId: id }));
         }}
-      ></StyledPath>
+      />
     </Svg>
   );
 };

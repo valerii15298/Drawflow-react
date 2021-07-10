@@ -9,13 +9,6 @@ export enum Slices {
   Groups = "groups",
 }
 
-export const CURV = 0.3 as const;
-
-export enum MODAL_TYPE {
-  NODE_SETTINGS = "NODE_SETTINGS",
-  GROUP_SETTINGS = "GROUP_SETTINGS",
-}
-
 export enum LocalStorageKey {
   backgroundOpacity = "backgroundOpacity",
   backgroundBlur = "backgroundBlur",
@@ -218,7 +211,7 @@ export interface stateData {
   computing?: number;
 }
 
-export type optStateData = RecursivePartial<stateData>;
+// export type optStateData = RecursivePartial<stateData>;
 
 export type canvasShape = {
   x: number;
@@ -251,7 +244,6 @@ export type flowInfo = RecursiveNull<flowInfoStrict>;
 export enum mainWindow {
   mainFlow,
   codeEditor,
-  tem,
   templateNodeSettings,
 }
 
@@ -270,13 +262,6 @@ export interface group {
 
 export interface optGroup extends RecursivePartial<group> {
   delete?: 0 | 1;
-}
-
-export interface step {
-  id: number;
-  node_group_order: null | number;
-  node_group_name: string;
-  node_group_description: string;
 }
 
 export type groups = {

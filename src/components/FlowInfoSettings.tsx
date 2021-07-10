@@ -91,7 +91,7 @@ export const FlowInfoSettings = () => {
       );
       setBackgroundImageUrls(urls);
     };
-    fetchImages();
+    fetchImages().then();
   }, []);
 
   const { flow_name, flow_description, run_times_max, user_run_limit_seconds } =
@@ -205,6 +205,7 @@ export const FlowInfoSettings = () => {
                   border: backgroundImageUrl === url ? "2px solid blue" : "",
                 }}
                 src={url}
+                alt={"Background image"}
               />
             </button>
           ))}

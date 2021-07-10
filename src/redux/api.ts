@@ -24,8 +24,8 @@ const session_id = urlParams.get("session_id");
 const flow_id = 25;
 
 if (!session_id) {
-  console.error("sessin_id is not provided!");
-  alert("sessin_id is not provided!");
+  console.error("session_id is not provided!");
+  alert("session_id is not provided!");
 }
 
 export const request = async (
@@ -109,20 +109,16 @@ export const postFlow = createAsyncThunk(
   }
 );
 
-export const fetchGroups = createAsyncThunk(
-  "fetchGroups",
-  async (_, { dispatch }) => {
-    const resp = (await request(REQUEST_TYPE.getGroups)) as {
-      flow_nodes_group: group[];
-    };
-    const { flow_nodes_group } = resp;
-    const groups = flow_nodes_group.reduce((acc: groups, next) => {
-      acc[next.id] = next;
-      return acc;
-    }, {});
-    return groups;
-  }
-);
+export const fetchGroups = createAsyncThunk("fetchGroups", async () => {
+  const resp = (await request(REQUEST_TYPE.getGroups)) as {
+    flow_nodes_group: group[];
+  };
+  const { flow_nodes_group } = resp;
+  return flow_nodes_group.reduce((acc: groups, next) => {
+    acc[next.id] = next;
+    return acc;
+  }, {});
+});
 
 export const updateGroup = createAsyncThunk(
   "updateGroup",

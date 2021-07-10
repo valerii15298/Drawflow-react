@@ -41,8 +41,9 @@ const ToggleSection = styled.div`
   align-items: center;
 `;
 const ToggleButton = styled.button`
-  ${buttonCss}
-  :focus {
+  ${buttonCss};
+
+  &:focus {
     background-color: #dfdfdf;
   }
 `;

@@ -1,5 +1,10 @@
-import { connection, Port } from "./../types";
-import { addConnectionType, moveNodeType, stateData } from "../types";
+import {
+  addConnectionType,
+  connection,
+  moveNodeType,
+  Port,
+  stateData,
+} from "../types";
 import Node from "./Node";
 
 export class Flow {
@@ -36,7 +41,7 @@ export class Flow {
     // console.log('Align all')
   }
 
-  allowConnection(conn: addConnectionType) {
+  /*allowConnection(conn: addConnectionType) {
     const { startId, startPort, endId } = conn;
     const nodeIn = this.getNode(endId);
     const nodeOut = this.getNode(startId);
@@ -55,7 +60,7 @@ export class Flow {
       return false;
     }
     return true;
-  }
+  }*/
 
   addConnection(conn: addConnectionType) {
     // eslint-disable-next-line prefer-const
@@ -147,7 +152,7 @@ export class Flow {
 
   toggleAvailablePortToConnect(nodeId: number) {
     /**
-     * Because of long computatuon we executing
+     * Because of long computation we executing
      * this action not often then 1 time per 200 milliseconds
      */
 

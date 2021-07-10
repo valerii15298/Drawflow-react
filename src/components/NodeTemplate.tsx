@@ -11,9 +11,7 @@ const TapMoreButton = styled.button`
   top: 0.2em;
   display: grid;
   place-items: center;
-  padding: 4px;
-  padding-top: 8px;
-  padding-right: 8px;
+  padding: 8px 8px 4px 4px;
   border: 0;
   background: 0;
 
@@ -40,11 +38,11 @@ export const NodeDiv = styled.div`
   padding: 0.5em;
 
   background-color: white;
-  box-shadow: 0px 4px 30px rgb(22 33 74 / 25%);
+  box-shadow: 0 4px 30px rgb(22 33 74 / 25%);
   border-radius: 5px;
 
   :hover {
-    box-shadow: 0px 4px 30px rgb(22 33 74 / 15%);
+    box-shadow: 0 4px 30px rgb(22 33 74 / 15%);
     background-color: #f8f8f8;
   }
 `;
@@ -84,7 +82,7 @@ export const NodeTemplate = (props: block) => {
     const drag = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       if (!canvas) {
-        console.error("Canvas is not ready! Cannnot drag template");
+        console.error("Canvas is not ready! Cannot drag template");
         return;
       }
       if (clientX >= canvas.x && clientY >= canvas.y) {

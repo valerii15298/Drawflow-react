@@ -34,7 +34,7 @@ const MainDiv = styled.div``;
 
 const AppCodeEditor = () => {
   const json = useAppSelector((s) => s);
-  return <CodeEditor values={json} setValues={(a: any) => null} />;
+  return <CodeEditor values={json} setValues={() => null} />;
 };
 
 const MainTab = () => {

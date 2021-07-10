@@ -10,8 +10,7 @@ import { getGroupTemplate } from "../models/getGroupTemplate";
 const ControlButtonsDiv = styled.div``;
 
 const GroupsDiv = styled.div`
-  padding: 0 10px;
-  padding-bottom: 10px;
+  padding: 0 10px 10px;
   position: relative;
   border: 1px solid #e8e8ef;
   flex: 0 0 300px;

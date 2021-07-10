@@ -148,7 +148,6 @@ export const Plus = (props: Record<string, unknown>) => {
           fontWeight={400}
           overflow="visible"
           transform="matrix(.93772 0 0 .93772 .965 1037.328)"
-          white-space="normal"
         />
       </g>
     </svg>
