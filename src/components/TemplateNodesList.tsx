@@ -19,6 +19,7 @@ const ListDiv = styled.div`
 const AddTemplateNodeDiv = styled(NodeDiv)`
   /* min-height: 5em; */
   padding: 25px;
+
   :hover {
     cursor: pointer;
   }

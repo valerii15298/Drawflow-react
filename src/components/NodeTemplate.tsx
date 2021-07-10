@@ -16,12 +16,15 @@ const TapMoreButton = styled.button`
   padding-right: 8px;
   border: 0;
   background: 0;
+
   svg {
     /* stroke: red; */
+
     circle {
       fill: black;
     }
   }
+
   :hover {
     background-color: #d8d8d8;
     cursor: pointer;
@@ -39,6 +42,7 @@ export const NodeDiv = styled.div`
   background-color: white;
   box-shadow: 0px 4px 30px rgb(22 33 74 / 25%);
   border-radius: 5px;
+
   :hover {
     box-shadow: 0px 4px 30px rgb(22 33 74 / 15%);
     background-color: #f8f8f8;

@@ -16,6 +16,7 @@ const StyledPath = styled.path<{
     stroke: purple;
     cursor: pointer;
   }
+
   fill: none;
   stroke-width: 6px;
   stroke: steelblue;
