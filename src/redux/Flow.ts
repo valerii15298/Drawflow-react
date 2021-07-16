@@ -29,16 +29,39 @@ export class Flow {
   }
 
   getNode(id: number) {
-    return this.nodes[id];
+    const node = this.nodes[id];
+    if (node === undefined) {
+      throw new Error(
+        `Cannot get node with id: ${id}. Node is not present in flow array of nodes`
+      );
+    }
+    return node;
+  }
+
+  align() {
+    // return;
+    const { time, timeEnd } = console;
+    console.log("Align all");
+    time("Align");
+    const old = this.state.drawflow;
+    const dr = JSON.parse(JSON.stringify(old));
+
+    this.setLaneNumbers();
+
+    this.heads.forEach((node, idx) => {
+      // time(`align ${idx}`);
+      // node.calculateFullWidth()
+      node.alignChildren();
+      // timeEnd(`align ${idx}`);
+    });
+    timeEnd("Align");
+    return this.state.drawflow;
   }
 
   alignAll() {
-    this.setLaneNumbers();
-    this.heads.forEach((node) => {
-      // node.calculateFullWidth()
-      node.alignChildren();
-    });
-    // console.log('Align all')
+    this.state.drawflow = new Flow(
+      JSON.parse(JSON.stringify(this.state))
+    ).align();
   }
 
   /*allowConnection(conn: addConnectionType) {
@@ -155,6 +178,8 @@ export class Flow {
      * Because of long computation we executing
      * this action not often then 1 time per 200 milliseconds
      */
+
+    // return;
 
     const now = Date.now();
     if (this.state.computing && now - this.state.computing < 100) {

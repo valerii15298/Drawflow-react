@@ -121,7 +121,6 @@ export interface node extends dataNode {
   height: number;
   width: number;
   lane?: number;
-  position?: number;
   head?: number;
   positionNumber?: number;
   subnodesVisibility?: boolean;

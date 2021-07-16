@@ -58,10 +58,11 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       dispatch(
         actions.nodeSize({ height: offsetHeight, width: offsetWidth, id })
       );
-      dispatch(actions.align());
-      // console.log("align node");
+      // dispatch(actions.align());
+      // console.clear();
+      console.log("align node");
     }
-  }, [dispatch, id, node]);
+  }, []);
 
   // update ports positions
   useEffect(() => {
@@ -147,15 +148,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             }}
           >
             toggle children
-          </button>
-          <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              // dispatch(actions.toggleChildren({ id }));
-              e.stopPropagation();
-            }}
-          >
-            settings
           </button>
         </>
       )}

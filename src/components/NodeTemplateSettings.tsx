@@ -284,15 +284,121 @@ export const FormSettings = ({
   );
 };
 
-const JumpControls = ({ id }: { id: number }) => {
+const NodesChooserDetails = styled(Details)`
+  position: relative;
+
+  summary ~ * {
+    margin-left: 0;
+  }
+`;
+const ListChooserDiv = styled.div`
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: max-content;
+  max-width: 30vw;
+  padding: 10px;
+  background-color: #f5f0e5;
+  border: 3px solid #3883fa;
+  border-radius: 10px;
+`;
+
+const SelectNodeSettingsItem = styled.div`
+  cursor: pointer;
+  margin-top: 0.2em;
+  padding: 0.4em;
+  border-radius: 0.3em;
+  background: #8db6f6;
+
+  &:hover {
+    background: #3377e4;
+  }
+`;
+
+const NodeJumpControlsDiv = styled.div``;
+
+const NodeJumpControls = ({ id }: { id: number }) => {
   const state = useAppSelector(selectActiveDrawflow);
   const flow = new Flow(state);
   const node = flow.getNode(id);
-  const obj = {};
-  const { subnodes } = node;
-  return null;
-};
+  const { subnodes, out1 } = node;
+  const prevNodes = [];
+  let nextParent = node.parent;
+  while (nextParent) {
+    prevNodes.push(nextParent);
+    nextParent = nextParent.parent;
+  }
 
+  const SubnodesChooser = (
+    <NodesChooserDetails>
+      <StyledSummary>Subnodes</StyledSummary>
+      <ListChooserDiv>
+        {subnodes.map(
+          ({
+            nodeState: {
+              positionNumber,
+              id,
+              data: { name },
+            },
+          }) => (
+            <SelectNodeSettingsItem key={id}>
+              {name} #{id}:{positionNumber}
+            </SelectNodeSettingsItem>
+          )
+        )}
+      </ListChooserDiv>
+    </NodesChooserDetails>
+  );
+
+  const NextNodesChooser = (
+    <NodesChooserDetails>
+      <StyledSummary>Next nodes</StyledSummary>
+      <ListChooserDiv>
+        {out1.map(
+          ({
+            nodeState: {
+              positionNumber,
+              id,
+              data: { name },
+            },
+          }) => (
+            <SelectNodeSettingsItem key={id}>
+              {name} #{id}:{positionNumber}
+            </SelectNodeSettingsItem>
+          )
+        )}
+      </ListChooserDiv>
+    </NodesChooserDetails>
+  );
+
+  const PrevNodesChooser = (
+    <NodesChooserDetails>
+      <StyledSummary>Prev nodes</StyledSummary>
+      <ListChooserDiv>
+        {prevNodes.map(
+          ({
+            nodeState: {
+              positionNumber,
+              id,
+              data: { name },
+            },
+          }) => (
+            <SelectNodeSettingsItem key={id}>
+              {name} #{id}:{positionNumber}
+            </SelectNodeSettingsItem>
+          )
+        )}
+      </ListChooserDiv>
+    </NodesChooserDetails>
+  );
+
+  return (
+    <NodeJumpControlsDiv>
+      {SubnodesChooser}
+      {NextNodesChooser}
+    </NodeJumpControlsDiv>
+  );
+};
 type formType = block | step;
 export const LeftBar = (props: {
   defaultValues: formType;
@@ -330,6 +436,8 @@ export const LeftBar = (props: {
     //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
   };
 
+  // console.log(defaultValues);
+
   return (
     <FormProvider {...methods}>
       <LeftBarForm onSubmit={handleSubmit(onSubmit)}>
@@ -344,6 +452,11 @@ export const LeftBar = (props: {
             <TitleDiv>{name}</TitleDiv>
             <DescriptionDiv>{description}</DescriptionDiv>
           </TitleInfoDiv>
+          {type === "node" && (
+            <NodeJumpControls
+              id={(defaultValues as step).this_node_unique_id}
+            />
+          )}
         </LeftBarHeader>
         <DefaultSettingsDetails open={true}>
           <StyledSummary>Default settings</StyledSummary>

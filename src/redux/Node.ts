@@ -64,7 +64,7 @@ export default class Node {
     });
   }
 
-  get totalWidth() {
+  private get totalWidth() {
     if (this.nodeState.visible === false) return 0;
     return Math.max(
       this.width + this.subnodesWidth,
@@ -72,7 +72,7 @@ export default class Node {
     );
   }
 
-  get childrenTotalWidth() {
+  private get childrenTotalWidth() {
     const { out1 } = this;
     if (!out1.length) return 0;
 
@@ -83,7 +83,7 @@ export default class Node {
     return totalWidth + this.spacingX * (out1.length - 1);
   }
 
-  get leftWidth(): number {
+  private get leftWidth(): number {
     if (this.nodeState.visible === false) return 0;
     const { out1, childrenTotalWidth } = this;
     const selfLeftWidth = this.width / 2;
@@ -100,7 +100,7 @@ export default class Node {
     return Math.max(childrenRightWidth, selfLeftWidth);
   }
 
-  get rightWidth(): number {
+  private get rightWidth(): number {
     if (this.nodeState.visible === false) return 0;
     const { out1, childrenTotalWidth } = this;
     const selfRightWidth = this.width / 2 + this.subnodesWidth;

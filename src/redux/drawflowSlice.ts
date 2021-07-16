@@ -11,7 +11,12 @@ import {
   stateData,
   step,
 } from "../types";
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  current,
+  original,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
 import lodash from "lodash";
@@ -55,19 +60,10 @@ const load = (
   state.connections = connections;
 };
 
-const align = (state: stateData) => {
-  const flow = new Flow(state);
-  flow.alignAll();
-};
-
 export const setState = (
   state: Record<string, any>,
   { payload }: PayloadAction<Record<string, unknown> | setStateFunction>
 ) => {
-  if (typeof payload === "function") {
-    payload(state);
-    return;
-  }
   const newState = lodash.merge(state, payload);
   ObjectKeys(newState).forEach((key) => {
     state[key] = newState[key];
@@ -82,9 +78,15 @@ const slice = createSlice({
     setEditLock: (state, { payload }: PayloadAction<boolean>) => {
       state.editLock = payload;
     },
-    align,
-    moveNode: (state, action: PayloadAction<moveNodeType>) =>
-      new Flow(state).dragNode(action.payload),
+    align: (state: stateData) => {
+      const flow = new Flow(state);
+      flow.alignAll();
+    },
+    moveNode: (state, action: PayloadAction<moveNodeType>) => {
+      // state = JSON.parse(JSON.stringify(state));
+      new Flow(state).dragNode(action.payload);
+      // return state;
+    },
     setMouseBlockDragPos: (
       state: stateData,
       { payload }: PayloadAction<clientPos>
@@ -143,6 +145,7 @@ const slice = createSlice({
         movementY: number;
       }>
     ) => {
+      // state = JSON.parse(JSON.stringify(state));
       state.clientCurrentMousePos = { clientX, clientY };
       // return undefined
       if (state.canvasDrag) {
@@ -164,9 +167,10 @@ const slice = createSlice({
         const dy = (clientY - prevY) / coef;
         new Flow(state).dragNode({ nodeId, dy, dx });
       }
-      // align(state)
+      // return state;
     },
     canvasMouseUp: (state) => {
+      // state = JSON.parse(JSON.stringify(state));
       const flow = new Flow(state);
       if (state.portToConnect && state.select?.selectId) {
         const { nodeId: startId, portId: startPort } = state.portToConnect;
@@ -184,6 +188,7 @@ const slice = createSlice({
         state.select = null;
       }
       flow.alignAll();
+      // return flow.state;
     },
     updateNode: (state, { payload: step }: PayloadAction<step>) => {
       const id = step.this_node_unique_id;
@@ -279,19 +284,23 @@ const slice = createSlice({
       state,
       { payload: { id } }: PayloadAction<{ id: number }>
     ) => {
+      // state = JSON.parse(JSON.stringify(state));
       const flow = new Flow(state);
       const node = flow.getNode(id);
       node.toggleSubnodesVisibility();
-      align(state);
+      flow.alignAll();
+      // return flow.state;
     },
     toggleChildren: (
       state,
       { payload: { id } }: PayloadAction<{ id: number }>
     ) => {
+      // state = JSON.parse(JSON.stringify(state));
       const flow = new Flow(state);
       const node = flow.getNode(id);
       node.toggleChildrenVisibility();
-      align(state);
+      flow.alignAll();
+      // return flow.state;
     },
     copyNode: (state) => {
       if (state.select?.type === "node")
