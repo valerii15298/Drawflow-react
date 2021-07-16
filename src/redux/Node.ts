@@ -144,6 +144,16 @@ export default class Node {
     return this.children(1);
   }
 
+  get prevDirectNodes() {
+    const prevNodes = [];
+    let nextParent = this.parent;
+    while (nextParent) {
+      prevNodes.push(nextParent);
+      nextParent = nextParent.parent;
+    }
+    return prevNodes;
+  }
+
   get firstSubnode(): Node | undefined {
     return this.children(2)[0];
   }

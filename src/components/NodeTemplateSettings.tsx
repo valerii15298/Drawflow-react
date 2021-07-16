@@ -1,7 +1,15 @@
-import { createContext, FC, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  FC,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled, { css } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { block, ObjectKeys, step } from "../types";
+import { block, mainWindow, ObjectKeys, step } from "../types";
 import { Arrow, Settings as SettingsIcon } from "../svg";
 
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
@@ -14,6 +22,8 @@ import { updateTemplateNode } from "../redux/api";
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { capitalize, mapKeyToDisplayName } from "../models/tools";
 import { Flow } from "../redux/Flow";
+import Node from "../redux/Node";
+import { setStateAction, store } from "../redux/store";
 
 const templateNode = getTemplateNode();
 
@@ -284,11 +294,11 @@ export const FormSettings = ({
   );
 };
 
-const NodesChooserDetails = styled(Details)`
+const NodesChooserDetails = styled(Details)<{ leftShift: string }>`
   position: relative;
 
   summary ~ * {
-    margin-left: 0;
+    margin-left: ${({ leftShift }) => leftShift};
   }
 `;
 const ListChooserDiv = styled.div`
@@ -315,90 +325,167 @@ const SelectNodeSettingsItem = styled.div`
   }
 `;
 
-const NodeJumpControlsDiv = styled.div``;
+const NodeJumpControlsDiv = styled.div`
+  display: flex;
+  margin-left: 1em;
+
+  & > * {
+    margin-left: 0.1em;
+    //padding: 1em;
+  }
+
+  summary {
+    padding-right: 0.3em;
+  }
+`;
+
+const jumpToNodeSettings = (id: number) => {
+  store.dispatch(
+    setStateAction({
+      windowConfig: {
+        id,
+        mainId: mainWindow.nodeSettings,
+      },
+    })
+  );
+};
+
+const JumpButton = styled.button`
+  background-color: white;
+  border: 0;
+  border-radius: 0.4em;
+  padding: 0.3em;
+  margin: 0.5em;
+`;
+
+const SelectNextNodeItem = ({
+  node,
+  getNextListFromNode,
+}: {
+  node: Node;
+  getNextListFromNode: (p: Node) => Node[];
+}) => {
+  const {
+    id,
+    nodeState: {
+      positionNumber,
+      data: { name },
+    },
+  } = node;
+  return (
+    <NodesChooserDetails leftShift={"1em"}>
+      <StyledSummary>
+        {name} #{id}:{positionNumber}
+        <JumpButton onClick={() => jumpToNodeSettings(id)} key={id}>
+          Jump
+        </JumpButton>
+      </StyledSummary>
+      <ListSettingsDiv>
+        {getNextListFromNode(node).map((nextNode) => (
+          <SelectNextNodeItem
+            getNextListFromNode={getNextListFromNode}
+            key={nextNode.id}
+            node={nextNode}
+          />
+        ))}
+      </ListSettingsDiv>
+    </NodesChooserDetails>
+  );
+};
 
 const NodeJumpControls = ({ id }: { id: number }) => {
   const state = useAppSelector(selectActiveDrawflow);
   const flow = new Flow(state);
   const node = flow.getNode(id);
-  const { subnodes, out1 } = node;
-  const prevNodes = [];
-  let nextParent = node.parent;
-  while (nextParent) {
-    prevNodes.push(nextParent);
-    nextParent = nextParent.parent;
-  }
+  const { subnodes, out1, prevDirectNodes } = node;
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onToggle = (e: SyntheticEvent<HTMLElement>) => {
+    // @ts-ignore
+    if (e.target.open !== true) return;
+    // @ts-ignore
+    const parent = e.target.parentNode as HTMLElement;
+    if (parent !== ref.current) return;
+    Array.from(parent.children).forEach((child: any) => {
+      if (child !== e.target) child.open = false;
+    });
+  };
 
   const SubnodesChooser = (
-    <NodesChooserDetails>
+    <NodesChooserDetails onToggle={onToggle} leftShift={"0"} open={false}>
       <StyledSummary>Subnodes</StyledSummary>
-      <ListChooserDiv>
-        {subnodes.map(
-          ({
-            nodeState: {
-              positionNumber,
-              id,
-              data: { name },
-            },
-          }) => (
-            <SelectNodeSettingsItem key={id}>
-              {name} #{id}:{positionNumber}
-            </SelectNodeSettingsItem>
-          )
-        )}
-      </ListChooserDiv>
+      {subnodes.length > 0 && (
+        <ListChooserDiv style={{ zIndex: 3 }}>
+          {subnodes.map(
+            ({
+              nodeState: {
+                positionNumber,
+                id,
+                data: { name },
+              },
+            }) => (
+              <SelectNodeSettingsItem
+                onClick={() => jumpToNodeSettings(id)}
+                key={id}
+              >
+                {name} #{id}:{positionNumber}
+              </SelectNodeSettingsItem>
+            )
+          )}
+        </ListChooserDiv>
+      )}
     </NodesChooserDetails>
   );
 
   const NextNodesChooser = (
-    <NodesChooserDetails>
+    <NodesChooserDetails leftShift={"0"} onToggle={onToggle}>
       <StyledSummary>Next nodes</StyledSummary>
-      <ListChooserDiv>
-        {out1.map(
-          ({
-            nodeState: {
-              positionNumber,
-              id,
-              data: { name },
-            },
-          }) => (
-            <SelectNodeSettingsItem key={id}>
-              {name} #{id}:{positionNumber}
-            </SelectNodeSettingsItem>
-          )
-        )}
-      </ListChooserDiv>
+      {out1.length > 0 && (
+        <ListChooserDiv style={{ zIndex: 1 }}>
+          {out1.map((nextNode) => (
+            <SelectNextNodeItem
+              getNextListFromNode={({ out1 }) => out1}
+              key={nextNode.id}
+              node={nextNode}
+            />
+          ))}
+        </ListChooserDiv>
+      )}
     </NodesChooserDetails>
   );
 
   const PrevNodesChooser = (
-    <NodesChooserDetails>
+    <NodesChooserDetails leftShift={"0"} onToggle={onToggle}>
       <StyledSummary>Prev nodes</StyledSummary>
-      <ListChooserDiv>
-        {prevNodes.map(
-          ({
-            nodeState: {
-              positionNumber,
-              id,
-              data: { name },
-            },
-          }) => (
-            <SelectNodeSettingsItem key={id}>
-              {name} #{id}:{positionNumber}
-            </SelectNodeSettingsItem>
-          )
-        )}
-      </ListChooserDiv>
+      {prevDirectNodes.length > 0 && (
+        <ListChooserDiv style={{ zIndex: 2 }}>
+          {prevDirectNodes.map(
+            ({
+              nodeState: {
+                positionNumber,
+                id,
+                data: { name },
+              },
+            }) => (
+              <SelectNodeSettingsItem key={id}>
+                {name} #{id}:{positionNumber}
+              </SelectNodeSettingsItem>
+            )
+          )}
+        </ListChooserDiv>
+      )}
     </NodesChooserDetails>
   );
 
   return (
-    <NodeJumpControlsDiv>
+    <NodeJumpControlsDiv ref={ref}>
       {SubnodesChooser}
+      {PrevNodesChooser}
       {NextNodesChooser}
     </NodeJumpControlsDiv>
   );
 };
+
 type formType = block | step;
 export const LeftBar = (props: {
   defaultValues: formType;

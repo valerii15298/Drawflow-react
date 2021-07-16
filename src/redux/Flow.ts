@@ -41,7 +41,7 @@ export class Flow {
   align() {
     // return;
 
-    const { time, timeEnd } = console;
+    // const { time, timeEnd } = console;
     // console.log("Align all");
     // time("Align");
 

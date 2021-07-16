@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "tsc && vite build --base=\"/Drawflow-react/\"",
     "serve": "vite preview",
-    "commit": "yarn deploy ; git add * ; git add . ;",
+    "commit": "pnpm deploy && git add .",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
