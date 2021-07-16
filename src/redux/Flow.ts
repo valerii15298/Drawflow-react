@@ -41,10 +41,6 @@ export class Flow {
   align() {
     // return;
 
-    // const { time, timeEnd } = console;
-    // console.log("Align all");
-    // time("Align");
-
     this.setLaneNumbers();
     this.heads.forEach((node, idx) => {
       // time(`align ${idx}`);
@@ -52,14 +48,18 @@ export class Flow {
       node.alignChildren();
       // timeEnd(`align ${idx}`);
     });
-    // timeEnd("Align");
     return this.state.drawflow;
   }
 
   alignAll() {
+    const { time, timeEnd } = console;
+    // console.log("Align all");
+    time("Align");
+
     this.state.drawflow = new Flow(
       JSON.parse(JSON.stringify(this.state))
     ).align();
+    timeEnd("Align");
   }
 
   /*allowConnection(conn: addConnectionType) {

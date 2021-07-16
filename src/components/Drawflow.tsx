@@ -127,6 +127,10 @@ export const Drawflow = () => {
   const precanvas = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    dispatch(actions.align());
+  }, []);
+
+  useEffect(() => {
     const { current: flowDiv } = flowRef;
     if (flowDiv) {
       // console.log(flowDiv.style.transform);

@@ -58,8 +58,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       dispatch(
         actions.nodeSize({ height: offsetHeight, width: offsetWidth, id })
       );
-      dispatch(actions.align());
-      // console.log("align node");
+      // dispatch(actions.align());
+      // console.log(`align node ${id}`);
     }
   }, [dispatch, id, node]);
 
