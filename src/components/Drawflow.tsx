@@ -21,6 +21,7 @@ import styled from "styled-components";
 import { useActiveFlow } from "../redux/selectors";
 import { canvasShape, LocalStorageKey } from "../types";
 import tilePng from "../assets/tile.png";
+import { postFlowVersion } from "../redux/api";
 
 const ParentDrawflow = styled.div`
   position: relative;
@@ -90,10 +91,26 @@ const useBackground = () => {
   }, []);
 };
 
+const CommitFlowButton = styled.button`
+  padding: 5px 10px;
+  font-style: italic;
+  font-size: 16px;
+  top: 10px;
+  position: absolute;
+  cursor: pointer;
+  z-index: 50;
+  border: 1px solid #e8e8ef;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #217ce8;
+  left: 10px;
+`;
 export const Drawflow = () => {
   // console.log("Render Drawflow");
   // return null;
   useBackground();
+
+  const activeFlow = useActiveFlow();
 
   const {
     config: {
@@ -102,7 +119,7 @@ export const Drawflow = () => {
     },
     newPathDirection,
     canvasDrag,
-  } = useActiveFlow();
+  } = activeFlow;
 
   const dispatch = useAppDispatch();
 
@@ -194,6 +211,14 @@ export const Drawflow = () => {
       />
       <DrawflowAdditionalArea />
       <DrawflowZoomArea />
+      <CommitFlowButton
+        onClick={(e) => {
+          e.preventDefault();
+          dispatch(postFlowVersion());
+        }}
+      >
+        Commit
+      </CommitFlowButton>
       <InnerDrawflow
         ref={flowRef}
         style={

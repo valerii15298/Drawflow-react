@@ -1,6 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { block, flowInfo, flowType, group, groups, optGroup } from "../types";
-import { flowTypeActions } from "./store";
+import {
+  block,
+  drawflow,
+  flowInfo,
+  flowType,
+  group,
+  groups,
+  mainWindow,
+  optGroup,
+  stateData,
+  step,
+} from "../types";
+import { flowTypeActions, setStateAction } from "./store";
+import { Flow } from "./Flow";
 
 const baseUrl =
   "https://valerii.educationhost.cloud?csurl=https://tastypoints.io/akm/restapi.php";
@@ -18,20 +30,21 @@ export enum REQUEST_TYPE {
   getStepSettingsTemplates = 1222,
 }
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const session_id = urlParams.get("session_id");
 const flow_id = 25;
-
-if (!session_id) {
-  console.error("session_id is not provided!");
-  alert("session_id is not provided!");
-}
 
 export const request = async (
   scrdata_id: REQUEST_TYPE,
   data: Record<string, unknown> = {}
 ) => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const session_id = urlParams.get("session_id");
+
+  if (!session_id) {
+    console.error("session_id is not provided!");
+    alert("session_id is not provided!");
+  }
+
   const data_json = {
     session_id,
     sp_name: "OK",
@@ -123,7 +136,7 @@ export const fetchGroups = createAsyncThunk("fetchGroups", async () => {
 export const updateGroup = createAsyncThunk(
   "updateGroup",
   async (group: optGroup, { dispatch }) => {
-    console.log({ group });
+    // console.log({ group });
     if (!("delete" in group)) {
       group.delete = 0;
     }
@@ -131,7 +144,7 @@ export const updateGroup = createAsyncThunk(
       flow_nodes_group: [group],
       item_id: group.id ?? 0,
     });
-    console.log({ resp });
+    // console.log({ resp });
 
     if (resp.status === "OK") {
       dispatch(fetchGroups());
@@ -160,18 +173,153 @@ export const fetchTemplateNodes = createAsyncThunk(
     )) as {
       flow_nodes: block[];
     };
-    console.log({ flow_nodes });
+    // console.log({ flow_nodes });
 
     return flow_nodes;
   }
 );
 
-// export const fetchFlowVersion = createAsyncThunk(
-//   "fetchFlowVersion",
-//   async () => {
-//     // fetch groups
-//     // return await mock.getFilters(10);
-//     // fetch templateNodes
-//     // return await mock.getDummy();
-//   }
-// );
+export const updateTemplateNode = createAsyncThunk(
+  "updateTemplateNode",
+  async (templateNode: block, { dispatch }) => {
+    console.log({ templateNode });
+    if (!("delete" in templateNode)) {
+      templateNode.delete = 0;
+    }
+    const resp = await request(REQUEST_TYPE.postTemplateNodes, {
+      flow_nodes: [templateNode],
+      item_id: templateNode.nodes_id ?? 0,
+    });
+    console.log({ resp });
+
+    if (resp.status === "OK") {
+      dispatch(fetchTemplateNodes());
+
+      // if creating new templateNode
+      if (!templateNode.nodes_id) {
+        templateNode.nodes_id = resp.item_id;
+        dispatch(
+          setStateAction({
+            windowConfig: {
+              id: templateNode.nodes_id,
+              mainId: mainWindow.templateNodeSettings,
+            },
+          })
+        );
+      }
+      alert(`TemplateNode ${templateNode.nodes_id} updated`);
+      if (templateNode.delete === 1) {
+        dispatch(
+          setStateAction({
+            windowConfig: {
+              mainId: mainWindow.mainFlow,
+            },
+          })
+        );
+      }
+    } else {
+      alert(
+        `Error: cannot ${
+          templateNode.nodes_id ? "update" : "create"
+        } templateNode ${templateNode.name}, ID: ${templateNode.nodes_id}`
+      );
+    }
+  }
+);
+
+const fetchFlowVersionReqFunc = async (version: number) => {
+  const resp = await request(REQUEST_TYPE.getFlowDataVersion, {
+    item_id: flow_id,
+    show_ver: version,
+  });
+  const flow_steps = resp.flow_steps as null | step[];
+  if (flow_steps === null) {
+    return null;
+  }
+  return flow_steps.filter(
+    ({ update_version }) => update_version === version || version === 0
+  );
+};
+
+export const fetchFlowVersion = createAsyncThunk(
+  "fetchFlowVersion",
+  fetchFlowVersionReqFunc
+);
+
+const getStepData = (state: stateData, id: number) => {
+  const flow = new Flow(state);
+  const node = flow.getNode(id);
+  const { nodeState } = node;
+  return {
+    node_position: nodeState.positionNumber,
+    flow_lane_id: nodeState.lane,
+    flow_step_x: Math.round(nodeState.pos.x),
+    flow_step_y: Math.round(nodeState.pos.y),
+    prev_node_unique_id: node.parent?.id ?? null,
+    this_node_unique_id: node.id,
+  };
+};
+
+export const postFlowVersion = createAsyncThunk(
+  "postFlowVersion",
+  async (_, { getState, dispatch }) => {
+    const appState = getState() as flowType;
+    const state = appState.flows[appState.version];
+    const flow = new Flow(state);
+    const { drawflow } = state;
+    const flow_steps = Object.values(
+      JSON.parse(JSON.stringify(drawflow)) as drawflow
+    ).map((node) => {
+      const { subnodes } = flow.getNode(node.id);
+      const { data } = node as any;
+      data.flow_node = {};
+      ["name", "description", "icon_link_selected"].forEach((key) => {
+        data.flow_node[`node_${key}`] = data[key];
+        delete data[key];
+      });
+      data.flow_node.node_tooltip = data.nodes_tooltip;
+      delete data.nodes_tooltip;
+      return {
+        ...data,
+        ...getStepData(state, node.id),
+        node_attributes: subnodes.map(({ id }) => id),
+      };
+    });
+    if (flow_steps.length === 0) {
+      alert("Please add at least one node in flow to allow commit!");
+      return;
+    }
+    console.log(flow_steps);
+    const resp = await request(REQUEST_TYPE.postFlowDataVersion, {
+      item_id: flow_id,
+      flow_steps,
+    });
+    if (!(resp.status === "OK" && resp.sp_name === "OK")) {
+      console.error(resp);
+      alert(JSON.stringify(resp));
+    } else {
+      alert(`Flow successfully updated.`);
+      dispatch(fetchFlowVersion(0));
+    }
+  }
+);
+
+export const initFlow = createAsyncThunk(
+  "initFlow",
+  async (_, { dispatch }) => {
+    dispatch(fetchFlowVersion(0));
+  }
+);
+
+export const changeVersion = createAsyncThunk(
+  "changeVersion",
+  async (version: number, { dispatch, getState }) => {
+    const { flows } = getState() as flowType;
+    if (!flows[version]) {
+      dispatch(fetchFlowVersion(version));
+      return;
+    } else {
+      return version;
+    }
+  }
+);

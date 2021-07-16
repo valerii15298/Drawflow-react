@@ -66,7 +66,7 @@ export interface block {
   loop_cycle_reached_jump_to_node: number;
   loop_cycles: number;
   name: string;
-  node_attributes: Record<string, unknown>;
+  node_attributes: any[];
   node_object_lists: Record<string, unknown>;
   node_scrdata_id: number;
   node_story: string;
@@ -76,6 +76,7 @@ export interface block {
   order: number;
   node_settings_json: Record<string, unknown>;
   node_response_settings_json: Record<string, unknown>;
+  delete?: 0 | 1;
 }
 
 export const ObjectKeys = <O>(o: O) => {
@@ -108,8 +109,8 @@ export const ObjectKeys = <O>(o: O) => {
 // };
 
 export type dataNode = {
-  type: string;
-  data: block;
+  type: NODE_TYPE;
+  data: step;
   port: port;
   pos: pos;
   isSub: boolean;
@@ -245,6 +246,7 @@ export enum mainWindow {
   mainFlow,
   codeEditor,
   templateNodeSettings,
+  nodeSettings,
 }
 
 export enum sideWindow {
@@ -301,3 +303,20 @@ export type moveNodeType = {
 };
 
 export type setStateFunction = (state: Record<string, any>) => void;
+
+export interface step extends block {
+  flow_lane_id: number;
+  flow_node?: {
+    node_name: string;
+    node_description: string;
+    node_icon_link: string;
+    node_icon_link_selected: string;
+    node_tooltip: string;
+  };
+  node_position: number;
+  prev_node_unique_id: number;
+  this_node_unique_id: number;
+  update_version: number;
+  id_nodes: number;
+  [propName: string]: any;
+}

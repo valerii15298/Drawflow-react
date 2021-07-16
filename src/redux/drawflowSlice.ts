@@ -9,8 +9,9 @@ import {
   setStateFunction,
   Slices,
   stateData,
+  step,
 } from "../types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
 import lodash from "lodash";
@@ -44,13 +45,14 @@ export const initialState: stateData = {
 };
 
 // load version from server
-
-const load = (state: stateData, { payload }: PayloadAction<loadType>) => {
+const load = (
+  state: stateData,
+  { payload: { drawflow, connections } }: PayloadAction<loadType>
+) => {
   Object.assign(state, initialState);
-  state.drawflow = payload.drawflow;
-  state.nodeId = Object.keys(payload.drawflow).length + 1;
-  state.connections = payload.connections;
-  return state;
+  state.drawflow = drawflow;
+  state.nodeId = Math.max(...Object.keys(drawflow).map(Number)) + 1;
+  state.connections = connections;
 };
 
 const align = (state: stateData) => {
@@ -183,29 +185,39 @@ const slice = createSlice({
       }
       flow.alignAll();
     },
+    updateNode: (state, { payload: step }: PayloadAction<step>) => {
+      const id = step.this_node_unique_id;
+      state.drawflow[id].data = step;
+    },
     deleteNode: (state) => {
       const { connections, drawflow, ports, select } = state;
       if (select?.type !== "node") return;
       const { selectId } = select;
 
       // find and delete connections
-      connections.forEach(({ endId, startId }, index) => {
+      let connIndex = connections.length;
+      while (connIndex--) {
+        const { endId, startId } = connections[connIndex];
         if ([startId, endId].includes(selectId)) {
-          delete connections[index];
+          connections.splice(connIndex, 1);
+          console.log(current(connections));
         }
-      });
+      }
 
       // find and delete ports
-      ports.forEach(({ nodeId }, index) => {
+      let portIndex = ports.length;
+      while (portIndex--) {
+        const { nodeId } = ports[portIndex];
         if (nodeId === selectId) {
-          delete ports[index];
+          ports.splice(portIndex, 1);
         }
-      });
+      }
 
       // 3. find in drawflow
       delete drawflow[selectId];
 
       state.select = null;
+      console.log("GGG");
     },
     deletePath: (state) => {
       const { connections, select } = state;

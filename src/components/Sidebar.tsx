@@ -9,7 +9,7 @@ import FilterList from "./TemplateNodesList";
 const SidebarDiv = styled.div`
   width: 300px;
   order: -2;
-  max-height: 100vh;
+  max-height: calc(100vh + 40px);
 `;
 
 const GroupsDiv = styled.div`
@@ -23,6 +23,7 @@ const GroupsDiv = styled.div`
   overflow: hidden;
   text-align: center;
   transition: all 0.5s ease;
+  justify-content: space-around;
 
   :hover {
     max-height: 500px;
@@ -34,17 +35,13 @@ const GroupsDiv = styled.div`
 `;
 
 const GroupDiv = styled.div<{ selected: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+  display: grid;
+  place-items: center;
   font-family: Roboto, serif;
   height: 48px;
-  width: calc(88% / 3);
+  padding: 1em;
   text-align: center;
   position: relative;
-  color: black;
-  font-size: medium;
 
   :hover {
     cursor: pointer;
@@ -80,6 +77,13 @@ const GroupList = ({
 
   return (
     <GroupsDiv>
+      <GroupDiv
+        key={0}
+        selected={0 === selectedGroup}
+        onClick={() => setSelectedGroup(0)}
+      >
+        {"All"}
+      </GroupDiv>
       {Object.values(groups).map(
         ({ id, node_group_name, node_group_order }) => {
           return (
@@ -114,7 +118,7 @@ const SearchDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  //margin-top: 10px;
 `;
 
 const SearchSpan = styled.span`
@@ -187,7 +191,11 @@ const SearchBar = ({
 };
 
 const ExpandDiv = styled.div<{ opened: boolean }>`
-  :hover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
     cursor: pointer;
   }
 
@@ -202,12 +210,8 @@ export const ToggleSidebar = (props: any) => {
   const dispatch = useAppDispatch();
 
   return (
-    <ExpandDiv
-      {...props}
-      opened={!visible}
-      onClick={() => dispatch(toggleSidebar())}
-    >
-      <Arrows height={40} />
+    <ExpandDiv opened={!visible} onClick={() => dispatch(toggleSidebar())}>
+      <Arrows height={40} {...props} />
     </ExpandDiv>
   );
 };
@@ -226,7 +230,7 @@ export const Sidebar = () => {
         selectedGroup={selectedGroup}
         setSelectedGroup={setSelectedGroup}
       />
-      <FilterList searchWord={searchWord} />
+      <FilterList selectedGroup={selectedGroup} searchWord={searchWord} />
     </SidebarDiv>
   );
 };

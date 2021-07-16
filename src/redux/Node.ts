@@ -1,4 +1,5 @@
 import {
+  canvasShape,
   connection,
   node,
   port,
@@ -152,6 +153,7 @@ export default class Node {
   }
 
   get subnodesWidth(): number {
+    if (this.nodeState.subnodesVisibility === false) return 0;
     return this.subnodes.reduce((acc, subNode) => {
       return acc + subNode.width + this.spacingX;
     }, 0);
@@ -278,6 +280,11 @@ export default class Node {
     const { pos } = this;
     const { x, y } = newPos;
     this.flow.moveNode({ nodeId: this.id, dx: x - pos.x, dy: y - pos.y });
+  }
+
+  putInCenter(canvas: canvasShape) {
+    const { width, height } = canvas;
+    this.setPos({ x: width / 3, y: height / 3 });
   }
 
   update(data: updateNode) {

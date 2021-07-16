@@ -1,28 +1,43 @@
 import { Drawflow } from "./Drawflow";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { changeVersion } from "../redux/store";
 
 import "react-toggle/style.css";
 import { Sidebar, ToggleSidebar } from "./Sidebar";
 import { Header } from "./Header";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useEffect } from "react";
-import { fetchFlow, fetchGroups, fetchTemplateNodes } from "../redux/api";
+import {
+  changeVersion,
+  fetchFlow,
+  fetchGroups,
+  fetchTemplateNodes,
+  initFlow,
+} from "../redux/api";
 import { FlowInfoSettings } from "./FlowInfoSettings";
 import { mainWindow, sideWindow } from "../types";
 import { GroupsSettings } from "./GroupsSettings";
 import "jsoneditor/dist/jsoneditor.css";
-import { TemplateNodeSettings } from "./NodeTemplateSettings";
+import { NodeSettings, TemplateNodeSettings } from "./NodeTemplateSettings";
 import { CodeEditor } from "./CodeEditor";
 
 const VersionsDiv = styled.div`
   display: flex;
-  height: 40px;
+  align-items: normal;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #217ce8;
+  }
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
 `;
 
 const FlowDiv = styled.div`
   flex: 1;
   order: -1;
+  width: 0;
 `;
 
 const Main = styled.main`
@@ -37,33 +52,84 @@ const AppCodeEditor = () => {
   return <CodeEditor values={json} setValues={() => null} />;
 };
 
+const VersionButton = styled.button<{ selected: boolean }>`
+  white-space: nowrap;
+  //display: inline-block;
+  ${({ selected }) =>
+    selected &&
+    css`
+      font-weight: bold;
+    `}
+`;
+
+const Versions = () => {
+  const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
+  const flows = useAppSelector((s) => s.flows);
+  const countVersions = useAppSelector((s) => s.flows.length);
+  const selectedVersion = useAppSelector((s) => s.version);
+  const dispatch = useAppDispatch();
+  const versions = [
+    !sidebarVisible ? (
+      <ToggleSidebar style={{ height: "2em" }} key={-1} />
+    ) : null,
+    <VersionButton
+      key={0}
+      selected={0 === selectedVersion}
+      onClick={() => dispatch(changeVersion(0))}
+    >
+      Prototyping{flows[0] && ":" + Object.keys(flows[0].drawflow).length}
+    </VersionButton>,
+  ];
+  for (
+    let versionNumber = countVersions - 1;
+    versionNumber > 0;
+    --versionNumber
+  ) {
+    versions.push(
+      <VersionButton
+        key={versionNumber}
+        selected={versionNumber === selectedVersion}
+        onClick={() => dispatch(changeVersion(versionNumber))}
+      >
+        Version {versionNumber}
+        {flows[versionNumber] &&
+          ":" + Object.keys(flows[versionNumber].drawflow).length}
+      </VersionButton>
+    );
+  }
+  return <VersionsDiv>{versions}</VersionsDiv>;
+};
+
+const MainFlow = () => {
+  return (
+    <FlowDiv>
+      <Versions />
+      <Drawflow />
+    </FlowDiv>
+  );
+};
+
 const MainTab = () => {
   const dispatch = useAppDispatch();
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
   const mainId = useAppSelector((s) => s.windowConfig.mainId);
   const id = useAppSelector((s) => s.windowConfig.id);
+  const version = useAppSelector((s) => s.version);
 
   if (mainId === mainWindow.templateNodeSettings) {
     return (
       <>
-        <TemplateNodeSettings id={id} />
+        <TemplateNodeSettings key={id} id={id} />
       </>
     );
   }
 
+  if (mainId === mainWindow.nodeSettings) {
+    return <>{<NodeSettings key={id} id={id} />}</>;
+  }
+
   if (mainId === mainWindow.mainFlow) {
-    return (
-      <FlowDiv>
-        <VersionsDiv>
-          {!sidebarVisible && <ToggleSidebar />}
-          <button>Fetch flow version</button>
-          <button onClick={() => dispatch(changeVersion(0))}>Version 1</button>
-          <button onClick={() => dispatch(changeVersion(1))}>Version 2</button>
-          <button onClick={() => dispatch(changeVersion(2))}>Version 3</button>
-        </VersionsDiv>
-        <Drawflow />
-      </FlowDiv>
-    );
+    return <MainFlow key={version} />;
   }
 
   if (mainId === mainWindow.codeEditor) {
@@ -107,7 +173,9 @@ export const Flow = () => {
     dispatch(fetchFlow());
     dispatch(fetchGroups());
     dispatch(fetchTemplateNodes());
+    dispatch(initFlow());
   }, []);
+
   return (
     <MainDiv>
       <Header />

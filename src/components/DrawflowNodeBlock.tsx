@@ -4,8 +4,8 @@ import { portType } from "../types";
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import styled, { css } from "styled-components";
-import { Round } from "./NodeComponents";
-import { subnodeStyle } from "../styles";
+import { Block } from "./NodeComponents";
+import { nodeStyle, subnodeStyle } from "../styles";
 import { Ports } from "./Ports";
 import {
   useDrag,
@@ -27,12 +27,6 @@ const BlockStyled = styled.div<{
   z-index: 1;
   cursor: move;
 
-  ${({ isSub }) =>
-    isSub &&
-    css`
-      height: ${subnodeStyle.height}px;
-      width: ${subnodeStyle.width}px;
-    `}
   ${({ selected }) =>
     selected &&
     css`
@@ -113,7 +107,11 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     <BlockStyled
       selected={selected}
       ref={ref}
-      style={{ left: pos.x, top: pos.y }}
+      style={{
+        left: pos.x,
+        top: pos.y,
+        ...(node.isSub ? subnodeStyle : nodeStyle),
+      }}
       isSub={node.isSub}
       onMouseDown={(e) => {
         e.stopPropagation();
@@ -128,29 +126,41 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         // show node settings
       }}
     >
-      <Round {...node} {...pos} />
+      <Block {...node} />
 
       {!node.isSub && (
         <>
-          <div
-            onClick={() => {
+          <button
+            onMouseDown={(e) => {
+              e.preventDefault();
               dispatch(actions.toggleSubnodes({ id }));
+              e.stopPropagation();
             }}
           >
             toggle sub
-          </div>
-          <div
-            onClick={() => {
+          </button>
+          <button
+            onMouseDown={(e) => {
+              e.preventDefault();
               dispatch(actions.toggleChildren({ id }));
+              e.stopPropagation();
             }}
           >
             toggle children
-          </div>
+          </button>
+          <button
+            onMouseDown={(e) => {
+              e.preventDefault();
+              // dispatch(actions.toggleChildren({ id }));
+              e.stopPropagation();
+            }}
+          >
+            settings
+          </button>
         </>
       )}
       <Ports id={id} port={port} type={portType.in} />
       <Ports id={id} port={port} type={portType.out} />
-      <button>X</button>
     </BlockStyled>
   );
 };

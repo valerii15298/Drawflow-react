@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { createContext, FC, useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { useAppSelector } from "../redux/hooks";
-import { block, ObjectKeys } from "../types";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { block, ObjectKeys, step } from "../types";
 import { Arrow, Settings as SettingsIcon } from "../svg";
 
 import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
@@ -10,21 +10,33 @@ import { CodeEditor } from "./CodeEditor";
 import { ToggleSidebar } from "./Sidebar";
 import { Button } from "./Button";
 import { getTemplateNode } from "../models/getTemplateNode";
+import { updateTemplateNode } from "../redux/api";
+import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
+import { capitalize, mapKeyToDisplayName } from "../models/tools";
+import { Flow } from "../redux/Flow";
 
 const templateNode = getTemplateNode();
 
-const TemplateNodeSettingsDiv = styled.div`
+interface settingsContext {
+  type: "template" | "node";
+}
+
+const NodeSettingsContext = createContext<settingsContext>({
+  type: "template",
+});
+
+const NodeSettingsDiv = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   flex: 1;
 `;
-
 const LeftBarForm = styled.form`
   min-width: 300px;
 `;
 const TitleDiv = styled.div`
   font-weight: bold;
 `;
+
 const DescriptionDiv = styled.div``;
 
 const TitleInfoDiv = styled.div`
@@ -45,7 +57,6 @@ const LeftBarHeader = styled.header<{ shift: boolean }>`
       padding-left: 0;
     `}
 `;
-
 const TitleImg = styled.img`
   padding: 8px;
   margin-right: 10px;
@@ -54,10 +65,6 @@ const TitleImg = styled.img`
   max-height: 50px;
   max-width: 50px;
 `;
-const capitalize = (s: any) => {
-  if (typeof s !== "string") return "";
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
 
 const Details = styled.details`
   summary svg {
@@ -108,6 +115,25 @@ const ItemSettingLabel = styled.label`
 const ListSettingsDiv = styled.div``;
 
 // eslint-disable-next-line react/prop-types
+const SelectorButton = styled.button``;
+
+const NodeSettingsWrapper = styled.div`
+  flex: 1;
+  height: max-content;
+`;
+
+const ToggleSidebarDiv = styled.div`
+  margin-left: -0.2em;
+`;
+const SaveButton = styled(Button)``;
+
+const DeleteButton = styled(Button)``;
+const ResetButton = styled(Button)``;
+
+const ControlsDiv = styled.div`
+  text-align: center;
+`;
+
 const StyledSummary: FC = ({ children }) => {
   return (
     <Summary>
@@ -119,19 +145,37 @@ const StyledSummary: FC = ({ children }) => {
   );
 };
 
-const SelectorButton = styled.button``;
+const RightBar = ({
+  setFormValues,
+  control,
+  remount,
+  defaultValue,
+}: {
+  setFormValues: (p: block) => void;
+  control: any;
+  remount: () => void;
+  defaultValue: block;
+}) => {
+  const values = useWatch({ control, defaultValue });
+  const [edited, setEdited] = useState<boolean>(false);
 
+  return (
+    <div onMouseLeave={() => edited && remount()}>
+      <CodeEditor
+        values={values}
+        setValues={(data) => {
+          setEdited(true);
+          setFormValues(data);
+        }}
+      />
+    </div>
+  );
+};
 const Selector = () => {
   return <SettingsIcon />;
 };
 
 const defaultSettingsMap = {};
-const mapKeyToDisplayName = {
-  node_settings_json: "Settings JSON",
-  node_response_settings_json: "Response JSON",
-  node_object_lists: "Object list",
-  node_attributes: "Node attributes",
-};
 
 function setPropDyn(obj: Record<string, any>, arr: string[], value: string) {
   //Modifies object
@@ -228,10 +272,10 @@ export const FormSettings = ({
     );
   });
   const key = path[path.length - 1];
+
   const keyName =
     // @ts-ignore
     mapKeyToDisplayName[key] ?? capitalize(key.replace(/_/g, " "));
-
   return (
     <Details>
       <StyledSummary>{keyName}</StyledSummary>
@@ -240,60 +284,30 @@ export const FormSettings = ({
   );
 };
 
-const NodeSettingsWrapper = styled.div`
-  flex: 1;
-  height: max-content;
-`;
-
-const ToggleSidebarDiv = styled.div`
-  margin-left: -0.2em;
-`;
-
-const SaveButton = styled(Button)``;
-
-const ResetButton = styled(Button)``;
-const ControlsDiv = styled.div`
-  text-align: center;
-`;
-
-const RightBar = ({
-  setFormValues,
-  control,
-  remount,
-  defaultValue,
-}: {
-  setFormValues: (p: block) => void;
-  control: any;
-  remount: () => void;
-  defaultValue: block;
-}) => {
-  const values = useWatch({ control, defaultValue });
-  const [edited, setEdited] = useState<boolean>(false);
-
-  return (
-    <div onMouseLeave={() => edited && remount()}>
-      <CodeEditor
-        values={values}
-        setValues={(data) => {
-          setEdited(true);
-          setFormValues(data);
-        }}
-      />
-    </div>
-  );
+const JumpControls = ({ id }: { id: number }) => {
+  const state = useAppSelector(selectActiveDrawflow);
+  const flow = new Flow(state);
+  const node = flow.getNode(id);
+  const obj = {};
+  const { subnodes } = node;
+  return null;
 };
 
+type formType = block | step;
 export const LeftBar = (props: {
-  defaultValues: block;
+  defaultValues: formType;
   setControl: (p: any) => void;
 }) => {
+  const { type } = useContext(NodeSettingsContext);
+  const dispatch = useAppDispatch();
   const { defaultValues, setControl } = props;
-  const methods = useForm<block>({ defaultValues });
+  const methods = useForm({ defaultValues });
   const {
     handleSubmit,
     formState: { errors },
     reset,
     control,
+    getValues,
   } = methods;
 
   useEffect(() => {
@@ -304,10 +318,16 @@ export const LeftBar = (props: {
   const { name, description, icon_link } = values;
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
 
-  const onSubmit = (data: any) => {
-    console.clear();
-    console.log(JSON.stringify(data, null, 2));
-    console.log("submit", data.node_attributes.length);
+  const onSubmit = (data: formType) => {
+    type === "template" && dispatch(updateTemplateNode(data));
+    type === "node" && dispatch(actions.updateNode(data as step));
+  };
+
+  const onDelete = () => {
+    type === "template" &&
+      dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
+    // type === "node" &&
+    //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
   };
 
   return (
@@ -351,26 +371,27 @@ export const LeftBar = (props: {
         )}
         <ControlsDiv>
           <SaveButton type="submit">Save</SaveButton>
-          <ResetButton onClick={() => reset()}>Reset</ResetButton>
+          <ResetButton type="reset" onClick={() => reset()}>
+            Reset
+          </ResetButton>
+          <DeleteButton type="button" onClick={() => onDelete()}>
+            Delete
+          </DeleteButton>
         </ControlsDiv>
       </LeftBarForm>
     </FormProvider>
   );
 };
 
-export const NodeSettings = (props: { id: number }) => {
-  const { id } = props;
+const Settings = ({ json }: { json: any }) => {
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
-  const json = useAppSelector((s) =>
-    s.templates.find(({ nodes_id }) => nodes_id === id)
-  ) as block;
   const [defaultValues, setDefaultValues] = useState(json);
   const [control, setControl] = useState();
 
   return (
     <NodeSettingsWrapper>
-      <TemplateNodeSettingsDiv>
+      <NodeSettingsDiv>
         <LeftBar
           key={`leftBar-${leftBarKey}`}
           defaultValues={defaultValues}
@@ -378,7 +399,7 @@ export const NodeSettings = (props: { id: number }) => {
         />
         {control && (
           <RightBar
-            key={`rightBarKey${rightBarKey}`}
+            key={`rightBar-${rightBarKey}`}
             remount={() => {
               setRightBarKey((key) => key + 1);
             }}
@@ -390,9 +411,32 @@ export const NodeSettings = (props: { id: number }) => {
             defaultValue={defaultValues}
           />
         )}
-      </TemplateNodeSettingsDiv>
+      </NodeSettingsDiv>
     </NodeSettingsWrapper>
   );
 };
 
-export const TemplateNodeSettings = NodeSettings;
+export const NodeSettings = ({ id }: { id: number }) => {
+  const json = useAppSelector((s) => selectActiveDrawflow(s).drawflow[id].data);
+  // console.log(json);
+  return (
+    <NodeSettingsContext.Provider value={{ type: "node" }}>
+      <Settings json={json} />
+    </NodeSettingsContext.Provider>
+  );
+};
+
+export const TemplateNodeSettings = ({ id }: { id: number }) => {
+  const json = useAppSelector((s) =>
+    s.templates.find(({ nodes_id }) => nodes_id === id)
+  );
+  if (json === undefined) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <NodeSettingsContext.Provider value={{ type: "template" }}>
+      <Settings json={json} />
+    </NodeSettingsContext.Provider>
+  );
+};

@@ -20,7 +20,7 @@ export const getTemplateNode: () => block = () => ({
   node_settings_json: {},
   node_response_settings_json: {},
   loop_cycle_reached_jump_to_node: 0,
-  node_attributes: {},
+  node_attributes: [],
   node_object_lists: {},
   node_story: "Node story",
 });

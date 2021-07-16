@@ -5,7 +5,7 @@ import { dragTemplate, setStateAction } from "../redux/store";
 import { ThreeDots } from "../svg";
 import { block, mainWindow } from "../types";
 
-const TapMoreButton = styled.button`
+export const TapMoreButton = styled.button`
   position: absolute;
   right: 0.2em;
   top: 0.2em;
@@ -55,7 +55,7 @@ const NodeImg = styled.img`
 const NodeTitleSpan = styled.span``;
 
 export const NodeTemplate = (props: block) => {
-  const { nodes_id } = props;
+  const { nodes_id, order } = props;
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const canvas = useAppSelector((s) => s.precanvas);
@@ -109,7 +109,7 @@ export const NodeTemplate = (props: block) => {
   };
 
   return (
-    <NodeDiv ref={ref} onMouseDown={onClick}>
+    <NodeDiv style={{ order }} ref={ref} onMouseDown={onClick}>
       <NodeImg src={props.icon_link} />
       <NodeTitleSpan>{props.name}</NodeTitleSpan>
       <TapMoreButton
@@ -123,7 +123,6 @@ export const NodeTemplate = (props: block) => {
               },
             })
           );
-          //s
         }}
       >
         <ThreeDots height={3} width={12} />
