@@ -40,21 +40,19 @@ export class Flow {
 
   align() {
     // return;
+
     const { time, timeEnd } = console;
-    console.log("Align all");
-    time("Align");
-    const old = this.state.drawflow;
-    const dr = JSON.parse(JSON.stringify(old));
+    // console.log("Align all");
+    // time("Align");
 
     this.setLaneNumbers();
-
     this.heads.forEach((node, idx) => {
       // time(`align ${idx}`);
       // node.calculateFullWidth()
       node.alignChildren();
       // timeEnd(`align ${idx}`);
     });
-    timeEnd("Align");
+    // timeEnd("Align");
     return this.state.drawflow;
   }
 
