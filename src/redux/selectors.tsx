@@ -41,7 +41,7 @@ export const useActiveFlow = () =>
             const state = selectActiveDrawflow(s);
             const {
               config: {
-                // canvasTranslate: { x, y },
+                canvasTranslate: { x, y },
                 zoom,
               },
               newPathDirection,
@@ -49,7 +49,7 @@ export const useActiveFlow = () =>
             } = state;
             return {
               config: {
-                // canvasTranslate: { x, y },
+                canvasTranslate: { x, y },
                 zoom,
               },
               newPathDirection,

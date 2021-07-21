@@ -44,6 +44,7 @@ const updateTransform = (
   dy: number,
   scale: number
 ) => {
+  return;
   const [x, y] = getComputedStyle(el)
     .transform.match(/^matrix\((.+)\)$/)?.[1]
     .split(",")
@@ -114,7 +115,7 @@ export const Drawflow = () => {
 
   const {
     config: {
-      // canvasTranslate: { x, y },
+      canvasTranslate: { x, y },
       zoom,
     },
     newPathDirection,
@@ -213,7 +214,7 @@ export const Drawflow = () => {
           filter: `blur(${blur / 10}px)`,
         }}
       />
-      <DrawflowAdditionalArea />
+      {/*<DrawflowAdditionalArea />*/}
       <DrawflowZoomArea />
       <CommitFlowButton
         onClick={(e) => {
@@ -225,11 +226,9 @@ export const Drawflow = () => {
       </CommitFlowButton>
       <InnerDrawflow
         ref={flowRef}
-        style={
-          {
-            // transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
-          }
-        }
+        style={{
+          transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
+        }}
       >
         <NodeList />
         <ConnectionList />

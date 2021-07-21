@@ -23,14 +23,16 @@ const BlockStyled = styled.div<{
   padding: 5px;
   width: 200px;
   min-height: 60px;
-  background-color: #d3d3d3;
+  background-color: white;
+  border-radius: 0.2em;
   z-index: 1;
   cursor: move;
 
   ${({ selected }) =>
     selected &&
     css`
-      box-shadow: 0 2px 15px 2px #cacaca;
+      //box-shadow: 0 2px 15px 2px #cacaca;
+      box-shadow: 0 2px 20px 2px #4ea9ff;
       z-index: 2;
     `};
 `;
@@ -129,7 +131,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       <Block {...node} />
 
       {!node.isSub && (
-        <>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <button
             onMouseDown={(e) => {
               e.preventDefault();
@@ -137,7 +139,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
               e.stopPropagation();
             }}
           >
-            toggle sub
+            sub
           </button>
           <button
             onMouseDown={(e) => {
@@ -146,9 +148,9 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
               e.stopPropagation();
             }}
           >
-            toggle children
+            children
           </button>
-        </>
+        </div>
       )}
       <Ports id={id} port={port} type={portType.in} />
       <Ports id={id} port={port} type={portType.out} />

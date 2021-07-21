@@ -17,7 +17,7 @@ import { setStateAction } from "../redux/store";
 import { Close } from "../svg";
 import { LocalStorageKey, sideWindow } from "../types";
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;

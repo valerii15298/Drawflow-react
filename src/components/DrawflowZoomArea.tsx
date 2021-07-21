@@ -4,19 +4,19 @@ import { useAppDispatch } from "../redux/hooks";
 
 const ZoomArea = styled.div`
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 5px 10px;
-  background-color: #ddd;
-  font-weight: bold;
+  top: 0.5em;
+  right: 0.5em;
   z-index: 1;
 `;
 
 const Button = styled.button`
   background-color: #333;
-  color: #fff;
-  border-radius: 4px;
-  padding: 3px 10px;
+  color: white;
+  font-size: 0.9em;
+  margin: 0.1em;
+  padding: 0.1em 0.5em;
+  display: inline-grid;
+  place-items: center;
 `;
 
 const DrawflowZoomArea = () => {

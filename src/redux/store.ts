@@ -171,7 +171,7 @@ const reducer = createReducer(initialState, (builder) => {
       if (!steps || steps.length === 0) {
         return;
       }
-      console.log(steps);
+      // console.log(steps);
       state.version = steps[0].update_version;
       const drawflow: drawflow = {};
       const connections: connections = [];
@@ -180,9 +180,7 @@ const reducer = createReducer(initialState, (builder) => {
       steps.forEach((step) => {
         step.node_attributes?.forEach((subId, idx) => {
           subParents[subId] = step.this_node_unique_id;
-          if (idx === 0) {
-            firstSubs[subId] = true;
-          }
+          firstSubs[subId] = idx === 0;
         });
       });
       steps.forEach((step) => {

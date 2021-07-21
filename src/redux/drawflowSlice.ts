@@ -83,9 +83,9 @@ const slice = createSlice({
       flow.alignAll();
     },
     moveNode: (state, action: PayloadAction<moveNodeType>) => {
-      // state = JSON.parse(JSON.stringify(state));
+      state = JSON.parse(JSON.stringify(state));
       new Flow(state).dragNode(action.payload);
-      // return state;
+      return state;
     },
     setMouseBlockDragPos: (
       state: stateData,

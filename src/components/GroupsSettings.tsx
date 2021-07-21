@@ -2,10 +2,13 @@ import { useState } from "react";
 import styled from "styled-components";
 import { updateGroup } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { groups } from "../types";
+import { groups, sideWindow } from "../types";
 import lodash from "lodash";
-import { Button } from "./Button";
 import { getGroupTemplate } from "../models/getGroupTemplate";
+import { setStateAction } from "../redux/store";
+import { Close } from "../svg";
+import { CloseButton } from "./FlowInfoSettings";
+import { Button } from "./StyledComponents";
 
 const ControlButtonsDiv = styled.div``;
 
@@ -92,6 +95,17 @@ export const GroupsSettings = () => {
 
   return (
     <GroupsDiv>
+      <CloseButton
+        onClick={() =>
+          dispatch(
+            setStateAction({
+              windowConfig: { sideId: sideWindow.none },
+            })
+          )
+        }
+      >
+        <Close width={19} height={19} />
+      </CloseButton>
       <GroupsSettingsH1>Node groups</GroupsSettingsH1>
       {Object.values(groups).map(
         ({ id, node_group_name, node_group_order, node_group_description }) => {

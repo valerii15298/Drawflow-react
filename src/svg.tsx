@@ -99,7 +99,7 @@ export const Close = (props: Record<string, unknown>) => (
   </svg>
 );
 
-export const Settings = (props: Record<string, unknown>) => (
+export const SettingsIcon = (props: Record<string, unknown>) => (
   <svg {...props} enableBackground="new 0 0 512 512" viewBox="0 0 512 512">
     <g>
       <path

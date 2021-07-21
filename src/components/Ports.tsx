@@ -15,11 +15,15 @@ const Indicator = styled.div<{ visible: boolean }>`
 `;
 
 const portStyle = styled.div`
-  height: 15px;
-  width: 15px;
+  height: 1em;
+  width: 1em;
   border-radius: 50%;
-  background-color: red;
+  background-color: white;
   position: absolute;
+  border: 2px solid #cacaca;
+  &:hover {
+    background: #4ea9ff;
+  }
 `;
 
 const Output1 = styled(portStyle)<{ isSub: boolean }>`

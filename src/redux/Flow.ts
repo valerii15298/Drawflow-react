@@ -12,7 +12,7 @@ export class Flow {
   public readonly state: stateData;
   public readonly nodes: { [id: number]: Node } = {};
   public readonly distanceToConnect = 100;
-  public readonly distanceToDisconnect = 0;
+  public readonly distanceToDisconnect = 10;
 
   constructor(state: stateData) {
     this.state = state;
@@ -172,6 +172,7 @@ export class Flow {
   }
 
   toggleAvailablePortToConnect(nodeId: number) {
+    // console.time("toggle");
     /**
      * Because of long computation we executing
      * this action not often then 1 time per 200 milliseconds
@@ -179,11 +180,11 @@ export class Flow {
 
     // return;
 
-    const now = Date.now();
-    if (this.state.computing && now - this.state.computing < 100) {
-      return;
-    }
-    this.state.computing = now;
+    // const now = Date.now();
+    // if (this.state.computing && now - this.state.computing < 100) {
+    //   return;
+    // }
+    // this.state.computing = now;
 
     /**
      * Attachment
@@ -192,11 +193,38 @@ export class Flow {
      * check if their ports are free for new conn, check distance
      */
 
+    // console.log(this.state);
+
     if (!this.state.config.drag) return;
 
     const currentNode = this.getNode(nodeId);
     const currentNodeHead = currentNode.head;
     if (currentNode.parentConnection) {
+      const { startPort, endPort, startId, endId } =
+        currentNode.parentConnection;
+      // console.log({ startPort, endPort });
+      const {
+        pos: { x: x1, y: y1 },
+      } = this.state.ports.find(
+        ({ portId, nodeId, type }) =>
+          nodeId === startId && type === "out" && portId === startPort
+      ) as Port;
+
+      const {
+        pos: { x: x2, y: y2 },
+      } = this.state.ports.find(
+        ({ portId, nodeId, type }) =>
+          nodeId === endId && type === "in" && portId === endPort
+      ) as Port;
+
+      const distance = Math.hypot(x1 - x2, y1 - y2);
+      // console.log({ distance });
+      if (
+        Math.abs(distance - currentNode.spacingY) < this.distanceToDisconnect
+      ) {
+        return;
+      }
+
       // remove connection
       const indexConnToDelete = this.state.connections.indexOf(
         currentNode.parentConnection
@@ -238,6 +266,7 @@ export class Flow {
     } else {
       this.state.portToConnect = undefined;
     }
+    // console.timeEnd("toggle");
   }
 
   setLaneNumbers() {

@@ -58,7 +58,7 @@ export default class Node {
 
   get parentConnection(): connection | undefined {
     return this.state.connections.find((conn) => {
-      if (!conn) console.log({ conn });
+      if (!conn) console.error({ conn });
       const { endId, endPort } = conn;
       return endId === this.id && endPort === 1;
     });
@@ -148,6 +148,8 @@ export default class Node {
     const prevNodes = [];
     let nextParent = this.parent;
     while (nextParent) {
+      // include subnodes of another nodes
+      prevNodes.push(...nextParent.subnodes.reverse());
       prevNodes.push(nextParent);
       nextParent = nextParent.parent;
     }

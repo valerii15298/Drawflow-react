@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setStateAction, toggleSidebar } from "../redux/store";
-import { Arrows, SearchIcon, Settings } from "../svg";
+import { Arrows, SearchIcon, SettingsIcon } from "../svg";
 import { sideWindow } from "../types";
 import FilterList from "./TemplateNodesList";
 
@@ -183,7 +183,7 @@ const SearchBar = ({
           )
         }
       >
-        <Settings height={30} />
+        <SettingsIcon height={30} />
       </OpenGroupSettingButton>
       <ToggleSidebar />
     </SearchDiv>

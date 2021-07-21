@@ -17,8 +17,9 @@ import { FlowInfoSettings } from "./FlowInfoSettings";
 import { mainWindow, sideWindow } from "../types";
 import { GroupsSettings } from "./GroupsSettings";
 import "jsoneditor/dist/jsoneditor.css";
-import { NodeSettings, TemplateNodeSettings } from "./NodeTemplateSettings";
 import { CodeEditor } from "./CodeEditor";
+import { NodeSettings } from "./NodeSettings/NodeSettings";
+import { TemplateNodeSettings } from "./NodeSettings/TemplateNodeSettings";
 
 const VersionsDiv = styled.div`
   display: flex;
