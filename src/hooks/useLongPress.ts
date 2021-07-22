@@ -1,10 +1,10 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, MouseEvent } from "react";
 
 const useLongPress = (
-  onLongPressStart: any,
-  onLongPressEnd: any,
-  onClick: any,
-  delay = 300
+  onLongPressStart: (e?: MouseEvent) => void = () => null,
+  onLongPressEnd: (e?: MouseEvent) => void = () => null,
+  onClick: (e?: MouseEvent) => void = () => null,
+  delay: number = 300
 ) => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   const timeout = useRef<NodeJS.Timeout | null>(null);
@@ -29,10 +29,10 @@ const useLongPress = (
   );
 
   return {
-    onMouseDown: (e: MouseEvent) => start(e),
-    onTouchStart: (e: TouchEvent) => start(e),
-    onMouseUp: (e: MouseEvent) => clear(e),
-    onTouchEnd: (e: TouchEvent) => clear(e),
+    onMouseDown: (e: any) => start(e),
+    onTouchStart: (e: any) => start(e),
+    onMouseUp: (e: any) => clear(e),
+    onTouchEnd: (e: any) => clear(e),
   };
 };
 export default useLongPress;

@@ -23,14 +23,13 @@ import {
   selectActiveDrawflow,
   setState,
 } from "./drawflowSlice";
-import handler from "../tools";
 import {
   changeVersion,
   fetchFlowVersion,
   fetchGroups,
   fetchTemplateNodes,
 } from "./api";
-import { getNodeFromTemplate } from "../models/tools";
+import handler, { getNodeFromTemplate } from "../models/tools";
 import { Flow } from "./Flow";
 
 export const addNewNode = createAction<clientPos>("addNewNode");

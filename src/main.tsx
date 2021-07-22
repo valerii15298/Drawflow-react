@@ -5,28 +5,12 @@ import { Provider } from "react-redux";
 import { StrictMode } from "react";
 import "./drawflow.scss";
 import { Flow } from "./components/Flow";
-
-// import { fromEvent, Observable } from "rxjs";
-// import { exhaustMap } from "rxjs/operators";
-//
-// const clicks = fromEvent(document, "click");
-// const result = clicks.pipe(
-//   exhaustMap((ev) => {
-//     return new Observable((observer) => {
-//       for (let i = 0; i < 3_999_999_999; ++i) {
-//         let y = i;
-//       }
-//       observer.next("Done");
-//       observer.complete();
-//       // console.log("FF");
-//     });
-//   })
-// );
-// result.subscribe((x) => console.log(x));
+import { Chat } from "./chat/Chat";
 
 ReactDOM.render(
   <StrictMode>
-    <Provider store={store}>{<Flow />}</Provider>
+    {/*<Provider store={store}>{<Flow />}</Provider>*/}
+    <Chat />
   </StrictMode>,
   document.getElementById("root")
 );

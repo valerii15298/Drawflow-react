@@ -5,7 +5,7 @@ import { selectActiveDrawflow } from "./drawflowSlice";
 import { useAppSelector } from "./hooks";
 import { RootState } from "./store";
 import { portType, pureNode, purePort } from "../types";
-import handler from "../tools";
+import handler from "../models/tools";
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,

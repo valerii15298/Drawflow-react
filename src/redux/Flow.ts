@@ -6,6 +6,7 @@ import {
   stateData,
 } from "../types";
 import Node from "./Node";
+import { syncTimer } from "../decorators";
 
 export class Flow {
   // readonly because we are using only immer.js with redux-toolkit
@@ -38,6 +39,7 @@ export class Flow {
     return node;
   }
 
+  @syncTimer()
   align() {
     // return;
 
@@ -54,12 +56,12 @@ export class Flow {
   alignAll() {
     const { time, timeEnd } = console;
     // console.log("Align all");
-    time("Align");
+    // time("Align");
 
     this.state.drawflow = new Flow(
       JSON.parse(JSON.stringify(this.state))
     ).align();
-    timeEnd("Align");
+    // timeEnd("Align");
   }
 
   /*allowConnection(conn: addConnectionType) {

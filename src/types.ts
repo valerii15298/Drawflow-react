@@ -133,7 +133,7 @@ export interface pureNode extends Omit<node, "pos"> {
   pos: undefined;
 }
 
-type RecursivePartial<T> = {
+export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : // eslint-disable-next-line @typescript-eslint/ban-types

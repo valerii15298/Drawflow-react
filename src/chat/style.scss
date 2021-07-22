@@ -1,0 +1,389 @@
+.cs-message-input__content-editor-wrapper,
+.cs-message-input__content-editor {
+  background-color: white;
+}
+
+.cs-message-list {
+  background-color: #e1e7ee;
+}
+
+.cs-message--outgoing .cs-message__content {
+  background-color: #0084ff;
+  color: white;
+}
+
+.cs-message--incoming .cs-message__content {
+  background-color: white;
+}
+
+.cs-message-list .cs-typing-indicator {
+  background-color: transparent;
+}
+
+.cs-message__content {
+  border-radius: 0.3em !important;
+}
+
+.cs-message__content-wrapper {
+  position: relative;
+}
+
+.cs-message__content-wrapper::after {
+  content: "";
+  height: 0;
+  width: 0;
+  border: 6px solid transparent;
+  display: block;
+  position: absolute;
+  /*33.225 - 8 = 25.6125*/
+  bottom: 0;
+
+  .cs-message--outgoing & {
+    border-bottom: 6px solid #0084ff;
+    right: -6px;
+  }
+
+  .cs-message--incoming & {
+    border-bottom: 6px solid white;
+    left: -6px;
+  }
+}
+
+.ps__rail-y,
+.ps__rail-x {
+  display: none !important;
+}
+
+div.cs-message-list > div.scrollbar-container.cs-message-list__scroll-wrapper.ps.ps--active-y {
+  padding: 0 0.8em;
+}
+
+.cs-chat-container .cs-message-input .cs-message-input__content-editor-wrapper:first-child {
+  margin: 0;
+  padding-left: 0;
+  // border: 2px solid lightgray;
+}
+
+.cs-message-input {
+  flex-basis: 100px;
+  flex-grow: 1;
+  background: white;
+  border: 0 !important;
+}
+
+.cs-message:not(:only-child) {
+  margin-top: 10px;
+}
+
+.sentTime {
+  margin-right: 4px;
+}
+
+.marks {
+  letter-spacing: -5px;
+
+  & * {
+    display: inline-block;
+    // transform: scale(1.3);
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.emoji-mart-preview {
+  display: none;
+}
+
+.emoji-mart-bar {
+}
+
+.smile {
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 1.4em;
+  fill: #0084ff;
+
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.recordMicrophone {
+  fill: gray;
+  // fill: white;
+  // background-color: black;
+  padding: 0.5em;
+  border-radius: 50%;
+  height: 3em;
+  width: 3em;
+  display: grid;
+  place-items: center;
+  margin: auto 5px auto auto;
+  outline: none;
+  border: 0;
+
+  &.active {
+    transition: all 0.12s ease;
+    background-color: #0084ff;
+    box-shadow: 0 0 10px 5px #5da0df;
+    padding: 0.2em;
+    //transform: scale(1.5);
+    fill: whitesmoke;
+  }
+}
+
+
+.sendButton {
+  font-size: 1.2em;
+  padding: 0;
+  margin: 0 5px 0 0;
+}
+
+.hide {
+  display: none;
+}
+
+.MessageInput {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-top: 1px dashed #d1dbe4;
+  background-color: white;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 50px;
+  max-height: 50px;
+
+  min-width: 180px;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+
+.messageSide {
+  float: right;
+  font-size: 0.7em;
+  margin-top: 5px;
+  margin-bottom: -4px;
+}
+
+
+.trashButton {
+  height: 30px;
+}
+
+.siri-container {
+  height: 100px;
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.mediaPreviewContainer {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: calc(100% - 50px);
+  width: 100%;
+  display: grid;
+  place-items: center;
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  .videoPreview {
+    min-height: 80%;
+    min-width: 80%;
+    // object-fit: cover;
+  }
+
+  img {
+    max-height: 80%;
+    max-width: 80%;
+  }
+}
+
+.audio {
+  background: #0084ff;
+  border-radius: 20px;
+  height: 35px;
+  max-width: 70%;
+  margin: auto auto auto 20px;
+  text-align: center;
+
+  .audioCanvas {
+    height: 30px;
+    width: 90%;
+    border-radius: 20px;
+    margin: auto;
+  }
+}
+
+.video_message {
+  .messageVideo {
+    max-width: 250px;
+    display: block;
+    margin-top: calc(2px - 0.6em);
+    margin-left: calc(2px - 0.9em);
+    margin-right: calc(2px - 0.9em);
+    border-radius: 0.3em;
+  }
+
+  .cs-message__content {
+    // padding-top: 0;
+    // padding-right: 0;
+    // padding-left: 0;
+  }
+}
+
+.audio_message {
+  .cs-message__content {
+    // padding-top: 0.5em;
+    // padding-right: 0;
+    // padding-left: 0.5em;
+  }
+
+  .marks {
+    // margin-right: 20px;
+  }
+
+  .messageSide {
+    margin-top: -10px;
+  }
+}
+
+.messageAudio {
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  place-items: center;
+  column-gap: 0.8em;
+  margin-right: 5px;
+
+  .playButtonWrapper {
+    border-radius: 50%;
+    align-self: flex-start;
+    display: grid;
+    place-items: center;
+    background: greenyellow;
+    padding: 0.4em;
+    height: fit-content;
+    width: fit-content;
+
+    .playButton,
+    .pauseButton {
+      width: 25px;
+      fill: green;
+    }
+
+    .playButton {
+      position: relative;
+      left: 2px;
+    }
+
+    .pauseButton {
+      stroke: green;
+      transform: scale(1.5);
+    }
+  }
+
+  .wavesurfer {
+    width: 200px;
+    z-index: 0;
+  }
+
+  .audioDuration {
+    grid-column: 2;
+    font-size: 0.8em;
+    margin-top: -10px;
+    justify-self: start;
+  }
+}
+
+.MessageInput {
+  .messageAudio {
+    // transform: scale(0.8);
+    border: 2px solid gray;
+    background: gray;
+    height: min-content;
+    transform: scale(0.9);
+
+    .playButtonWrapper {
+      align-self: center;
+      transform: scale(0.8);
+    }
+
+    .audioDuration {
+      display: none;
+    }
+  }
+}
+
+.cs-message {
+  overflow: visible;
+}
+
+.mainChatContainer {
+  height: calc(100vh - 57px);
+}
+
+.attachButton {
+  height: 30px;
+  margin-right: 3px;
+}
+
+.messageImage {
+  max-width: 250px;
+  display: block;
+}
+
+.MessageFile {
+  background: grey;
+  border-radius: 15px;
+  padding: 5px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-height: 50px;
+  margin: 8px;
+  justify-content: space-between;
+
+  * {
+    white-space: nowrap;
+  }
+
+  .fileButton {
+    min-width: 50px;
+    max-width: 50px;
+    margin-left: -5px;
+    // margin-right: -30px;
+  }
+
+  .info {
+    // overflow: hidden;
+    width: max-content;
+
+    .details {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .downloadButton {
+    max-width: 22px;
+    min-width: 22px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+}
+
+.stopButton {
+  max-width: 22px;
+}

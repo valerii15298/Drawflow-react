@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/drawflow-vite.iml" filepath="$PROJECT_DIR$/.idea/drawflow-vite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wave.js-typescript/.idea/wave.js-typescript.iml" filepath="$PROJECT_DIR$/../wave.js-typescript/.idea/wave.js-typescript.iml" />
     </modules>
   </component>
 </project>
