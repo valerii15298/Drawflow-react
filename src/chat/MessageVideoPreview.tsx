@@ -8,11 +8,6 @@ export const MessageVideoPreview = ({
   stream: MediaStream | null;
 }) => {
   const videoRef = useRef<null | HTMLVideoElement>(null);
-  // if (src === "de") {
-  //   useEffect(() => {
-  //     console.log(src);
-  //   }, []);
-  // }
 
   useEffect(() => {
     if (!videoRef.current) {

@@ -10,7 +10,7 @@ import { MessageImage } from "./MessageImage";
 import { MessageFile } from "./MessageFile";
 
 export const Messages = ({ messages }: any) => {
-  let result: Array<JSX.Element> = [];
+  const result: Array<JSX.Element> = [];
   messages.forEach((m: any, i: number) => {
     // console.log(m);
     const messageSide = (

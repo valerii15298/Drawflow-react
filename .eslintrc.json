@@ -11,9 +11,9 @@
     "plugin:prettier/recommended",
     "prettier",
     "plugin:react-hooks/recommended",
-    //    "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -35,7 +35,11 @@
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
     // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
     // Checks effect dependencies
+
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

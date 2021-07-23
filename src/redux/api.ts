@@ -35,7 +35,7 @@ const flow_id = 25;
 export const request = async (
   scrdata_id: REQUEST_TYPE,
   data: Record<string, unknown> = {}
-) => {
+): Promise<any> => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const session_id = urlParams.get("session_id");

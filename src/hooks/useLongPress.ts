@@ -4,7 +4,7 @@ const useLongPress = (
   onLongPressStart: (e?: MouseEvent) => void = () => null,
   onLongPressEnd: (e?: MouseEvent) => void = () => null,
   onClick: (e?: MouseEvent) => void = () => null,
-  delay: number = 300
+  delay = 300
 ) => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   const timeout = useRef<NodeJS.Timeout | null>(null);

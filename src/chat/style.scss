@@ -54,11 +54,14 @@
   display: none !important;
 }
 
-div.cs-message-list > div.scrollbar-container.cs-message-list__scroll-wrapper.ps.ps--active-y {
+div.cs-message-list
+  > div.scrollbar-container.cs-message-list__scroll-wrapper.ps.ps--active-y {
   padding: 0 0.8em;
 }
 
-.cs-chat-container .cs-message-input .cs-message-input__content-editor-wrapper:first-child {
+.cs-chat-container
+  .cs-message-input
+  .cs-message-input__content-editor-wrapper:first-child {
   margin: 0;
   padding-left: 0;
   // border: 2px solid lightgray;
@@ -134,7 +137,6 @@ div.cs-message-list > div.scrollbar-container.cs-message-list__scroll-wrapper.ps
   }
 }
 
-
 .sendButton {
   font-size: 1.2em;
   padding: 0;
@@ -163,14 +165,12 @@ div.cs-message-list > div.scrollbar-container.cs-message-list__scroll-wrapper.ps
   margin-top: auto;
 }
 
-
 .messageSide {
   float: right;
   font-size: 0.7em;
   margin-top: 5px;
   margin-bottom: -4px;
 }
-
 
 .trashButton {
   height: 30px;

@@ -279,7 +279,7 @@ const SettingItem = ({ path }: any) => {
 
             //@ts-ignore
             const typeVal = key in templateNode ? templateNode[key] : value;
-            let type =
+            const type =
               typeof typeVal === "string" || isNull ? "text" : typeof typeVal;
 
             return (

@@ -1,27 +1,26 @@
+import { useEffect, useRef } from "react";
+import styled from "styled-components";
+import tilePng from "../assets/tile.png";
+import { postFlowVersion } from "../redux/api";
 import { actions } from "../redux/drawflowSlice";
 import {
   useAppDispatch,
   useAppSelector,
   useLocalStorage,
 } from "../redux/hooks";
-import { useEffect, useRef } from "react";
+import { useActiveFlow } from "../redux/selectors";
 import {
   addNewNode,
   canvasShapeUpdated,
   insertCopiedNode,
   setStateAction,
 } from "../redux/store";
-import DrawflowAdditionalArea from "./DrawflowAdditionalArea";
+import { canvasShape, LocalStorageKey } from "../types";
+import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
 import { NewPath } from "./NewPath";
 
 import { NodeList } from "./NodeList";
-import { ConnectionList } from "./ConnectionList";
-import styled from "styled-components";
-import { useActiveFlow } from "../redux/selectors";
-import { canvasShape, LocalStorageKey } from "../types";
-import tilePng from "../assets/tile.png";
-import { postFlowVersion } from "../redux/api";
 
 const ParentDrawflow = styled.div`
   position: relative;
@@ -198,13 +197,23 @@ export const Drawflow = () => {
           updateTransform(flowDiv, movementX, movementY, zoom.value);
         }
         dispatch(
-          actions.canvasMouseMove({ clientX, clientY, movementX, movementY })
+          actions.canvasMouseMove({
+            clientX,
+            clientY,
+            movementX,
+            movementY,
+          })
         );
       }}
       onMouseEnter={(e) => {
         const { clientX, clientY } = e;
         // console.log("enter");
-        dispatch(addNewNode({ clientX, clientY }));
+        dispatch(
+          addNewNode({
+            clientX,
+            clientY,
+          })
+        );
       }}
       style={{ backgroundColor: `rgba(251, 251, 251, ${opacity}%)` }}
     >
