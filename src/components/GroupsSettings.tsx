@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { setStateAction } from "../redux/actions";
 import { updateGroup } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { groups, sideWindow } from "../types";
 import lodash from "lodash";
 import { getGroupTemplate } from "../models/getGroupTemplate";
-import { setStateAction } from "../redux/store";
 import { Close } from "../svg";
 import { CloseButton } from "./FlowInfoSettings";
 import { Button } from "./StyledComponents";

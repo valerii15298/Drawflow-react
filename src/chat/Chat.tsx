@@ -1,5 +1,6 @@
 import {
   ChatContainer,
+  ConversationHeader,
   InputToolbox,
   MainContainer,
   MessageInput,
@@ -18,6 +19,7 @@ import useLongPress from "../hooks/useLongPress";
 import { startRecordMedia } from "../tools/recordMedia";
 import { ObjectKeys, RecursivePartial } from "../types";
 import { chatState, IMessage, msgDirection, msgType } from "./chat-types";
+import { ChatHeader } from "./ChatHeader";
 import { EmojiPicker } from "./EmojiPicker";
 import { MessageAudio } from "./MessageAudio";
 import { MessageFile } from "./MessageFile";
@@ -358,6 +360,10 @@ export const Chat = () => {
     <div className="mainChatContainer">
       <MainContainer responsive>
         <ChatContainer>
+          <ChatHeader
+            //@ts-ignore
+            as={ConversationHeader}
+          />
           <Messages
             //@ts-ignore
             as={MessageList}

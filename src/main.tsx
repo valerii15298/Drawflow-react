@@ -1,16 +1,14 @@
+import { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Flow } from "./components/Flow";
+import "./drawflow.scss";
 
 import { store } from "./redux/store";
-import { Provider } from "react-redux";
-import { StrictMode } from "react";
-import "./drawflow.scss";
-import { Flow } from "./components/Flow";
-import { Chat } from "./chat/Chat";
 
 ReactDOM.render(
   <StrictMode>
-    {/*<Provider store={store}>{<Flow />}</Provider>*/}
-    <Chat />
+    <Provider store={store}>{<Flow />}</Provider>
   </StrictMode>,
   document.getElementById("root")
 );

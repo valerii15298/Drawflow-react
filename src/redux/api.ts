@@ -11,7 +11,7 @@ import {
   stateData,
   step,
 } from "../types";
-import { flowTypeActions, setStateAction } from "./store";
+import { setStateAction } from "./actions";
 import { Flow } from "./Flow";
 
 const baseUrl =
@@ -97,7 +97,7 @@ export const fetchFlow = createAsyncThunk(
       return;
     }
     const flowInfo = resp.flows[0] as flowInfo;
-    dispatch(flowTypeActions.setStateAction({ flowInfo }));
+    dispatch(setStateAction({ flowInfo }));
   }
 );
 

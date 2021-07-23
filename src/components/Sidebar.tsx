@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
+import { setStateAction, toggleSidebar } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setStateAction, toggleSidebar } from "../redux/store";
 import { Arrows, SearchIcon, SettingsIcon } from "../svg";
 import { sideWindow } from "../types";
 import FilterList from "./TemplateNodesList";

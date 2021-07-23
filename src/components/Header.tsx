@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
+import { setStateAction } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Arrow } from "../svg";
 import settingsPng from "../assets/flowsettings.png";
 import Toggle from "react-toggle";
-import { setStateAction } from "../redux/store";
 import { mainWindow, sideWindow } from "../types";
 import { postFlow } from "../redux/api";
 

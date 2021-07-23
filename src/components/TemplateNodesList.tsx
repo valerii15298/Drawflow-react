@@ -14,7 +14,8 @@ const ListDiv = styled.div`
   background-color: #f5f5f5;
 
   overflow-y: auto;
-  max-height: calc(100vh - 55px);
+  //max-height: calc(100vh - 55px);
+  max-height: calc(100vh - 64px);
   &:after {
     grid-column: span 3;
     //background-color: red;

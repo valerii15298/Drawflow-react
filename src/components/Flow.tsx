@@ -1,3 +1,4 @@
+import { Chat } from "../chat/Chat";
 import { Drawflow } from "./Drawflow";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -46,7 +47,9 @@ const Main = styled.main`
   position: relative;
 `;
 
-const MainDiv = styled.div``;
+const MainDiv = styled.div`
+  display: flex;
+`;
 
 const AppCodeEditor = () => {
   const json = useAppSelector((s) => s);
@@ -166,6 +169,10 @@ const RightBar = () => {
   return null;
 };
 
+const AppWrapperDiv = styled.div`
+  width: calc(100vw - 417px);
+`;
+
 export const Flow = () => {
   // console.log("Render Flow");
 
@@ -179,12 +186,15 @@ export const Flow = () => {
 
   return (
     <MainDiv>
-      <Header />
-      <Main>
-        <Sidebar />
-        <MainTab />
-        <RightBar />
-      </Main>
+      <AppWrapperDiv>
+        <Header />
+        <Main>
+          <Sidebar />
+          <MainTab />
+          <RightBar />
+        </Main>
+      </AppWrapperDiv>
+      <Chat />
     </MainDiv>
   );
 };

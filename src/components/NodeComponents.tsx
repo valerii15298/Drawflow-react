@@ -2,8 +2,8 @@
 // import { Grabme, More } from "../svg"
 
 import styled from "styled-components";
+import { setStateAction } from "../redux/actions";
 import { block, mainWindow, pureNode } from "../types";
-import { setStateAction } from "../redux/store";
 import { ThreeDots } from "../svg";
 import { TapMoreButton } from "./NodeTemplate";
 import { useAppDispatch } from "../redux/hooks";

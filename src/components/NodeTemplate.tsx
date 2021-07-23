@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
+import { dragTemplate, setStateAction } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { dragTemplate, setStateAction } from "../redux/store";
 import { ThreeDots } from "../svg";
 import { block, mainWindow } from "../types";
 

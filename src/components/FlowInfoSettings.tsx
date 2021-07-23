@@ -7,13 +7,13 @@
 
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { setStateAction } from "../redux/actions";
 import { request, REQUEST_TYPE } from "../redux/api";
 import {
   useAppDispatch,
   useAppSelector,
   useLocalStorage,
 } from "../redux/hooks";
-import { setStateAction } from "../redux/store";
 import { Close } from "../svg";
 import { LocalStorageKey, sideWindow } from "../types";
 

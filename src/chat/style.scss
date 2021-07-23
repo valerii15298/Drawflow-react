@@ -325,6 +325,11 @@ div.cs-message-list
 
 .mainChatContainer {
   height: 100vh;
+  //min-height: 100vh;
+  width: 400px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
 
 .messageImage {

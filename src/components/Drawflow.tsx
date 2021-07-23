@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import tilePng from "../assets/tile.png";
+import {
+  addNewNode,
+  canvasShapeUpdated,
+  insertCopiedNode,
+  setStateAction,
+} from "../redux/actions";
 import { postFlowVersion } from "../redux/api";
 import { actions } from "../redux/drawflowSlice";
 import {
@@ -9,12 +15,6 @@ import {
   useLocalStorage,
 } from "../redux/hooks";
 import { useActiveFlow } from "../redux/selectors";
-import {
-  addNewNode,
-  canvasShapeUpdated,
-  insertCopiedNode,
-  setStateAction,
-} from "../redux/store";
 import { canvasShape, LocalStorageKey } from "../types";
 import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
@@ -25,6 +25,7 @@ import { NodeList } from "./NodeList";
 const ParentDrawflow = styled.div`
   position: relative;
   height: 100vh;
+  //height: 100%;
   overflow: hidden;
   background-image: url(${tilePng});
   background-repeat: repeat;

@@ -1,11 +1,6 @@
+import { configureStore, createReducer, PayloadAction } from "@reduxjs/toolkit";
+import handler, { getNodeFromTemplate } from "../models/tools";
 import {
-  configureStore,
-  createAction,
-  createReducer,
-  PayloadAction,
-} from "@reduxjs/toolkit";
-import {
-  canvasShape,
   clientPos,
   connections,
   drawflow,
@@ -13,38 +8,30 @@ import {
   mainWindow,
   node,
   NODE_TYPE,
-  setStateFunction,
   sideWindow,
   Slices,
 } from "../types";
 import {
-  drawflowSlice,
-  initialState as drawflowInitialState,
-  selectActiveDrawflow,
-  setState,
-} from "./drawflowSlice";
+  addNewNode,
+  canvasShapeUpdated,
+  dragTemplate,
+  insertCopiedNode,
+  setStateAction,
+  toggleSidebar,
+} from "./actions";
 import {
   changeVersion,
   fetchFlowVersion,
   fetchGroups,
   fetchTemplateNodes,
 } from "./api";
-import handler, { getNodeFromTemplate } from "../models/tools";
+import {
+  drawflowSlice,
+  initialState as drawflowInitialState,
+  selectActiveDrawflow,
+  setState,
+} from "./drawflowSlice";
 import { Flow } from "./Flow";
-
-export const addNewNode = createAction<clientPos>("addNewNode");
-export const dragTemplate = createAction<number | undefined>("dragTemplate");
-export const canvasShapeUpdated =
-  createAction<canvasShape>("canvasShapeUpdated");
-export const insertCopiedNode = createAction("insertCopiedNode");
-export const toggleSidebar = createAction("toggleSidebar");
-export const setStateAction = createAction<
-  Record<string, any> | setStateFunction
->("setState");
-
-export const flowTypeActions = {
-  setStateAction,
-};
 
 const initialState: flowType = {
   version: 0,
