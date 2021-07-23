@@ -8,15 +8,29 @@ export const MessageVideoPreview = ({
   stream: MediaStream | null;
 }) => {
   const videoRef = useRef<null | HTMLVideoElement>(null);
+  // if (src === "de") {
+  //   useEffect(() => {
+  //     console.log(src);
+  //   }, []);
+  // }
+
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!videoRef.current) {
+      return;
+    }
     if (stream) {
       videoRef.current.srcObject = stream;
       videoRef.current.muted = true;
-    } else {
+      console.log("srcObject set");
+    } else if (src) {
+      videoRef.current.srcObject = null;
+      videoRef.current.src = src;
+      videoRef.current.muted = false;
       videoRef.current.play();
+    } else {
+      console.error("Empty params");
     }
-  }, [videoRef.current]);
+  }, [src, stream]);
 
   const handleVideoClick = (e: MouseEvent) => {
     const target = e.target as HTMLVideoElement;
@@ -30,10 +44,10 @@ export const MessageVideoPreview = ({
   return (
     <div className="mediaPreviewContainer">
       <video
+        autoPlay
         className="videoPreview"
         ref={videoRef}
         onClick={handleVideoClick}
-        src={src}
       />
     </div>
   );

@@ -165,7 +165,10 @@ export const Chat = () => {
     const setStream = (stream: MediaStream) => (streamRef.current = stream);
     // const setUrl = (url: string) => setState({cu})
     const stopRecording = await startRecordMedia(
-      (url) => actions.setState({ currentMessageValue: { src: url } }),
+      (url) => {
+        actions.setState({ currentMessageValue: { src: url } });
+        console.log({ url });
+      },
       setStream,
       options
     );
@@ -179,6 +182,7 @@ export const Chat = () => {
     streamRef.current = null;
     stopRecordingRef.current?.();
     actions.recordingEnded(undefined);
+    console.log(state);
   };
 
   const switchRecordButtonType = () =>
@@ -286,7 +290,7 @@ export const Chat = () => {
       {currentMessageValue.type === msgType.Video && (
         <MessageVideoPreview
           stream={streamRef.current}
-          src={currentMessageValue.src as string}
+          src={currentMessageValue.src}
         />
       )}
 
@@ -328,9 +332,9 @@ export const Chat = () => {
           >
             {smileButton}
             {trashButton}
-            {streamRef.current && (
-              <WaveJSAudioVisualizer audioStream={streamRef.current} />
-            )}
+            {/*{streamRef.current && (*/}
+            {/*  <WaveJSAudioVisualizer audioStream={streamRef.current} />*/}
+            {/*)}*/}
 
             {currentMessageValue.type === msgType.Audio &&
               currentMessageValue.src && (

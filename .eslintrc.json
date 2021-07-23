@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    //    "airbnb",
+    //    "airbnb-base",
+    //    "airbnb/hooks",
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:react-hooks/recommended",
+    //    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "react-hooks"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    //    "no-console": "off",
+    "prettier/prettier": "error",
+    "react-hooks/rules-of-hooks": "error",
+    // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn"
+    // Checks effect dependencies
+  }
+}
