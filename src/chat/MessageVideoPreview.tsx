@@ -1,5 +1,14 @@
 import { MouseEvent, useEffect, useRef } from "react";
 
+const handleVideoClick = (e: MouseEvent) => {
+  const target = e.target as HTMLVideoElement;
+  if (target.paused) {
+    target.play().then();
+  } else {
+    target.pause();
+  }
+};
+
 export const MessageVideoPreview = ({
   src,
   stream,
@@ -10,31 +19,21 @@ export const MessageVideoPreview = ({
   const videoRef = useRef<null | HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!videoRef.current) {
+    const { current: video } = videoRef;
+    if (!video) {
       return;
     }
     if (stream) {
-      videoRef.current.srcObject = stream;
-      videoRef.current.muted = true;
+      video.srcObject = stream;
+      video.muted = true;
       console.log("srcObject set");
     } else if (src) {
-      videoRef.current.srcObject = null;
-      videoRef.current.src = src;
-      videoRef.current.muted = false;
-      videoRef.current.play();
-    } else {
-      console.error("Empty params");
+      video.srcObject = null;
+      video.src = src;
+      video.muted = false;
+      video.play().then();
     }
   }, [src, stream]);
-
-  const handleVideoClick = (e: MouseEvent) => {
-    const target = e.target as HTMLVideoElement;
-    if (target.paused) {
-      target.play().then();
-    } else {
-      target.pause();
-    }
-  };
 
   return (
     <div className="mediaPreviewContainer">

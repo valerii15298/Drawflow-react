@@ -4,14 +4,15 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { htmlToText } from "html-to-text";
+import { IMessage, msgType } from "./chat-types";
 import { MessageAudio } from "./MessageAudio";
-import { MessageVideo } from "./MessageVideo";
-import { MessageImage } from "./MessageImage";
 import { MessageFile } from "./MessageFile";
+import { MessageImage } from "./MessageImage";
+import { MessageVideo } from "./MessageVideo";
 
-export const Messages = ({ messages }: any) => {
+export const Messages = ({ messages }: { messages: IMessage[] }) => {
   const result: Array<JSX.Element> = [];
-  messages.forEach((m: any, i: number) => {
+  messages.forEach((m, i) => {
     // console.log(m);
     const messageSide = (
       <span className="messageSide">
@@ -24,19 +25,19 @@ export const Messages = ({ messages }: any) => {
     );
     let content;
     switch (m.type) {
-      case "text":
+      case msgType.Text:
         content = <div>{htmlToText(m.src)}</div>;
         break;
-      case "audio":
+      case msgType.Audio:
         content = <MessageAudio src={m.src} />;
         break;
-      case "video":
+      case msgType.Video:
         content = <MessageVideo src={m.src} />;
         break;
-      case "image":
+      case msgType.Image:
         content = <MessageImage src={m.src} />;
         break;
-      case "file":
+      case msgType.File:
         content = <MessageFile {...m} />;
         break;
       default:

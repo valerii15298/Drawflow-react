@@ -1,74 +1,63 @@
-import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import "./style.scss";
 import {
-  Avatar,
   ChatContainer,
-  ConversationHeader,
   InputToolbox,
   MainContainer,
   MessageInput,
   MessageList,
   SendButton,
 } from "@chatscope/chat-ui-kit-react";
-
-import { useMemo, useReducer, useRef, useState } from "react";
+import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import "emoji-mart/css/emoji-mart.css";
+import produce from "immer";
+import lodash from "lodash";
+
+import { useMemo, useReducer, useRef, useState } from "react";
+import styled from "styled-components";
+import useLongPress from "../hooks/useLongPress";
+import { startRecordMedia } from "../tools/recordMedia";
+import { ObjectKeys, RecursivePartial } from "../types";
+import { chatState, IMessage, msgDirection, msgType } from "./chat-types";
+import { EmojiPicker } from "./EmojiPicker";
+import { MessageAudio } from "./MessageAudio";
+import { MessageFile } from "./MessageFile";
+
+import { Messages } from "./Messages";
+import { MessageVideoPreview } from "./MessageVideoPreview";
+import "./style.scss";
 
 import {
-  Attach,
+  AttachSvg,
   RecordCamera,
   RecordMicrophone,
   SmileSvg,
   Stop,
   Trash,
 } from "./svg-components";
-
-import { Messages } from "./Messages";
-import useLongPress from "../hooks/useLongPress";
 import { WaveJSAudioVisualizer } from "./WaveJSAudioVisualizer";
-import { EmojiPicker } from "./EmojiPicker";
-import { msgType } from "./chat-types";
-import { startRecordMedia } from "../tools/recordMedia";
-import produce from "immer";
-import { ObjectKeys, RecursivePartial } from "../types";
-import lodash from "lodash";
-import { MessageVideoPreview } from "./MessageVideoPreview";
-import { MessageFile } from "./MessageFile";
-import { current } from "@reduxjs/toolkit";
-import { MessageAudio } from "./MessageAudio";
 
-const zoeIco =
-  "https://chatscope.io/storybook/react/static/media/akane.b135c3e3.svg";
-
-interface chatState {
-  messages: any[];
-  recording: MediaStreamConstraints;
-  recordButtonIsAudio: boolean;
-  currentMessageValue: {
-    type: msgType;
-    src: string;
-    meta?: File;
-  };
-}
+const getDefaultCurrentMessageValue: () => IMessage = () => ({
+  type: msgType.Text,
+  src: "",
+  direction: msgDirection.Out,
+});
 
 const initialState: chatState = {
-  recording: {},
+  recording: null,
   messages: [],
   recordButtonIsAudio: true,
-  currentMessageValue: {
-    type: msgType.Text,
-    src: "",
-  },
+  currentMessageValue: getDefaultCurrentMessageValue(),
 };
 
 // {
 //   [k: string]: (state: chatState, payload?: any) => chatState | void;
 // }
 
+// const getCurrentTime
+
 const reactions = {
   recordingEnded: (state: chatState) => {
-    state.recording = {};
+    state.recording = null;
   },
 
   setState: (state: chatState, payload: RecursivePartial<chatState>) => {
@@ -80,21 +69,27 @@ const reactions = {
     state.currentMessageValue = {
       type,
       src: "",
+      direction: msgDirection.Out,
     };
   },
 
   cleanCurrentMessage: (state: chatState) => {
-    state.recording = {};
+    state.recording = null;
     state.currentMessageValue = {
       type: msgType.Text,
       src: "",
+      direction: msgDirection.Out,
     };
   },
 
   // handle file, and chose maybe different type
   fileChosen: (state: chatState, file: File) => {
     const url = URL.createObjectURL(file);
-    state.currentMessageValue = { src: url, type: msgType.File };
+    state.currentMessageValue = {
+      src: url,
+      type: msgType.File,
+      direction: msgDirection.Out,
+    };
     state.currentMessageValue.meta = file;
     const { type } = file;
     if (type.includes(msgType.Image)) {
@@ -108,11 +103,13 @@ const reactions = {
 
   // send current message value, clear current
   sendMessage: (state: chatState) => {
-    console.log(current(state));
+    state.messages.push(state.currentMessageValue);
+    state.currentMessageValue = getDefaultCurrentMessageValue();
+    // console.log(current(state));
   },
 };
 
-const reducer = (
+const chatReducer = (
   state: chatState,
   action: { type: keyof typeof reactions; payload: any }
 ) => {
@@ -137,14 +134,70 @@ type ActionType = {
   ) => void;
 };
 
+const FileChooserButton = styled.span`
+  background: 0;
+  border: 0;
+  display: grid;
+  place-items: center;
+
+  label {
+    display: grid;
+    place-items: center;
+
+    svg {
+      cursor: pointer;
+      fill: #0084ff;
+      height: 30px;
+    }
+  }
+`;
+const FileChooser = ({ setFile }: { setFile: (file: File) => void }) => {
+  return (
+    <FileChooserButton>
+      <label>
+        <input
+          type="file"
+          onChange={(e) => {
+            if (!e.target.files?.length) {
+              console.error("No files chosen!");
+              return;
+            }
+            const file = e.target.files[0];
+            e.target.value = "";
+            setFile(file);
+          }}
+          style={{ display: "none" }}
+        />
+        <AttachSvg />
+      </label>
+    </FileChooserButton>
+  );
+};
+
+const StopButton = styled.div`
+  background: 0;
+  display: grid;
+  place-items: center;
+  height: 2em;
+  margin-right: 0.5em;
+
+  svg {
+    height: 90%;
+    cursor: pointer;
+  }
+`;
+
 export const Chat = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(chatReducer, initialState);
 
   const actions = useMemo(
     () =>
       ObjectKeys(reactions).reduce((acc: ActionType, type) => {
         acc[type] = (payload?: any) => {
-          dispatch({ type, payload });
+          dispatch({
+            type,
+            payload,
+          });
         };
         return acc;
       }, {} as ActionType),
@@ -162,6 +215,9 @@ export const Chat = () => {
   const stopRecordingRef = useRef<(() => void) | null>(null);
 
   const startRecording = async (options: MediaStreamConstraints) => {
+    if (recording) {
+      return;
+    }
     const setStream = (stream: MediaStream) => (streamRef.current = stream);
     // const setUrl = (url: string) => setState({cu})
     const stopRecording = await startRecordMedia(
@@ -186,6 +242,7 @@ export const Chat = () => {
   };
 
   const switchRecordButtonType = () =>
+    !recording &&
     actions.setState({ recordButtonIsAudio: !recordButtonIsAudio });
 
   const longPressAudioEvent = useLongPress(
@@ -195,12 +252,16 @@ export const Chat = () => {
   );
 
   const longPressVideoEvent = useLongPress(
-    () => startRecording({ audio: true, video: true }),
+    () =>
+      startRecording({
+        audio: true,
+        video: true,
+      }),
     undefined,
     switchRecordButtonType
   );
 
-  const smileButton = (
+  const smileButton = currentMessageValue.type === msgType.Text && (
     <SmileSvg
       className="smile"
       onClick={() => setShowEmojiPicker(!showEmojiPicker)}
@@ -229,7 +290,7 @@ export const Chat = () => {
   const recordAudioButton = (
     <button
       {...longPressAudioEvent}
-      className={"recordMicrophone" + (recording.audio ? " active" : "")}
+      className={"recordMicrophone" + (recording?.audio ? " active" : "")}
     >
       <RecordMicrophone />
     </button>
@@ -241,49 +302,31 @@ export const Chat = () => {
     </button>
   );
 
-  const trashButton = (
-    <Trash onClick={actions.cleanCurrentMessage} className="trashButton" />
-  );
+  const trashButton = currentMessageValue.type !== msgType.Text &&
+    currentMessageValue.src && (
+      <Trash onClick={actions.cleanCurrentMessage} className="trashButton" />
+    );
 
-  // if messageValue && !isRecording
-  const sendButton = (
+  const sendButton = currentMessageValue.src !== "" && (
     <SendButton className={"sendButton"} onClick={actions.sendMessage} />
   );
 
-  // if !messageValue &&
-  const fileChooserButton = (
-    <label>
-      <input
-        type="file"
-        onChange={(e) => {
-          if (!e.target.files?.length) {
-            console.error("No files chosen!");
-            return;
-          }
-          const file = e.target.files[0];
-          actions.fileChosen(file);
-        }}
-        style={{ display: "none" }}
-      />
-      <Attach fill="#0084ff" className={"attachButton"} />
-    </label>
+  const fileChooserButton = currentMessageValue.src === "" && !recording && (
+    <FileChooser setFile={actions.fileChosen} />
   );
 
-  //(!messageValue || isRecording) &&
-  const recordButton = recordButtonIsAudio
-    ? recordAudioButton
-    : recordVideoButton;
+  const recordButton =
+    (currentMessageValue.src === "" || recording) &&
+    (recordButtonIsAudio ? recordAudioButton : recordVideoButton);
 
-  const stopRecordingButton = (recording.audio || recording.video) && (
-    <Stop onClick={stopRecording} className={"stopButton"} />
+  const stopRecordingButton = recording && (
+    <StopButton>
+      <Stop onClick={stopRecording} />
+    </StopButton>
   );
 
   const inputToolbox = (
     <div
-      style={{
-        margin: "auto",
-        alignSelf: "center",
-      }}
       //@ts-ignore
       as={InputToolbox}
     >
@@ -315,26 +358,22 @@ export const Chat = () => {
     <div className="mainChatContainer">
       <MainContainer responsive>
         <ChatContainer>
-          <ConversationHeader>
-            <Avatar src={zoeIco} name="Zoe" status="available" />
-            <ConversationHeader.Content
-              userName="Zoe"
-              info="Active 10 mins ago"
-            />
-          </ConversationHeader>
-
-          <Messages as={MessageList} messages={messages} />
+          <Messages
+            //@ts-ignore
+            as={MessageList}
+            messages={messages}
+          />
 
           <div
             className="MessageInput"
             // @ts-ignore
             as={MessageInput}
           >
-            {smileButton}
             {trashButton}
-            {/*{streamRef.current && (*/}
-            {/*  <WaveJSAudioVisualizer audioStream={streamRef.current} />*/}
-            {/*)}*/}
+            {smileButton}
+            {streamRef.current && (
+              <WaveJSAudioVisualizer audioStream={streamRef.current} />
+            )}
 
             {currentMessageValue.type === msgType.Audio &&
               currentMessageValue.src && (
@@ -354,8 +393,8 @@ export const Chat = () => {
             {messageInput}
             {sendButton}
             {fileChooserButton}
-            {recordButton}
             {stopRecordingButton}
+            {recordButton}
           </div>
           {inputToolbox}
         </ChatContainer>
