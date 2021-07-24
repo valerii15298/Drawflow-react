@@ -16,12 +16,24 @@ const ListDiv = styled.div`
   overflow-y: auto;
   //max-height: calc(100vh - 55px);
   max-height: calc(100vh - 64px);
+
   &:after {
     grid-column: span 3;
     //background-color: red;
     height: 0.1em; /* 3em (desired padding effect) minus 1em (grid-gap setting) */
     content: "";
     order: 999;
+  }
+
+  //&::-webkit-scrollbar-thumb {
+  //  background-color: #217ce8;
+  //  border-radius: 1em;
+  //}
+
+  &::-webkit-scrollbar {
+    //display: none;
+    //height: 0.1em;
+    width: 0.5em;
   }
 `;
 
@@ -50,7 +62,8 @@ const TemplateNodesList = (props: {
   return (
     <ListDiv>
       {list.map((block) => {
-        const label = JSON.stringify(block, null, 2);
+        // const label = JSON.stringify(block, null, 2);
+        const label = block.name + " " + block.description;
 
         return (
           (selectedGroup === 0 || block.nodes_group_id === selectedGroup) &&

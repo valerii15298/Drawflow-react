@@ -120,6 +120,7 @@ const reducer = createReducer(initialState, (builder) => {
           height: 0,
           width: 0,
         };
+        node.data.this_node_unique_id = state.nodeId;
 
         node.pos = handler.getPos(
           clientX,
@@ -194,12 +195,12 @@ const reducer = createReducer(initialState, (builder) => {
           pos: { x: 0, y: 0 },
           data: step,
         };
-        ["name", "description", "icon_link_selected"].forEach((key) => {
-          const pKey = `node_${key}` as keyof typeof step.flow_node;
-          step[key] = step.flow_node?.[pKey];
-        });
-        step.nodes_tooltip = step.flow_node?.node_tooltip || "";
-        delete step.flow_node;
+        // ["name", "description", "icon_link_selected"].forEach((key) => {
+        //   const pKey = `node_${key}` as keyof typeof step.flow_node;
+        //   step[key] = step.flow_node?.[pKey];
+        // });
+        // step.nodes_tooltip = step.flow_node?.node_tooltip || "";
+        // delete step.flow_node;
       });
       state.flows[state.version] = drawflowSlice(state.flows[state.version], {
         type: Slices.Drawflow + "/load",

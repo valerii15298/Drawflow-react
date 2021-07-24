@@ -28,7 +28,7 @@ const VersionsDiv = styled.div`
   overflow-x: auto;
 
   &::-webkit-scrollbar-thumb {
-    background-color: #217ce8;
+    background-color: #2986f5;
   }
 
   &::-webkit-scrollbar {
@@ -170,7 +170,8 @@ const RightBar = () => {
 };
 
 const AppWrapperDiv = styled.div`
-  width: calc(100vw - 417px);
+  width: calc(100vw - 408px);
+  //border-right: 2px solid lightgray;
 `;
 
 export const Flow = () => {

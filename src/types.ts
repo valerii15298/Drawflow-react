@@ -305,7 +305,7 @@ export type setStateFunction = (state: Record<string, any>) => void;
 
 export interface step extends block {
   flow_lane_id: number;
-  flow_node?: {
+  flow_node: {
     node_name: string;
     node_description: string;
     node_icon_link: string;

@@ -6,8 +6,6 @@ export const NodeList = () => {
 
   const drawflow = useNodeIds();
 
-  // return null;
-
   return (
     <>
       {drawflow.map((id) => {

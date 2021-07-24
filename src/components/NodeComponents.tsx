@@ -20,12 +20,13 @@ export const Block = (props: pureNode) => {
   return (
     <BlockDiv>
       <div>{props.id}</div>
-      {props.data.description}
+      {/*<span>{props.data.flow_node.node_name}</span>*/}
+      <span>{props.data.flow_node.node_description}</span>
       <TapMoreButton
         onMouseDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          // console.log({ nodes_id });
+          // console.log({ props });
           dispatch(
             setStateAction({
               windowConfig: {

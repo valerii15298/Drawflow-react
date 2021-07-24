@@ -236,6 +236,7 @@ const fetchFlowVersionReqFunc = async (version: number) => {
   if (flow_steps === null) {
     return null;
   }
+  // console.log(flow_steps[0]);
   return flow_steps.filter(
     ({ update_version }) => update_version === version || version === 0
   );
@@ -271,14 +272,14 @@ export const postFlowVersion = createAsyncThunk(
       JSON.parse(JSON.stringify(drawflow)) as drawflow
     ).map((node) => {
       const { subnodes } = flow.getNode(node.id);
-      const { data } = node as any;
-      data.flow_node = {};
-      ["name", "description", "icon_link_selected"].forEach((key) => {
-        data.flow_node[`node_${key}`] = data[key];
-        delete data[key];
-      });
-      data.flow_node.node_tooltip = data.nodes_tooltip;
-      delete data.nodes_tooltip;
+      const { data } = node;
+      // data.flow_node = {};
+      // ["name", "description", "icon_link_selected"].forEach((key) => {
+      //   data.flow_node[`node_${key}`] = data[key];
+      //   delete data[key];
+      // });
+      // data.flow_node.node_tooltip = data.nodes_tooltip;
+      // delete data.nodes_tooltip;
       return {
         ...data,
         ...getStepData(state, node.id),

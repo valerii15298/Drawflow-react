@@ -7,7 +7,7 @@ export const NodeSettings = ({ id }: { id: number }) => {
   // console.log(json);
   return (
     <NodeSettingsContext.Provider value={{ type: "node" }}>
-      <Settings json={json} />
+      <Settings json={json} id={id} />
     </NodeSettingsContext.Provider>
   );
 };

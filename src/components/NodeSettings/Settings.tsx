@@ -6,9 +6,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { block, ObjectKeys, step } from "../../types";
-import { Plus, SettingsIcon as SettingsIcon } from "../../svg";
 
 import {
   Controller,
@@ -17,16 +14,20 @@ import {
   useFormContext,
   useWatch,
 } from "react-hook-form";
+import { useClickOutside } from "../../hooks/useClickOutside";
+import { getTemplateNode } from "../../models/getTemplateNode";
+import { capitalize, mapKeyToDisplayName } from "../../models/tools";
+import { updateTemplateNode } from "../../redux/api";
+import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
+import { Flow } from "../../redux/Flow";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import Node from "../../redux/Node";
+import { Plus, SettingsIcon as SettingsIcon } from "../../svg";
+import { block, ObjectKeys, step } from "../../types";
 
 import { CodeEditor } from "../CodeEditor";
 import { ToggleSidebar } from "../Sidebar";
-import { getTemplateNode } from "../../models/getTemplateNode";
-import { updateTemplateNode } from "../../redux/api";
-import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
-import { capitalize, mapKeyToDisplayName } from "../../models/tools";
 import { NodeJumpControls } from "./NodeJumpControls";
-import { Flow } from "../../redux/Flow";
-import Node from "../../redux/Node";
 import {
   ControlsDiv,
   DefaultSettingsDetails,
@@ -52,7 +53,6 @@ import {
   TitleInfoDiv,
   ToggleSidebarDiv,
 } from "./StyledComponents";
-import { useClickOutside } from "../../hooks/useClickOutside";
 
 const templateNode = getTemplateNode();
 
@@ -81,7 +81,10 @@ const RightBar = ({
   remount: () => void;
   defaultValue: block;
 }) => {
-  const values = useWatch({ control, defaultValue });
+  const values = useWatch({
+    control,
+    defaultValue,
+  });
   const [edited, setEdited] = useState<boolean>(false);
   return (
     <div onMouseLeave={() => edited && remount()}>
@@ -259,7 +262,11 @@ const SettingItem = ({ path }: any) => {
         : true;
     if (!valid) {
       // @ts-ignore
-      console.log({ key, value, properValue: templateNode[key] });
+      console.log({
+        key,
+        value,
+        properValue: templateNode[key],
+      });
     }
     // console.log(valid);
     return valid;
@@ -306,10 +313,11 @@ type formType = block | step;
 export const LeftBar = (props: {
   defaultValues: formType;
   setControl: (p: any) => void;
+  id: number;
 }) => {
   const { type } = useContext(NodeSettingsContext);
   const dispatch = useAppDispatch();
-  const { defaultValues, setControl } = props;
+  const { defaultValues, setControl, id } = props;
   const methods = useForm({ defaultValues });
   const {
     handleSubmit,
@@ -323,18 +331,26 @@ export const LeftBar = (props: {
     setControl(control);
   }, []);
 
-  const values = defaultValues;
+  // const values = defaultValues;
+  const values = getValues();
   const { name, description, icon_link } = values;
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
 
+  // console.log("render", { defaultValues, values });
   const onSubmit = (data: formType) => {
+    data = getValues();
     type === "template" && dispatch(updateTemplateNode(data));
     type === "node" && dispatch(actions.updateNode(data as step));
   };
 
   const onDelete = () => {
     type === "template" &&
-      dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
+      dispatch(
+        updateTemplateNode({
+          ...getValues(),
+          delete: 1,
+        })
+      );
     // type === "node" &&
     //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
   };
@@ -355,11 +371,7 @@ export const LeftBar = (props: {
             <TitleDiv>{name}</TitleDiv>
             <DescriptionDiv>{description}</DescriptionDiv>
           </TitleInfoDiv>
-          {type === "node" && (
-            <NodeJumpControls
-              id={(defaultValues as step).this_node_unique_id}
-            />
-          )}
+          {type === "node" && <NodeJumpControls id={id} />}
         </LeftBarHeader>
         <DefaultSettingsDetails open={true}>
           <StyledSummary>Default settings</StyledSummary>
@@ -404,7 +416,7 @@ export const LeftBar = (props: {
   );
 };
 
-export const Settings = ({ json }: { json: any }) => {
+export const Settings = ({ json, id }: { json: formType; id: number }) => {
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
   const [defaultValues, setDefaultValues] = useState(json);
@@ -423,6 +435,7 @@ export const Settings = ({ json }: { json: any }) => {
             key={`leftBar-${leftBarKey}`}
             defaultValues={defaultValues}
             setControl={setControl}
+            id={id}
           />
           {control && (
             <RightBar

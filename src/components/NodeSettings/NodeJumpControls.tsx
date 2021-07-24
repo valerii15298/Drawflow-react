@@ -1,8 +1,10 @@
+import PropTypes from "prop-types";
+import { useRef } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
 import { setStateAction } from "../../redux/actions";
-import { useAppSelector } from "../../redux/hooks";
 import { selectActiveDrawflow } from "../../redux/drawflowSlice";
 import { Flow } from "../../redux/Flow";
-import { useRef } from "react";
+import { useAppSelector } from "../../redux/hooks";
 import Node from "../../redux/Node";
 import { store } from "../../redux/store";
 import { mainWindow } from "../../types";
@@ -15,7 +17,6 @@ import {
   SelectNodeSettingsItem,
   StyledSummary,
 } from "./StyledComponents";
-import { useClickOutside } from "../../hooks/useClickOutside";
 
 const jumpToNodeSettings = (id: number) => {
   store.dispatch(
@@ -84,6 +85,7 @@ export const PrevNodesChooser = ({
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const JumpNodesChooserList = <T extends {}>(props: {
   list: T[];
   render: (item: T) => JSX.Element;
@@ -104,7 +106,7 @@ const JumpNodesChooserList = <T extends {}>(props: {
   );
 };
 
-export const NodeJumpControls = ({ id }: { id: number }) => {
+const NodeJumpControls = ({ id }: { id: number }) => {
   const state = useAppSelector(selectActiveDrawflow);
   const flow = new Flow(state);
   const node = flow.getNode(id);
@@ -148,3 +150,9 @@ export const NodeJumpControls = ({ id }: { id: number }) => {
     </NodeJumpControlsDiv>
   );
 };
+
+NodeJumpControls.propTypes = {
+  id: PropTypes.number,
+};
+
+export { NodeJumpControls };

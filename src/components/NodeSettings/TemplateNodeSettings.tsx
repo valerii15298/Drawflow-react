@@ -11,7 +11,7 @@ export const TemplateNodeSettings = ({ id }: { id: number }) => {
 
   return (
     <NodeSettingsContext.Provider value={{ type: "template" }}>
-      <Settings json={json} />
+      <Settings json={json} id={id} />
     </NodeSettingsContext.Provider>
   );
 };

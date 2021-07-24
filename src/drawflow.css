@@ -16,4 +16,13 @@ button:hover {
   opacity: 0.7;
 }
 
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #85b0e4;
+  border-radius: 1em;
+}
+
 /*# sourceMappingURL=drawflow.css.map */

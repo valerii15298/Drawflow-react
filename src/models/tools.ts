@@ -1,15 +1,56 @@
-import { block, canvasShape, pos } from "../types";
+import { block, canvasShape, ObjectKeys, pos, step } from "../types";
 
 export const getNodeFromTemplate = (template: block) => {
-  const data = JSON.parse(JSON.stringify(template));
-  data.id_nodes = data.nodes_id;
-  ["order", "active", "icon_link", "nodes_group_id", "nodes_id"].forEach(
-    (key) => delete data[key]
+  const keysToDeleteFromTemplate = [
+    "order",
+    "active",
+    "icon_link",
+    "nodes_group_id",
+    "nodes_id",
+    "nodes_tooltip",
+
+    "name",
+    "description",
+    "icon_link_selected",
+  ];
+  const data: block = JSON.parse(JSON.stringify(template));
+  const step: step = ObjectKeys(data).reduce(
+    (acc, key) => {
+      if (key in keysToDeleteFromTemplate) {
+        return acc;
+      }
+
+      // @ts-ignore
+      acc[key] = template[key];
+      return acc;
+    },
+    {
+      flow_lane_id: 0,
+      flow_node: {},
+      node_position: 0,
+      prev_node_unique_id: 0,
+      this_node_unique_id: 0,
+      update_version: 0,
+      id_nodes: 0,
+    } as step
   );
-  return data;
+
+  const propsToChange: Array<keyof block> = [
+    "name",
+    "description",
+    "icon_link_selected",
+  ];
+  propsToChange.forEach((key) => {
+    step.flow_node[`node_${key}`] = data[key];
+  });
+  step.flow_node.node_tooltip = data.nodes_tooltip;
+  step.id_nodes = data.nodes_id;
+
+  return step;
 };
 
 export const mapKeyToDisplayName = {
+  flow_node: "Flow node",
   node_settings_json: "Settings JSON",
   node_response_settings_json: "Response JSON",
   node_object_lists: "Object list",
