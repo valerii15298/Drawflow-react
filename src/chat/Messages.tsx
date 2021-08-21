@@ -3,14 +3,15 @@ import {
   MessageList,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-import { htmlToText } from "html-to-text";
-import { IMessage, msgType } from "./chat-types";
-import { MessageAudio } from "./MessageAudio";
-import { MessageFile } from "./MessageFile";
-import { MessageImage } from "./MessageImage";
-import { MessageVideo } from "./MessageVideo";
+import { BotNode } from "./BotNode";
+import { IMessage } from "./chat-types";
+import { messagesMap } from "./MessagesMap";
 
-export const Messages = ({ messages }: { messages: IMessage[] }) => {
+export const Messages = ({
+  messages,
+}: {
+  messages: Array<IMessage | BotNode>;
+}) => {
   const result: Array<JSX.Element> = [];
   messages.forEach((m, i) => {
     // console.log(m);
@@ -23,27 +24,8 @@ export const Messages = ({ messages }: { messages: IMessage[] }) => {
         </span>
       </span>
     );
-    let content;
-    switch (m.type) {
-      case msgType.Text:
-        content = <div>{htmlToText(m.src)}</div>;
-        break;
-      case msgType.Audio:
-        content = <MessageAudio src={m.src} />;
-        break;
-      case msgType.Video:
-        content = <MessageVideo src={m.src} />;
-        break;
-      case msgType.Image:
-        content = <MessageImage src={m.src} />;
-        break;
-      case msgType.File:
-        content = <MessageFile {...m} />;
-        break;
-      default:
-        content = "Invalid type";
-        break;
-    }
+    const MessageComponent =
+      m instanceof BotNode ? m.getComponent() : messagesMap[m.type];
     result.push(
       <Message
         className={m.type + "_message"}
@@ -51,7 +33,7 @@ export const Messages = ({ messages }: { messages: IMessage[] }) => {
         key={i}
       >
         <Message.CustomContent>
-          {content}
+          <MessageComponent {...m} />
           {messageSide}
         </Message.CustomContent>
       </Message>

@@ -1,10 +1,10 @@
 import { File, Download } from "./svg-components";
 
-export const MessageFile = ({ src, meta }: { src: string; meta?: File }) => {
-  if (meta === undefined) {
-    console.error("`meta` is not defined, component MessageFile");
+export const MessageFile = ({ src, file }: { src: string; file?: File }) => {
+  if (file === undefined) {
+    console.error("`file` is not defined, component MessageFile");
   }
-  const { name, size, type } = meta ?? {};
+  const { name, size, type } = file ?? {};
   return (
     <div className={"MessageFile"}>
       <File className={"fileButton"} />

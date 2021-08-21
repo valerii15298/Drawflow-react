@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { getTemplateNode } from "../models/getTemplateNode";
+import { updateTemplateNode } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Plus } from "../svg";
 import { NodeDiv, NodeTemplate } from "./NodeTemplate";
-import { updateTemplateNode } from "../redux/api";
-import { getTemplateNode } from "../models/getTemplateNode";
 
 const ListDiv = styled.div`
   padding: 0.5em;
@@ -74,14 +74,16 @@ const TemplateNodesList = (props: {
         );
       })}
       <AddTemplateNodeDiv
-        onClick={() =>
+        onClick={() => {
+          const templateNode = getTemplateNode();
+          templateNode.nodes_group_id = selectedGroup;
           dispatch(
             updateTemplateNode({
-              ...getTemplateNode(),
+              ...templateNode,
               order: Math.max(...list.map((v) => v.order)) + 1,
             })
-          )
-        }
+          );
+        }}
       >
         <Plus />
       </AddTemplateNodeDiv>

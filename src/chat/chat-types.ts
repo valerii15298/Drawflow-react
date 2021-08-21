@@ -1,6 +1,6 @@
-// export type msgType = "text" | "audio" | "video" | "file" | "image";
+import { BotNode } from "./BotNode";
 
-export enum msgType {
+export enum userMessageType {
   Text = "text",
   Audio = "audio",
   Video = "video",
@@ -13,16 +13,34 @@ export enum msgDirection {
   Out = "outgoing",
 }
 
+export enum botNodeType {
+  Empty = "empty",
+
+  Link = "link",
+  Switch = "switch", // Choose some option
+
+  // not renderable
+  Delay = "delay",
+  HttpRequest = "httpRequest",
+  AllowUserToSendMessages = "allowUserToSendMessages",
+  DisallowUserToSendMessages = "disallowUserToSendMessages",
+  ShowTypingIndicator = "showTypingIndicator",
+  HideTypingIndicator = "hideTypingIndicator",
+
+  // plus all the same that on user mesage
+}
+
 export interface IMessage {
-  type: msgType;
+  type: userMessageType | botNodeType;
   src: string;
-  meta?: File;
+  file?: File;
   direction: msgDirection;
 }
 
 export interface chatState {
-  messages: any[];
+  messages: Array<IMessage | BotNode>;
   recording: MediaStreamConstraints | null;
   recordButtonIsAudio: boolean;
+  showEmojiPicker: boolean;
   currentMessageValue: IMessage;
 }
