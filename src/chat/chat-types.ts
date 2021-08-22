@@ -1,5 +1,3 @@
-import { BotNode } from "./BotNode";
-
 export enum userMessageType {
   Text = "text",
   Audio = "audio",
@@ -37,10 +35,31 @@ export interface IMessage {
   direction: msgDirection;
 }
 
+export interface IBotNodeData extends IMessage {
+  flowNodeId: number;
+  executed: boolean;
+  renderable: boolean;
+}
+
 export interface chatState {
-  messages: Array<IMessage | BotNode>;
+  messages: Array<IMessage | IBotNodeData>;
   recording: MediaStreamConstraints | null;
   recordButtonIsAudio: boolean;
   showEmojiPicker: boolean;
   currentMessageValue: IMessage;
 }
+
+export const getDefaultCurrentMessageValue: () => IMessage = () => ({
+  type: userMessageType.Text,
+  src: "",
+  direction: msgDirection.Out,
+});
+
+export const getDefaultBotNodeData = (): IBotNodeData => ({
+  flowNodeId: 0,
+  executed: false,
+  type: botNodeType.Empty,
+  direction: msgDirection.In,
+  src: "",
+  renderable: false,
+});

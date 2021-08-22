@@ -1,39 +1,50 @@
-import { FC, useEffect } from "react";
-import { BotNode, IRenderable, mapBotTypeToClass } from "../BotNode";
+import { useEffect } from "react";
+import { selectActiveDrawflow } from "../../redux/drawflowSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { mapBotTypeToComponent, usePushNextNode } from "../BotNode";
 import { useChatBotContext } from "../Chat";
-import { botNodeType, chatState } from "../chat-types";
+import { botNodeType, IBotNodeData } from "../chat-types";
 
 const waitNumberOfMilliseconds = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
-console.log("IAAAAAMMMMMMM");
 
-export class Wait extends BotNode implements IRenderable {
-  renderable: true;
-  declare data: { delay: number; type: botNodeType };
-
-  getComponent = () => {
-    const Component = () => {
-      const { state, actions } = useChatBotContext();
-      useEffect(() => {
-        console.log("Use effect");
-        // const nextBotNode = this.getNextBotNode();
-        // nextBotNode.execute(state);
-      }, []);
-      // we can generate our actions here to, for example async actions, etc...
-      return <div>Hello delay</div>;
-    };
-    return Component;
-  };
-
-  async execute(chatState): Promise<void> {
-    await super.execute(chatState);
-    console.log("Wait started");
-    const delayMs = this.data.delay;
-    await waitNumberOfMilliseconds(delayMs);
-    console.log("Wait ended");
-    this.actions.appendMessageNode(this);
-  }
+interface IWaitBotNodeData {
+  delay: number;
 }
 
-mapBotTypeToClass[botNodeType.Delay] = Wait;
-console.log(mapBotTypeToClass);
+const Wait = ({ flowNodeId }: IBotNodeData) => {
+  const { state, actions } = useChatBotContext();
+  const { executed } = state.messages.find(
+    (m) => "flowNodeId" in m && m.flowNodeId === flowNodeId
+  ) as IBotNodeData;
+  const nodeData = useAppSelector(
+    (s) => selectActiveDrawflow(s).drawflow[flowNodeId].data.node_object_lists
+  ) as unknown as IWaitBotNodeData;
+
+  const pushNextNode = usePushNextNode(flowNodeId);
+
+  useEffect(() => {
+    if (executed) return;
+    // console.log("Execute");
+    const execute = async () => {
+      await waitNumberOfMilliseconds(nodeData.delay);
+    };
+
+    execute().then(() => {
+      actions.setState((s) => {
+        const node = s.messages.find(
+          (m) => "flowNodeId" in m && m.flowNodeId === flowNodeId
+        ) as IBotNodeData;
+
+        node.renderable = true;
+        node.executed = true;
+      });
+      pushNextNode();
+    });
+  }, [actions, executed, flowNodeId, nodeData.delay, pushNextNode]);
+
+  if (!executed) return <div>Executing</div>;
+  return <div>Hello delay: {JSON.stringify(nodeData)}</div>;
+};
+
+mapBotTypeToComponent[botNodeType.Delay] = Wait;

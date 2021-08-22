@@ -1,3 +1,4 @@
+import { mapBotTypeToComponent } from "./BotNode";
 import { userMessageType } from "./chat-types";
 import { MessageAudio } from "./MessageAudio";
 import { MessageFile } from "./MessageFile";

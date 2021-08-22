@@ -3,18 +3,26 @@ import {
   MessageList,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
-import { BotNode } from "./BotNode";
-import { IMessage } from "./chat-types";
+import { BotNodeMessageComponent } from "./BotNode";
+import { IBotNodeData, IMessage } from "./chat-types";
 import { messagesMap } from "./MessagesMap";
 
 export const Messages = ({
   messages,
 }: {
-  messages: Array<IMessage | BotNode>;
+  messages: Array<IMessage | IBotNodeData>;
 }) => {
   const result: Array<JSX.Element> = [];
   messages.forEach((m, i) => {
-    // console.log(m);
+    const isBotNode = "flowNodeId" in m;
+    const MessageComponent =
+      "flowNodeId" in m ? BotNodeMessageComponent : messagesMap[m.type];
+    const renderable = !isBotNode || ("renderable" in m && m.renderable);
+    if (!renderable) {
+      result.push(<MessageComponent {...m} key={i} as={Message} />);
+      return;
+    }
+
     const messageSide = (
       <span className="messageSide">
         <span className="sentTime">10:42 PM</span>
@@ -24,8 +32,6 @@ export const Messages = ({
         </span>
       </span>
     );
-    const MessageComponent =
-      m instanceof BotNode ? m.getComponent() : messagesMap[m.type];
     result.push(
       <Message
         className={m.type + "_message"}
