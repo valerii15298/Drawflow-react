@@ -15,12 +15,12 @@ import { useRef } from "react";
 import useLongPress from "../hooks/useLongPress";
 import { startRecordMedia } from "../tools/recordMedia";
 import { useChatBotContext } from "./Chat";
-import { userMessageType } from "./chat-types";
 import { ChatHeader } from "./ChatHeader";
+import { chatNodeType } from "./chatNodes/chatNodeType";
 import { EmojiPicker } from "./EmojiPicker";
 import { FileChooser } from "./FileChooser";
-import { MessageAudio } from "./MessageAudio";
-import { MessageFile } from "./MessageFile";
+import { NodeAudio } from "./chatNodes/Audio";
+import { NodeFile } from "./chatNodes/File";
 import { MessageImagePreview } from "./MessageImagePreview";
 
 import { Messages } from "./Messages";
@@ -96,14 +96,14 @@ export const ChatApp = () => {
     switchRecordButtonType
   );
 
-  const showSmileButton = currentMessageValue.type === userMessageType.Text;
+  const showSmileButton = currentMessageValue.type === chatNodeType.Text;
 
   const smileButton = showSmileButton && (
     <SmileSvg className="smile" onClick={() => actions.toggleEmojiPicker()} />
   );
   // if (!messageValue || msgInputValue)
 
-  const messageInput = currentMessageValue?.type === userMessageType.Text && (
+  const messageInput = currentMessageValue?.type === chatNodeType.Text && (
     <MessageInput
       ref={inputRef}
       onChange={(text: string) =>
@@ -136,7 +136,7 @@ export const ChatApp = () => {
     </button>
   );
 
-  const trashButton = currentMessageValue.type !== userMessageType.Text &&
+  const trashButton = currentMessageValue.type !== chatNodeType.Text &&
     currentMessageValue.src && (
       <Trash onClick={actions.cleanCurrentMessage} className="trashButton" />
     );
@@ -161,14 +161,14 @@ export const ChatApp = () => {
       //@ts-ignore
       as={InputToolbox}
     >
-      {currentMessageValue.type === userMessageType.Video && (
+      {currentMessageValue.type === chatNodeType.Video && (
         <MessageVideoPreview
           stream={streamRef.current}
           src={currentMessageValue.src}
         />
       )}
 
-      {currentMessageValue.type === userMessageType.Image && (
+      {currentMessageValue.type === chatNodeType.Image && (
         <MessageImagePreview src={currentMessageValue.src as string} />
       )}
 
@@ -211,13 +211,13 @@ export const ChatApp = () => {
               <WaveJSAudioVisualizer audioStream={streamRef.current} />
             )}
 
-            {currentMessageValue.type === userMessageType.Audio &&
+            {currentMessageValue.type === chatNodeType.Audio &&
               currentMessageValue.src && (
-                <MessageAudio src={currentMessageValue.src} />
+                <NodeAudio src={currentMessageValue.src} />
               )}
 
-            {currentMessageValue.type === userMessageType.File && (
-              <MessageFile
+            {currentMessageValue.type === chatNodeType.File && (
+              <NodeFile
                 {...{
                   ...currentMessageValue,
                   file: currentMessageValue.file as File,

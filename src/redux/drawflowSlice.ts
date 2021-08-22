@@ -1,3 +1,5 @@
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import lodash from "lodash";
 import {
   clientPos,
   loadType,
@@ -11,15 +13,8 @@ import {
   stateData,
   step,
 } from "../types";
-import {
-  createSlice,
-  current,
-  original,
-  PayloadAction,
-} from "@reduxjs/toolkit";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
-import lodash from "lodash";
 
 export const initialState: stateData = {
   nodeId: 1,
@@ -46,7 +41,10 @@ export const initialState: stateData = {
   newPathDirection: null,
   modalType: null,
   editLock: false,
-  mouseBlockDragPos: { clientX: undefined, clientY: undefined },
+  mouseBlockDragPos: {
+    clientX: undefined,
+    clientY: undefined,
+  },
 };
 
 // load version from server
@@ -118,7 +116,10 @@ const slice = createSlice({
         return;
       }
       const selectId = state.ports.indexOf(port);
-      state.select = { type: payload.type, selectId };
+      state.select = {
+        type: payload.type,
+        selectId,
+      };
     },
     moveCanvas: (
       state,
@@ -146,14 +147,20 @@ const slice = createSlice({
       }>
     ) => {
       // state = JSON.parse(JSON.stringify(state));
-      state.clientCurrentMousePos = { clientX, clientY };
+      state.clientCurrentMousePos = {
+        clientX,
+        clientY,
+      };
       // return undefined
       if (state.canvasDrag) {
         state.config.canvasTranslate.x += movementX;
         state.config.canvasTranslate.y += movementY;
         // console.log('Drag canvas')
       } else if (state.select?.type === portType.out) {
-        state.newPathDirection = { clientX, clientY };
+        state.newPathDirection = {
+          clientX,
+          clientY,
+        };
         // console.log('New path')
       } else if (state.config.drag && state.select) {
         // move node
@@ -161,11 +168,18 @@ const slice = createSlice({
         const nodeId = state.select.selectId;
         const { clientX: prevX, clientY: prevY } =
           state.mouseBlockDragPos as clientPos;
-        state.mouseBlockDragPos = { clientX, clientY };
+        state.mouseBlockDragPos = {
+          clientX,
+          clientY,
+        };
         const coef = state.config.zoom.value;
         const dx = (clientX - prevX) / coef;
         const dy = (clientY - prevY) / coef;
-        new Flow(state).dragNode({ nodeId, dy, dx });
+        new Flow(state).dragNode({
+          nodeId,
+          dy,
+          dx,
+        });
       }
       // return state;
     },
@@ -178,7 +192,12 @@ const slice = createSlice({
         // console.log([startId, startPort]);
         const endId = state.select.selectId;
         const endPort = 1;
-        flow.addConnection({ startId, startPort, endId, endPort });
+        flow.addConnection({
+          startId,
+          startPort,
+          endId,
+          endPort,
+        });
       }
       state.portToConnect = undefined;
       state.newPathDirection = null;
@@ -250,7 +269,12 @@ const slice = createSlice({
       // if connect to same node
       if (startId === endId) return;
       const flow = new Flow(state);
-      flow.addConnection({ startId, startPort, endId, endPort });
+      flow.addConnection({
+        startId,
+        startPort,
+        endId,
+        endPort,
+      });
     },
     clear: () => initialState,
     pushPorts: (state: stateData, { payload: ports }: PayloadAction<ports>) => {
@@ -267,7 +291,10 @@ const slice = createSlice({
         zoom.value = newValue;
       }
       if (payload === null) {
-        state.config.canvasTranslate = { x: 0, y: 0 };
+        state.config.canvasTranslate = {
+          x: 0,
+          y: 0,
+        };
         zoom.value = 1;
       }
     },
@@ -303,8 +330,9 @@ const slice = createSlice({
       // return flow.state;
     },
     copyNode: (state) => {
-      if (state.select?.type === "node")
+      if (state.select?.type === "node") {
         state.nodeToCopyId = state.select.selectId;
+      }
     },
   },
 });

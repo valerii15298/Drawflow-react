@@ -318,7 +318,9 @@ export const LeftBar = (props: {
   const { type } = useContext(NodeSettingsContext);
   const dispatch = useAppDispatch();
   const { defaultValues, setControl, id } = props;
-  const methods = useForm({ defaultValues });
+  const methods = useForm({
+    defaultValues: JSON.parse(JSON.stringify(defaultValues)),
+  });
   const {
     handleSubmit,
     formState: { errors },
@@ -333,7 +335,17 @@ export const LeftBar = (props: {
 
   // const values = defaultValues;
   const values = getValues();
-  const { name, description, icon_link } = values;
+  let { name, description, icon_link } = values;
+  if (
+    [name, description, icon_link].includes(undefined) &&
+    "flow_node" in values
+  ) {
+    const { node_name, node_description, node_icon_link } = values.flow_node;
+    name = node_name;
+    description = node_description;
+    icon_link = node_icon_link;
+  }
+
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
 
   // console.log("render", { defaultValues, values });

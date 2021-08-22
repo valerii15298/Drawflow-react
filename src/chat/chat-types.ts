@@ -1,65 +1,48 @@
-export enum userMessageType {
-  Text = "text",
-  Audio = "audio",
-  Video = "video",
-  File = "file",
-  Image = "image",
-}
+import { chatNodeType } from "./chatNodes/chatNodeType";
 
 export enum msgDirection {
   In = "incoming",
   Out = "outgoing",
 }
 
-export enum botNodeType {
-  Empty = "empty",
-
-  Link = "link",
-  Switch = "switch", // Choose some option
-
-  // not renderable
-  Delay = "delay",
-  HttpRequest = "httpRequest",
-  AllowUserToSendMessages = "allowUserToSendMessages",
-  DisallowUserToSendMessages = "disallowUserToSendMessages",
-  ShowTypingIndicator = "showTypingIndicator",
-  HideTypingIndicator = "hideTypingIndicator",
-
-  // plus all the same that on user mesage
-}
-
-export interface IMessage {
-  type: userMessageType | botNodeType;
+export interface IChatNodeData {
+  id: number;
+  type: chatNodeType;
   src: string;
   file?: File;
   direction: msgDirection;
+  renderable: boolean;
+
+  flowNodeId?: number;
+  executed: boolean;
+  running?: boolean;
+  as?: any;
 }
 
-export interface IBotNodeData extends IMessage {
-  flowNodeId: number;
-  executed: boolean;
-  renderable: boolean;
-}
+export type IChatNodeDataPreview = Omit<IChatNodeData, "id" | "executed">;
+
+export type IChatNodes = { [id: number]: IChatNodeData };
 
 export interface chatState {
-  messages: Array<IMessage | IBotNodeData>;
+  messages: IChatNodes;
   recording: MediaStreamConstraints | null;
   recordButtonIsAudio: boolean;
   showEmojiPicker: boolean;
-  currentMessageValue: IMessage;
+  currentMessageValue: IChatNodeDataPreview;
 }
 
-export const getDefaultCurrentMessageValue: () => IMessage = () => ({
-  type: userMessageType.Text,
-  src: "",
-  direction: msgDirection.Out,
-});
+export const getDefaultCurrentMessageValue: () => IChatNodeDataPreview =
+  () => ({
+    type: chatNodeType.Text,
+    src: "",
+    direction: msgDirection.Out,
+    renderable: true,
+  });
 
-export const getDefaultBotNodeData = (): IBotNodeData => ({
-  flowNodeId: 0,
-  executed: false,
-  type: botNodeType.Empty,
-  direction: msgDirection.In,
+export const getDefaultBotNodeData = (): IChatNodeDataPreview => ({
+  type: chatNodeType.Empty,
   src: "",
+  direction: msgDirection.In,
   renderable: false,
+  flowNodeId: 0,
 });

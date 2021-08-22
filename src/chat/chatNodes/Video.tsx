@@ -1,6 +1,8 @@
 import { useRef } from "react";
+import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
+import { chatNodeType } from "./chatNodeType";
 
-export const MessageVideo = ({ src }: { src: string }) => {
+export const NodeVideo = ({ src }: { src: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const playPause = () => {
@@ -21,3 +23,4 @@ export const MessageVideo = ({ src }: { src: string }) => {
     />
   );
 };
+mapChatNodeTypeToComponent[chatNodeType.Video] = NodeVideo;

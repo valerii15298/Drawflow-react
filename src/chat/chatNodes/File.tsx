@@ -1,6 +1,8 @@
-import { File, Download } from "./svg-components";
+import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
+import { Download, File } from "../svg-components";
+import { chatNodeType } from "./chatNodeType";
 
-export const MessageFile = ({ src, file }: { src: string; file?: File }) => {
+export const NodeFile = ({ src, file }: { src: string; file?: File }) => {
   if (file === undefined) {
     console.error("`file` is not defined, component MessageFile");
   }
@@ -21,3 +23,5 @@ export const MessageFile = ({ src, file }: { src: string; file?: File }) => {
     </div>
   );
 };
+
+mapChatNodeTypeToComponent[chatNodeType.File] = NodeFile;

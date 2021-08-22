@@ -5,6 +5,7 @@ import { useAppSelector } from "../redux/hooks";
 
 const CodeEditorDiv = styled.div<{ shift?: boolean }>`
   flex: 1;
+  height: 100%;
   ${({ shift }) =>
     shift &&
     css`

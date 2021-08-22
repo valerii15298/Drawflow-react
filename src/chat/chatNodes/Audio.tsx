@@ -1,9 +1,10 @@
-import { Play, Pause } from "./svg-components";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-import { useState } from "react";
+import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
+import { Pause, Play } from "../svg-components";
+import { chatNodeType } from "./chatNodeType";
 
-export const MessageAudio = ({ src }: { src: string }) => {
+export const NodeAudio = ({ src }: { src: string }) => {
   const waveformRef = useRef<HTMLDivElement>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -78,3 +79,4 @@ export const MessageAudio = ({ src }: { src: string }) => {
     </div>
   );
 };
+mapChatNodeTypeToComponent[chatNodeType.Audio] = NodeAudio;
