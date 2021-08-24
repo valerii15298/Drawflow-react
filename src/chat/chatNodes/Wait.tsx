@@ -8,23 +8,12 @@ import { chatNodeType } from "./chatNodeType";
 const waitNumberOfMilliseconds = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-interface IWaitBotNodeData {
-  delay: number;
-  type: chatNodeType;
-}
-
 interface Props extends IChatNodeData {
-  nodeConfig: IWaitBotNodeData;
+  delay: number;
 }
 
 const NodeWait = (props: Props) => {
-  const {
-    id,
-    flowNodeId,
-    executed,
-    running,
-    nodeConfig: { delay },
-  } = props;
+  const { id, flowNodeId, executed, running, delay } = props;
   const { actions } = useChatBotContext();
 
   const pushNextNode = usePushNextNode(flowNodeId);
@@ -42,7 +31,7 @@ const NodeWait = (props: Props) => {
         messages: {
           [id]: {
             running: false,
-            renderable: true,
+            renderable: false,
             executed: true,
           },
         },
@@ -51,8 +40,9 @@ const NodeWait = (props: Props) => {
     });
   }, [actions, executed, flowNodeId, delay, pushNextNode, id, running]);
 
-  if (!executed) return null;
-  return <div>Hello delay: {JSON.stringify(props)}</div>;
+  return null;
+  // if (!executed) return null;
+  // return <div>Hello delay: {JSON.stringify(props)}</div>;
 };
 
 mapChatNodeTypeToComponent[chatNodeType.Delay] = NodeWait;

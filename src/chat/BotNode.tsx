@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useChatBotContext } from "./Chat";
 import { getDefaultBotNodeData, IChatNodeData } from "./chat-types";
 import "./chatNodes";
-import { chatNodeType } from "./chatNodes/chatNodeType";
+import { chatNodeType, executeAfterRender } from "./chatNodes/chatNodeType";
 import { mapChatNodeTypeToComponent } from "./MapChatNodeTypeToComponent";
 
 /*
@@ -18,11 +18,11 @@ import { mapChatNodeTypeToComponent } from "./MapChatNodeTypeToComponent";
  * */
 
 export const BotNodeMessageComponent = (props: IChatNodeData) => {
-  const { flowNodeId } = props;
+  const { flowNodeId, executed } = props;
   const { flow, actions } = useChatBotContext();
   let { type } = props;
 
-  let flowNodeData: any;
+  let flowNodeData: any = {};
   if (flowNodeId) {
     const data = flow.state.drawflow[flowNodeId].data.node_object_lists as {
       type: chatNodeType;
@@ -35,7 +35,14 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
     flowNodeData = data;
   }
 
+  const pushNextNode = usePushNextNode(flowNodeId);
+
   useEffect(() => {
+    if (!executed && executeAfterRender.includes(type)) {
+      actions.setState({ messages: { [props.id]: { executed: true } } });
+      pushNextNode();
+    }
+
     if (flowNodeData) {
       ["executed", "running", "as", "flowNodeId"].forEach((key) => {
         if (key in flowNodeData) {
@@ -44,13 +51,7 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
           );
         }
       });
-      const newObj = {};
-      for (const key in flowNodeData) {
-        if (key in props) {
-          newObj[key] = flowNodeData[key];
-        }
-      }
-      actions.setState({ messages: { [props.id]: newObj } });
+      actions.setState({ messages: { [props.id]: flowNodeData } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,7 +59,7 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
   // One of components from ./chatNodes
   const NodeComponent = mapChatNodeTypeToComponent[type];
 
-  return <NodeComponent {...props} nodeConfig={flowNodeData} />;
+  return <NodeComponent {...{ ...props, ...flowNodeData }} />;
 };
 
 export const usePushNextNode = (flowNodeId) => {

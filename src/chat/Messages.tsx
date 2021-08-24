@@ -10,7 +10,7 @@ export const Messages = ({ messages }: { messages: IChatNodes }) => {
   const result: Array<JSX.Element> = [];
   Object.entries(messages).forEach(([i, m]) => {
     if (!m.renderable) {
-      console.log(m);
+      // console.log(m);
       result.push(<BotNodeMessageComponent {...m} key={i} as={Message} />);
       return;
     }

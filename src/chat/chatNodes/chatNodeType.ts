@@ -1,3 +1,5 @@
+export const executeAfterRender = ["text", "audio", "video", "file", "image"];
+
 export enum chatNodeType {
   Text = "text",
   Audio = "audio",

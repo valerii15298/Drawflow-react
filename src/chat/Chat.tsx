@@ -122,6 +122,7 @@ export const ChatBotContext = createContext({
 });
 export const useChatBotContext = () => useContext(ChatBotContext);
 export const Chat = () => {
+  console.log("Render Chat");
   const [state, dispatch] = useReducer(chatReducer, initialState);
 
   const actions = useMemo(

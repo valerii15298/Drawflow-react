@@ -351,8 +351,10 @@ export const LeftBar = (props: {
   // console.log("render", { defaultValues, values });
   const onSubmit = (data: formType) => {
     data = getValues();
-    type === "template" && dispatch(updateTemplateNode(data));
-    type === "node" && dispatch(actions.updateNode(data as step));
+    type === "template" &&
+      dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
+    type === "node" &&
+      dispatch(actions.updateNode(JSON.parse(JSON.stringify(data)) as step));
   };
 
   const onDelete = () => {

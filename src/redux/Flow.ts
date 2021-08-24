@@ -1,3 +1,4 @@
+import { syncTimer } from "../decorators";
 import {
   addConnectionType,
   connection,
@@ -6,7 +7,6 @@ import {
   stateData,
 } from "../types";
 import Node from "./Node";
-import { syncTimer } from "../decorators";
 
 export class Flow {
   // readonly because we are using only immer.js with redux-toolkit
@@ -39,24 +39,25 @@ export class Flow {
     return node;
   }
 
-  @syncTimer()
+  // @syncTimer()
   align() {
     // return;
-
+    const { time, timeEnd } = console;
     this.setLaneNumbers();
     this.heads.forEach((node, idx) => {
       // time(`align ${idx}`);
-      // node.calculateFullWidth()
       node.alignChildren();
       // timeEnd(`align ${idx}`);
     });
     return this.state.drawflow;
   }
 
+  @syncTimer()
   alignAll() {
-    const { time, timeEnd } = console;
+    // const { time, timeEnd } = console;
     // console.log("Align all");
     // time("Align");
+    // console.log(y);
 
     this.state.drawflow = new Flow(
       JSON.parse(JSON.stringify(this.state))
@@ -169,7 +170,11 @@ export class Flow {
   }
 
   dragNode({ dx, dy, nodeId }: moveNodeType) {
-    this.moveNode({ dx, dy, nodeId });
+    this.moveNode({
+      dx,
+      dy,
+      nodeId,
+    });
     this.toggleAvailablePortToConnect(nodeId);
   }
 
@@ -257,7 +262,10 @@ export class Flow {
             distance < this.distanceToConnect &&
             (nearestPort === null || distance < nearestPort.distance)
           ) {
-            nearestPort = { port, distance };
+            nearestPort = {
+              port,
+              distance,
+            };
           }
         });
       });
@@ -273,7 +281,12 @@ export class Flow {
 
   setLaneNumbers() {
     let laneNodes = this.heads;
-    laneNodes.forEach((node) => node.update({ head: node.id, lane: 0 }));
+    laneNodes.forEach((node) =>
+      node.update({
+        head: node.id,
+        lane: 0,
+      })
+    );
 
     while (laneNodes.length) {
       const nextLaneNodes: Array<Node> = [];
@@ -286,11 +299,19 @@ export class Flow {
         }
         if (subnodes.length) {
           for (const sub of subnodes) {
-            sub.update({ lane: lane++, head });
+            sub.update({
+              lane: lane++,
+              head,
+            });
           }
         }
         const nextNodes = node.children(1);
-        nextNodes.forEach((nextNode) => nextNode.update({ head, lane }));
+        nextNodes.forEach((nextNode) =>
+          nextNode.update({
+            head,
+            lane,
+          })
+        );
         nextLaneNodes.push(...nextNodes);
       });
       laneNodes = nextLaneNodes;
