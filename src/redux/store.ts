@@ -114,8 +114,14 @@ const reducer = createReducer(initialState, (builder) => {
           id: 0,
           type: NODE_TYPE.MIDDLE,
           data: getNodeFromTemplate(templateNode),
-          port: { in: 1, out: 2 },
-          pos: { x: 0, y: 0 },
+          port: {
+            in: 1,
+            out: 2,
+          },
+          pos: {
+            x: 0,
+            y: 0,
+          },
           isSub: false,
           height: 0,
           width: 0,
@@ -128,14 +134,20 @@ const reducer = createReducer(initialState, (builder) => {
           state.config.zoom.value,
           appState.canvas
         );
-        state.mouseBlockDragPos = { clientX, clientY };
+        state.mouseBlockDragPos = {
+          clientX,
+          clientY,
+        };
         state.drawflow[state.nodeId] = {
           ...node,
           id: state.nodeId,
           height: 0,
           width: 0,
         };
-        state.select = { type: "node", selectId: state.nodeId++ };
+        state.select = {
+          type: "node",
+          selectId: state.nodeId++,
+        };
         state.config.drag = true;
 
         appState.dragTemplate = undefined;
@@ -191,8 +203,14 @@ const reducer = createReducer(initialState, (builder) => {
           width: 0,
           type: NODE_TYPE.MIDDLE,
           isSub,
-          port: { out: isSub ? 1 : 2, in: 1 },
-          pos: { x: 0, y: 0 },
+          port: {
+            out: isSub ? 1 : 2,
+            in: 1,
+          },
+          pos: {
+            x: 0,
+            y: 0,
+          },
           data: step,
         };
         // ["name", "description", "icon_link_selected"].forEach((key) => {
@@ -204,7 +222,10 @@ const reducer = createReducer(initialState, (builder) => {
       });
       state.flows[state.version] = drawflowSlice(state.flows[state.version], {
         type: Slices.Drawflow + "/load",
-        payload: { drawflow, connections },
+        payload: {
+          drawflow,
+          connections,
+        },
       });
 
       // Put in center
@@ -217,7 +238,10 @@ const reducer = createReducer(initialState, (builder) => {
         return;
       }
       const { height, width } = state.canvas;
-      heads[0].setPos({ x: width / 3, y: height / 10 });
+      heads[0].setPos({
+        x: width / 3,
+        y: height / 10,
+      });
       state.flows[state.version] = flow.state;
     })
     .addCase(fetchGroups.fulfilled, (state, { payload }) => {
@@ -243,4 +267,3 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 // store.subscribe(() => console.log(store.getState()))
-export const getAppState = store.getState;

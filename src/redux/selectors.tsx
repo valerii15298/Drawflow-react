@@ -114,7 +114,7 @@ export const usePortIsActive = (port: purePort) =>
         createDeepEqualSelector(
           (s: RootState) => {
             const { portToConnect } = selectActiveDrawflow(s);
-            if (portToConnect === undefined) return false;
+            if (!portToConnect) return false;
             const port2 = JSON.parse(JSON.stringify(portToConnect));
             delete port2.pos;
             return lodash.isEqual(port, port2);

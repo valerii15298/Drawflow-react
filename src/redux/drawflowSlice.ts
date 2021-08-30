@@ -76,14 +76,10 @@ const slice = createSlice({
     setEditLock: (state, { payload }: PayloadAction<boolean>) => {
       state.editLock = payload;
     },
-    align: (state: stateData) => {
-      const flow = new Flow(state);
-      flow.alignAll();
-    },
     moveNode: (state, action: PayloadAction<moveNodeType>) => {
-      state = JSON.parse(JSON.stringify(state));
-      new Flow(state).dragNode(action.payload);
-      return state;
+      // state = JSON.parse(JSON.stringify(state));
+      new Flow(state).moveNode(action.payload);
+      // return state;
     },
     setMouseBlockDragPos: (
       state: stateData,
@@ -175,11 +171,10 @@ const slice = createSlice({
         const coef = state.config.zoom.value;
         const dx = (clientX - prevX) / coef;
         const dy = (clientY - prevY) / coef;
-        new Flow(state).dragNode({
-          nodeId,
-          dy,
-          dx,
-        });
+
+        state.drawflow[nodeId].pos.x += dx;
+        state.drawflow[nodeId].pos.y += dy;
+        new Flow(state).untieNodeIfFarAway(nodeId);
       }
       // return state;
     },
@@ -206,7 +201,6 @@ const slice = createSlice({
       if (state.select?.type === portType.out) {
         state.select = null;
       }
-      flow.alignAll();
       // return flow.state;
     },
     updateNode: (state, { payload: step }: PayloadAction<step>) => {
@@ -315,7 +309,6 @@ const slice = createSlice({
       const flow = new Flow(state);
       const node = flow.getNode(id);
       node.toggleSubnodesVisibility();
-      flow.alignAll();
       // return flow.state;
     },
     toggleChildren: (
@@ -326,7 +319,6 @@ const slice = createSlice({
       const flow = new Flow(state);
       const node = flow.getNode(id);
       node.toggleChildrenVisibility();
-      flow.alignAll();
       // return flow.state;
     },
     copyNode: (state) => {

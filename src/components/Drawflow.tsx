@@ -7,6 +7,7 @@ import {
   insertCopiedNode,
   setStateAction,
 } from "../redux/actions";
+import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { postFlowVersion } from "../redux/api";
 import { actions } from "../redux/drawflowSlice";
 import {
@@ -15,6 +16,7 @@ import {
   useLocalStorage,
 } from "../redux/hooks";
 import { useActiveFlow } from "../redux/selectors";
+import { toggleAvailablePortToConnectThunk } from "../redux/thunks/toggleAvailablePortToConnectThunk";
 import { canvasShape, LocalStorageKey } from "../types";
 import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
@@ -44,7 +46,7 @@ const updateTransform = (
   dy: number,
   scale: number
 ) => {
-  return;
+  // return;
   const [x, y] = getComputedStyle(el)
     .transform.match(/^matrix\((.+)\)$/)?.[1]
     .split(",")
@@ -128,7 +130,7 @@ export const Drawflow = () => {
   const precanvas = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    dispatch(actions.align());
+    dispatch(alignCurrentFlow());
   }, []);
 
   useEffect(() => {
@@ -190,7 +192,10 @@ export const Drawflow = () => {
         dispatch(actions.canvasDrag(true));
         dispatch(actions.unSelect());
       }}
-      onMouseUp={() => dispatch(actions.canvasMouseUp())}
+      onMouseUp={() => {
+        dispatch(actions.canvasMouseUp());
+        dispatch(alignCurrentFlow());
+      }}
       onMouseMove={(e) => {
         const { clientX, clientY, movementX, movementY } = e;
         const { current: flowDiv } = flowRef;
@@ -205,6 +210,7 @@ export const Drawflow = () => {
             movementY,
           })
         );
+        dispatch(toggleAvailablePortToConnectThunk());
       }}
       onMouseEnter={(e) => {
         const { clientX, clientY } = e;
@@ -236,9 +242,11 @@ export const Drawflow = () => {
       </CommitFlowButton>
       <InnerDrawflow
         ref={flowRef}
-        style={{
-          transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
-        }}
+        style={
+          {
+            // transform: `translate(${x}px, ${y}px) scale(${zoom.value})`,
+          }
+        }
       >
         <NodeList />
         <ConnectionList />

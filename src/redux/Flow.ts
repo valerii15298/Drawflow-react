@@ -41,8 +41,6 @@ export class Flow {
 
   // @syncTimer()
   align() {
-    // return;
-    const { time, timeEnd } = console;
     this.setLaneNumbers();
     this.heads.forEach((node, idx) => {
       // time(`align ${idx}`);
@@ -54,15 +52,17 @@ export class Flow {
 
   @syncTimer()
   alignAll() {
-    // const { time, timeEnd } = console;
-    // console.log("Align all");
-    // time("Align");
-    // console.log(y);
+    const { drawflow, connections, ports } = this.state;
+    console.log(this.state);
+    const nextValue = {
+      drawflow,
+      connections,
+      ports,
+    };
 
     this.state.drawflow = new Flow(
-      JSON.parse(JSON.stringify(this.state))
+      JSON.parse(JSON.stringify(nextValue))
     ).align();
-    // timeEnd("Align");
   }
 
   /*allowConnection(conn: addConnectionType) {
@@ -178,34 +178,8 @@ export class Flow {
     this.toggleAvailablePortToConnect(nodeId);
   }
 
-  toggleAvailablePortToConnect(nodeId: number) {
-    // console.time("toggle");
-    /**
-     * Because of long computation we executing
-     * this action not often then 1 time per 200 milliseconds
-     */
-
-    // return;
-
-    // const now = Date.now();
-    // if (this.state.computing && now - this.state.computing < 100) {
-    //   return;
-    // }
-    // this.state.computing = now;
-
-    /**
-     * Attachment
-     *
-     * traverse all other nodes except this one,
-     * check if their ports are free for new conn, check distance
-     */
-
-    // console.log(this.state);
-
-    if (!this.state.config.drag) return;
-
+  untieNodeIfFarAway(nodeId: number) {
     const currentNode = this.getNode(nodeId);
-    const currentNodeHead = currentNode.head;
     if (currentNode.parentConnection) {
       const { startPort, endPort, startId, endId } =
         currentNode.parentConnection;
@@ -237,8 +211,17 @@ export class Flow {
         currentNode.parentConnection
       );
       this.state.connections.splice(indexConnToDelete, 1);
-      this.alignAll();
+      // this.alignAll();
     }
+  }
+
+  // @syncTimer()
+  toggleAvailablePortToConnect(nodeId: number) {
+    if (!this.state.config.drag) return;
+
+    const currentNode = this.getNode(nodeId);
+    const currentNodeHead = currentNode.head;
+
     const nodeInPortPos = currentNode.portInPos;
     if (!nodeInPortPos) return;
 
@@ -274,7 +257,7 @@ export class Flow {
       //@ts-ignore
       this.state.portToConnect = nearestPort.port;
     } else {
-      this.state.portToConnect = undefined;
+      this.state.portToConnect = null;
     }
     // console.timeEnd("toggle");
   }

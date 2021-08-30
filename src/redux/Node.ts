@@ -1,3 +1,5 @@
+import lodash from "lodash";
+import { memoize } from "../decorators";
 import {
   canvasShape,
   connection,
@@ -8,7 +10,6 @@ import {
   stateData,
   updateNode,
 } from "../types";
-import lodash from "lodash";
 import { Flow } from "./Flow";
 
 export default class Node {
@@ -18,6 +19,7 @@ export default class Node {
   public readonly spacingX = 40;
   public readonly spacingY = 60;
   private readonly state: stateData;
+  public cache: { [key: string]: number } = {};
 
   constructor(id: number, flow: Flow) {
     this.id = id;
@@ -64,6 +66,7 @@ export default class Node {
     });
   }
 
+  @memoize()
   private get totalWidth() {
     if (this.nodeState.visible === false) return 0;
     return Math.max(
@@ -72,6 +75,7 @@ export default class Node {
     );
   }
 
+  @memoize()
   private get childrenTotalWidth() {
     const { out1 } = this;
     if (!out1.length) return 0;
@@ -83,6 +87,7 @@ export default class Node {
     return totalWidth + this.spacingX * (out1.length - 1);
   }
 
+  @memoize()
   private get leftWidth(): number {
     if (this.nodeState.visible === false) return 0;
     const { out1, childrenTotalWidth } = this;
@@ -100,6 +105,7 @@ export default class Node {
     return Math.max(childrenRightWidth, selfLeftWidth);
   }
 
+  @memoize()
   private get rightWidth(): number {
     if (this.nodeState.visible === false) return 0;
     const { out1, childrenTotalWidth } = this;
@@ -164,6 +170,7 @@ export default class Node {
     return this.firstSubnode?.flowLine?.flowLineNodes || [];
   }
 
+  @memoize()
   get subnodesWidth(): number {
     if (this.nodeState.subnodesVisibility === false) return 0;
     return this.subnodes.reduce((acc, subNode) => {
@@ -203,7 +210,12 @@ export default class Node {
       hasSubnodes = hasSubnodes || node.firstSubnode;
     }
 
-    return node.out1.length > 1 ? null : { flowLineNodes, hasSubnodes };
+    return node.out1.length > 1
+      ? null
+      : {
+          flowLineNodes,
+          hasSubnodes,
+        };
   }
 
   get height() {
@@ -220,13 +232,19 @@ export default class Node {
 
   alignChildren() {
     const { out1 } = this;
-    this.update({ isSub: false, port: { out: 2 } });
+    this.update({
+      isSub: false,
+      port: { out: 2 },
+    });
 
     let xPos = this.pos.x - (this.leftWidth - this.width / 2);
 
     for (const node of out1) {
       const x = xPos + (node.leftWidth - node.width / 2);
-      node.setPos({ x, y: this.pos.y + this.height + this.spacingY });
+      node.setPos({
+        x,
+        y: this.pos.y + this.height + this.spacingY,
+      });
       if (node.nodeState.visible !== false) {
         xPos += node.totalWidth + this.spacingX;
       }
@@ -237,7 +255,10 @@ export default class Node {
     if (subnodes.length) {
       xPos = this.pos.x + this.width + this.spacingX;
       subnodes.forEach((subNode) => {
-        subNode.update({ isSub: true, port: { out: 1 } });
+        subNode.update({
+          isSub: true,
+          port: { out: 1 },
+        });
         subNode.setPos({
           x: xPos,
           y: this.pos.y + (this.height / 2 - subNode.height / 2),
@@ -291,12 +312,19 @@ export default class Node {
   setPos(newPos: pos) {
     const { pos } = this;
     const { x, y } = newPos;
-    this.flow.moveNode({ nodeId: this.id, dx: x - pos.x, dy: y - pos.y });
+    this.flow.moveNode({
+      nodeId: this.id,
+      dx: x - pos.x,
+      dy: y - pos.y,
+    });
   }
 
   putInCenter(canvas: canvasShape) {
     const { width, height } = canvas;
-    this.setPos({ x: width / 3, y: height / 3 });
+    this.setPos({
+      x: width / 3,
+      y: height / 3,
+    });
   }
 
   update(data: updateNode) {

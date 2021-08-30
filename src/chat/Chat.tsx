@@ -4,7 +4,7 @@ import { createContext, useContext, useMemo, useReducer } from "react";
 import { selectActiveDrawflow } from "../redux/drawflowSlice";
 import { Flow } from "../redux/Flow";
 import { useAppSelector } from "../redux/hooks";
-import { ObjectKeys, RecursivePartial } from "../types";
+import { ObjectKeys, ports, RecursivePartial } from "../types";
 import {
   chatState,
   getDefaultBotNodeData,
@@ -140,7 +140,25 @@ export const Chat = () => {
   );
   const flowState = useAppSelector((s) => {
     const { drawflow, connections, ports } = selectActiveDrawflow(s);
-    return { drawflow, connections, ports };
+    const purePorts = ObjectKeys(ports).reduce((acc, key) => {
+      acc[key] = {
+        // @ts-ignore
+        ...ports[key],
+      };
+      delete acc[key].pos;
+      return acc;
+    }, {} as any);
+    const nodes = ObjectKeys(drawflow).reduce((acc, key) => {
+      acc[key] = {
+        data: drawflow[key].data,
+      };
+      return acc;
+    }, {} as any);
+    return {
+      drawflow: nodes,
+      connections,
+      ports: purePorts,
+    };
   }, lodash.isEqual);
   const flow = useMemo(() => new Flow(flowState), [flowState]);
   const head = flow.heads[0];

@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from "react";
 const checkMicrophonePermission = () =>
   navigator.permissions
     .query({
+      // @ts-ignore
       name: "microphone",
     })
     .then((p) => p.state);
@@ -10,6 +11,7 @@ const checkMicrophonePermission = () =>
 const checkCameraPermission = () =>
   navigator.permissions
     .query({
+      // @ts-ignore
       name: "camera",
     })
     .then((p) => p.state);

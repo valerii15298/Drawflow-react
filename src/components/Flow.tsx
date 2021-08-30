@@ -1,4 +1,5 @@
 import { Chat } from "../chat/Chat";
+import { setStateAction } from "../redux/actions";
 import { Drawflow } from "./Drawflow";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -13,9 +14,11 @@ import {
   fetchGroups,
   fetchTemplateNodes,
   initFlow,
+  request,
+  REQUEST_TYPE,
 } from "../redux/api";
 import { FlowInfoSettings } from "./FlowInfoSettings";
-import { mainWindow, sideWindow } from "../types";
+import { mainWindow, sideWindow, step } from "../types";
 import { GroupsSettings } from "./GroupsSettings";
 import "jsoneditor/dist/jsoneditor.css";
 import { CodeEditor } from "./CodeEditor";

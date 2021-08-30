@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
@@ -136,6 +137,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             onMouseDown={(e) => {
               e.preventDefault();
               dispatch(actions.toggleSubnodes({ id }));
+              dispatch(alignCurrentFlow());
               e.stopPropagation();
             }}
           >
@@ -145,6 +147,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
             onMouseDown={(e) => {
               e.preventDefault();
               dispatch(actions.toggleChildren({ id }));
+              dispatch(alignCurrentFlow());
               e.stopPropagation();
             }}
           >
