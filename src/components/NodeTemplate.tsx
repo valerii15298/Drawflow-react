@@ -110,7 +110,7 @@ export const NodeTemplate = (props: block) => {
 
   return (
     <NodeDiv style={{ order }} ref={ref} onMouseDown={onClick}>
-      <NodeImg src={props.icon_link} />
+      <NodeImg draggable={false} src={props.icon_link} />
       <NodeTitleSpan>{props.name}</NodeTitleSpan>
       <TapMoreButton
         onMouseDown={() => {

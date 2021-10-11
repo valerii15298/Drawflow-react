@@ -1,3 +1,4 @@
+import { chatNodeType } from "../chat/chatNodes/chatNodeType";
 import { block, canvasShape, ObjectKeys, pos, step } from "../types";
 
 export const getNodeFromTemplate = (template: block) => {
@@ -83,3 +84,14 @@ const handler = {
   getPos,
 };
 export default handler;
+
+// if in path node_object_lists
+const NodeObjectLists = ({
+  key,
+  value,
+}: {
+  key: string;
+  value: chatNodeType;
+}) => {
+  return null;
+};

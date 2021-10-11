@@ -50,10 +50,10 @@ export class Flow {
     return this.state.drawflow;
   }
 
-  @syncTimer()
+  // @syncTimer()
   alignAll() {
     const { drawflow, connections, ports } = this.state;
-    console.log(this.state);
+    // console.log(this.state);
     const nextValue = {
       drawflow,
       connections,

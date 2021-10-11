@@ -5,11 +5,12 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import { BotNodeMessageComponent } from "./BotNode";
 import { IChatNodes } from "./chat-types";
+import { chatNodeType } from "./chatNodes/chatNodeType";
 
 export const Messages = ({ messages }: { messages: IChatNodes }) => {
   const result: Array<JSX.Element> = [];
   Object.entries(messages).forEach(([i, m]) => {
-    if (!m.renderable) {
+    if (!m.renderable || m.type === chatNodeType.Empty) {
       // console.log(m);
       result.push(<BotNodeMessageComponent {...m} key={i} as={Message} />);
       return;

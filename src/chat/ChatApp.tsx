@@ -35,6 +35,7 @@ import {
 } from "./svg-components";
 import { WaveJSAudioVisualizer } from "./WaveJSAudioVisualizer";
 
+
 export const ChatApp = () => {
   const { state, actions } = useChatBotContext();
 

@@ -1,3 +1,7 @@
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+
+import "slick-carousel/slick/slick.css";
 import { useChatBotContext } from "../Chat";
 import { getDefaultBotNodeData, IChatNodeData } from "../chat-types";
 import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
@@ -11,17 +15,32 @@ const NodeSwitch = (props: Props) => {
   const { id, flowNodeId } = props;
   const { actions, flow } = useChatBotContext();
 
+  const settings = {
+    dots: true,
+    // infinite: true,
+    // speed: 500,
+    // slidesToShow: 1,
+    // slidesToScroll: 1,
+    // variableWidth: true,
+    adaptiveHeight: true,
+    className: "myslider",
+    arrows: false,
+    // focusOnSelect: true,
+  };
+
   const options = flow.getNode(flowNodeId).out1;
 
   const onChooseOption = (option) => {
-    actions.appendMessageNode({
-      ...getDefaultBotNodeData(),
-      flowNodeId: option.out1[0].id,
-    });
+    if (option.out1[0]?.id !== undefined) {
+      actions.appendMessageNode({
+        ...getDefaultBotNodeData(),
+        flowNodeId: option.out1[0].id,
+      });
+    }
   };
 
   return (
-    <div>
+    <Slider {...settings}>
       {options.map((option, i) => {
         return (
           <button key={i} onClick={() => onChooseOption(option)}>
@@ -29,7 +48,7 @@ const NodeSwitch = (props: Props) => {
           </button>
         );
       })}
-    </div>
+    </Slider>
   );
 };
 

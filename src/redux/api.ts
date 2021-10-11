@@ -14,8 +14,9 @@ import {
 import { setStateAction } from "./actions";
 import { Flow } from "./Flow";
 
-const baseUrl =
-  "https://valerii.educationhost.cloud?csurl=https://tastypoints.io/akm/restapi.php";
+const corsUrl = "http://ec2-23-22-24-76.compute-1.amazonaws.com:8080/";
+const apiUrl = "https://tastypoints.io/akm/restapi.php";
+const baseUrl = corsUrl + apiUrl;
 
 export enum REQUEST_TYPE {
   getTemplateNodes = 1156,

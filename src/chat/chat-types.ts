@@ -24,6 +24,7 @@ export type IChatNodeDataPreview = Omit<IChatNodeData, "id" | "executed">;
 export type IChatNodes = { [id: number]: IChatNodeData };
 
 export interface chatState {
+  id: number;
   messages: IChatNodes;
   recording: MediaStreamConstraints | null;
   recordButtonIsAudio: boolean;

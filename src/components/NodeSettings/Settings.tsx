@@ -16,6 +16,7 @@ import {
 } from "react-hook-form";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { getTemplateNode } from "../../models/getTemplateNode";
+import { mapNodeSettingsKeyToComponent } from "../../models/mapNodeSettingsKeyToComponent";
 import { capitalize, mapKeyToDisplayName } from "../../models/tools";
 import { updateTemplateNode } from "../../redux/api";
 import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
@@ -98,6 +99,7 @@ const RightBar = ({
     </div>
   );
 };
+
 export const FormSettings = ({
   path,
   obj,
@@ -133,6 +135,7 @@ export const FormSettings = ({
     </Details>
   );
 };
+
 const getNestedObjectField = (obj: Record<string, any>, props: string[]) => {
   for (const propName of props) {
     if (!(propName in obj)) {
@@ -248,7 +251,7 @@ const SelectorJparam = ({
   );
 };
 
-const SettingItem = ({ path }: any) => {
+const SettingItem = ({ path }: { path: string[] }) => {
   const { type } = useContext(NodeSettingsContext);
 
   const key = path[path.length - 1];
@@ -281,13 +284,32 @@ const SettingItem = ({ path }: any) => {
           name={keyPath}
           render={({ field }) => {
             const { value } = field;
-            const isNull = value === null;
+            // const isNull = value === null;
             validate(value);
 
             //@ts-ignore
             const typeVal = key in templateNode ? templateNode[key] : value;
-            const type =
-              typeof typeVal === "string" || isNull ? "text" : typeof typeVal;
+            let type = "text";
+            // if (typeof typeVal === "string" || isNull) {
+            //   type = "text";
+            // }
+            if (typeof typeVal === "number") {
+              type = "number";
+            }
+
+            if (typeof typeVal === "boolean") {
+              type = "checkbox";
+            }
+
+            const mappedComponent = getNestedObjectField(
+              mapNodeSettingsKeyToComponent,
+              path
+            );
+            // console.log(path, mappedComponent);
+            if (mappedComponent) {
+              // @ts-ignore
+              return mappedComponent({ field });
+            }
 
             return (
               <input
@@ -297,7 +319,13 @@ const SettingItem = ({ path }: any) => {
                 onChange={(e) => {
                   const { value } = e.target;
                   // console.log(value);
-                  field.onChange(type === "number" ? parseInt(value) : value);
+                  if (type === "checkbox") {
+                    field.onChange(e.target.checked);
+                  } else if (type === "number") {
+                    field.onChange(parseInt(value));
+                  } else {
+                    field.onChange(value);
+                  }
                 }}
               />
             );

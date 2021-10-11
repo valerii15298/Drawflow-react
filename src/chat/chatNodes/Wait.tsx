@@ -14,7 +14,10 @@ interface Props extends IChatNodeData {
 
 const NodeWait = (props: Props) => {
   const { id, flowNodeId, executed, running, delay } = props;
-  const { actions } = useChatBotContext();
+  const {
+    actions,
+    state: { id: stateId },
+  } = useChatBotContext();
 
   const pushNextNode = usePushNextNode(flowNodeId);
 
@@ -28,6 +31,7 @@ const NodeWait = (props: Props) => {
 
     execute().then(() => {
       actions.setState({
+        id: stateId,
         messages: {
           [id]: {
             running: false,
@@ -38,11 +42,9 @@ const NodeWait = (props: Props) => {
       });
       pushNextNode();
     });
-  }, [actions, executed, flowNodeId, delay, pushNextNode, id, running]);
+  }, []);
 
   return null;
-  // if (!executed) return null;
-  // return <div>Hello delay: {JSON.stringify(props)}</div>;
 };
 
 mapChatNodeTypeToComponent[chatNodeType.Delay] = NodeWait;

@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useChatBotContext } from "./Chat";
 import { getDefaultBotNodeData, IChatNodeData } from "./chat-types";
 import "./chatNodes";
-import { chatNodeType, executeAfterRender } from "./chatNodes/chatNodeType";
+import { chatNodeType, executedAfterRender } from "./chatNodes/chatNodeType";
 import { mapChatNodeTypeToComponent } from "./MapChatNodeTypeToComponent";
 
 /*
@@ -13,22 +13,31 @@ import { mapChatNodeTypeToComponent } from "./MapChatNodeTypeToComponent";
  *  - Ability for admins chose path in flow, e. g. control flow in real time
  *      saved flows, so admin just can choose from options what to send to user
  *        also there can be lot of config, need to think
- *  - Migrate to redux toolkit
+ *  - Migrate to redux toolkit(Done)
  *
  * */
 
 export const BotNodeMessageComponent = (props: IChatNodeData) => {
   const { flowNodeId, executed } = props;
-  const { flow, actions } = useChatBotContext();
+  const {
+    flow,
+    actions,
+    state: { id },
+  } = useChatBotContext();
   let { type } = props;
 
   let flowNodeData: any = {};
-  if (flowNodeId) {
-    const data = flow.state.drawflow[flowNodeId].data.node_object_lists as {
+  if (flowNodeId !== undefined) {
+    const data = (flow.state.drawflow[flowNodeId]?.data.node_object_lists ?? {
+      type: chatNodeType.Empty,
+      renderable: false,
+    }) as {
       type: chatNodeType;
       [propName: string]: any;
     };
+    // console.log(data.type);
     if (!Object.values(chatNodeType).includes(data.type)) {
+      console.log(data, flowNodeId);
       throw new Error("Invalid type of node");
     }
     type = data.type as chatNodeType;
@@ -38,7 +47,8 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
   const pushNextNode = usePushNextNode(flowNodeId);
 
   useEffect(() => {
-    if (!executed && executeAfterRender.includes(type)) {
+    if (!executed && executedAfterRender.includes(type)) {
+      // TODO we also can put here stateId but we are omitting it for now
       actions.setState({ messages: { [props.id]: { executed: true } } });
       pushNextNode();
     }
@@ -58,6 +68,7 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
 
   // One of components from ./chatNodes
   const NodeComponent = mapChatNodeTypeToComponent[type];
+  // console.log({ NodeComponent });
 
   return <NodeComponent {...{ ...props, ...flowNodeData }} />;
 };

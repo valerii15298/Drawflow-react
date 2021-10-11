@@ -1,10 +1,17 @@
 import produce from "immer";
 import lodash from "lodash";
-import { createContext, useContext, useMemo, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import { selectActiveDrawflow } from "../redux/drawflowSlice";
 import { Flow } from "../redux/Flow";
 import { useAppSelector } from "../redux/hooks";
-import { ObjectKeys, ports, RecursivePartial } from "../types";
+import { ObjectKeys, RecursivePartial } from "../types";
 import {
   chatState,
   getDefaultBotNodeData,
@@ -15,14 +22,23 @@ import {
 import { ChatApp } from "./ChatApp";
 import { chatNodeType } from "./chatNodes/chatNodeType";
 
-const initialState: chatState = {
+const getInitialChatState = (): chatState => ({
+  id: 0,
   recording: null,
-  messages: [],
+  messages: {},
   recordButtonIsAudio: true,
   showEmojiPicker: false,
   currentMessageValue: getDefaultCurrentMessageValue(),
-};
+});
+
+const initialState: chatState = getInitialChatState();
+
 export const reactions = {
+  clearChat: (state: chatState) => {
+    state.messages = {};
+    // return getInitialChatState();
+  },
+
   toggleEmojiPicker: (state: chatState) => {
     state.showEmojiPicker = !state.showEmojiPicker;
   },
@@ -37,6 +53,9 @@ export const reactions = {
   ) => {
     if (typeof payload === "function") {
       return payload(state);
+    }
+    if (payload.id !== undefined && payload.id !== state.id) {
+      return;
     }
     return lodash.merge(state, payload);
   },
@@ -68,10 +87,10 @@ export const reactions = {
     };
     state.currentMessageValue.file = file;
     const { type } = file;
-    if (type.includes(chatNodeType.Image)) {
+    if (type.includes("image")) {
       state.currentMessageValue.type = chatNodeType.Image;
     }
-    if (type.includes(chatNodeType.Video)) {
+    if (type.includes("video")) {
       state.currentMessageValue.type = chatNodeType.Video;
     }
     console.log(`File chosen:`, file);
@@ -97,6 +116,7 @@ export const reactions = {
     };
   },
 };
+
 export type ActionType = {
   [p in keyof typeof reactions]: (
     // k: Parameters<typeof reactions[p]>[1],
@@ -105,6 +125,7 @@ export type ActionType = {
       : [Parameters<typeof reactions[p]>[1]]
   ) => void;
 };
+
 export const chatReducer = (
   state: chatState,
   action: { type: keyof typeof reactions; payload: any }
@@ -138,6 +159,12 @@ export const Chat = () => {
       }, {} as ActionType),
     []
   );
+  const activeFlowId = useAppSelector((s) => s.version);
+  console.log(activeFlowId);
+  useEffect(() => {
+    console.log("Clear chat");
+    actions.clearChat();
+  }, [activeFlowId, actions]);
   const flowState = useAppSelector((s) => {
     const { drawflow, connections, ports } = selectActiveDrawflow(s);
     const purePorts = ObjectKeys(ports).reduce((acc, key) => {
@@ -162,11 +189,19 @@ export const Chat = () => {
   }, lodash.isEqual);
   const flow = useMemo(() => new Flow(flowState), [flowState]);
   const head = flow.heads[0];
+
+  const [key, setKey] = useState(0);
   const startBot = () => {
+    setKey((key) => key + 1);
+    console.log(state);
+    actions.clearChat();
     if (!head) return;
     console.log("Run");
-    const defaultBotNodeData = getDefaultBotNodeData();
-    defaultBotNodeData.flowNodeId = head.id;
+    const defaultBotNodeData: IChatNodeDataPreview = {
+      ...getDefaultBotNodeData(),
+      ...head.nodeState.data.node_object_lists,
+      flowNodeId: head.id,
+    };
     actions.appendMessageNode(defaultBotNodeData);
   };
   return (
@@ -188,7 +223,18 @@ export const Chat = () => {
         >
           Start bot
         </button>
-        <ChatApp />
+        <button
+          onClick={() => console.log(state)}
+          style={{
+            position: "absolute",
+            zIndex: 100,
+            right: 100,
+          }}
+        >
+          state
+        </button>
+
+        <ChatApp key={key} />
       </div>
     </ChatBotContext.Provider>
   );
