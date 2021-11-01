@@ -7,8 +7,16 @@ import { getDefaultBotNodeData, IChatNodeData } from "../chat-types";
 import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
 import { chatNodeType } from "./chatNodeType";
 
+enum DisplayType {
+  Select = "select",
+  Carousel = "carousel",
+  List = "list",
+}
+
 interface Props extends IChatNodeData {
-  any?: any;
+  props: {
+    display_type: DisplayType;
+  };
 }
 
 const NodeSwitch = (props: Props) => {
@@ -31,10 +39,10 @@ const NodeSwitch = (props: Props) => {
   const options = flow.getNode(flowNodeId).out1;
 
   const onChooseOption = (option) => {
-    if (option.out1[0]?.id !== undefined) {
+    if (option.id !== undefined) {
       actions.appendMessageNode({
         ...getDefaultBotNodeData(),
-        flowNodeId: option.out1[0].id,
+        flowNodeId: option.id,
       });
     }
   };
@@ -44,7 +52,7 @@ const NodeSwitch = (props: Props) => {
       {options.map((option, i) => {
         return (
           <button key={i} onClick={() => onChooseOption(option)}>
-            {option.nodeState.data.flow_node.node_name}
+            {option.nodeState.data.node_object_lists.props.text}
           </button>
         );
       })}

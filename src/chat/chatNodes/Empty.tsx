@@ -7,18 +7,6 @@ import { chatNodeType } from "./chatNodeType";
 type Props = IChatNodeData;
 
 export const NodeEmpty = (props: Props) => {
-  const { actions } = useChatBotContext();
-
-  useEffect(() => {
-    actions.setState({
-      messages: {
-        [props.id]: {
-          executed: true,
-          renderable: false,
-        },
-      },
-    });
-  }, []);
   return null;
 };
 

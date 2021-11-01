@@ -6,6 +6,8 @@ import settingsPng from "../assets/flowsettings.png";
 import Toggle from "react-toggle";
 import { mainWindow, sideWindow } from "../types";
 import { postFlow } from "../redux/api";
+import { SelectFlowVersion } from "./SelectFlowVersion";
+import { ToggleSidebar } from "./Sidebar";
 
 const HeaderSection = styled.section`
   display: flex;
@@ -65,6 +67,7 @@ const CircleSpan = styled.button`
 `;
 const InfoDiv = styled.div`
   display: grid;
+  margin-left: 1em;
   //place-items: left;
   div {
   }
@@ -109,20 +112,25 @@ export const Header = () => {
   const dispatch = useAppDispatch();
   const flowInfo = useAppSelector((s) => s.flowInfo);
 
+  const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
+  const mainId = useAppSelector((s) => s.windowConfig.mainId);
+
   const { flow_name, flow_description, flow_active } = flowInfo || {};
   // console.log({ flow_active });
 
   return (
     <HeaderSection>
       <FlowInfo>
-        <CircleSpan>
-          <Arrow height={14} />
-        </CircleSpan>
+        {!sidebarVisible ? <ToggleSidebar /> : null}
+        {/*<CircleSpan>*/}
+        {/*  <Arrow height={14} />*/}
+        {/*</CircleSpan>*/}
         <InfoDiv>
           <FlowTitle>{flow_name || "Loading ..."}</FlowTitle>
           <FlowSubtitle>{flow_description || "Loading ..."}</FlowSubtitle>
         </InfoDiv>
       </FlowInfo>
+
       <ToggleSection>
         <ToggleButton
           onClick={() =>
@@ -177,6 +185,8 @@ export const Header = () => {
           <img src={settingsPng} alt="" />
         </ToggleButton>
       </ToggleSection>
+      {mainId === mainWindow.mainFlow && <SelectFlowVersion />}
+
       <Controls>
         <DeleteFlowButton>Delete flow</DeleteFlowButton>
         <SaveFlowButton onClick={() => dispatch(postFlow())}>

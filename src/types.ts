@@ -1,3 +1,5 @@
+import { chatNodeType } from "./chat/chatNodes/chatNodeType";
+
 export enum NODE_TYPE {
   START = "START",
   MIDDLE = "MIDDLE",
@@ -67,7 +69,11 @@ export interface block {
   loop_cycles: number;
   name: string;
   node_attributes: any[];
-  node_object_lists: Record<string, unknown>;
+  node_object_lists: {
+    type: chatNodeType;
+    renderable: boolean;
+    props: any;
+  };
   node_scrdata_id: number;
   node_story: string;
   nodes_group_id: number;

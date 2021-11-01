@@ -33,13 +33,18 @@ export const TapMoreButton = styled.button`
 export const NodeDiv = styled.div`
   /* width: min-content; */
   position: relative;
-  display: grid;
-  place-items: center;
-  padding: 0.5em;
+  padding: 1em 0.3em 0.3em;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  text-align: center;
   background-color: white;
   box-shadow: 0 4px 30px rgb(22 33 74 / 25%);
   border-radius: 5px;
+
+  //max-width: 100%;
 
   :hover {
     box-shadow: 0 4px 30px rgb(22 33 74 / 15%);
@@ -50,9 +55,13 @@ export const NodeDiv = styled.div`
 const NodeImg = styled.img`
   max-height: 100%;
   max-width: 100%;
+  margin-bottom: 0.2em;
 `;
 
-const NodeTitleSpan = styled.span``;
+const NodeTitleSpan = styled.div`
+  //word-break: break-word;
+  //hyphens: auto;
+`;
 
 export const NodeTemplate = (props: block) => {
   const { nodes_id, order } = props;
@@ -110,8 +119,6 @@ export const NodeTemplate = (props: block) => {
 
   return (
     <NodeDiv style={{ order }} ref={ref} onMouseDown={onClick}>
-      <NodeImg draggable={false} src={props.icon_link} />
-      <NodeTitleSpan>{props.name}</NodeTitleSpan>
       <TapMoreButton
         onMouseDown={() => {
           // console.log({ nodes_id });
@@ -127,6 +134,8 @@ export const NodeTemplate = (props: block) => {
       >
         <ThreeDots height={3} width={12} />
       </TapMoreButton>
+      <NodeImg draggable={false} src={props.icon_link} />
+      <NodeTitleSpan>{props.name}</NodeTitleSpan>
     </NodeDiv>
   );
 };

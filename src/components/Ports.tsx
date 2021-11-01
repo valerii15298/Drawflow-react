@@ -2,7 +2,10 @@ import styled, { css } from "styled-components";
 import { actions } from "../redux/drawflowSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { useNodeIsSub, usePortIsActive } from "../redux/selectors";
+import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { port, portType, purePort } from "../types";
+
+import Tooltip from "@mui/material/Tooltip";
 
 const Indicator = styled.div<{ visible: boolean }>`
   width: 15px;
@@ -71,7 +74,22 @@ const Port = (port: purePort) => {
   const isActive = usePortIsActive(port);
   const isSub = useNodeIsSub(nodeId);
   const StyledPort = styledPorts[type][portId - 1];
-  return (
+
+  const toggleSubnodes = (e) => {
+    e.preventDefault();
+    dispatch(actions.toggleSubnodes({ id: nodeId }));
+    dispatch(alignCurrentFlow());
+    e.stopPropagation();
+  };
+
+  const toggleChildren = (e) => {
+    e.preventDefault();
+    dispatch(actions.toggleChildren({ id: nodeId }));
+    dispatch(alignCurrentFlow());
+    e.stopPropagation();
+  };
+
+  const comp = (
     <StyledPort
       isSub={isSub}
       onMouseDown={(e) => {
@@ -81,10 +99,32 @@ const Port = (port: purePort) => {
       onMouseUp={() => {
         dispatch(actions.portMouseUp({ nodeId, portId, PortType: type }));
       }}
+      onContextMenu={(e) => {
+        if (type === "in") {
+          return;
+        }
+        if (portId === 1) {
+          toggleChildren(e);
+        }
+        if (portId === 2) {
+          toggleSubnodes(e);
+        }
+      }}
     >
       <Indicator visible={isActive} />
     </StyledPort>
   );
+
+  if (type === "in" || isSub) {
+    return comp;
+  }
+
+  const toolTipMap = {
+    1: "Right click to toggle children",
+    2: "Right click to toggle subnodes",
+  };
+
+  return <Tooltip title={toolTipMap[portId]}>{comp}</Tooltip>;
 };
 
 export const Ports = (props: { type: portType; id: number; port: port }) => {

@@ -1,11 +1,12 @@
 import JSONEditor, { JSONEditorOptions } from "jsoneditor";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useAppSelector } from "../redux/hooks";
 
 const CodeEditorDiv = styled.div<{ shift?: boolean }>`
   flex: 1;
-  height: 100%;
+  max-height: 100vh;
+  min-width: 480px;
   ${({ shift }) =>
     shift &&
     css`
@@ -42,21 +43,36 @@ export const CodeEditor = ({ values, setValues }: CodeEditorProps) => {
             setValues(parsed);
             // eslint-disable-next-line no-empty
           } catch (e) {
-            console.log({ e });
+            // console.log({ e });
+          }
+        },
+        onModeChange(mode) {
+          if (mode === "code") {
+            // @ts-ignore
+            jsonEditorRef.current.aceEditor.setOptions({
+              maxLines: 10000,
+            });
           }
         },
       };
       jsonEditorRef.current = new JSONEditor(ref.current, options);
+      // @ts-ignore
+      // jsonEditorRef.current.aceEditor.setOptions({
+      //   maxLines: 10000,
+      // });
     }
     return () => {
       jsonEditorRef.current?.destroy();
     };
   }, []);
+
   useEffect(() => {
-    if (
-      jsonEditorRef.current &&
-      JSON.stringify(jsonEditorRef.current.get()) !== JSON.stringify(values)
-    ) {
+    if (!jsonEditorRef.current) {
+      return;
+    }
+    const currentJson = jsonEditorRef.current.get();
+    const stringJson = JSON.stringify(currentJson);
+    if (stringJson !== JSON.stringify(values)) {
       jsonEditorRef.current.update(values);
       // jsonEditorRef.current.expandAll();
     }

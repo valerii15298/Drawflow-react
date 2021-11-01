@@ -7,14 +7,12 @@ export enum chatNodeType {
   Empty = "empty",
   Link = "link",
   Switch = "switch",
+  SwitchOption = "switchOption",
+  SetTypingIndicator = "setTypingIndicator",
 
   Countdown = "countdown",
   Delay = "delay",
   HttpRequest = "httpRequest",
-  AllowUserToSendMessages = "allowUserToSendMessages",
-  DisallowUserToSendMessages = "disallowUserToSendMessages",
-  ShowTypingIndicator = "showTypingIndicator",
-  HideTypingIndicator = "hideTypingIndicator",
 }
 
 export const executedAfterRender = [
@@ -26,43 +24,6 @@ export const executedAfterRender = [
   chatNodeType.Empty,
   chatNodeType.Link,
   chatNodeType.Empty,
-  chatNodeType.AllowUserToSendMessages,
-  chatNodeType.DisallowUserToSendMessages,
-  chatNodeType.ShowTypingIndicator,
-  chatNodeType.HideTypingIndicator,
+  chatNodeType.SwitchOption,
+  chatNodeType.SetTypingIndicator,
 ];
-
-// export enum chatNodeType {
-//   Text,
-//   Audio,
-//   Video,
-//   File,
-//   Image,
-//   Empty,
-//   Link,
-//   Switch,
-//
-//   Countdown,
-//   Delay,
-//   HttpRequest,
-//   AllowUserToSendMessages,
-//   DisallowUserToSendMessages,
-//   ShowTypingIndicator,
-//   HideTypingIndicator,
-// }
-//
-// export const executedAfterRender = [
-//   chatNodeType.Text,
-//   chatNodeType.Audio,
-//   chatNodeType.Video,
-//   chatNodeType.File,
-//   chatNodeType.Image,
-//   chatNodeType.Empty,
-//   chatNodeType.Link,
-//   chatNodeType.Switch,
-//   chatNodeType.Empty,
-//   chatNodeType.AllowUserToSendMessages,
-//   chatNodeType.DisallowUserToSendMessages,
-//   chatNodeType.ShowTypingIndicator,
-//   chatNodeType.HideTypingIndicator,
-// ];

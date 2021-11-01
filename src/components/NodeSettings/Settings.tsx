@@ -1,61 +1,11 @@
-import {
-  createContext,
-  FC,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  useFormContext,
-  useWatch,
-} from "react-hook-form";
-import { useClickOutside } from "../../hooks/useClickOutside";
+import { createContext, useState } from "react";
 import { getTemplateNode } from "../../models/getTemplateNode";
-import { mapNodeSettingsKeyToComponent } from "../../models/mapNodeSettingsKeyToComponent";
-import { capitalize, mapKeyToDisplayName } from "../../models/tools";
-import { updateTemplateNode } from "../../redux/api";
-import { actions, selectActiveDrawflow } from "../../redux/drawflowSlice";
-import { Flow } from "../../redux/Flow";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import Node from "../../redux/Node";
-import { Plus, SettingsIcon as SettingsIcon } from "../../svg";
-import { block, ObjectKeys, step } from "../../types";
+import { block, step } from "../../types";
+import { LeftBar } from "./LeftBar";
+import { RightBar } from "./RightBar";
+import { NodeSettingsDiv, NodeSettingsWrapper } from "./StyledComponents";
 
-import { CodeEditor } from "../CodeEditor";
-import { ToggleSidebar } from "../Sidebar";
-import { NodeJumpControls } from "./NodeJumpControls";
-import {
-  ControlsDiv,
-  DefaultSettingsDetails,
-  DeleteButton,
-  DescriptionDiv,
-  Details,
-  ItemSettingLabel,
-  LeftBarForm,
-  LeftBarHeader,
-  ListSettingsDiv,
-  NodeSettingsDiv,
-  NodeSettingsWrapper,
-  ResetButton,
-  RightInputDiv,
-  SaveButton,
-  SelectJparamDiv,
-  SelectorButton,
-  SelectorJparamDiv,
-  SelectorJparamOptionsDiv,
-  StyledSummary,
-  TitleDiv,
-  TitleImg,
-  TitleInfoDiv,
-  ToggleSidebarDiv,
-} from "./StyledComponents";
-
-const templateNode = getTemplateNode();
+export const templateNode = getTemplateNode();
 
 interface settingsContext {
   type: "template" | "node";
@@ -71,402 +21,19 @@ export const FormSettingsContext = createContext<{
   setFormValues: null,
 });
 
-const RightBar = ({
-  setFormValues,
-  control,
-  remount,
-  defaultValue,
-}: {
-  setFormValues: (p: block) => void;
-  control: any;
-  remount: () => void;
-  defaultValue: block;
-}) => {
-  const values = useWatch({
-    control,
-    defaultValue,
-  });
-  const [edited, setEdited] = useState<boolean>(false);
-  return (
-    <div onMouseLeave={() => edited && remount()}>
-      <CodeEditor
-        values={values}
-        setValues={(data) => {
-          setEdited(true);
-          setFormValues(data);
-        }}
-      />
-    </div>
-  );
-};
-
-export const FormSettings = ({
-  path,
-  obj,
-  RenderElement,
-}: {
-  path: Array<string>;
-  obj: any;
-  RenderElement: FC<{ path: any }>;
-}) => {
-  if (typeof obj !== "object" || obj === null) {
-    return <RenderElement path={path} />;
-  }
-
-  const items = ObjectKeys(obj as Record<any, unknown>).map((key) => {
-    const value = obj[key];
-    return (
-      <FormSettings
-        key={[...path, key].join(".")}
-        path={[...path, key]}
-        obj={value}
-        RenderElement={RenderElement}
-      />
-    );
-  });
-  const key = path[path.length - 1];
-  const keyName =
-    // @ts-ignore
-    mapKeyToDisplayName[key] ?? capitalize(key.replace(/_/g, " "));
-  return (
-    <Details>
-      <StyledSummary>{keyName}</StyledSummary>
-      <ListSettingsDiv>{items}</ListSettingsDiv>
-    </Details>
-  );
-};
-
-const getNestedObjectField = (obj: Record<string, any>, props: string[]) => {
-  for (const propName of props) {
-    if (!(propName in obj)) {
-      return undefined;
-    }
-    obj = obj[propName];
-  }
-  return obj;
-};
-
-const SelectorJparam = ({
-  pathToFieldValue,
-}: {
-  pathToFieldValue: string[];
-}) => {
-  const [opened, setOpened] = useState(false);
-  const { getValues, setValue } = useFormContext();
-  const values = getValues() as step;
-  const jparam_settings = (values.node_settings_json.jparam_settings ??
-    []) as any[];
-  const id = values.this_node_unique_id;
-
-  const state = useAppSelector(selectActiveDrawflow);
-  const flow = new Flow(state);
-  const node = flow.getNode(id);
-  const { prevDirectNodes } = node;
-
-  const ref = useRef<HTMLDivElement>(null);
-  useClickOutside(ref, () => opened && setOpened(false), !opened);
-
-  return (
-    <SelectorJparamDiv ref={ref}>
-      <SelectorButton onClick={() => setOpened(!opened)}>
-        <SettingsIcon height={15} />
-      </SelectorButton>
-      {opened && (
-        <SelectorJparamOptionsDiv>
-          <Details>
-            <StyledSummary>Prev nodes</StyledSummary>
-            {prevDirectNodes.length > 0 && (
-              <ListSettingsDiv style={{ zIndex: 2 }}>
-                {prevDirectNodes.map(
-                  ({ nodeState: { positionNumber, id, data } }: Node) => {
-                    const RenderElement = ({ path }: any) => {
-                      const key = path[path.length - 1];
-                      const value = useAppSelector((s) => {
-                        const state = selectActiveDrawflow(s);
-                        const { data } = state.drawflow[id];
-                        return getNestedObjectField(data, path);
-                      });
-                      return (
-                        <SelectJparamDiv>
-                          <span
-                            onClick={() => {
-                              const replace_tag = `&%jparam:${values.this_node_unique_id}:${jparam_settings.length}%&`;
-                              const newParam = {
-                                replace_this_element: pathToFieldValue
-                                  .slice(1)
-                                  .join(","),
-                                replace_tag,
-                                with_this_element_value: {
-                                  node_unique_id: id,
-                                  settings: Number(
-                                    "node_settings_json" === pathToFieldValue[0]
-                                  ),
-                                  parameter: path.slice(1).join(","),
-                                },
-                              };
-                              jparam_settings.push(newParam);
-                              setValue(
-                                "node_settings_json.jparam_settings",
-                                jparam_settings
-                              );
-                              const strPath = pathToFieldValue.join(".");
-                              const prevValue = getValues(strPath);
-                              if (typeof prevValue === "string") {
-                                setValue(strPath, prevValue + replace_tag);
-                              }
-                            }}
-                          >
-                            <Plus height={15} />
-                          </span>
-                          <span>{key}:</span>
-                          <span>{value}</span>
-                        </SelectJparamDiv>
-                      );
-                    };
-                    return (
-                      <Details key={id}>
-                        <StyledSummary>
-                          {data.name} ${id}:{positionNumber}
-                        </StyledSummary>
-                        <FormSettings
-                          RenderElement={RenderElement}
-                          obj={data.node_settings_json}
-                          path={[`node_settings_json`]}
-                        />
-                        <FormSettings
-                          RenderElement={RenderElement}
-                          obj={data.node_response_settings_json}
-                          path={[`node_response_settings_json`]}
-                        />
-                      </Details>
-                    );
-                  }
-                )}
-              </ListSettingsDiv>
-            )}
-          </Details>
-        </SelectorJparamOptionsDiv>
-      )}
-    </SelectorJparamDiv>
-  );
-};
-
-const SettingItem = ({ path }: { path: string[] }) => {
-  const { type } = useContext(NodeSettingsContext);
-
-  const key = path[path.length - 1];
-  const keyPath = `${path.join(".")}`;
-
-  const validate = (value: any) => {
-    const valid =
-      key in templateNode && value !== null
-        ? // @ts-ignore
-          typeof templateNode[key] === typeof value
-        : true;
-    if (!valid) {
-      // @ts-ignore
-      console.log({
-        key,
-        value,
-        properValue: templateNode[key],
-      });
-    }
-    // console.log(valid);
-    return valid;
-  };
-
-  const keyName = capitalize(key.replace(/_/g, " "));
-  return (
-    <ItemSettingLabel>
-      {keyName}:
-      <RightInputDiv>
-        <Controller
-          name={keyPath}
-          render={({ field }) => {
-            const { value } = field;
-            // const isNull = value === null;
-            validate(value);
-
-            //@ts-ignore
-            const typeVal = key in templateNode ? templateNode[key] : value;
-            let type = "text";
-            // if (typeof typeVal === "string" || isNull) {
-            //   type = "text";
-            // }
-            if (typeof typeVal === "number") {
-              type = "number";
-            }
-
-            if (typeof typeVal === "boolean") {
-              type = "checkbox";
-            }
-
-            const mappedComponent = getNestedObjectField(
-              mapNodeSettingsKeyToComponent,
-              path
-            );
-            // console.log(path, mappedComponent);
-            if (mappedComponent) {
-              // @ts-ignore
-              return mappedComponent({ field });
-            }
-
-            return (
-              <input
-                type={type}
-                {...field}
-                value={value ?? ""}
-                onChange={(e) => {
-                  const { value } = e.target;
-                  // console.log(value);
-                  if (type === "checkbox") {
-                    field.onChange(e.target.checked);
-                  } else if (type === "number") {
-                    field.onChange(parseInt(value));
-                  } else {
-                    field.onChange(value);
-                  }
-                }}
-              />
-            );
-          }}
-        />
-        {type === "node" && <SelectorJparam pathToFieldValue={path} />}
-      </RightInputDiv>
-    </ItemSettingLabel>
-  );
-};
-
-type formType = block | step;
-export const LeftBar = (props: {
-  defaultValues: formType;
-  setControl: (p: any) => void;
-  id: number;
-}) => {
-  const { type } = useContext(NodeSettingsContext);
-  const dispatch = useAppDispatch();
-  const { defaultValues, setControl, id } = props;
-  const methods = useForm({
-    defaultValues: JSON.parse(JSON.stringify(defaultValues)),
-  });
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    control,
-    getValues,
-  } = methods;
-
-  useEffect(() => {
-    setControl(control);
-  }, []);
-
-  // const values = defaultValues;
-  const values = getValues();
-  let { name, description, icon_link } = values;
-  if (
-    [name, description, icon_link].includes(undefined) &&
-    "flow_node" in values
-  ) {
-    const { node_name, node_description, node_icon_link } = values.flow_node;
-    name = node_name;
-    description = node_description;
-    icon_link = node_icon_link;
-  }
-
-  const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
-
-  // console.log("render", { defaultValues, values });
-  const onSubmit = (data: formType) => {
-    data = getValues();
-    type === "template" &&
-      dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
-    type === "node" &&
-      dispatch(actions.updateNode(JSON.parse(JSON.stringify(data)) as step));
-  };
-
-  const onDelete = () => {
-    type === "template" &&
-      dispatch(
-        updateTemplateNode({
-          ...getValues(),
-          delete: 1,
-        })
-      );
-    // type === "node" &&
-    //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
-  };
-
-  // console.log(defaultValues);
-
-  return (
-    <FormProvider {...methods}>
-      <LeftBarForm onSubmit={handleSubmit(onSubmit)}>
-        <LeftBarHeader shift={!sidebarVisible}>
-          {!sidebarVisible && (
-            <ToggleSidebarDiv>
-              <ToggleSidebar />
-            </ToggleSidebarDiv>
-          )}
-          <TitleImg src={icon_link} />
-          <TitleInfoDiv>
-            <TitleDiv>{name}</TitleDiv>
-            <DescriptionDiv>{description}</DescriptionDiv>
-          </TitleInfoDiv>
-          {type === "node" && <NodeJumpControls id={id} />}
-        </LeftBarHeader>
-        <DefaultSettingsDetails open={true}>
-          <StyledSummary>Default settings</StyledSummary>
-          <ListSettingsDiv>
-            {Object.entries(values).map(([key, value]) => {
-              if (
-                (typeof value !== "object" || value === null) &&
-                !(key in mapKeyToDisplayName)
-              ) {
-                return <SettingItem key={key} path={[key]} />;
-              }
-              return null;
-            })}
-          </ListSettingsDiv>
-        </DefaultSettingsDetails>
-        {ObjectKeys(mapKeyToDisplayName).map((key) => {
-          return values[key] ? (
-            <FormSettings
-              RenderElement={SettingItem}
-              key={key}
-              obj={values[key]}
-              path={[key]}
-            />
-          ) : null;
-        })}
-        {Object.keys(errors).length !== 0 && (
-          <div>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-          </div>
-        )}
-        <ControlsDiv>
-          <SaveButton type="submit">Save</SaveButton>
-          <ResetButton type="reset" onClick={() => reset()}>
-            Reset
-          </ResetButton>
-          <DeleteButton type="button" onClick={() => onDelete()}>
-            Delete
-          </DeleteButton>
-        </ControlsDiv>
-      </LeftBarForm>
-    </FormProvider>
-  );
-};
+export type formType = block | step;
 
 export const Settings = ({ json, id }: { json: formType; id: number }) => {
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
   const [defaultValues, setDefaultValues] = useState(json);
   const [control, setControl] = useState();
+  const [rightBarNeedsToRemount, setRightBarNeedsToRemount] = useState(false);
 
   const setFormValues = (newData: block) => {
     setDefaultValues(newData);
     setLeftBarKey((key) => key + 1);
+    setRightBarNeedsToRemount(true);
   };
 
   return (
@@ -478,12 +45,17 @@ export const Settings = ({ json, id }: { json: formType; id: number }) => {
             defaultValues={defaultValues}
             setControl={setControl}
             id={id}
+            remountRightBar={() => {
+              setRightBarNeedsToRemount(false);
+              setRightBarKey((key) => key + 1);
+            }}
+            rightBarNeedsToRemount={rightBarNeedsToRemount}
           />
           {control && (
             <RightBar
               key={`rightBar-${rightBarKey}`}
               remount={() => {
-                setRightBarKey((key) => key + 1);
+                // setRightBarKey((key) => key + 1);
               }}
               setFormValues={setFormValues}
               control={control}

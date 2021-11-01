@@ -117,6 +117,7 @@ export const ItemSettingLabel = styled.label`
   justify-content: space-between;
   flex-wrap: nowrap;
   border-bottom: 2px solid blue;
+  align-items: center;
 `;
 export const ListSettingsDiv = styled.div``;
 export const NodeSettingsWrapper = styled.div`

@@ -14,7 +14,7 @@ import {
 import { setStateAction } from "./actions";
 import { Flow } from "./Flow";
 
-const corsUrl = "http://ec2-23-22-24-76.compute-1.amazonaws.com:8080/";
+export const corsUrl = "http://ec2-23-22-24-76.compute-1.amazonaws.com:8080/";
 const apiUrl = "https://tastypoints.io/akm/restapi.php";
 const baseUrl = corsUrl + apiUrl;
 

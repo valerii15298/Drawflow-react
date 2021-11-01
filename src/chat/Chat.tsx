@@ -216,7 +216,8 @@ export const Chat = () => {
         <button
           onClick={startBot}
           style={{
-            position: "absolute",
+            position: "fixed",
+            top: 0,
             zIndex: 100,
             right: 0,
           }}
@@ -226,7 +227,8 @@ export const Chat = () => {
         <button
           onClick={() => console.log(state)}
           style={{
-            position: "absolute",
+            position: "fixed",
+            top: 0,
             zIndex: 100,
             right: 100,
           }}

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
+import { corsUrl } from "../../redux/api";
 import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
 import { Pause, Play } from "../svg-components";
 import { chatNodeType } from "./chatNodeType";
 
 export const NodeAudio = ({ src }: { src: string }) => {
+  src = corsUrl + src;
   const waveformRef = useRef<HTMLDivElement>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
   const [playing, setPlaying] = useState(false);

@@ -15,7 +15,10 @@ const ListDiv = styled.div`
 
   overflow-y: auto;
   //max-height: calc(100vh - 55px);
-  max-height: calc(100vh - 64px);
+  max-height: calc(100vh - 90px);
+
+  min-height: 0; /* NEW */
+  min-width: 0;
 
   &:after {
     grid-column: span 3;

@@ -21,7 +21,7 @@ const BlockStyled = styled.div<{
 }>`
   display: inline-block;
   position: absolute;
-  padding: 5px;
+  padding: 0 0.7em;
   width: 200px;
   min-height: 60px;
   background-color: white;
@@ -113,7 +113,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       style={{
         left: pos.x,
         top: pos.y,
-        ...(node.isSub ? subnodeStyle : nodeStyle),
+        // ...(node.isSub ? subnodeStyle : nodeStyle),
       }}
       isSub={node.isSub}
       onMouseDown={(e) => {
@@ -129,32 +129,10 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         // show node settings
       }}
     >
+      <div style={{ color: "blue" }}>
+        {node.id}:{node.positionNumber}
+      </div>
       <Block {...node} />
-
-      {!node.isSub && (
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              dispatch(actions.toggleSubnodes({ id }));
-              dispatch(alignCurrentFlow());
-              e.stopPropagation();
-            }}
-          >
-            sub
-          </button>
-          <button
-            onMouseDown={(e) => {
-              e.preventDefault();
-              dispatch(actions.toggleChildren({ id }));
-              dispatch(alignCurrentFlow());
-              e.stopPropagation();
-            }}
-          >
-            children
-          </button>
-        </div>
-      )}
       <Ports id={id} port={port} type={portType.in} />
       <Ports id={id} port={port} type={portType.out} />
     </BlockStyled>
