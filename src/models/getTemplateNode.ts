@@ -1,3 +1,4 @@
+import { chatNodeType } from "../chat/chatNodes/chatNodeType";
 import { block } from "../types";
 
 export const getTemplateNode: () => block = () => ({
@@ -21,6 +22,10 @@ export const getTemplateNode: () => block = () => ({
   node_response_settings_json: {},
   loop_cycle_reached_jump_to_node: 0,
   node_attributes: [],
-  node_object_lists: {},
+  node_object_lists: {
+    props: null,
+    type: chatNodeType.Empty,
+    renderable: true,
+  },
   node_story: "Node story",
 });
