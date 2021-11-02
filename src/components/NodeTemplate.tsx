@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import { dragTemplate, setStateAction } from "../redux/actions";
+import { getFileUrl, updateTemplateNode } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { ThreeDots } from "../svg";
 import { block, mainWindow } from "../types";
@@ -134,7 +135,24 @@ export const NodeTemplate = (props: block) => {
       >
         <ThreeDots height={3} width={12} />
       </TapMoreButton>
-      <NodeImg draggable={false} src={props.icon_link} />
+      <NodeImg
+        onDragOver={(e) => {
+          const event = e;
+          event.stopPropagation();
+          event.preventDefault();
+        }}
+        onDrop={async (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          // const corsUrl = "https://drawflow.ml:8080/";
+          const icon_link = await getFileUrl(e.dataTransfer.files[0]);
+          // const icon_link =
+          //   "https://tastypoints.io/akm/tasty_images/6WBIrTaO.png";
+          dispatch(updateTemplateNode({ nodes_id, icon_link }));
+        }}
+        draggable={false}
+        src={props.icon_link}
+      />
       <NodeTitleSpan>{props.name}</NodeTitleSpan>
     </NodeDiv>
   );

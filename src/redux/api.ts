@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import lodash from "lodash";
 import {
   block,
   drawflow,
@@ -8,15 +9,34 @@ import {
   groups,
   mainWindow,
   optGroup,
+  RecursivePartial,
   stateData,
   step,
 } from "../types";
 import { setStateAction } from "./actions";
 import { Flow } from "./Flow";
 
-export const corsUrl = "http://ec2-23-22-24-76.compute-1.amazonaws.com:8080/";
+export const corsUrl = "https://drawflow.ml:8080/";
+
 const apiUrl = "https://tastypoints.io/akm/restapi.php";
 const baseUrl = corsUrl + apiUrl;
+
+export const getFileUrl = async (file: File) => {
+  /*Upload file to server
+   * */
+  const formData = new FormData();
+  formData.append("profile_picture", file);
+  const response = await fetch(
+    `${corsUrl}https://tastypoints.io/akm/upload_image_process.php`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  // console.log(await response.text());
+  const { link } = (await response.json()) as { link: string };
+  return link;
+};
 
 export enum REQUEST_TYPE {
   getTemplateNodes = 1156,
@@ -182,8 +202,19 @@ export const fetchTemplateNodes = createAsyncThunk(
 
 export const updateTemplateNode = createAsyncThunk(
   "updateTemplateNode",
-  async (templateNode: block, { dispatch }) => {
-    console.log({ templateNode });
+  async (templateNode: RecursivePartial<block>, { dispatch, getState }) => {
+    const state = getState() as flowType;
+    console.log(state.templates, templateNode);
+    const existedTemplateNode = state.templates.find(
+      ({ nodes_id }) => nodes_id === templateNode.nodes_id
+    );
+    if (existedTemplateNode) {
+      templateNode = lodash.merge(
+        lodash.cloneDeep(existedTemplateNode),
+        templateNode
+      );
+    }
+
     if (!("delete" in templateNode)) {
       templateNode.delete = 0;
     }
