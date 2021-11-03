@@ -11,10 +11,14 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
+import Apollo from "./apollo/index";
+
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
-      <Flow />
+      <Apollo>
+        <Flow />
+      </Apollo>
     </Provider>
   </StrictMode>,
   document.getElementById("root")

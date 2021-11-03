@@ -39,12 +39,12 @@ export const NodeDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
 
   text-align: center;
   background-color: white;
   box-shadow: 0 4px 30px rgb(22 33 74 / 25%);
   border-radius: 5px;
-
   //max-width: 100%;
 
   :hover {
@@ -54,9 +54,11 @@ export const NodeDiv = styled.div`
 `;
 
 const NodeImg = styled.img`
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 70%;
+  max-width: 70%;
   margin-bottom: 0.2em;
+  margin-top: 0.2em;
+  //align-self: flex-start;
 `;
 
 const NodeTitleSpan = styled.div`

@@ -1,5 +1,5 @@
 import JSONEditor, { JSONEditorOptions } from "jsoneditor";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { useAppSelector } from "../redux/hooks";
 
