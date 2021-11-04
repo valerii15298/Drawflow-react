@@ -323,5 +323,6 @@ export interface step extends block {
   this_node_unique_id: number;
   update_version: number;
   id_nodes: number;
+
   [propName: string]: any;
 }

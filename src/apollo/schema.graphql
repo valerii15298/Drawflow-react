@@ -1,588 +1,102 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
-
-schema {
-    query: Query
-    mutation: Mutation
-}
-
-type AddTaskPayload {
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type AddTemplateNodeInfoPayload {
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
-type AddTemplateNodePayload {
-    numUids: Int
-    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
-}
-
-type AddUserPayload {
-    numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
-}
-
-type DeleteTaskPayload {
-    msg: String
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type DeleteTemplateNodeInfoPayload {
-    msg: String
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
-type DeleteTemplateNodePayload {
-    msg: String
-    numUids: Int
-    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
-}
-
-type DeleteUserPayload {
-    msg: String
-    numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
-}
-
-type MultiPolygon {
-    polygons: [Polygon!]!
-}
-
-type Mutation {
-    addTask(input: [AddTaskInput!]!): AddTaskPayload
-    addTemplateNode(input: [AddTemplateNodeInput!]!): AddTemplateNodePayload
-    addTemplateNodeInfo(input: [AddTemplateNodeInfoInput!]!): AddTemplateNodeInfoPayload
-    addUser(input: [AddUserInput!]!, upsert: Boolean): AddUserPayload
-    deleteTask(filter: TaskFilter!): DeleteTaskPayload
-    deleteTemplateNode(filter: TemplateNodeFilter!): DeleteTemplateNodePayload
-    deleteTemplateNodeInfo(filter: TemplateNodeInfoFilter!): DeleteTemplateNodeInfoPayload
-    deleteUser(filter: UserFilter!): DeleteUserPayload
-    updateTask(input: UpdateTaskInput!): UpdateTaskPayload
-    updateTemplateNode(input: UpdateTemplateNodeInput!): UpdateTemplateNodePayload
-    updateTemplateNodeInfo(input: UpdateTemplateNodeInfoInput!): UpdateTemplateNodeInfoPayload
-    updateUser(input: UpdateUserInput!): UpdateUserPayload
-}
-
-type Point {
-    latitude: Float!
-    longitude: Float!
-}
-
-type PointList {
-    points: [Point!]!
-}
-
-type Polygon {
-    coordinates: [PointList!]!
-}
-
-type Query {
-    aggregateTask(filter: TaskFilter): TaskAggregateResult
-    aggregateTemplateNode(filter: TemplateNodeFilter): TemplateNodeAggregateResult
-    aggregateTemplateNodeInfo(filter: TemplateNodeInfoFilter): TemplateNodeInfoAggregateResult
-    aggregateUser(filter: UserFilter): UserAggregateResult
-    getTask(id: ID!): Task
-    getTemplateNode(id: ID!): TemplateNode
-    getUser(username: String!): User
-    queryTask(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-    queryTemplateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
-    queryTemplateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-    queryUser(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
-}
-
+# noinspection GraphQLTypeRedefinition
 type Task {
-    completed: Boolean!
     id: ID!
-    title: String!
-    user(filter: UserFilter): User!
-}
-
-type TaskAggregateResult {
-    count: Int
-    titleMax: String
-    titleMin: String
-}
-
-type TemplateNode {
-    id: ID!
-    info(filter: TemplateNodeInfoFilter): TemplateNodeInfo!
-}
-
-type TemplateNodeAggregateResult {
-    count: Int
-}
-
-type TemplateNodeInfo {
-    description: String
-    imageLink: String!
-    name: String!
-    type: ChatNodeType
-}
-
-type TemplateNodeInfoAggregateResult {
-    count: Int
-    descriptionMax: String
-    descriptionMin: String
-    imageLinkMax: String
-    imageLinkMin: String
-    nameMax: String
-    nameMin: String
-}
-
-type UpdateTaskPayload {
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type UpdateTemplateNodeInfoPayload {
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
-type UpdateTemplateNodePayload {
-    numUids: Int
-    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
-}
-
-type UpdateUserPayload {
-    numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+    title: String! @search(by: [fulltext])
+    completed: Boolean! @search
+    user: User!
 }
 
 type User {
-    name: String
-    tasks(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-    tasksAggregate(filter: TaskFilter): TaskAggregateResult
-    username: String!
-}
-
-type UserAggregateResult {
-    count: Int
-    nameMax: String
-    nameMin: String
-    usernameMax: String
-    usernameMin: String
+    username: String! @search(by: [hash]) @id
+    name: String @search(by: [exact])
+    tasks: [Task] @hasInverse(field: "user")
 }
 
 enum ChatNodeType {
-    Audio
-    Countdown
-    Delay
-    Empty
-    File
-    HttpRequest
-    Image
-    Link
-    SetTypingIndicator
-    Switch
-    SwitchOption
-    Text
-    Video
+  Text
+  Audio
+  Video
+  File
+  Image
+  Empty
+  Link
+  Switch
+  SwitchOption
+  SetTypingIndicator
+  Countdown
+  Delay
+  HttpRequest
 }
 
-enum DgraphIndex {
-    bool
-    day
-    exact
-    float
-    fulltext
-    geo
-    hash
-    hour
-    int
-    int64
-    month
-    regexp
-    term
-    trigram
-    year
+type TemplateNodeInfo {
+  name: String!
+  description: String
+  imageLink: String!
+  type: ChatNodeType
 }
 
-enum HTTPMethod {
-    DELETE
-    GET
-    PATCH
-    POST
-    PUT
+# chatNodes
+enum SwitchDisplayType {
+  Select
+  Carousel
+  List
 }
 
-enum Mode {
-    BATCH
-    SINGLE
+type NodeSwitchProps {
+  displayType: SwitchDisplayType!
 }
 
-enum TaskHasFilter {
-    completed
-    title
-    user
+type NodeFileProps {
+  info: String!
+  url: String!
 }
 
-enum TaskOrderable {
-    title
+type NodeAudioProps {
+  src: String!
 }
 
-enum TemplateNodeHasFilter {
-    info
+type NodeImageProps {
+  src: String!
 }
 
-enum TemplateNodeInfoHasFilter {
-    description
-    imageLink
-    name
-    type
+type NodeLinkProps {
+  src: String!
+  text: String!
 }
 
-enum TemplateNodeInfoOrderable {
-    description
-    imageLink
-    name
+type NodeSwitchOptionProps {
+  text: String!
+  imageUrl: String!
 }
 
-enum UserHasFilter {
-    name
-    tasks
-    username
+type NodeTextProps {
+  src: String!
 }
 
-enum UserOrderable {
-    name
-    username
+type NodeVideoProps {
+  src: String!
 }
 
-input AddTaskInput {
-    completed: Boolean!
-    title: String!
-    user: UserRef!
+type NodeWaitProps {
+  src: String!
+  delay: Int!
 }
 
-input AddTemplateNodeInfoInput {
-    description: String
-    imageLink: String!
-    name: String!
-    type: ChatNodeType
+type NodeCountdownProps {
+  duration: Int!
 }
 
-input AddTemplateNodeInput {
-    info: TemplateNodeInfoRef!
+union NodeProps =
+    NodeSwitchProps
+  | NodeAudioProps
+  | NodeCountdownProps
+  | NodeFileProps
+  | NodeImageProps
+  | NodeLinkProps
+  | NodeSwitchOptionProps
+
+type TemplateNode {
+  id: ID!
+  info: TemplateNodeInfo!
+  props: NodeProps!
 }
-
-input AddUserInput {
-    name: String
-    tasks: [TaskRef]
-    username: String!
-}
-
-input AuthRule {
-    and: [AuthRule]
-    not: AuthRule
-    or: [AuthRule]
-    rule: String
-}
-
-input ContainsFilter {
-    point: PointRef
-    polygon: PolygonRef
-}
-
-input CustomHTTP {
-    body: String
-    forwardHeaders: [String!]
-    graphql: String
-    introspectionHeaders: [String!]
-    method: HTTPMethod!
-    mode: Mode
-    secretHeaders: [String!]
-    skipIntrospection: Boolean
-    url: String!
-}
-
-input DateTimeFilter {
-    between: DateTimeRange
-    eq: DateTime
-    ge: DateTime
-    gt: DateTime
-    in: [DateTime]
-    le: DateTime
-    lt: DateTime
-}
-
-input DateTimeRange {
-    max: DateTime!
-    min: DateTime!
-}
-
-input FloatFilter {
-    between: FloatRange
-    eq: Float
-    ge: Float
-    gt: Float
-    in: [Float]
-    le: Float
-    lt: Float
-}
-
-input FloatRange {
-    max: Float!
-    min: Float!
-}
-
-input GenerateMutationParams {
-    add: Boolean
-    delete: Boolean
-    update: Boolean
-}
-
-input GenerateQueryParams {
-    aggregate: Boolean
-    get: Boolean
-    password: Boolean
-    query: Boolean
-}
-
-input Int64Filter {
-    between: Int64Range
-    eq: Int64
-    ge: Int64
-    gt: Int64
-    in: [Int64]
-    le: Int64
-    lt: Int64
-}
-
-input Int64Range {
-    max: Int64!
-    min: Int64!
-}
-
-input IntFilter {
-    between: IntRange
-    eq: Int
-    ge: Int
-    gt: Int
-    in: [Int]
-    le: Int
-    lt: Int
-}
-
-input IntRange {
-    max: Int!
-    min: Int!
-}
-
-input IntersectsFilter {
-    multiPolygon: MultiPolygonRef
-    polygon: PolygonRef
-}
-
-input MultiPolygonRef {
-    polygons: [PolygonRef!]!
-}
-
-input NearFilter {
-    coordinate: PointRef!
-    distance: Float!
-}
-
-input PointGeoFilter {
-    near: NearFilter
-    within: WithinFilter
-}
-
-input PointListRef {
-    points: [PointRef!]!
-}
-
-input PointRef {
-    latitude: Float!
-    longitude: Float!
-}
-
-input PolygonGeoFilter {
-    contains: ContainsFilter
-    intersects: IntersectsFilter
-    near: NearFilter
-    within: WithinFilter
-}
-
-input PolygonRef {
-    coordinates: [PointListRef!]!
-}
-
-input StringExactFilter {
-    between: StringRange
-    eq: String
-    ge: String
-    gt: String
-    in: [String]
-    le: String
-    lt: String
-}
-
-input StringFullTextFilter {
-    alloftext: String
-    anyoftext: String
-}
-
-input StringHashFilter {
-    eq: String
-    in: [String]
-}
-
-input StringRange {
-    max: String!
-    min: String!
-}
-
-input StringRegExpFilter {
-    regexp: String
-}
-
-input StringTermFilter {
-    allofterms: String
-    anyofterms: String
-}
-
-input TaskFilter {
-    and: [TaskFilter]
-    completed: Boolean
-    has: [TaskHasFilter]
-    id: [ID!]
-    not: TaskFilter
-    or: [TaskFilter]
-    title: StringFullTextFilter
-}
-
-input TaskOrder {
-    asc: TaskOrderable
-    desc: TaskOrderable
-    then: TaskOrder
-}
-
-input TaskPatch {
-    completed: Boolean
-    title: String
-    user: UserRef
-}
-
-input TaskRef {
-    completed: Boolean
-    id: ID
-    title: String
-    user: UserRef
-}
-
-input TemplateNodeFilter {
-    and: [TemplateNodeFilter]
-    has: [TemplateNodeHasFilter]
-    id: [ID!]
-    not: TemplateNodeFilter
-    or: [TemplateNodeFilter]
-}
-
-input TemplateNodeInfoFilter {
-    and: [TemplateNodeInfoFilter]
-    has: [TemplateNodeInfoHasFilter]
-    not: TemplateNodeInfoFilter
-    or: [TemplateNodeInfoFilter]
-}
-
-input TemplateNodeInfoOrder {
-    asc: TemplateNodeInfoOrderable
-    desc: TemplateNodeInfoOrderable
-    then: TemplateNodeInfoOrder
-}
-
-input TemplateNodeInfoPatch {
-    description: String
-    imageLink: String
-    name: String
-    type: ChatNodeType
-}
-
-input TemplateNodeInfoRef {
-    description: String
-    imageLink: String
-    name: String
-    type: ChatNodeType
-}
-
-input TemplateNodePatch {
-    info: TemplateNodeInfoRef
-}
-
-input TemplateNodeRef {
-    id: ID
-    info: TemplateNodeInfoRef
-}
-
-input UpdateTaskInput {
-    filter: TaskFilter!
-    remove: TaskPatch
-    set: TaskPatch
-}
-
-input UpdateTemplateNodeInfoInput {
-    filter: TemplateNodeInfoFilter!
-    remove: TemplateNodeInfoPatch
-    set: TemplateNodeInfoPatch
-}
-
-input UpdateTemplateNodeInput {
-    filter: TemplateNodeFilter!
-    remove: TemplateNodePatch
-    set: TemplateNodePatch
-}
-
-input UpdateUserInput {
-    filter: UserFilter!
-    remove: UserPatch
-    set: UserPatch
-}
-
-input UserFilter {
-    and: [UserFilter]
-    has: [UserHasFilter]
-    name: StringExactFilter
-    not: UserFilter
-    or: [UserFilter]
-    username: StringHashFilter
-}
-
-input UserOrder {
-    asc: UserOrderable
-    desc: UserOrderable
-    then: UserOrder
-}
-
-input UserPatch {
-    name: String
-    tasks: [TaskRef]
-}
-
-input UserRef {
-    name: String
-    tasks: [TaskRef]
-    username: String
-}
-
-input WithinFilter {
-    polygon: PolygonRef!
-}
-
-
-"""
-The Int64 scalar type represents a signed 64‐bit numeric non‐fractional value.
-Int64 can represent values in range [-(2^63),(2^63 - 1)].
-"""
-scalar Int64
-
-"""
-The DateTime scalar type represents date and time as a string in RFC3339 format.
-For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
-"""
-scalar DateTime

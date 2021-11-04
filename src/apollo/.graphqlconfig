@@ -1,11 +1,10 @@
 {
-  "name": "Untitled GraphQL Schema",
-  "schemaPath": "schema.graphql",
-  "excludes": ["myschema.graphql", "dgraph/**"],
+  "name": "App schema",
+  "schemaPath": "generatedSchema.graphql",
   "extensions": {
     "endpoints": {
-      "Default GraphQL Endpoint": {
-        "url": "https://nameless-brook-310019.eu-central-1.aws.cloud.dgraph.io/graphql",
+      "Dgraph graphql api": {
+        "url": "https://drawflow.ml:8090/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

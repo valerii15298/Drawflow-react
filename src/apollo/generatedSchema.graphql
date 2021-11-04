@@ -1,0 +1,1356 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+union NodeProps = NodeAudioProps | NodeCountdownProps | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps | NodeSwitchProps
+
+type AddNodeAudioPropsPayload {
+    nodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
+    numUids: Int
+}
+
+type AddNodeCountdownPropsPayload {
+    nodeCountdownProps(filter: NodeCountdownPropsFilter, first: Int, offset: Int, order: NodeCountdownPropsOrder): [NodeCountdownProps]
+    numUids: Int
+}
+
+type AddNodeFilePropsPayload {
+    nodeFileProps(filter: NodeFilePropsFilter, first: Int, offset: Int, order: NodeFilePropsOrder): [NodeFileProps]
+    numUids: Int
+}
+
+type AddNodeImagePropsPayload {
+    nodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    numUids: Int
+}
+
+type AddNodeLinkPropsPayload {
+    nodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    numUids: Int
+}
+
+type AddNodeSwitchOptionPropsPayload {
+    nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, first: Int, offset: Int, order: NodeSwitchOptionPropsOrder): [NodeSwitchOptionProps]
+    numUids: Int
+}
+
+type AddNodeSwitchPropsPayload {
+    nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+    numUids: Int
+}
+
+type AddNodeTextPropsPayload {
+    nodeTextProps(filter: NodeTextPropsFilter, first: Int, offset: Int, order: NodeTextPropsOrder): [NodeTextProps]
+    numUids: Int
+}
+
+type AddNodeVideoPropsPayload {
+    nodeVideoProps(filter: NodeVideoPropsFilter, first: Int, offset: Int, order: NodeVideoPropsOrder): [NodeVideoProps]
+    numUids: Int
+}
+
+type AddNodeWaitPropsPayload {
+    nodeWaitProps(filter: NodeWaitPropsFilter, first: Int, offset: Int, order: NodeWaitPropsOrder): [NodeWaitProps]
+    numUids: Int
+}
+
+type AddTaskPayload {
+    numUids: Int
+    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
+}
+
+type AddTemplateNodeInfoPayload {
+    numUids: Int
+    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
+}
+
+type AddTemplateNodePayload {
+    numUids: Int
+    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+}
+
+type AddUserPayload {
+    numUids: Int
+    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+}
+
+type DeleteNodeAudioPropsPayload {
+    msg: String
+    nodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
+    numUids: Int
+}
+
+type DeleteNodeCountdownPropsPayload {
+    msg: String
+    nodeCountdownProps(filter: NodeCountdownPropsFilter, first: Int, offset: Int, order: NodeCountdownPropsOrder): [NodeCountdownProps]
+    numUids: Int
+}
+
+type DeleteNodeFilePropsPayload {
+    msg: String
+    nodeFileProps(filter: NodeFilePropsFilter, first: Int, offset: Int, order: NodeFilePropsOrder): [NodeFileProps]
+    numUids: Int
+}
+
+type DeleteNodeImagePropsPayload {
+    msg: String
+    nodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    numUids: Int
+}
+
+type DeleteNodeLinkPropsPayload {
+    msg: String
+    nodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    numUids: Int
+}
+
+type DeleteNodeSwitchOptionPropsPayload {
+    msg: String
+    nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, first: Int, offset: Int, order: NodeSwitchOptionPropsOrder): [NodeSwitchOptionProps]
+    numUids: Int
+}
+
+type DeleteNodeSwitchPropsPayload {
+    msg: String
+    nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+    numUids: Int
+}
+
+type DeleteNodeTextPropsPayload {
+    msg: String
+    nodeTextProps(filter: NodeTextPropsFilter, first: Int, offset: Int, order: NodeTextPropsOrder): [NodeTextProps]
+    numUids: Int
+}
+
+type DeleteNodeVideoPropsPayload {
+    msg: String
+    nodeVideoProps(filter: NodeVideoPropsFilter, first: Int, offset: Int, order: NodeVideoPropsOrder): [NodeVideoProps]
+    numUids: Int
+}
+
+type DeleteNodeWaitPropsPayload {
+    msg: String
+    nodeWaitProps(filter: NodeWaitPropsFilter, first: Int, offset: Int, order: NodeWaitPropsOrder): [NodeWaitProps]
+    numUids: Int
+}
+
+type DeleteTaskPayload {
+    msg: String
+    numUids: Int
+    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
+}
+
+type DeleteTemplateNodeInfoPayload {
+    msg: String
+    numUids: Int
+    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
+}
+
+type DeleteTemplateNodePayload {
+    msg: String
+    numUids: Int
+    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+}
+
+type DeleteUserPayload {
+    msg: String
+    numUids: Int
+    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+}
+
+type MultiPolygon {
+    polygons: [Polygon!]!
+}
+
+type Mutation {
+    addNodeAudioProps(input: [AddNodeAudioPropsInput!]!): AddNodeAudioPropsPayload
+    addNodeCountdownProps(input: [AddNodeCountdownPropsInput!]!): AddNodeCountdownPropsPayload
+    addNodeFileProps(input: [AddNodeFilePropsInput!]!): AddNodeFilePropsPayload
+    addNodeImageProps(input: [AddNodeImagePropsInput!]!): AddNodeImagePropsPayload
+    addNodeLinkProps(input: [AddNodeLinkPropsInput!]!): AddNodeLinkPropsPayload
+    addNodeSwitchOptionProps(input: [AddNodeSwitchOptionPropsInput!]!): AddNodeSwitchOptionPropsPayload
+    addNodeSwitchProps(input: [AddNodeSwitchPropsInput!]!): AddNodeSwitchPropsPayload
+    addNodeTextProps(input: [AddNodeTextPropsInput!]!): AddNodeTextPropsPayload
+    addNodeVideoProps(input: [AddNodeVideoPropsInput!]!): AddNodeVideoPropsPayload
+    addNodeWaitProps(input: [AddNodeWaitPropsInput!]!): AddNodeWaitPropsPayload
+    addTask(input: [AddTaskInput!]!): AddTaskPayload
+    addTemplateNode(input: [AddTemplateNodeInput!]!): AddTemplateNodePayload
+    addTemplateNodeInfo(input: [AddTemplateNodeInfoInput!]!): AddTemplateNodeInfoPayload
+    addUser(input: [AddUserInput!]!, upsert: Boolean): AddUserPayload
+    deleteNodeAudioProps(filter: NodeAudioPropsFilter!): DeleteNodeAudioPropsPayload
+    deleteNodeCountdownProps(filter: NodeCountdownPropsFilter!): DeleteNodeCountdownPropsPayload
+    deleteNodeFileProps(filter: NodeFilePropsFilter!): DeleteNodeFilePropsPayload
+    deleteNodeImageProps(filter: NodeImagePropsFilter!): DeleteNodeImagePropsPayload
+    deleteNodeLinkProps(filter: NodeLinkPropsFilter!): DeleteNodeLinkPropsPayload
+    deleteNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter!): DeleteNodeSwitchOptionPropsPayload
+    deleteNodeSwitchProps(filter: NodeSwitchPropsFilter!): DeleteNodeSwitchPropsPayload
+    deleteNodeTextProps(filter: NodeTextPropsFilter!): DeleteNodeTextPropsPayload
+    deleteNodeVideoProps(filter: NodeVideoPropsFilter!): DeleteNodeVideoPropsPayload
+    deleteNodeWaitProps(filter: NodeWaitPropsFilter!): DeleteNodeWaitPropsPayload
+    deleteTask(filter: TaskFilter!): DeleteTaskPayload
+    deleteTemplateNode(filter: TemplateNodeFilter!): DeleteTemplateNodePayload
+    deleteTemplateNodeInfo(filter: TemplateNodeInfoFilter!): DeleteTemplateNodeInfoPayload
+    deleteUser(filter: UserFilter!): DeleteUserPayload
+    updateNodeAudioProps(input: UpdateNodeAudioPropsInput!): UpdateNodeAudioPropsPayload
+    updateNodeCountdownProps(input: UpdateNodeCountdownPropsInput!): UpdateNodeCountdownPropsPayload
+    updateNodeFileProps(input: UpdateNodeFilePropsInput!): UpdateNodeFilePropsPayload
+    updateNodeImageProps(input: UpdateNodeImagePropsInput!): UpdateNodeImagePropsPayload
+    updateNodeLinkProps(input: UpdateNodeLinkPropsInput!): UpdateNodeLinkPropsPayload
+    updateNodeSwitchOptionProps(input: UpdateNodeSwitchOptionPropsInput!): UpdateNodeSwitchOptionPropsPayload
+    updateNodeSwitchProps(input: UpdateNodeSwitchPropsInput!): UpdateNodeSwitchPropsPayload
+    updateNodeTextProps(input: UpdateNodeTextPropsInput!): UpdateNodeTextPropsPayload
+    updateNodeVideoProps(input: UpdateNodeVideoPropsInput!): UpdateNodeVideoPropsPayload
+    updateNodeWaitProps(input: UpdateNodeWaitPropsInput!): UpdateNodeWaitPropsPayload
+    updateTask(input: UpdateTaskInput!): UpdateTaskPayload
+    updateTemplateNode(input: UpdateTemplateNodeInput!): UpdateTemplateNodePayload
+    updateTemplateNodeInfo(input: UpdateTemplateNodeInfoInput!): UpdateTemplateNodeInfoPayload
+    updateUser(input: UpdateUserInput!): UpdateUserPayload
+}
+
+type NodeAudioProps {
+    src: String!
+}
+
+type NodeAudioPropsAggregateResult {
+    count: Int
+    srcMax: String
+    srcMin: String
+}
+
+type NodeCountdownProps {
+    duration: Int!
+}
+
+type NodeCountdownPropsAggregateResult {
+    count: Int
+    durationAvg: Float
+    durationMax: Int
+    durationMin: Int
+    durationSum: Int
+}
+
+type NodeFileProps {
+    info: String!
+    url: String!
+}
+
+type NodeFilePropsAggregateResult {
+    count: Int
+    infoMax: String
+    infoMin: String
+    urlMax: String
+    urlMin: String
+}
+
+type NodeImageProps {
+    src: String!
+}
+
+type NodeImagePropsAggregateResult {
+    count: Int
+    srcMax: String
+    srcMin: String
+}
+
+type NodeLinkProps {
+    src: String!
+    text: String!
+}
+
+type NodeLinkPropsAggregateResult {
+    count: Int
+    srcMax: String
+    srcMin: String
+    textMax: String
+    textMin: String
+}
+
+type NodeSwitchOptionProps {
+    imageUrl: String!
+    text: String!
+}
+
+type NodeSwitchOptionPropsAggregateResult {
+    count: Int
+    imageUrlMax: String
+    imageUrlMin: String
+    textMax: String
+    textMin: String
+}
+
+type NodeSwitchProps {
+    displayType: SwitchDisplayType!
+}
+
+type NodeSwitchPropsAggregateResult {
+    count: Int
+}
+
+type NodeTextProps {
+    src: String!
+}
+
+type NodeTextPropsAggregateResult {
+    count: Int
+    srcMax: String
+    srcMin: String
+}
+
+type NodeVideoProps {
+    src: String!
+}
+
+type NodeVideoPropsAggregateResult {
+    count: Int
+    srcMax: String
+    srcMin: String
+}
+
+type NodeWaitProps {
+    delay: Int!
+    src: String!
+}
+
+type NodeWaitPropsAggregateResult {
+    count: Int
+    delayAvg: Float
+    delayMax: Int
+    delayMin: Int
+    delaySum: Int
+    srcMax: String
+    srcMin: String
+}
+
+type Point {
+    latitude: Float!
+    longitude: Float!
+}
+
+type PointList {
+    points: [Point!]!
+}
+
+type Polygon {
+    coordinates: [PointList!]!
+}
+
+type Query {
+    aggregateNodeAudioProps(filter: NodeAudioPropsFilter): NodeAudioPropsAggregateResult
+    aggregateNodeCountdownProps(filter: NodeCountdownPropsFilter): NodeCountdownPropsAggregateResult
+    aggregateNodeFileProps(filter: NodeFilePropsFilter): NodeFilePropsAggregateResult
+    aggregateNodeImageProps(filter: NodeImagePropsFilter): NodeImagePropsAggregateResult
+    aggregateNodeLinkProps(filter: NodeLinkPropsFilter): NodeLinkPropsAggregateResult
+    aggregateNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter): NodeSwitchOptionPropsAggregateResult
+    aggregateNodeSwitchProps(filter: NodeSwitchPropsFilter): NodeSwitchPropsAggregateResult
+    aggregateNodeTextProps(filter: NodeTextPropsFilter): NodeTextPropsAggregateResult
+    aggregateNodeVideoProps(filter: NodeVideoPropsFilter): NodeVideoPropsAggregateResult
+    aggregateNodeWaitProps(filter: NodeWaitPropsFilter): NodeWaitPropsAggregateResult
+    aggregateTask(filter: TaskFilter): TaskAggregateResult
+    aggregateTemplateNode(filter: TemplateNodeFilter): TemplateNodeAggregateResult
+    aggregateTemplateNodeInfo(filter: TemplateNodeInfoFilter): TemplateNodeInfoAggregateResult
+    aggregateUser(filter: UserFilter): UserAggregateResult
+    getTask(id: ID!): Task
+    getTemplateNode(id: ID!): TemplateNode
+    getUser(username: String!): User
+    queryNodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
+    queryNodeCountdownProps(filter: NodeCountdownPropsFilter, first: Int, offset: Int, order: NodeCountdownPropsOrder): [NodeCountdownProps]
+    queryNodeFileProps(filter: NodeFilePropsFilter, first: Int, offset: Int, order: NodeFilePropsOrder): [NodeFileProps]
+    queryNodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    queryNodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    queryNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, first: Int, offset: Int, order: NodeSwitchOptionPropsOrder): [NodeSwitchOptionProps]
+    queryNodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+    queryNodeTextProps(filter: NodeTextPropsFilter, first: Int, offset: Int, order: NodeTextPropsOrder): [NodeTextProps]
+    queryNodeVideoProps(filter: NodeVideoPropsFilter, first: Int, offset: Int, order: NodeVideoPropsOrder): [NodeVideoProps]
+    queryNodeWaitProps(filter: NodeWaitPropsFilter, first: Int, offset: Int, order: NodeWaitPropsOrder): [NodeWaitProps]
+    queryTask(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
+    queryTemplateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+    queryTemplateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
+    queryUser(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+}
+
+type Task {
+    completed: Boolean!
+    id: ID!
+    title: String!
+    user(filter: UserFilter): User!
+}
+
+type TaskAggregateResult {
+    count: Int
+    titleMax: String
+    titleMin: String
+}
+
+type TemplateNode {
+    id: ID!
+    info(filter: TemplateNodeInfoFilter): TemplateNodeInfo!
+    props(filter: NodePropsFilter): NodeProps!
+}
+
+type TemplateNodeAggregateResult {
+    count: Int
+}
+
+type TemplateNodeInfo {
+    description: String
+    imageLink: String!
+    name: String!
+    type: ChatNodeType
+}
+
+type TemplateNodeInfoAggregateResult {
+    count: Int
+    descriptionMax: String
+    descriptionMin: String
+    imageLinkMax: String
+    imageLinkMin: String
+    nameMax: String
+    nameMin: String
+}
+
+type UpdateNodeAudioPropsPayload {
+    nodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
+    numUids: Int
+}
+
+type UpdateNodeCountdownPropsPayload {
+    nodeCountdownProps(filter: NodeCountdownPropsFilter, first: Int, offset: Int, order: NodeCountdownPropsOrder): [NodeCountdownProps]
+    numUids: Int
+}
+
+type UpdateNodeFilePropsPayload {
+    nodeFileProps(filter: NodeFilePropsFilter, first: Int, offset: Int, order: NodeFilePropsOrder): [NodeFileProps]
+    numUids: Int
+}
+
+type UpdateNodeImagePropsPayload {
+    nodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    numUids: Int
+}
+
+type UpdateNodeLinkPropsPayload {
+    nodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    numUids: Int
+}
+
+type UpdateNodeSwitchOptionPropsPayload {
+    nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, first: Int, offset: Int, order: NodeSwitchOptionPropsOrder): [NodeSwitchOptionProps]
+    numUids: Int
+}
+
+type UpdateNodeSwitchPropsPayload {
+    nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+    numUids: Int
+}
+
+type UpdateNodeTextPropsPayload {
+    nodeTextProps(filter: NodeTextPropsFilter, first: Int, offset: Int, order: NodeTextPropsOrder): [NodeTextProps]
+    numUids: Int
+}
+
+type UpdateNodeVideoPropsPayload {
+    nodeVideoProps(filter: NodeVideoPropsFilter, first: Int, offset: Int, order: NodeVideoPropsOrder): [NodeVideoProps]
+    numUids: Int
+}
+
+type UpdateNodeWaitPropsPayload {
+    nodeWaitProps(filter: NodeWaitPropsFilter, first: Int, offset: Int, order: NodeWaitPropsOrder): [NodeWaitProps]
+    numUids: Int
+}
+
+type UpdateTaskPayload {
+    numUids: Int
+    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
+}
+
+type UpdateTemplateNodeInfoPayload {
+    numUids: Int
+    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
+}
+
+type UpdateTemplateNodePayload {
+    numUids: Int
+    templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+}
+
+type UpdateUserPayload {
+    numUids: Int
+    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+}
+
+type User {
+    name: String
+    tasks(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
+    tasksAggregate(filter: TaskFilter): TaskAggregateResult
+    username: String!
+}
+
+type UserAggregateResult {
+    count: Int
+    nameMax: String
+    nameMin: String
+    usernameMax: String
+    usernameMin: String
+}
+
+enum ChatNodeType {
+    Audio
+    Countdown
+    Delay
+    Empty
+    File
+    HttpRequest
+    Image
+    Link
+    SetTypingIndicator
+    Switch
+    SwitchOption
+    Text
+    Video
+}
+
+enum DgraphIndex {
+    bool
+    day
+    exact
+    float
+    fulltext
+    geo
+    hash
+    hour
+    int
+    int64
+    month
+    regexp
+    term
+    trigram
+    year
+}
+
+enum HTTPMethod {
+    DELETE
+    GET
+    PATCH
+    POST
+    PUT
+}
+
+enum Mode {
+    BATCH
+    SINGLE
+}
+
+enum NodeAudioPropsHasFilter {
+    src
+}
+
+enum NodeAudioPropsOrderable {
+    src
+}
+
+enum NodeCountdownPropsHasFilter {
+    duration
+}
+
+enum NodeCountdownPropsOrderable {
+    duration
+}
+
+enum NodeFilePropsHasFilter {
+    info
+    url
+}
+
+enum NodeFilePropsOrderable {
+    info
+    url
+}
+
+enum NodeImagePropsHasFilter {
+    src
+}
+
+enum NodeImagePropsOrderable {
+    src
+}
+
+enum NodeLinkPropsHasFilter {
+    src
+    text
+}
+
+enum NodeLinkPropsOrderable {
+    src
+    text
+}
+
+enum NodePropsType {
+    NodeAudioProps
+    NodeCountdownProps
+    NodeFileProps
+    NodeImageProps
+    NodeLinkProps
+    NodeSwitchOptionProps
+    NodeSwitchProps
+}
+
+enum NodeSwitchOptionPropsHasFilter {
+    imageUrl
+    text
+}
+
+enum NodeSwitchOptionPropsOrderable {
+    imageUrl
+    text
+}
+
+enum NodeSwitchPropsHasFilter {
+    displayType
+}
+
+enum NodeTextPropsHasFilter {
+    src
+}
+
+enum NodeTextPropsOrderable {
+    src
+}
+
+enum NodeVideoPropsHasFilter {
+    src
+}
+
+enum NodeVideoPropsOrderable {
+    src
+}
+
+enum NodeWaitPropsHasFilter {
+    delay
+    src
+}
+
+enum NodeWaitPropsOrderable {
+    delay
+    src
+}
+
+enum SwitchDisplayType {
+    Carousel
+    List
+    Select
+}
+
+enum TaskHasFilter {
+    completed
+    title
+    user
+}
+
+enum TaskOrderable {
+    title
+}
+
+enum TemplateNodeHasFilter {
+    info
+    props
+}
+
+enum TemplateNodeInfoHasFilter {
+    description
+    imageLink
+    name
+    type
+}
+
+enum TemplateNodeInfoOrderable {
+    description
+    imageLink
+    name
+}
+
+enum UserHasFilter {
+    name
+    tasks
+    username
+}
+
+enum UserOrderable {
+    name
+    username
+}
+
+input AddNodeAudioPropsInput {
+    src: String!
+}
+
+input AddNodeCountdownPropsInput {
+    duration: Int!
+}
+
+input AddNodeFilePropsInput {
+    info: String!
+    url: String!
+}
+
+input AddNodeImagePropsInput {
+    src: String!
+}
+
+input AddNodeLinkPropsInput {
+    src: String!
+    text: String!
+}
+
+input AddNodeSwitchOptionPropsInput {
+    imageUrl: String!
+    text: String!
+}
+
+input AddNodeSwitchPropsInput {
+    displayType: SwitchDisplayType!
+}
+
+input AddNodeTextPropsInput {
+    src: String!
+}
+
+input AddNodeVideoPropsInput {
+    src: String!
+}
+
+input AddNodeWaitPropsInput {
+    delay: Int!
+    src: String!
+}
+
+input AddTaskInput {
+    completed: Boolean!
+    title: String!
+    user: UserRef!
+}
+
+input AddTemplateNodeInfoInput {
+    description: String
+    imageLink: String!
+    name: String!
+    type: ChatNodeType
+}
+
+input AddTemplateNodeInput {
+    info: TemplateNodeInfoRef!
+    props: NodePropsRef!
+}
+
+input AddUserInput {
+    name: String
+    tasks: [TaskRef]
+    username: String!
+}
+
+input AuthRule {
+    and: [AuthRule]
+    not: AuthRule
+    or: [AuthRule]
+    rule: String
+}
+
+input ContainsFilter {
+    point: PointRef
+    polygon: PolygonRef
+}
+
+input CustomHTTP {
+    body: String
+    forwardHeaders: [String!]
+    graphql: String
+    introspectionHeaders: [String!]
+    method: HTTPMethod!
+    mode: Mode
+    secretHeaders: [String!]
+    skipIntrospection: Boolean
+    url: String!
+}
+
+input DateTimeFilter {
+    between: DateTimeRange
+    eq: DateTime
+    ge: DateTime
+    gt: DateTime
+    in: [DateTime]
+    le: DateTime
+    lt: DateTime
+}
+
+input DateTimeRange {
+    max: DateTime!
+    min: DateTime!
+}
+
+input FloatFilter {
+    between: FloatRange
+    eq: Float
+    ge: Float
+    gt: Float
+    in: [Float]
+    le: Float
+    lt: Float
+}
+
+input FloatRange {
+    max: Float!
+    min: Float!
+}
+
+input GenerateMutationParams {
+    add: Boolean
+    delete: Boolean
+    update: Boolean
+}
+
+input GenerateQueryParams {
+    aggregate: Boolean
+    get: Boolean
+    password: Boolean
+    query: Boolean
+}
+
+input Int64Filter {
+    between: Int64Range
+    eq: Int64
+    ge: Int64
+    gt: Int64
+    in: [Int64]
+    le: Int64
+    lt: Int64
+}
+
+input Int64Range {
+    max: Int64!
+    min: Int64!
+}
+
+input IntFilter {
+    between: IntRange
+    eq: Int
+    ge: Int
+    gt: Int
+    in: [Int]
+    le: Int
+    lt: Int
+}
+
+input IntRange {
+    max: Int!
+    min: Int!
+}
+
+input IntersectsFilter {
+    multiPolygon: MultiPolygonRef
+    polygon: PolygonRef
+}
+
+input MultiPolygonRef {
+    polygons: [PolygonRef!]!
+}
+
+input NearFilter {
+    coordinate: PointRef!
+    distance: Float!
+}
+
+input NodeAudioPropsFilter {
+    and: [NodeAudioPropsFilter]
+    has: [NodeAudioPropsHasFilter]
+    not: NodeAudioPropsFilter
+    or: [NodeAudioPropsFilter]
+}
+
+input NodeAudioPropsOrder {
+    asc: NodeAudioPropsOrderable
+    desc: NodeAudioPropsOrderable
+    then: NodeAudioPropsOrder
+}
+
+input NodeAudioPropsPatch {
+    src: String
+}
+
+input NodeAudioPropsRef {
+    src: String
+}
+
+input NodeCountdownPropsFilter {
+    and: [NodeCountdownPropsFilter]
+    has: [NodeCountdownPropsHasFilter]
+    not: NodeCountdownPropsFilter
+    or: [NodeCountdownPropsFilter]
+}
+
+input NodeCountdownPropsOrder {
+    asc: NodeCountdownPropsOrderable
+    desc: NodeCountdownPropsOrderable
+    then: NodeCountdownPropsOrder
+}
+
+input NodeCountdownPropsPatch {
+    duration: Int
+}
+
+input NodeCountdownPropsRef {
+    duration: Int
+}
+
+input NodeFilePropsFilter {
+    and: [NodeFilePropsFilter]
+    has: [NodeFilePropsHasFilter]
+    not: NodeFilePropsFilter
+    or: [NodeFilePropsFilter]
+}
+
+input NodeFilePropsOrder {
+    asc: NodeFilePropsOrderable
+    desc: NodeFilePropsOrderable
+    then: NodeFilePropsOrder
+}
+
+input NodeFilePropsPatch {
+    info: String
+    url: String
+}
+
+input NodeFilePropsRef {
+    info: String
+    url: String
+}
+
+input NodeImagePropsFilter {
+    and: [NodeImagePropsFilter]
+    has: [NodeImagePropsHasFilter]
+    not: NodeImagePropsFilter
+    or: [NodeImagePropsFilter]
+}
+
+input NodeImagePropsOrder {
+    asc: NodeImagePropsOrderable
+    desc: NodeImagePropsOrderable
+    then: NodeImagePropsOrder
+}
+
+input NodeImagePropsPatch {
+    src: String
+}
+
+input NodeImagePropsRef {
+    src: String
+}
+
+input NodeLinkPropsFilter {
+    and: [NodeLinkPropsFilter]
+    has: [NodeLinkPropsHasFilter]
+    not: NodeLinkPropsFilter
+    or: [NodeLinkPropsFilter]
+}
+
+input NodeLinkPropsOrder {
+    asc: NodeLinkPropsOrderable
+    desc: NodeLinkPropsOrderable
+    then: NodeLinkPropsOrder
+}
+
+input NodeLinkPropsPatch {
+    src: String
+    text: String
+}
+
+input NodeLinkPropsRef {
+    src: String
+    text: String
+}
+
+input NodePropsFilter {
+    memberTypes: [NodePropsType!]
+    nodeAudioPropsFilter: NodeAudioPropsFilter
+    nodeCountdownPropsFilter: NodeCountdownPropsFilter
+    nodeFilePropsFilter: NodeFilePropsFilter
+    nodeImagePropsFilter: NodeImagePropsFilter
+    nodeLinkPropsFilter: NodeLinkPropsFilter
+    nodeSwitchOptionPropsFilter: NodeSwitchOptionPropsFilter
+    nodeSwitchPropsFilter: NodeSwitchPropsFilter
+}
+
+input NodePropsRef {
+    nodeAudioPropsRef: NodeAudioPropsRef
+    nodeCountdownPropsRef: NodeCountdownPropsRef
+    nodeFilePropsRef: NodeFilePropsRef
+    nodeImagePropsRef: NodeImagePropsRef
+    nodeLinkPropsRef: NodeLinkPropsRef
+    nodeSwitchOptionPropsRef: NodeSwitchOptionPropsRef
+    nodeSwitchPropsRef: NodeSwitchPropsRef
+}
+
+input NodeSwitchOptionPropsFilter {
+    and: [NodeSwitchOptionPropsFilter]
+    has: [NodeSwitchOptionPropsHasFilter]
+    not: NodeSwitchOptionPropsFilter
+    or: [NodeSwitchOptionPropsFilter]
+}
+
+input NodeSwitchOptionPropsOrder {
+    asc: NodeSwitchOptionPropsOrderable
+    desc: NodeSwitchOptionPropsOrderable
+    then: NodeSwitchOptionPropsOrder
+}
+
+input NodeSwitchOptionPropsPatch {
+    imageUrl: String
+    text: String
+}
+
+input NodeSwitchOptionPropsRef {
+    imageUrl: String
+    text: String
+}
+
+input NodeSwitchPropsFilter {
+    and: [NodeSwitchPropsFilter]
+    has: [NodeSwitchPropsHasFilter]
+    not: NodeSwitchPropsFilter
+    or: [NodeSwitchPropsFilter]
+}
+
+input NodeSwitchPropsPatch {
+    displayType: SwitchDisplayType
+}
+
+input NodeSwitchPropsRef {
+    displayType: SwitchDisplayType
+}
+
+input NodeTextPropsFilter {
+    and: [NodeTextPropsFilter]
+    has: [NodeTextPropsHasFilter]
+    not: NodeTextPropsFilter
+    or: [NodeTextPropsFilter]
+}
+
+input NodeTextPropsOrder {
+    asc: NodeTextPropsOrderable
+    desc: NodeTextPropsOrderable
+    then: NodeTextPropsOrder
+}
+
+input NodeTextPropsPatch {
+    src: String
+}
+
+input NodeTextPropsRef {
+    src: String
+}
+
+input NodeVideoPropsFilter {
+    and: [NodeVideoPropsFilter]
+    has: [NodeVideoPropsHasFilter]
+    not: NodeVideoPropsFilter
+    or: [NodeVideoPropsFilter]
+}
+
+input NodeVideoPropsOrder {
+    asc: NodeVideoPropsOrderable
+    desc: NodeVideoPropsOrderable
+    then: NodeVideoPropsOrder
+}
+
+input NodeVideoPropsPatch {
+    src: String
+}
+
+input NodeVideoPropsRef {
+    src: String
+}
+
+input NodeWaitPropsFilter {
+    and: [NodeWaitPropsFilter]
+    has: [NodeWaitPropsHasFilter]
+    not: NodeWaitPropsFilter
+    or: [NodeWaitPropsFilter]
+}
+
+input NodeWaitPropsOrder {
+    asc: NodeWaitPropsOrderable
+    desc: NodeWaitPropsOrderable
+    then: NodeWaitPropsOrder
+}
+
+input NodeWaitPropsPatch {
+    delay: Int
+    src: String
+}
+
+input NodeWaitPropsRef {
+    delay: Int
+    src: String
+}
+
+input PointGeoFilter {
+    near: NearFilter
+    within: WithinFilter
+}
+
+input PointListRef {
+    points: [PointRef!]!
+}
+
+input PointRef {
+    latitude: Float!
+    longitude: Float!
+}
+
+input PolygonGeoFilter {
+    contains: ContainsFilter
+    intersects: IntersectsFilter
+    near: NearFilter
+    within: WithinFilter
+}
+
+input PolygonRef {
+    coordinates: [PointListRef!]!
+}
+
+input StringExactFilter {
+    between: StringRange
+    eq: String
+    ge: String
+    gt: String
+    in: [String]
+    le: String
+    lt: String
+}
+
+input StringFullTextFilter {
+    alloftext: String
+    anyoftext: String
+}
+
+input StringHashFilter {
+    eq: String
+    in: [String]
+}
+
+input StringRange {
+    max: String!
+    min: String!
+}
+
+input StringRegExpFilter {
+    regexp: String
+}
+
+input StringTermFilter {
+    allofterms: String
+    anyofterms: String
+}
+
+input TaskFilter {
+    and: [TaskFilter]
+    completed: Boolean
+    has: [TaskHasFilter]
+    id: [ID!]
+    not: TaskFilter
+    or: [TaskFilter]
+    title: StringFullTextFilter
+}
+
+input TaskOrder {
+    asc: TaskOrderable
+    desc: TaskOrderable
+    then: TaskOrder
+}
+
+input TaskPatch {
+    completed: Boolean
+    title: String
+    user: UserRef
+}
+
+input TaskRef {
+    completed: Boolean
+    id: ID
+    title: String
+    user: UserRef
+}
+
+input TemplateNodeFilter {
+    and: [TemplateNodeFilter]
+    has: [TemplateNodeHasFilter]
+    id: [ID!]
+    not: TemplateNodeFilter
+    or: [TemplateNodeFilter]
+}
+
+input TemplateNodeInfoFilter {
+    and: [TemplateNodeInfoFilter]
+    has: [TemplateNodeInfoHasFilter]
+    not: TemplateNodeInfoFilter
+    or: [TemplateNodeInfoFilter]
+}
+
+input TemplateNodeInfoOrder {
+    asc: TemplateNodeInfoOrderable
+    desc: TemplateNodeInfoOrderable
+    then: TemplateNodeInfoOrder
+}
+
+input TemplateNodeInfoPatch {
+    description: String
+    imageLink: String
+    name: String
+    type: ChatNodeType
+}
+
+input TemplateNodeInfoRef {
+    description: String
+    imageLink: String
+    name: String
+    type: ChatNodeType
+}
+
+input TemplateNodePatch {
+    info: TemplateNodeInfoRef
+    props: NodePropsRef
+}
+
+input TemplateNodeRef {
+    id: ID
+    info: TemplateNodeInfoRef
+    props: NodePropsRef
+}
+
+input UpdateNodeAudioPropsInput {
+    filter: NodeAudioPropsFilter!
+    remove: NodeAudioPropsPatch
+    set: NodeAudioPropsPatch
+}
+
+input UpdateNodeCountdownPropsInput {
+    filter: NodeCountdownPropsFilter!
+    remove: NodeCountdownPropsPatch
+    set: NodeCountdownPropsPatch
+}
+
+input UpdateNodeFilePropsInput {
+    filter: NodeFilePropsFilter!
+    remove: NodeFilePropsPatch
+    set: NodeFilePropsPatch
+}
+
+input UpdateNodeImagePropsInput {
+    filter: NodeImagePropsFilter!
+    remove: NodeImagePropsPatch
+    set: NodeImagePropsPatch
+}
+
+input UpdateNodeLinkPropsInput {
+    filter: NodeLinkPropsFilter!
+    remove: NodeLinkPropsPatch
+    set: NodeLinkPropsPatch
+}
+
+input UpdateNodeSwitchOptionPropsInput {
+    filter: NodeSwitchOptionPropsFilter!
+    remove: NodeSwitchOptionPropsPatch
+    set: NodeSwitchOptionPropsPatch
+}
+
+input UpdateNodeSwitchPropsInput {
+    filter: NodeSwitchPropsFilter!
+    remove: NodeSwitchPropsPatch
+    set: NodeSwitchPropsPatch
+}
+
+input UpdateNodeTextPropsInput {
+    filter: NodeTextPropsFilter!
+    remove: NodeTextPropsPatch
+    set: NodeTextPropsPatch
+}
+
+input UpdateNodeVideoPropsInput {
+    filter: NodeVideoPropsFilter!
+    remove: NodeVideoPropsPatch
+    set: NodeVideoPropsPatch
+}
+
+input UpdateNodeWaitPropsInput {
+    filter: NodeWaitPropsFilter!
+    remove: NodeWaitPropsPatch
+    set: NodeWaitPropsPatch
+}
+
+input UpdateTaskInput {
+    filter: TaskFilter!
+    remove: TaskPatch
+    set: TaskPatch
+}
+
+input UpdateTemplateNodeInfoInput {
+    filter: TemplateNodeInfoFilter!
+    remove: TemplateNodeInfoPatch
+    set: TemplateNodeInfoPatch
+}
+
+input UpdateTemplateNodeInput {
+    filter: TemplateNodeFilter!
+    remove: TemplateNodePatch
+    set: TemplateNodePatch
+}
+
+input UpdateUserInput {
+    filter: UserFilter!
+    remove: UserPatch
+    set: UserPatch
+}
+
+input UserFilter {
+    and: [UserFilter]
+    has: [UserHasFilter]
+    name: StringExactFilter
+    not: UserFilter
+    or: [UserFilter]
+    username: StringHashFilter
+}
+
+input UserOrder {
+    asc: UserOrderable
+    desc: UserOrderable
+    then: UserOrder
+}
+
+input UserPatch {
+    name: String
+    tasks: [TaskRef]
+}
+
+input UserRef {
+    name: String
+    tasks: [TaskRef]
+    username: String
+}
+
+input WithinFilter {
+    polygon: PolygonRef!
+}
+
+
+"""
+The DateTime scalar type represents date and time as a string in RFC3339 format.
+For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
+"""
+scalar DateTime
+
+"""
+The Int64 scalar type represents a signed 64‐bit numeric non‐fractional value.
+Int64 can represent values in range [-(2^63),(2^63 - 1)].
+"""
+scalar Int64
