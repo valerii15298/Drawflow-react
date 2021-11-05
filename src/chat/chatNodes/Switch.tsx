@@ -39,6 +39,7 @@ const NodeSwitch = (props: Props) => {
   const options = flow.getNode(flowNodeId).out1;
 
   const onChooseOption = (option) => {
+    console.log(option);
     if (option.id !== undefined) {
       actions.appendMessageNode({
         ...getDefaultBotNodeData(),
@@ -51,9 +52,27 @@ const NodeSwitch = (props: Props) => {
     <Slider {...settings}>
       {options.map((option, i) => {
         return (
-          <button key={i} onClick={() => onChooseOption(option)}>
-            {option.nodeState.data.node_object_lists.props.text}
-          </button>
+          <div key={i}>
+            <div
+              style={{
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              <img
+                style={{
+                  height: 100,
+                  width: 100,
+                  margin: "auto",
+                }}
+                src={option.nodeState.data.node_object_lists.props.image_link}
+                alt=""
+              />
+              <button key={i} onClick={() => onChooseOption(option)}>
+                {option.nodeState.data.node_object_lists.props.text}
+              </button>
+            </div>
+          </div>
         );
       })}
     </Slider>

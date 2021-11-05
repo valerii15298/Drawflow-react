@@ -276,7 +276,7 @@ export default class Node {
 
     this.parentConnection && (this.parentConnection.visible = visible);
 
-    // set conns visibility to false
+    // set conns visibility to value of visible
     this.outConnections.forEach((conn) => {
       conn.visible = visible;
     });

@@ -7,5 +7,6 @@ import "./Wait";
 import "./Switch";
 import "./Countdown";
 import "./Empty";
+import "./SwitchOption";
 
 export default {};

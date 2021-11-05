@@ -31,7 +31,8 @@ type FlowNode implements Node {
     templateNode: TemplateNode!
     nextNodes: [FlowNode!]! @hasInverse(field: "parentNode")
     parentNode: FlowNode
-    positionNumber: Int!
+    subnodesVisibility: Boolean!
+    childrenVisibility: Boolean!
 }
 
 type TemplateNodesGroup {
