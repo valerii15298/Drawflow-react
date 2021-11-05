@@ -8,5 +8,7 @@ import "./Switch";
 import "./Countdown";
 import "./Empty";
 import "./SwitchOption";
+import "./Link";
+import "./Input";
 
 export default {};

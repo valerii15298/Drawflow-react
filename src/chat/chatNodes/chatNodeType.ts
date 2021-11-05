@@ -13,6 +13,7 @@ export enum chatNodeType {
   Countdown = "countdown",
   Delay = "delay",
   HttpRequest = "httpRequest",
+  Input = "input",
 }
 
 export const executedAfterRender = [
