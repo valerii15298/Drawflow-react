@@ -4,9 +4,7 @@
     "check-types": "tsc --noEmit --watch",
     "dev": "vite",
     "build": "tsc && vite build --base=\"/Drawflow-react/\"",
-    "serve": "vite preview",
-    "commit": "pnpm deploy && git add .",
-    "deploy": "gh-pages -d dist"
+    "serve": "vite preview"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
@@ -17,6 +15,7 @@
     "@fontsource/roboto": "^4.5.1",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
+    "dotenv": "^10.0.0",
     "emoji-mart": "^3.0.1",
     "graphql": "^16.0.1",
     "html-to-text": "^8.0.0",

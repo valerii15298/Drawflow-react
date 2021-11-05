@@ -12,18 +12,32 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const MY_QUERY_QUERY = gql`
-  query MyQuery {
+const ADD_TASK = gql`
+  mutation {
+    addTask(input: [{ title: "kk" }]) {
+      task {
+        id
+      }
+    }
+  }
+`;
+
+const queryTasks = gql`
+  {
     queryTask {
+      completed
+      id
       title
     }
   }
 `;
+
 const TestApp = () => {
-  const { loading, error, data } = useQuery(MY_QUERY_QUERY);
-  if (loading) return <>{"Loading..."}</>;
-  if (error) return <>{`Error! ${error.message}`}</>;
-  return <div>{JSON.stringify(data)}</div>;
+  // const { loading, error, data } = useQuery(queryTasks);
+  // if (loading) return <>{"Loading..."}</>;
+  // if (error) return <>{`Error! ${error.message}`}</>;
+  // return <div>{JSON.stringify(data)}</div>;
+  return null;
 };
 
 export default (({ children }) => {

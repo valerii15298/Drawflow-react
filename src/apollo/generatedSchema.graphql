@@ -5,7 +5,22 @@ schema {
     mutation: Mutation
 }
 
+interface Node {
+    info(filter: NodeInfoFilter): NodeInfo!
+    props(filter: NodePropsFilter): NodeProps!
+}
+
 union NodeProps = NodeAudioProps | NodeCountdownProps | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps | NodeSwitchProps
+
+type AddBotFlowPayload {
+    botFlow(filter: BotFlowFilter, first: Int, offset: Int): [BotFlow]
+    numUids: Int
+}
+
+type AddFlowNodePayload {
+    flowNode(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode]
+    numUids: Int
+}
 
 type AddNodeAudioPropsPayload {
     nodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
@@ -24,6 +39,11 @@ type AddNodeFilePropsPayload {
 
 type AddNodeImagePropsPayload {
     nodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    numUids: Int
+}
+
+type AddNodeInfoPayload {
+    nodeInfo(filter: NodeInfoFilter, first: Int, offset: Int, order: NodeInfoOrder): [NodeInfo]
     numUids: Int
 }
 
@@ -57,24 +77,36 @@ type AddNodeWaitPropsPayload {
     numUids: Int
 }
 
-type AddTaskPayload {
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type AddTemplateNodeInfoPayload {
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
 type AddTemplateNodePayload {
     numUids: Int
     templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
 }
 
-type AddUserPayload {
+type AddTemplateNodesGroupPayload {
     numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+    templateNodesGroup(filter: TemplateNodesGroupFilter, first: Int, offset: Int, order: TemplateNodesGroupOrder): [TemplateNodesGroup]
+}
+
+type BotFlow {
+    id: ID!
+    nodes(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode!]!
+    nodesAggregate(filter: FlowNodeFilter): FlowNodeAggregateResult
+}
+
+type BotFlowAggregateResult {
+    count: Int
+}
+
+type DeleteBotFlowPayload {
+    botFlow(filter: BotFlowFilter, first: Int, offset: Int): [BotFlow]
+    msg: String
+    numUids: Int
+}
+
+type DeleteFlowNodePayload {
+    flowNode(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode]
+    msg: String
+    numUids: Int
 }
 
 type DeleteNodeAudioPropsPayload {
@@ -101,9 +133,21 @@ type DeleteNodeImagePropsPayload {
     numUids: Int
 }
 
+type DeleteNodeInfoPayload {
+    msg: String
+    nodeInfo(filter: NodeInfoFilter, first: Int, offset: Int, order: NodeInfoOrder): [NodeInfo]
+    numUids: Int
+}
+
 type DeleteNodeLinkPropsPayload {
     msg: String
     nodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    numUids: Int
+}
+
+type DeleteNodePayload {
+    msg: String
+    node(filter: NodeFilter, first: Int, offset: Int): [Node]
     numUids: Int
 }
 
@@ -137,28 +181,39 @@ type DeleteNodeWaitPropsPayload {
     numUids: Int
 }
 
-type DeleteTaskPayload {
-    msg: String
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type DeleteTemplateNodeInfoPayload {
-    msg: String
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
 type DeleteTemplateNodePayload {
     msg: String
     numUids: Int
     templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
 }
 
-type DeleteUserPayload {
+type DeleteTemplateNodesGroupPayload {
     msg: String
     numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+    templateNodesGroup(filter: TemplateNodesGroupFilter, first: Int, offset: Int, order: TemplateNodesGroupOrder): [TemplateNodesGroup]
+}
+
+type FlowNode implements Node {
+    id: Int!
+    info(filter: NodeInfoFilter): NodeInfo!
+    nextNodes(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode!]!
+    nextNodesAggregate(filter: FlowNodeFilter): FlowNodeAggregateResult
+    parentNode(filter: FlowNodeFilter): FlowNode!
+    positionNumber: Int!
+    props(filter: NodePropsFilter): NodeProps!
+    templateNode(filter: TemplateNodeFilter): TemplateNode!
+}
+
+type FlowNodeAggregateResult {
+    count: Int
+    idAvg: Float
+    idMax: Int
+    idMin: Int
+    idSum: Int
+    positionNumberAvg: Float
+    positionNumberMax: Int
+    positionNumberMin: Int
+    positionNumberSum: Int
 }
 
 type MultiPolygon {
@@ -166,48 +221,57 @@ type MultiPolygon {
 }
 
 type Mutation {
+    addBotFlow(input: [AddBotFlowInput!]!): AddBotFlowPayload
+    addFlowNode(input: [AddFlowNodeInput!]!, upsert: Boolean): AddFlowNodePayload
     addNodeAudioProps(input: [AddNodeAudioPropsInput!]!): AddNodeAudioPropsPayload
     addNodeCountdownProps(input: [AddNodeCountdownPropsInput!]!): AddNodeCountdownPropsPayload
     addNodeFileProps(input: [AddNodeFilePropsInput!]!): AddNodeFilePropsPayload
     addNodeImageProps(input: [AddNodeImagePropsInput!]!): AddNodeImagePropsPayload
+    addNodeInfo(input: [AddNodeInfoInput!]!): AddNodeInfoPayload
     addNodeLinkProps(input: [AddNodeLinkPropsInput!]!): AddNodeLinkPropsPayload
     addNodeSwitchOptionProps(input: [AddNodeSwitchOptionPropsInput!]!): AddNodeSwitchOptionPropsPayload
     addNodeSwitchProps(input: [AddNodeSwitchPropsInput!]!): AddNodeSwitchPropsPayload
     addNodeTextProps(input: [AddNodeTextPropsInput!]!): AddNodeTextPropsPayload
     addNodeVideoProps(input: [AddNodeVideoPropsInput!]!): AddNodeVideoPropsPayload
     addNodeWaitProps(input: [AddNodeWaitPropsInput!]!): AddNodeWaitPropsPayload
-    addTask(input: [AddTaskInput!]!): AddTaskPayload
     addTemplateNode(input: [AddTemplateNodeInput!]!): AddTemplateNodePayload
-    addTemplateNodeInfo(input: [AddTemplateNodeInfoInput!]!): AddTemplateNodeInfoPayload
-    addUser(input: [AddUserInput!]!, upsert: Boolean): AddUserPayload
+    addTemplateNodesGroup(input: [AddTemplateNodesGroupInput!]!): AddTemplateNodesGroupPayload
+    deleteBotFlow(filter: BotFlowFilter!): DeleteBotFlowPayload
+    deleteFlowNode(filter: FlowNodeFilter!): DeleteFlowNodePayload
+    deleteNode(filter: NodeFilter!): DeleteNodePayload
     deleteNodeAudioProps(filter: NodeAudioPropsFilter!): DeleteNodeAudioPropsPayload
     deleteNodeCountdownProps(filter: NodeCountdownPropsFilter!): DeleteNodeCountdownPropsPayload
     deleteNodeFileProps(filter: NodeFilePropsFilter!): DeleteNodeFilePropsPayload
     deleteNodeImageProps(filter: NodeImagePropsFilter!): DeleteNodeImagePropsPayload
+    deleteNodeInfo(filter: NodeInfoFilter!): DeleteNodeInfoPayload
     deleteNodeLinkProps(filter: NodeLinkPropsFilter!): DeleteNodeLinkPropsPayload
     deleteNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter!): DeleteNodeSwitchOptionPropsPayload
     deleteNodeSwitchProps(filter: NodeSwitchPropsFilter!): DeleteNodeSwitchPropsPayload
     deleteNodeTextProps(filter: NodeTextPropsFilter!): DeleteNodeTextPropsPayload
     deleteNodeVideoProps(filter: NodeVideoPropsFilter!): DeleteNodeVideoPropsPayload
     deleteNodeWaitProps(filter: NodeWaitPropsFilter!): DeleteNodeWaitPropsPayload
-    deleteTask(filter: TaskFilter!): DeleteTaskPayload
     deleteTemplateNode(filter: TemplateNodeFilter!): DeleteTemplateNodePayload
-    deleteTemplateNodeInfo(filter: TemplateNodeInfoFilter!): DeleteTemplateNodeInfoPayload
-    deleteUser(filter: UserFilter!): DeleteUserPayload
+    deleteTemplateNodesGroup(filter: TemplateNodesGroupFilter!): DeleteTemplateNodesGroupPayload
+    updateBotFlow(input: UpdateBotFlowInput!): UpdateBotFlowPayload
+    updateFlowNode(input: UpdateFlowNodeInput!): UpdateFlowNodePayload
+    updateNode(input: UpdateNodeInput!): UpdateNodePayload
     updateNodeAudioProps(input: UpdateNodeAudioPropsInput!): UpdateNodeAudioPropsPayload
     updateNodeCountdownProps(input: UpdateNodeCountdownPropsInput!): UpdateNodeCountdownPropsPayload
     updateNodeFileProps(input: UpdateNodeFilePropsInput!): UpdateNodeFilePropsPayload
     updateNodeImageProps(input: UpdateNodeImagePropsInput!): UpdateNodeImagePropsPayload
+    updateNodeInfo(input: UpdateNodeInfoInput!): UpdateNodeInfoPayload
     updateNodeLinkProps(input: UpdateNodeLinkPropsInput!): UpdateNodeLinkPropsPayload
     updateNodeSwitchOptionProps(input: UpdateNodeSwitchOptionPropsInput!): UpdateNodeSwitchOptionPropsPayload
     updateNodeSwitchProps(input: UpdateNodeSwitchPropsInput!): UpdateNodeSwitchPropsPayload
     updateNodeTextProps(input: UpdateNodeTextPropsInput!): UpdateNodeTextPropsPayload
     updateNodeVideoProps(input: UpdateNodeVideoPropsInput!): UpdateNodeVideoPropsPayload
     updateNodeWaitProps(input: UpdateNodeWaitPropsInput!): UpdateNodeWaitPropsPayload
-    updateTask(input: UpdateTaskInput!): UpdateTaskPayload
     updateTemplateNode(input: UpdateTemplateNodeInput!): UpdateTemplateNodePayload
-    updateTemplateNodeInfo(input: UpdateTemplateNodeInfoInput!): UpdateTemplateNodeInfoPayload
-    updateUser(input: UpdateUserInput!): UpdateUserPayload
+    updateTemplateNodesGroup(input: UpdateTemplateNodesGroupInput!): UpdateTemplateNodesGroupPayload
+}
+
+type NodeAggregateResult {
+    count: Int
 }
 
 type NodeAudioProps {
@@ -253,6 +317,28 @@ type NodeImagePropsAggregateResult {
     count: Int
     srcMax: String
     srcMin: String
+}
+
+type NodeInfo {
+    description: String!
+    imageLink: String!
+    name: String!
+    order: Int!
+    type: ChatNodeType!
+}
+
+type NodeInfoAggregateResult {
+    count: Int
+    descriptionMax: String
+    descriptionMin: String
+    imageLinkMax: String
+    imageLinkMin: String
+    nameMax: String
+    nameMin: String
+    orderAvg: Float
+    orderMax: Int
+    orderMin: Int
+    orderSum: Int
 }
 
 type NodeLinkProps {
@@ -338,55 +424,48 @@ type Polygon {
 }
 
 type Query {
+    aggregateBotFlow(filter: BotFlowFilter): BotFlowAggregateResult
+    aggregateFlowNode(filter: FlowNodeFilter): FlowNodeAggregateResult
+    aggregateNode(filter: NodeFilter): NodeAggregateResult
     aggregateNodeAudioProps(filter: NodeAudioPropsFilter): NodeAudioPropsAggregateResult
     aggregateNodeCountdownProps(filter: NodeCountdownPropsFilter): NodeCountdownPropsAggregateResult
     aggregateNodeFileProps(filter: NodeFilePropsFilter): NodeFilePropsAggregateResult
     aggregateNodeImageProps(filter: NodeImagePropsFilter): NodeImagePropsAggregateResult
+    aggregateNodeInfo(filter: NodeInfoFilter): NodeInfoAggregateResult
     aggregateNodeLinkProps(filter: NodeLinkPropsFilter): NodeLinkPropsAggregateResult
     aggregateNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter): NodeSwitchOptionPropsAggregateResult
     aggregateNodeSwitchProps(filter: NodeSwitchPropsFilter): NodeSwitchPropsAggregateResult
     aggregateNodeTextProps(filter: NodeTextPropsFilter): NodeTextPropsAggregateResult
     aggregateNodeVideoProps(filter: NodeVideoPropsFilter): NodeVideoPropsAggregateResult
     aggregateNodeWaitProps(filter: NodeWaitPropsFilter): NodeWaitPropsAggregateResult
-    aggregateTask(filter: TaskFilter): TaskAggregateResult
     aggregateTemplateNode(filter: TemplateNodeFilter): TemplateNodeAggregateResult
-    aggregateTemplateNodeInfo(filter: TemplateNodeInfoFilter): TemplateNodeInfoAggregateResult
-    aggregateUser(filter: UserFilter): UserAggregateResult
-    getTask(id: ID!): Task
+    aggregateTemplateNodesGroup(filter: TemplateNodesGroupFilter): TemplateNodesGroupAggregateResult
+    getBotFlow(id: ID!): BotFlow
+    getFlowNode(id: Int!): FlowNode
     getTemplateNode(id: ID!): TemplateNode
-    getUser(username: String!): User
+    getTemplateNodesGroup(id: ID!): TemplateNodesGroup
+    queryBotFlow(filter: BotFlowFilter, first: Int, offset: Int): [BotFlow]
+    queryFlowNode(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode]
+    queryNode(filter: NodeFilter, first: Int, offset: Int): [Node]
     queryNodeAudioProps(filter: NodeAudioPropsFilter, first: Int, offset: Int, order: NodeAudioPropsOrder): [NodeAudioProps]
     queryNodeCountdownProps(filter: NodeCountdownPropsFilter, first: Int, offset: Int, order: NodeCountdownPropsOrder): [NodeCountdownProps]
     queryNodeFileProps(filter: NodeFilePropsFilter, first: Int, offset: Int, order: NodeFilePropsOrder): [NodeFileProps]
     queryNodeImageProps(filter: NodeImagePropsFilter, first: Int, offset: Int, order: NodeImagePropsOrder): [NodeImageProps]
+    queryNodeInfo(filter: NodeInfoFilter, first: Int, offset: Int, order: NodeInfoOrder): [NodeInfo]
     queryNodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
     queryNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, first: Int, offset: Int, order: NodeSwitchOptionPropsOrder): [NodeSwitchOptionProps]
     queryNodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
     queryNodeTextProps(filter: NodeTextPropsFilter, first: Int, offset: Int, order: NodeTextPropsOrder): [NodeTextProps]
     queryNodeVideoProps(filter: NodeVideoPropsFilter, first: Int, offset: Int, order: NodeVideoPropsOrder): [NodeVideoProps]
     queryNodeWaitProps(filter: NodeWaitPropsFilter, first: Int, offset: Int, order: NodeWaitPropsOrder): [NodeWaitProps]
-    queryTask(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
     queryTemplateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
-    queryTemplateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-    queryUser(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+    queryTemplateNodesGroup(filter: TemplateNodesGroupFilter, first: Int, offset: Int, order: TemplateNodesGroupOrder): [TemplateNodesGroup]
 }
 
-type Task {
-    completed: Boolean!
+type TemplateNode implements Node {
+    group(filter: TemplateNodesGroupFilter): TemplateNodesGroup!
     id: ID!
-    title: String!
-    user(filter: UserFilter): User!
-}
-
-type TaskAggregateResult {
-    count: Int
-    titleMax: String
-    titleMin: String
-}
-
-type TemplateNode {
-    id: ID!
-    info(filter: TemplateNodeInfoFilter): TemplateNodeInfo!
+    info(filter: NodeInfoFilter): NodeInfo!
     props(filter: NodePropsFilter): NodeProps!
 }
 
@@ -394,21 +473,30 @@ type TemplateNodeAggregateResult {
     count: Int
 }
 
-type TemplateNodeInfo {
-    description: String
-    imageLink: String!
+type TemplateNodesGroup {
+    description: String!
+    id: ID!
     name: String!
-    type: ChatNodeType
+    nodes(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode!]!
+    nodesAggregate(filter: TemplateNodeFilter): TemplateNodeAggregateResult
 }
 
-type TemplateNodeInfoAggregateResult {
+type TemplateNodesGroupAggregateResult {
     count: Int
     descriptionMax: String
     descriptionMin: String
-    imageLinkMax: String
-    imageLinkMin: String
     nameMax: String
     nameMin: String
+}
+
+type UpdateBotFlowPayload {
+    botFlow(filter: BotFlowFilter, first: Int, offset: Int): [BotFlow]
+    numUids: Int
+}
+
+type UpdateFlowNodePayload {
+    flowNode(filter: FlowNodeFilter, first: Int, offset: Int, order: FlowNodeOrder): [FlowNode]
+    numUids: Int
 }
 
 type UpdateNodeAudioPropsPayload {
@@ -431,8 +519,18 @@ type UpdateNodeImagePropsPayload {
     numUids: Int
 }
 
+type UpdateNodeInfoPayload {
+    nodeInfo(filter: NodeInfoFilter, first: Int, offset: Int, order: NodeInfoOrder): [NodeInfo]
+    numUids: Int
+}
+
 type UpdateNodeLinkPropsPayload {
     nodeLinkProps(filter: NodeLinkPropsFilter, first: Int, offset: Int, order: NodeLinkPropsOrder): [NodeLinkProps]
+    numUids: Int
+}
+
+type UpdateNodePayload {
+    node(filter: NodeFilter, first: Int, offset: Int): [Node]
     numUids: Int
 }
 
@@ -461,39 +559,18 @@ type UpdateNodeWaitPropsPayload {
     numUids: Int
 }
 
-type UpdateTaskPayload {
-    numUids: Int
-    task(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-}
-
-type UpdateTemplateNodeInfoPayload {
-    numUids: Int
-    templateNodeInfo(filter: TemplateNodeInfoFilter, first: Int, offset: Int, order: TemplateNodeInfoOrder): [TemplateNodeInfo]
-}
-
 type UpdateTemplateNodePayload {
     numUids: Int
     templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
 }
 
-type UpdateUserPayload {
+type UpdateTemplateNodesGroupPayload {
     numUids: Int
-    user(filter: UserFilter, first: Int, offset: Int, order: UserOrder): [User]
+    templateNodesGroup(filter: TemplateNodesGroupFilter, first: Int, offset: Int, order: TemplateNodesGroupOrder): [TemplateNodesGroup]
 }
 
-type User {
-    name: String
-    tasks(filter: TaskFilter, first: Int, offset: Int, order: TaskOrder): [Task]
-    tasksAggregate(filter: TaskFilter): TaskAggregateResult
-    username: String!
-}
-
-type UserAggregateResult {
-    count: Int
-    nameMax: String
-    nameMin: String
-    usernameMax: String
-    usernameMin: String
+enum BotFlowHasFilter {
+    nodes
 }
 
 enum ChatNodeType {
@@ -528,6 +605,21 @@ enum DgraphIndex {
     term
     trigram
     year
+}
+
+enum FlowNodeHasFilter {
+    id
+    info
+    nextNodes
+    parentNode
+    positionNumber
+    props
+    templateNode
+}
+
+enum FlowNodeOrderable {
+    id
+    positionNumber
 }
 
 enum HTTPMethod {
@@ -569,12 +661,32 @@ enum NodeFilePropsOrderable {
     url
 }
 
+enum NodeHasFilter {
+    info
+    props
+}
+
 enum NodeImagePropsHasFilter {
     src
 }
 
 enum NodeImagePropsOrderable {
     src
+}
+
+enum NodeInfoHasFilter {
+    description
+    imageLink
+    name
+    order
+    type
+}
+
+enum NodeInfoOrderable {
+    description
+    imageLink
+    name
+    order
 }
 
 enum NodeLinkPropsHasFilter {
@@ -643,43 +755,35 @@ enum SwitchDisplayType {
     Select
 }
 
-enum TaskHasFilter {
-    completed
-    title
-    user
-}
-
-enum TaskOrderable {
-    title
-}
-
 enum TemplateNodeHasFilter {
+    group
     info
     props
 }
 
-enum TemplateNodeInfoHasFilter {
+enum TemplateNodesGroupHasFilter {
     description
-    imageLink
     name
-    type
+    nodes
 }
 
-enum TemplateNodeInfoOrderable {
+enum TemplateNodesGroupOrderable {
     description
-    imageLink
     name
 }
 
-enum UserHasFilter {
-    name
-    tasks
-    username
+input AddBotFlowInput {
+    nodes: [FlowNodeRef!]!
 }
 
-enum UserOrderable {
-    name
-    username
+input AddFlowNodeInput {
+    id: Int!
+    info: NodeInfoRef!
+    nextNodes: [FlowNodeRef!]!
+    parentNode: FlowNodeRef!
+    positionNumber: Int!
+    props: NodePropsRef!
+    templateNode: TemplateNodeRef!
 }
 
 input AddNodeAudioPropsInput {
@@ -697,6 +801,14 @@ input AddNodeFilePropsInput {
 
 input AddNodeImagePropsInput {
     src: String!
+}
+
+input AddNodeInfoInput {
+    description: String!
+    imageLink: String!
+    name: String!
+    order: Int!
+    type: ChatNodeType!
 }
 
 input AddNodeLinkPropsInput {
@@ -726,28 +838,16 @@ input AddNodeWaitPropsInput {
     src: String!
 }
 
-input AddTaskInput {
-    completed: Boolean!
-    title: String!
-    user: UserRef!
-}
-
-input AddTemplateNodeInfoInput {
-    description: String
-    imageLink: String!
-    name: String!
-    type: ChatNodeType
-}
-
 input AddTemplateNodeInput {
-    info: TemplateNodeInfoRef!
+    group: TemplateNodesGroupRef!
+    info: NodeInfoRef!
     props: NodePropsRef!
 }
 
-input AddUserInput {
-    name: String
-    tasks: [TaskRef]
-    username: String!
+input AddTemplateNodesGroupInput {
+    description: String!
+    name: String!
+    nodes: [TemplateNodeRef!]!
 }
 
 input AuthRule {
@@ -755,6 +855,23 @@ input AuthRule {
     not: AuthRule
     or: [AuthRule]
     rule: String
+}
+
+input BotFlowFilter {
+    and: [BotFlowFilter]
+    has: [BotFlowHasFilter]
+    id: [ID!]
+    not: BotFlowFilter
+    or: [BotFlowFilter]
+}
+
+input BotFlowPatch {
+    nodes: [FlowNodeRef!]
+}
+
+input BotFlowRef {
+    id: ID
+    nodes: [FlowNodeRef!]
 }
 
 input ContainsFilter {
@@ -802,6 +919,39 @@ input FloatFilter {
 input FloatRange {
     max: Float!
     min: Float!
+}
+
+input FlowNodeFilter {
+    and: [FlowNodeFilter]
+    has: [FlowNodeHasFilter]
+    id: IntFilter
+    not: FlowNodeFilter
+    or: [FlowNodeFilter]
+}
+
+input FlowNodeOrder {
+    asc: FlowNodeOrderable
+    desc: FlowNodeOrderable
+    then: FlowNodeOrder
+}
+
+input FlowNodePatch {
+    info: NodeInfoRef
+    nextNodes: [FlowNodeRef!]
+    parentNode: FlowNodeRef
+    positionNumber: Int
+    props: NodePropsRef
+    templateNode: TemplateNodeRef
+}
+
+input FlowNodeRef {
+    id: Int
+    info: NodeInfoRef
+    nextNodes: [FlowNodeRef!]
+    parentNode: FlowNodeRef
+    positionNumber: Int
+    props: NodePropsRef
+    templateNode: TemplateNodeRef
 }
 
 input GenerateMutationParams {
@@ -926,6 +1076,13 @@ input NodeFilePropsRef {
     url: String
 }
 
+input NodeFilter {
+    and: [NodeFilter]
+    has: [NodeHasFilter]
+    not: NodeFilter
+    or: [NodeFilter]
+}
+
 input NodeImagePropsFilter {
     and: [NodeImagePropsFilter]
     has: [NodeImagePropsHasFilter]
@@ -945,6 +1102,35 @@ input NodeImagePropsPatch {
 
 input NodeImagePropsRef {
     src: String
+}
+
+input NodeInfoFilter {
+    and: [NodeInfoFilter]
+    has: [NodeInfoHasFilter]
+    not: NodeInfoFilter
+    or: [NodeInfoFilter]
+}
+
+input NodeInfoOrder {
+    asc: NodeInfoOrderable
+    desc: NodeInfoOrderable
+    then: NodeInfoOrder
+}
+
+input NodeInfoPatch {
+    description: String
+    imageLink: String
+    name: String
+    order: Int
+    type: ChatNodeType
+}
+
+input NodeInfoRef {
+    description: String
+    imageLink: String
+    name: String
+    order: Int
+    type: ChatNodeType
 }
 
 input NodeLinkPropsFilter {
@@ -968,6 +1154,11 @@ input NodeLinkPropsPatch {
 input NodeLinkPropsRef {
     src: String
     text: String
+}
+
+input NodePatch {
+    info: NodeInfoRef
+    props: NodePropsRef
 }
 
 input NodePropsFilter {
@@ -1153,35 +1344,6 @@ input StringTermFilter {
     anyofterms: String
 }
 
-input TaskFilter {
-    and: [TaskFilter]
-    completed: Boolean
-    has: [TaskHasFilter]
-    id: [ID!]
-    not: TaskFilter
-    or: [TaskFilter]
-    title: StringFullTextFilter
-}
-
-input TaskOrder {
-    asc: TaskOrderable
-    desc: TaskOrderable
-    then: TaskOrder
-}
-
-input TaskPatch {
-    completed: Boolean
-    title: String
-    user: UserRef
-}
-
-input TaskRef {
-    completed: Boolean
-    id: ID
-    title: String
-    user: UserRef
-}
-
 input TemplateNodeFilter {
     and: [TemplateNodeFilter]
     has: [TemplateNodeHasFilter]
@@ -1190,42 +1352,56 @@ input TemplateNodeFilter {
     or: [TemplateNodeFilter]
 }
 
-input TemplateNodeInfoFilter {
-    and: [TemplateNodeInfoFilter]
-    has: [TemplateNodeInfoHasFilter]
-    not: TemplateNodeInfoFilter
-    or: [TemplateNodeInfoFilter]
-}
-
-input TemplateNodeInfoOrder {
-    asc: TemplateNodeInfoOrderable
-    desc: TemplateNodeInfoOrderable
-    then: TemplateNodeInfoOrder
-}
-
-input TemplateNodeInfoPatch {
-    description: String
-    imageLink: String
-    name: String
-    type: ChatNodeType
-}
-
-input TemplateNodeInfoRef {
-    description: String
-    imageLink: String
-    name: String
-    type: ChatNodeType
-}
-
 input TemplateNodePatch {
-    info: TemplateNodeInfoRef
+    group: TemplateNodesGroupRef
+    info: NodeInfoRef
     props: NodePropsRef
 }
 
 input TemplateNodeRef {
+    group: TemplateNodesGroupRef
     id: ID
-    info: TemplateNodeInfoRef
+    info: NodeInfoRef
     props: NodePropsRef
+}
+
+input TemplateNodesGroupFilter {
+    and: [TemplateNodesGroupFilter]
+    has: [TemplateNodesGroupHasFilter]
+    id: [ID!]
+    not: TemplateNodesGroupFilter
+    or: [TemplateNodesGroupFilter]
+}
+
+input TemplateNodesGroupOrder {
+    asc: TemplateNodesGroupOrderable
+    desc: TemplateNodesGroupOrderable
+    then: TemplateNodesGroupOrder
+}
+
+input TemplateNodesGroupPatch {
+    description: String
+    name: String
+    nodes: [TemplateNodeRef!]
+}
+
+input TemplateNodesGroupRef {
+    description: String
+    id: ID
+    name: String
+    nodes: [TemplateNodeRef!]
+}
+
+input UpdateBotFlowInput {
+    filter: BotFlowFilter!
+    remove: BotFlowPatch
+    set: BotFlowPatch
+}
+
+input UpdateFlowNodeInput {
+    filter: FlowNodeFilter!
+    remove: FlowNodePatch
+    set: FlowNodePatch
 }
 
 input UpdateNodeAudioPropsInput {
@@ -1250,6 +1426,18 @@ input UpdateNodeImagePropsInput {
     filter: NodeImagePropsFilter!
     remove: NodeImagePropsPatch
     set: NodeImagePropsPatch
+}
+
+input UpdateNodeInfoInput {
+    filter: NodeInfoFilter!
+    remove: NodeInfoPatch
+    set: NodeInfoPatch
+}
+
+input UpdateNodeInput {
+    filter: NodeFilter!
+    remove: NodePatch
+    set: NodePatch
 }
 
 input UpdateNodeLinkPropsInput {
@@ -1288,54 +1476,16 @@ input UpdateNodeWaitPropsInput {
     set: NodeWaitPropsPatch
 }
 
-input UpdateTaskInput {
-    filter: TaskFilter!
-    remove: TaskPatch
-    set: TaskPatch
-}
-
-input UpdateTemplateNodeInfoInput {
-    filter: TemplateNodeInfoFilter!
-    remove: TemplateNodeInfoPatch
-    set: TemplateNodeInfoPatch
-}
-
 input UpdateTemplateNodeInput {
     filter: TemplateNodeFilter!
     remove: TemplateNodePatch
     set: TemplateNodePatch
 }
 
-input UpdateUserInput {
-    filter: UserFilter!
-    remove: UserPatch
-    set: UserPatch
-}
-
-input UserFilter {
-    and: [UserFilter]
-    has: [UserHasFilter]
-    name: StringExactFilter
-    not: UserFilter
-    or: [UserFilter]
-    username: StringHashFilter
-}
-
-input UserOrder {
-    asc: UserOrderable
-    desc: UserOrderable
-    then: UserOrder
-}
-
-input UserPatch {
-    name: String
-    tasks: [TaskRef]
-}
-
-input UserRef {
-    name: String
-    tasks: [TaskRef]
-    username: String
+input UpdateTemplateNodesGroupInput {
+    filter: TemplateNodesGroupFilter!
+    remove: TemplateNodesGroupPatch
+    set: TemplateNodesGroupPatch
 }
 
 input WithinFilter {
@@ -1344,13 +1494,13 @@ input WithinFilter {
 
 
 """
-The DateTime scalar type represents date and time as a string in RFC3339 format.
-For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
-"""
-scalar DateTime
-
-"""
 The Int64 scalar type represents a signed 64‐bit numeric non‐fractional value.
 Int64 can represent values in range [-(2^63),(2^63 - 1)].
 """
 scalar Int64
+
+"""
+The DateTime scalar type represents date and time as a string in RFC3339 format.
+For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
+"""
+scalar DateTime
