@@ -13,7 +13,9 @@ export const NodeInput = ({
   return (
     <div>
       <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-      <input type="submit" value="Submit" />
+      <div>
+        <Button variant="contained">Submit</Button>
+      </div>
     </div>
   );
 };
