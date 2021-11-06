@@ -213,29 +213,17 @@ export const Chat = () => {
       }}
     >
       <div>
-        <button
-          onClick={startBot}
+        <div
           style={{
-            position: "fixed",
-            top: 0,
-            zIndex: 100,
+            position: "absolute",
             right: 0,
-          }}
-        >
-          Start bot
-        </button>
-        <button
-          onClick={() => console.log(state)}
-          style={{
-            position: "fixed",
             top: 0,
             zIndex: 100,
-            right: 100,
           }}
         >
-          state
-        </button>
-
+          <button onClick={() => console.log(state)}>state</button>
+          <button onClick={startBot}>Start bot</button>
+        </div>
         <ChatApp key={key} />
       </div>
     </ChatBotContext.Provider>

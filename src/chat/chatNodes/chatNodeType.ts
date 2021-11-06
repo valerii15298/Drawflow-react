@@ -17,6 +17,7 @@ export enum chatNodeType {
 }
 
 export const executedAfterRender = [
+  chatNodeType.Input,
   chatNodeType.Text,
   chatNodeType.Audio,
   chatNodeType.Video,

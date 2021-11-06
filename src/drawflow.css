@@ -25,4 +25,8 @@ body::-webkit-scrollbar {
   border-radius: 1em;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 /*# sourceMappingURL=drawflow.css.map */

@@ -47,6 +47,7 @@ const Main = styled.main`
 `;
 
 const MainDiv = styled.div`
+  display: flex;
   //width: 100vw;
 `;
 
@@ -130,7 +131,8 @@ const RightBar = () => {
 };
 
 const AppWrapperDiv = styled.div`
-  width: calc(100vw - 408px);
+  flex: 1;
+  //width: calc(100vw - 408px);
   //border-right: 2px solid lightgray;
 `;
 
@@ -155,7 +157,7 @@ export const Flow = () => {
           <RightBar />
         </Main>
       </AppWrapperDiv>
-      <Chat />
+      {/*<Chat />*/}
     </MainDiv>
   );
 };

@@ -3,6 +3,8 @@
 
 type BotFlow {
     id: ID!
+    name: String!
+    description: String!
     nodes: [FlowNode!]!
 }
 
@@ -28,7 +30,7 @@ type TemplateNode implements Node {
 
 type FlowNode implements Node {
     id: Int! @id
-    templateNode: TemplateNode!
+    templateNode: TemplateNode
     nextNodes: [FlowNode!]! @hasInverse(field: "parentNode")
     parentNode: FlowNode
     subnodesVisibility: Boolean!
@@ -59,13 +61,16 @@ enum ChatNodeType {
 }
 
 
-# chatNodes
+##########################################
+########### ChatNode PROPS ###############
+##########################################
 
 enum SwitchDisplayType {
     Select
     Carousel
     List
 }
+
 
 type NodeSwitchProps {
     displayType: SwitchDisplayType!

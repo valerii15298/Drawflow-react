@@ -28,3 +28,7 @@ body::-webkit-scrollbar {
   background-color: #85b0e4;
   border-radius: 1em;
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
