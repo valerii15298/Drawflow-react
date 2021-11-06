@@ -1,0 +1,1657 @@
+directive @dgraph(type: String, pred: String) on OBJECT | INTERFACE | FIELD_DEFINITION
+
+directive @remote on OBJECT | INTERFACE | UNION | INPUT_OBJECT | ENUM
+
+directive @lambdaOnMutate(add: Boolean, update: Boolean, delete: Boolean) on OBJECT | INTERFACE
+
+directive @hasInverse(field: String!) on FIELD_DEFINITION
+
+directive @auth(password: AuthRule, query: AuthRule, add: AuthRule, update: AuthRule, delete: AuthRule) on OBJECT | INTERFACE
+
+directive @custom(http: CustomHTTP, dql: String) on FIELD_DEFINITION
+
+directive @cascade(fields: [String]) on FIELD
+
+directive @generate(query: GenerateQueryParams, mutation: GenerateMutationParams, subscription: Boolean) on OBJECT | INTERFACE
+
+directive @secret(field: String!, pred: String) on OBJECT | INTERFACE
+
+directive @cacheControl(maxAge: Int!) on QUERY
+
+directive @withSubscription on OBJECT | INTERFACE | FIELD_DEFINITION
+
+directive @remoteResponse(name: String) on FIELD_DEFINITION
+
+directive @lambda on FIELD_DEFINITION
+
+directive @search(by: [DgraphIndex!]) on FIELD_DEFINITION
+
+directive @id on FIELD_DEFINITION
+
+input AddBotFlowInput {
+  name: String!
+  description: String!
+  versions: [BotFlowVersionRef!]!
+  nextVersionNumber: Int!
+}
+
+type AddBotFlowPayload {
+  botFlow(filter: BotFlowFilter, order: BotFlowOrder, first: Int, offset: Int): [BotFlow]
+  numUids: Int
+}
+
+input AddBotFlowVersionInput {
+  version: Int!
+  nodes: [FlowNodeRef!]!
+  botFlow: BotFlowRef!
+}
+
+type AddBotFlowVersionPayload {
+  botFlowVersion(filter: BotFlowVersionFilter, order: BotFlowVersionOrder, first: Int, offset: Int): [BotFlowVersion]
+  numUids: Int
+}
+
+input AddFlowNodeInput {
+  info: NodeInfoRef!
+  props: NodePropsRef!
+  id: Int!
+  templateNode: TemplateNodeRef
+  nextNodes: [FlowNodeRef!]!
+  parentNode: FlowNodeRef
+  subnodesVisibility: Boolean!
+  childrenVisibility: Boolean!
+  flow: BotFlowVersionRef
+}
+
+type AddFlowNodePayload {
+  flowNode(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode]
+  numUids: Int
+}
+
+input AddNodeAudioPropsInput {
+  src: String!
+}
+
+type AddNodeAudioPropsPayload {
+  nodeAudioProps(filter: NodeAudioPropsFilter, order: NodeAudioPropsOrder, first: Int, offset: Int): [NodeAudioProps]
+  numUids: Int
+}
+
+input AddNodeCountdownPropsInput {
+  duration: Int!
+}
+
+type AddNodeCountdownPropsPayload {
+  nodeCountdownProps(filter: NodeCountdownPropsFilter, order: NodeCountdownPropsOrder, first: Int, offset: Int): [NodeCountdownProps]
+  numUids: Int
+}
+
+input AddNodeFilePropsInput {
+  info: String!
+  url: String!
+}
+
+type AddNodeFilePropsPayload {
+  nodeFileProps(filter: NodeFilePropsFilter, order: NodeFilePropsOrder, first: Int, offset: Int): [NodeFileProps]
+  numUids: Int
+}
+
+input AddNodeImagePropsInput {
+  src: String!
+}
+
+type AddNodeImagePropsPayload {
+  nodeImageProps(filter: NodeImagePropsFilter, order: NodeImagePropsOrder, first: Int, offset: Int): [NodeImageProps]
+  numUids: Int
+}
+
+input AddNodeInfoInput {
+  name: String!
+  description: String!
+  imageLink: String!
+  order: Int!
+  type: ChatNodeType!
+}
+
+type AddNodeInfoPayload {
+  nodeInfo(filter: NodeInfoFilter, order: NodeInfoOrder, first: Int, offset: Int): [NodeInfo]
+  numUids: Int
+}
+
+input AddNodeLinkPropsInput {
+  src: String!
+  text: String!
+}
+
+type AddNodeLinkPropsPayload {
+  nodeLinkProps(filter: NodeLinkPropsFilter, order: NodeLinkPropsOrder, first: Int, offset: Int): [NodeLinkProps]
+  numUids: Int
+}
+
+input AddNodeSwitchOptionPropsInput {
+  text: String!
+  imageUrl: String!
+}
+
+type AddNodeSwitchOptionPropsPayload {
+  nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, order: NodeSwitchOptionPropsOrder, first: Int, offset: Int): [NodeSwitchOptionProps]
+  numUids: Int
+}
+
+input AddNodeSwitchPropsInput {
+  displayType: SwitchDisplayType!
+}
+
+type AddNodeSwitchPropsPayload {
+  nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+  numUids: Int
+}
+
+input AddNodeTextPropsInput {
+  src: String!
+}
+
+type AddNodeTextPropsPayload {
+  nodeTextProps(filter: NodeTextPropsFilter, order: NodeTextPropsOrder, first: Int, offset: Int): [NodeTextProps]
+  numUids: Int
+}
+
+input AddNodeVideoPropsInput {
+  src: String!
+}
+
+type AddNodeVideoPropsPayload {
+  nodeVideoProps(filter: NodeVideoPropsFilter, order: NodeVideoPropsOrder, first: Int, offset: Int): [NodeVideoProps]
+  numUids: Int
+}
+
+input AddNodeWaitPropsInput {
+  src: String!
+  delay: Int!
+}
+
+type AddNodeWaitPropsPayload {
+  nodeWaitProps(filter: NodeWaitPropsFilter, order: NodeWaitPropsOrder, first: Int, offset: Int): [NodeWaitProps]
+  numUids: Int
+}
+
+input AddTemplateNodeInput {
+  info: NodeInfoRef!
+  props: NodePropsRef!
+  group: TemplateNodesGroupRef!
+}
+
+type AddTemplateNodePayload {
+  templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+  numUids: Int
+}
+
+input AddTemplateNodesGroupInput {
+  name: String!
+  description: String!
+  nodes: [TemplateNodeRef!]!
+}
+
+type AddTemplateNodesGroupPayload {
+  templateNodesGroup(filter: TemplateNodesGroupFilter, order: TemplateNodesGroupOrder, first: Int, offset: Int): [TemplateNodesGroup]
+  numUids: Int
+}
+
+input AuthRule {
+  and: [AuthRule]
+  or: [AuthRule]
+  not: AuthRule
+  rule: String
+}
+
+type BotFlow {
+  id: ID!
+  name: String!
+  description: String!
+  versions(filter: BotFlowVersionFilter, order: BotFlowVersionOrder, first: Int, offset: Int): [BotFlowVersion!]!
+  nextVersionNumber: Int!
+  versionsAggregate(filter: BotFlowVersionFilter): BotFlowVersionAggregateResult
+}
+
+type BotFlowAggregateResult {
+  count: Int
+  nameMin: String
+  nameMax: String
+  descriptionMin: String
+  descriptionMax: String
+  nextVersionNumberMin: Int
+  nextVersionNumberMax: Int
+  nextVersionNumberSum: Int
+  nextVersionNumberAvg: Float
+}
+
+input BotFlowFilter {
+  id: [ID!]
+  has: [BotFlowHasFilter]
+  and: [BotFlowFilter]
+  or: [BotFlowFilter]
+  not: BotFlowFilter
+}
+
+enum BotFlowHasFilter {
+  name
+  description
+  versions
+  nextVersionNumber
+}
+
+input BotFlowOrder {
+  asc: BotFlowOrderable
+  desc: BotFlowOrderable
+  then: BotFlowOrder
+}
+
+enum BotFlowOrderable {
+  name
+  description
+  nextVersionNumber
+}
+
+input BotFlowPatch {
+  name: String
+  description: String
+  versions: [BotFlowVersionRef!]
+  nextVersionNumber: Int
+}
+
+input BotFlowRef {
+  id: ID
+  name: String
+  description: String
+  versions: [BotFlowVersionRef!]
+  nextVersionNumber: Int
+}
+
+type BotFlowVersion {
+  id: ID!
+  version: Int!
+  nodes(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode!]!
+  botFlow(filter: BotFlowFilter): BotFlow!
+  nodesAggregate(filter: FlowNodeFilter): FlowNodeAggregateResult
+}
+
+type BotFlowVersionAggregateResult {
+  count: Int
+  versionMin: Int
+  versionMax: Int
+  versionSum: Int
+  versionAvg: Float
+}
+
+input BotFlowVersionFilter {
+  id: [ID!]
+  has: [BotFlowVersionHasFilter]
+  and: [BotFlowVersionFilter]
+  or: [BotFlowVersionFilter]
+  not: BotFlowVersionFilter
+}
+
+enum BotFlowVersionHasFilter {
+  version
+  nodes
+  botFlow
+}
+
+input BotFlowVersionOrder {
+  asc: BotFlowVersionOrderable
+  desc: BotFlowVersionOrderable
+  then: BotFlowVersionOrder
+}
+
+enum BotFlowVersionOrderable {
+  version
+}
+
+input BotFlowVersionPatch {
+  version: Int
+  nodes: [FlowNodeRef!]
+  botFlow: BotFlowRef
+}
+
+input BotFlowVersionRef {
+  id: ID
+  version: Int
+  nodes: [FlowNodeRef!]
+  botFlow: BotFlowRef
+}
+
+enum ChatNodeType {
+  Text
+  Audio
+  Video
+  File
+  Image
+  Empty
+  Link
+  Switch
+  SwitchOption
+  SetTypingIndicator
+  Countdown
+  Delay
+  HttpRequest
+}
+
+input ContainsFilter {
+  point: PointRef
+  polygon: PolygonRef
+}
+
+input CustomHTTP {
+  url: String!
+  method: HTTPMethod!
+  body: String
+  graphql: String
+  mode: Mode
+  forwardHeaders: [String!]
+  secretHeaders: [String!]
+  introspectionHeaders: [String!]
+  skipIntrospection: Boolean
+}
+
+"""
+The DateTime scalar type represents date and time as a string in RFC3339 format.
+For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds
+after the 23rd hour of April 12th, 1985 in UTC.
+"""
+scalar DateTime
+
+input DateTimeFilter {
+  eq: DateTime
+  in: [DateTime]
+  le: DateTime
+  lt: DateTime
+  ge: DateTime
+  gt: DateTime
+  between: DateTimeRange
+}
+
+input DateTimeRange {
+  min: DateTime!
+  max: DateTime!
+}
+
+type DeleteBotFlowPayload {
+  botFlow(filter: BotFlowFilter, order: BotFlowOrder, first: Int, offset: Int): [BotFlow]
+  msg: String
+  numUids: Int
+}
+
+type DeleteBotFlowVersionPayload {
+  botFlowVersion(filter: BotFlowVersionFilter, order: BotFlowVersionOrder, first: Int, offset: Int): [BotFlowVersion]
+  msg: String
+  numUids: Int
+}
+
+type DeleteFlowNodePayload {
+  flowNode(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeAudioPropsPayload {
+  nodeAudioProps(filter: NodeAudioPropsFilter, order: NodeAudioPropsOrder, first: Int, offset: Int): [NodeAudioProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeCountdownPropsPayload {
+  nodeCountdownProps(filter: NodeCountdownPropsFilter, order: NodeCountdownPropsOrder, first: Int, offset: Int): [NodeCountdownProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeFilePropsPayload {
+  nodeFileProps(filter: NodeFilePropsFilter, order: NodeFilePropsOrder, first: Int, offset: Int): [NodeFileProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeImagePropsPayload {
+  nodeImageProps(filter: NodeImagePropsFilter, order: NodeImagePropsOrder, first: Int, offset: Int): [NodeImageProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeInfoPayload {
+  nodeInfo(filter: NodeInfoFilter, order: NodeInfoOrder, first: Int, offset: Int): [NodeInfo]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeLinkPropsPayload {
+  nodeLinkProps(filter: NodeLinkPropsFilter, order: NodeLinkPropsOrder, first: Int, offset: Int): [NodeLinkProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodePayload {
+  node(filter: NodeFilter, first: Int, offset: Int): [Node]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeSwitchOptionPropsPayload {
+  nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, order: NodeSwitchOptionPropsOrder, first: Int, offset: Int): [NodeSwitchOptionProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeSwitchPropsPayload {
+  nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeTextPropsPayload {
+  nodeTextProps(filter: NodeTextPropsFilter, order: NodeTextPropsOrder, first: Int, offset: Int): [NodeTextProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeVideoPropsPayload {
+  nodeVideoProps(filter: NodeVideoPropsFilter, order: NodeVideoPropsOrder, first: Int, offset: Int): [NodeVideoProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteNodeWaitPropsPayload {
+  nodeWaitProps(filter: NodeWaitPropsFilter, order: NodeWaitPropsOrder, first: Int, offset: Int): [NodeWaitProps]
+  msg: String
+  numUids: Int
+}
+
+type DeleteTemplateNodePayload {
+  templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+  msg: String
+  numUids: Int
+}
+
+type DeleteTemplateNodesGroupPayload {
+  templateNodesGroup(filter: TemplateNodesGroupFilter, order: TemplateNodesGroupOrder, first: Int, offset: Int): [TemplateNodesGroup]
+  msg: String
+  numUids: Int
+}
+
+enum DgraphIndex {
+  int
+  int64
+  float
+  bool
+  hash
+  exact
+  term
+  fulltext
+  trigram
+  regexp
+  year
+  month
+  day
+  hour
+  geo
+}
+
+input FloatFilter {
+  eq: Float
+  in: [Float]
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: FloatRange
+}
+
+input FloatRange {
+  min: Float!
+  max: Float!
+}
+
+type FlowNode implements Node {
+  info(filter: NodeInfoFilter): NodeInfo!
+  props(filter: NodePropsFilter): NodeProps!
+  id: Int!
+  templateNode(filter: TemplateNodeFilter): TemplateNode
+  nextNodes(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode!]!
+  parentNode(filter: FlowNodeFilter): FlowNode
+  subnodesVisibility: Boolean!
+  childrenVisibility: Boolean!
+  flow(filter: BotFlowVersionFilter): BotFlowVersion
+  nextNodesAggregate(filter: FlowNodeFilter): FlowNodeAggregateResult
+}
+
+type FlowNodeAggregateResult {
+  count: Int
+  idMin: Int
+  idMax: Int
+  idSum: Int
+  idAvg: Float
+}
+
+input FlowNodeFilter {
+  id: IntFilter
+  has: [FlowNodeHasFilter]
+  and: [FlowNodeFilter]
+  or: [FlowNodeFilter]
+  not: FlowNodeFilter
+}
+
+enum FlowNodeHasFilter {
+  info
+  props
+  id
+  templateNode
+  nextNodes
+  parentNode
+  subnodesVisibility
+  childrenVisibility
+  flow
+}
+
+input FlowNodeOrder {
+  asc: FlowNodeOrderable
+  desc: FlowNodeOrderable
+  then: FlowNodeOrder
+}
+
+enum FlowNodeOrderable {
+  id
+}
+
+input FlowNodePatch {
+  info: NodeInfoRef
+  props: NodePropsRef
+  templateNode: TemplateNodeRef
+  nextNodes: [FlowNodeRef!]
+  parentNode: FlowNodeRef
+  subnodesVisibility: Boolean
+  childrenVisibility: Boolean
+  flow: BotFlowVersionRef
+}
+
+input FlowNodeRef {
+  info: NodeInfoRef
+  props: NodePropsRef
+  id: Int
+  templateNode: TemplateNodeRef
+  nextNodes: [FlowNodeRef!]
+  parentNode: FlowNodeRef
+  subnodesVisibility: Boolean
+  childrenVisibility: Boolean
+  flow: BotFlowVersionRef
+}
+
+input GenerateMutationParams {
+  add: Boolean
+  update: Boolean
+  delete: Boolean
+}
+
+input GenerateQueryParams {
+  get: Boolean
+  query: Boolean
+  password: Boolean
+  aggregate: Boolean
+}
+
+enum HTTPMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+}
+
+"""
+The Int64 scalar type represents a signed 64ΓÇÉbit numeric nonΓÇÉfractional value.
+Int64 can represent values in range [-(2^63),(2^63 - 1)].
+"""
+scalar Int64
+
+input Int64Filter {
+  eq: Int64
+  in: [Int64]
+  le: Int64
+  lt: Int64
+  ge: Int64
+  gt: Int64
+  between: Int64Range
+}
+
+input Int64Range {
+  min: Int64!
+  max: Int64!
+}
+
+input IntersectsFilter {
+  polygon: PolygonRef
+  multiPolygon: MultiPolygonRef
+}
+
+input IntFilter {
+  eq: Int
+  in: [Int]
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: IntRange
+}
+
+input IntRange {
+  min: Int!
+  max: Int!
+}
+
+enum Mode {
+  BATCH
+  SINGLE
+}
+
+type MultiPolygon {
+  polygons: [Polygon!]!
+}
+
+input MultiPolygonRef {
+  polygons: [PolygonRef!]!
+}
+
+type Mutation {
+  addBotFlowVersion(input: [AddBotFlowVersionInput!]!): AddBotFlowVersionPayload
+  updateBotFlowVersion(input: UpdateBotFlowVersionInput!): UpdateBotFlowVersionPayload
+  deleteBotFlowVersion(filter: BotFlowVersionFilter!): DeleteBotFlowVersionPayload
+  addBotFlow(input: [AddBotFlowInput!]!): AddBotFlowPayload
+  updateBotFlow(input: UpdateBotFlowInput!): UpdateBotFlowPayload
+  deleteBotFlow(filter: BotFlowFilter!): DeleteBotFlowPayload
+  updateNode(input: UpdateNodeInput!): UpdateNodePayload
+  deleteNode(filter: NodeFilter!): DeleteNodePayload
+  addNodeInfo(input: [AddNodeInfoInput!]!): AddNodeInfoPayload
+  updateNodeInfo(input: UpdateNodeInfoInput!): UpdateNodeInfoPayload
+  deleteNodeInfo(filter: NodeInfoFilter!): DeleteNodeInfoPayload
+  addTemplateNode(input: [AddTemplateNodeInput!]!): AddTemplateNodePayload
+  updateTemplateNode(input: UpdateTemplateNodeInput!): UpdateTemplateNodePayload
+  deleteTemplateNode(filter: TemplateNodeFilter!): DeleteTemplateNodePayload
+  addFlowNode(input: [AddFlowNodeInput!]!, upsert: Boolean): AddFlowNodePayload
+  updateFlowNode(input: UpdateFlowNodeInput!): UpdateFlowNodePayload
+  deleteFlowNode(filter: FlowNodeFilter!): DeleteFlowNodePayload
+  addTemplateNodesGroup(input: [AddTemplateNodesGroupInput!]!): AddTemplateNodesGroupPayload
+  updateTemplateNodesGroup(input: UpdateTemplateNodesGroupInput!): UpdateTemplateNodesGroupPayload
+  deleteTemplateNodesGroup(filter: TemplateNodesGroupFilter!): DeleteTemplateNodesGroupPayload
+  addNodeSwitchProps(input: [AddNodeSwitchPropsInput!]!): AddNodeSwitchPropsPayload
+  updateNodeSwitchProps(input: UpdateNodeSwitchPropsInput!): UpdateNodeSwitchPropsPayload
+  deleteNodeSwitchProps(filter: NodeSwitchPropsFilter!): DeleteNodeSwitchPropsPayload
+  addNodeFileProps(input: [AddNodeFilePropsInput!]!): AddNodeFilePropsPayload
+  updateNodeFileProps(input: UpdateNodeFilePropsInput!): UpdateNodeFilePropsPayload
+  deleteNodeFileProps(filter: NodeFilePropsFilter!): DeleteNodeFilePropsPayload
+  addNodeAudioProps(input: [AddNodeAudioPropsInput!]!): AddNodeAudioPropsPayload
+  updateNodeAudioProps(input: UpdateNodeAudioPropsInput!): UpdateNodeAudioPropsPayload
+  deleteNodeAudioProps(filter: NodeAudioPropsFilter!): DeleteNodeAudioPropsPayload
+  addNodeImageProps(input: [AddNodeImagePropsInput!]!): AddNodeImagePropsPayload
+  updateNodeImageProps(input: UpdateNodeImagePropsInput!): UpdateNodeImagePropsPayload
+  deleteNodeImageProps(filter: NodeImagePropsFilter!): DeleteNodeImagePropsPayload
+  addNodeLinkProps(input: [AddNodeLinkPropsInput!]!): AddNodeLinkPropsPayload
+  updateNodeLinkProps(input: UpdateNodeLinkPropsInput!): UpdateNodeLinkPropsPayload
+  deleteNodeLinkProps(filter: NodeLinkPropsFilter!): DeleteNodeLinkPropsPayload
+  addNodeSwitchOptionProps(input: [AddNodeSwitchOptionPropsInput!]!): AddNodeSwitchOptionPropsPayload
+  updateNodeSwitchOptionProps(input: UpdateNodeSwitchOptionPropsInput!): UpdateNodeSwitchOptionPropsPayload
+  deleteNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter!): DeleteNodeSwitchOptionPropsPayload
+  addNodeTextProps(input: [AddNodeTextPropsInput!]!): AddNodeTextPropsPayload
+  updateNodeTextProps(input: UpdateNodeTextPropsInput!): UpdateNodeTextPropsPayload
+  deleteNodeTextProps(filter: NodeTextPropsFilter!): DeleteNodeTextPropsPayload
+  addNodeVideoProps(input: [AddNodeVideoPropsInput!]!): AddNodeVideoPropsPayload
+  updateNodeVideoProps(input: UpdateNodeVideoPropsInput!): UpdateNodeVideoPropsPayload
+  deleteNodeVideoProps(filter: NodeVideoPropsFilter!): DeleteNodeVideoPropsPayload
+  addNodeWaitProps(input: [AddNodeWaitPropsInput!]!): AddNodeWaitPropsPayload
+  updateNodeWaitProps(input: UpdateNodeWaitPropsInput!): UpdateNodeWaitPropsPayload
+  deleteNodeWaitProps(filter: NodeWaitPropsFilter!): DeleteNodeWaitPropsPayload
+  addNodeCountdownProps(input: [AddNodeCountdownPropsInput!]!): AddNodeCountdownPropsPayload
+  updateNodeCountdownProps(input: UpdateNodeCountdownPropsInput!): UpdateNodeCountdownPropsPayload
+  deleteNodeCountdownProps(filter: NodeCountdownPropsFilter!): DeleteNodeCountdownPropsPayload
+}
+
+input NearFilter {
+  distance: Float!
+  coordinate: PointRef!
+}
+
+interface Node {
+  info(filter: NodeInfoFilter): NodeInfo!
+  props(filter: NodePropsFilter): NodeProps!
+}
+
+type NodeAggregateResult {
+  count: Int
+}
+
+type NodeAudioProps {
+  src: String!
+}
+
+type NodeAudioPropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+}
+
+input NodeAudioPropsFilter {
+  has: [NodeAudioPropsHasFilter]
+  and: [NodeAudioPropsFilter]
+  or: [NodeAudioPropsFilter]
+  not: NodeAudioPropsFilter
+}
+
+enum NodeAudioPropsHasFilter {
+  src
+}
+
+input NodeAudioPropsOrder {
+  asc: NodeAudioPropsOrderable
+  desc: NodeAudioPropsOrderable
+  then: NodeAudioPropsOrder
+}
+
+enum NodeAudioPropsOrderable {
+  src
+}
+
+input NodeAudioPropsPatch {
+  src: String
+}
+
+input NodeAudioPropsRef {
+  src: String
+}
+
+type NodeCountdownProps {
+  duration: Int!
+}
+
+type NodeCountdownPropsAggregateResult {
+  count: Int
+  durationMin: Int
+  durationMax: Int
+  durationSum: Int
+  durationAvg: Float
+}
+
+input NodeCountdownPropsFilter {
+  has: [NodeCountdownPropsHasFilter]
+  and: [NodeCountdownPropsFilter]
+  or: [NodeCountdownPropsFilter]
+  not: NodeCountdownPropsFilter
+}
+
+enum NodeCountdownPropsHasFilter {
+  duration
+}
+
+input NodeCountdownPropsOrder {
+  asc: NodeCountdownPropsOrderable
+  desc: NodeCountdownPropsOrderable
+  then: NodeCountdownPropsOrder
+}
+
+enum NodeCountdownPropsOrderable {
+  duration
+}
+
+input NodeCountdownPropsPatch {
+  duration: Int
+}
+
+input NodeCountdownPropsRef {
+  duration: Int
+}
+
+type NodeFileProps {
+  info: String!
+  url: String!
+}
+
+type NodeFilePropsAggregateResult {
+  count: Int
+  infoMin: String
+  infoMax: String
+  urlMin: String
+  urlMax: String
+}
+
+input NodeFilePropsFilter {
+  has: [NodeFilePropsHasFilter]
+  and: [NodeFilePropsFilter]
+  or: [NodeFilePropsFilter]
+  not: NodeFilePropsFilter
+}
+
+enum NodeFilePropsHasFilter {
+  info
+  url
+}
+
+input NodeFilePropsOrder {
+  asc: NodeFilePropsOrderable
+  desc: NodeFilePropsOrderable
+  then: NodeFilePropsOrder
+}
+
+enum NodeFilePropsOrderable {
+  info
+  url
+}
+
+input NodeFilePropsPatch {
+  info: String
+  url: String
+}
+
+input NodeFilePropsRef {
+  info: String
+  url: String
+}
+
+input NodeFilter {
+  has: [NodeHasFilter]
+  and: [NodeFilter]
+  or: [NodeFilter]
+  not: NodeFilter
+}
+
+enum NodeHasFilter {
+  info
+  props
+}
+
+type NodeImageProps {
+  src: String!
+}
+
+type NodeImagePropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+}
+
+input NodeImagePropsFilter {
+  has: [NodeImagePropsHasFilter]
+  and: [NodeImagePropsFilter]
+  or: [NodeImagePropsFilter]
+  not: NodeImagePropsFilter
+}
+
+enum NodeImagePropsHasFilter {
+  src
+}
+
+input NodeImagePropsOrder {
+  asc: NodeImagePropsOrderable
+  desc: NodeImagePropsOrderable
+  then: NodeImagePropsOrder
+}
+
+enum NodeImagePropsOrderable {
+  src
+}
+
+input NodeImagePropsPatch {
+  src: String
+}
+
+input NodeImagePropsRef {
+  src: String
+}
+
+type NodeInfo {
+  name: String!
+  description: String!
+  imageLink: String!
+  order: Int!
+  type: ChatNodeType!
+}
+
+type NodeInfoAggregateResult {
+  count: Int
+  nameMin: String
+  nameMax: String
+  descriptionMin: String
+  descriptionMax: String
+  imageLinkMin: String
+  imageLinkMax: String
+  orderMin: Int
+  orderMax: Int
+  orderSum: Int
+  orderAvg: Float
+}
+
+input NodeInfoFilter {
+  has: [NodeInfoHasFilter]
+  and: [NodeInfoFilter]
+  or: [NodeInfoFilter]
+  not: NodeInfoFilter
+}
+
+enum NodeInfoHasFilter {
+  name
+  description
+  imageLink
+  order
+  type
+}
+
+input NodeInfoOrder {
+  asc: NodeInfoOrderable
+  desc: NodeInfoOrderable
+  then: NodeInfoOrder
+}
+
+enum NodeInfoOrderable {
+  name
+  description
+  imageLink
+  order
+}
+
+input NodeInfoPatch {
+  name: String
+  description: String
+  imageLink: String
+  order: Int
+  type: ChatNodeType
+}
+
+input NodeInfoRef {
+  name: String
+  description: String
+  imageLink: String
+  order: Int
+  type: ChatNodeType
+}
+
+type NodeLinkProps {
+  src: String!
+  text: String!
+}
+
+type NodeLinkPropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+  textMin: String
+  textMax: String
+}
+
+input NodeLinkPropsFilter {
+  has: [NodeLinkPropsHasFilter]
+  and: [NodeLinkPropsFilter]
+  or: [NodeLinkPropsFilter]
+  not: NodeLinkPropsFilter
+}
+
+enum NodeLinkPropsHasFilter {
+  src
+  text
+}
+
+input NodeLinkPropsOrder {
+  asc: NodeLinkPropsOrderable
+  desc: NodeLinkPropsOrderable
+  then: NodeLinkPropsOrder
+}
+
+enum NodeLinkPropsOrderable {
+  src
+  text
+}
+
+input NodeLinkPropsPatch {
+  src: String
+  text: String
+}
+
+input NodeLinkPropsRef {
+  src: String
+  text: String
+}
+
+input NodePatch {
+  info: NodeInfoRef
+  props: NodePropsRef
+}
+
+union NodeProps = NodeSwitchProps | NodeAudioProps | NodeCountdownProps | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps
+
+input NodePropsFilter {
+  memberTypes: [NodePropsType!]
+  nodeSwitchPropsFilter: NodeSwitchPropsFilter
+  nodeAudioPropsFilter: NodeAudioPropsFilter
+  nodeCountdownPropsFilter: NodeCountdownPropsFilter
+  nodeFilePropsFilter: NodeFilePropsFilter
+  nodeImagePropsFilter: NodeImagePropsFilter
+  nodeLinkPropsFilter: NodeLinkPropsFilter
+  nodeSwitchOptionPropsFilter: NodeSwitchOptionPropsFilter
+}
+
+input NodePropsRef {
+  nodeSwitchPropsRef: NodeSwitchPropsRef
+  nodeAudioPropsRef: NodeAudioPropsRef
+  nodeCountdownPropsRef: NodeCountdownPropsRef
+  nodeFilePropsRef: NodeFilePropsRef
+  nodeImagePropsRef: NodeImagePropsRef
+  nodeLinkPropsRef: NodeLinkPropsRef
+  nodeSwitchOptionPropsRef: NodeSwitchOptionPropsRef
+}
+
+enum NodePropsType {
+  NodeSwitchProps
+  NodeAudioProps
+  NodeCountdownProps
+  NodeFileProps
+  NodeImageProps
+  NodeLinkProps
+  NodeSwitchOptionProps
+}
+
+type NodeSwitchOptionProps {
+  text: String!
+  imageUrl: String!
+}
+
+type NodeSwitchOptionPropsAggregateResult {
+  count: Int
+  textMin: String
+  textMax: String
+  imageUrlMin: String
+  imageUrlMax: String
+}
+
+input NodeSwitchOptionPropsFilter {
+  has: [NodeSwitchOptionPropsHasFilter]
+  and: [NodeSwitchOptionPropsFilter]
+  or: [NodeSwitchOptionPropsFilter]
+  not: NodeSwitchOptionPropsFilter
+}
+
+enum NodeSwitchOptionPropsHasFilter {
+  text
+  imageUrl
+}
+
+input NodeSwitchOptionPropsOrder {
+  asc: NodeSwitchOptionPropsOrderable
+  desc: NodeSwitchOptionPropsOrderable
+  then: NodeSwitchOptionPropsOrder
+}
+
+enum NodeSwitchOptionPropsOrderable {
+  text
+  imageUrl
+}
+
+input NodeSwitchOptionPropsPatch {
+  text: String
+  imageUrl: String
+}
+
+input NodeSwitchOptionPropsRef {
+  text: String
+  imageUrl: String
+}
+
+type NodeSwitchProps {
+  displayType: SwitchDisplayType!
+}
+
+type NodeSwitchPropsAggregateResult {
+  count: Int
+}
+
+input NodeSwitchPropsFilter {
+  has: [NodeSwitchPropsHasFilter]
+  and: [NodeSwitchPropsFilter]
+  or: [NodeSwitchPropsFilter]
+  not: NodeSwitchPropsFilter
+}
+
+enum NodeSwitchPropsHasFilter {
+  displayType
+}
+
+input NodeSwitchPropsPatch {
+  displayType: SwitchDisplayType
+}
+
+input NodeSwitchPropsRef {
+  displayType: SwitchDisplayType
+}
+
+type NodeTextProps {
+  src: String!
+}
+
+type NodeTextPropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+}
+
+input NodeTextPropsFilter {
+  has: [NodeTextPropsHasFilter]
+  and: [NodeTextPropsFilter]
+  or: [NodeTextPropsFilter]
+  not: NodeTextPropsFilter
+}
+
+enum NodeTextPropsHasFilter {
+  src
+}
+
+input NodeTextPropsOrder {
+  asc: NodeTextPropsOrderable
+  desc: NodeTextPropsOrderable
+  then: NodeTextPropsOrder
+}
+
+enum NodeTextPropsOrderable {
+  src
+}
+
+input NodeTextPropsPatch {
+  src: String
+}
+
+input NodeTextPropsRef {
+  src: String
+}
+
+type NodeVideoProps {
+  src: String!
+}
+
+type NodeVideoPropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+}
+
+input NodeVideoPropsFilter {
+  has: [NodeVideoPropsHasFilter]
+  and: [NodeVideoPropsFilter]
+  or: [NodeVideoPropsFilter]
+  not: NodeVideoPropsFilter
+}
+
+enum NodeVideoPropsHasFilter {
+  src
+}
+
+input NodeVideoPropsOrder {
+  asc: NodeVideoPropsOrderable
+  desc: NodeVideoPropsOrderable
+  then: NodeVideoPropsOrder
+}
+
+enum NodeVideoPropsOrderable {
+  src
+}
+
+input NodeVideoPropsPatch {
+  src: String
+}
+
+input NodeVideoPropsRef {
+  src: String
+}
+
+type NodeWaitProps {
+  src: String!
+  delay: Int!
+}
+
+type NodeWaitPropsAggregateResult {
+  count: Int
+  srcMin: String
+  srcMax: String
+  delayMin: Int
+  delayMax: Int
+  delaySum: Int
+  delayAvg: Float
+}
+
+input NodeWaitPropsFilter {
+  has: [NodeWaitPropsHasFilter]
+  and: [NodeWaitPropsFilter]
+  or: [NodeWaitPropsFilter]
+  not: NodeWaitPropsFilter
+}
+
+enum NodeWaitPropsHasFilter {
+  src
+  delay
+}
+
+input NodeWaitPropsOrder {
+  asc: NodeWaitPropsOrderable
+  desc: NodeWaitPropsOrderable
+  then: NodeWaitPropsOrder
+}
+
+enum NodeWaitPropsOrderable {
+  src
+  delay
+}
+
+input NodeWaitPropsPatch {
+  src: String
+  delay: Int
+}
+
+input NodeWaitPropsRef {
+  src: String
+  delay: Int
+}
+
+type Point {
+  longitude: Float!
+  latitude: Float!
+}
+
+input PointGeoFilter {
+  near: NearFilter
+  within: WithinFilter
+}
+
+type PointList {
+  points: [Point!]!
+}
+
+input PointListRef {
+  points: [PointRef!]!
+}
+
+input PointRef {
+  longitude: Float!
+  latitude: Float!
+}
+
+type Polygon {
+  coordinates: [PointList!]!
+}
+
+input PolygonGeoFilter {
+  near: NearFilter
+  within: WithinFilter
+  contains: ContainsFilter
+  intersects: IntersectsFilter
+}
+
+input PolygonRef {
+  coordinates: [PointListRef!]!
+}
+
+type Query {
+  getBotFlowVersion(id: ID!): BotFlowVersion
+  queryBotFlowVersion(filter: BotFlowVersionFilter, order: BotFlowVersionOrder, first: Int, offset: Int): [BotFlowVersion]
+  aggregateBotFlowVersion(filter: BotFlowVersionFilter): BotFlowVersionAggregateResult
+  getBotFlow(id: ID!): BotFlow
+  queryBotFlow(filter: BotFlowFilter, order: BotFlowOrder, first: Int, offset: Int): [BotFlow]
+  aggregateBotFlow(filter: BotFlowFilter): BotFlowAggregateResult
+  queryNode(filter: NodeFilter, first: Int, offset: Int): [Node]
+  aggregateNode(filter: NodeFilter): NodeAggregateResult
+  queryNodeInfo(filter: NodeInfoFilter, order: NodeInfoOrder, first: Int, offset: Int): [NodeInfo]
+  aggregateNodeInfo(filter: NodeInfoFilter): NodeInfoAggregateResult
+  getTemplateNode(id: ID!): TemplateNode
+  queryTemplateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+  aggregateTemplateNode(filter: TemplateNodeFilter): TemplateNodeAggregateResult
+  getFlowNode(id: Int!): FlowNode
+  queryFlowNode(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode]
+  aggregateFlowNode(filter: FlowNodeFilter): FlowNodeAggregateResult
+  getTemplateNodesGroup(id: ID!): TemplateNodesGroup
+  queryTemplateNodesGroup(filter: TemplateNodesGroupFilter, order: TemplateNodesGroupOrder, first: Int, offset: Int): [TemplateNodesGroup]
+  aggregateTemplateNodesGroup(filter: TemplateNodesGroupFilter): TemplateNodesGroupAggregateResult
+  queryNodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+  aggregateNodeSwitchProps(filter: NodeSwitchPropsFilter): NodeSwitchPropsAggregateResult
+  queryNodeFileProps(filter: NodeFilePropsFilter, order: NodeFilePropsOrder, first: Int, offset: Int): [NodeFileProps]
+  aggregateNodeFileProps(filter: NodeFilePropsFilter): NodeFilePropsAggregateResult
+  queryNodeAudioProps(filter: NodeAudioPropsFilter, order: NodeAudioPropsOrder, first: Int, offset: Int): [NodeAudioProps]
+  aggregateNodeAudioProps(filter: NodeAudioPropsFilter): NodeAudioPropsAggregateResult
+  queryNodeImageProps(filter: NodeImagePropsFilter, order: NodeImagePropsOrder, first: Int, offset: Int): [NodeImageProps]
+  aggregateNodeImageProps(filter: NodeImagePropsFilter): NodeImagePropsAggregateResult
+  queryNodeLinkProps(filter: NodeLinkPropsFilter, order: NodeLinkPropsOrder, first: Int, offset: Int): [NodeLinkProps]
+  aggregateNodeLinkProps(filter: NodeLinkPropsFilter): NodeLinkPropsAggregateResult
+  queryNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, order: NodeSwitchOptionPropsOrder, first: Int, offset: Int): [NodeSwitchOptionProps]
+  aggregateNodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter): NodeSwitchOptionPropsAggregateResult
+  queryNodeTextProps(filter: NodeTextPropsFilter, order: NodeTextPropsOrder, first: Int, offset: Int): [NodeTextProps]
+  aggregateNodeTextProps(filter: NodeTextPropsFilter): NodeTextPropsAggregateResult
+  queryNodeVideoProps(filter: NodeVideoPropsFilter, order: NodeVideoPropsOrder, first: Int, offset: Int): [NodeVideoProps]
+  aggregateNodeVideoProps(filter: NodeVideoPropsFilter): NodeVideoPropsAggregateResult
+  queryNodeWaitProps(filter: NodeWaitPropsFilter, order: NodeWaitPropsOrder, first: Int, offset: Int): [NodeWaitProps]
+  aggregateNodeWaitProps(filter: NodeWaitPropsFilter): NodeWaitPropsAggregateResult
+  queryNodeCountdownProps(filter: NodeCountdownPropsFilter, order: NodeCountdownPropsOrder, first: Int, offset: Int): [NodeCountdownProps]
+  aggregateNodeCountdownProps(filter: NodeCountdownPropsFilter): NodeCountdownPropsAggregateResult
+}
+
+input StringExactFilter {
+  eq: String
+  in: [String]
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: StringRange
+}
+
+input StringFullTextFilter {
+  alloftext: String
+  anyoftext: String
+}
+
+input StringHashFilter {
+  eq: String
+  in: [String]
+}
+
+input StringRange {
+  min: String!
+  max: String!
+}
+
+input StringRegExpFilter {
+  regexp: String
+}
+
+input StringTermFilter {
+  allofterms: String
+  anyofterms: String
+}
+
+enum SwitchDisplayType {
+  Select
+  Carousel
+  List
+}
+
+type TemplateNode implements Node {
+  info(filter: NodeInfoFilter): NodeInfo!
+  props(filter: NodePropsFilter): NodeProps!
+  id: ID!
+  group(filter: TemplateNodesGroupFilter): TemplateNodesGroup!
+}
+
+type TemplateNodeAggregateResult {
+  count: Int
+}
+
+input TemplateNodeFilter {
+  id: [ID!]
+  has: [TemplateNodeHasFilter]
+  and: [TemplateNodeFilter]
+  or: [TemplateNodeFilter]
+  not: TemplateNodeFilter
+}
+
+enum TemplateNodeHasFilter {
+  info
+  props
+  group
+}
+
+input TemplateNodePatch {
+  info: NodeInfoRef
+  props: NodePropsRef
+  group: TemplateNodesGroupRef
+}
+
+input TemplateNodeRef {
+  id: ID
+  info: NodeInfoRef
+  props: NodePropsRef
+  group: TemplateNodesGroupRef
+}
+
+type TemplateNodesGroup {
+  id: ID!
+  name: String!
+  description: String!
+  nodes(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode!]!
+  nodesAggregate(filter: TemplateNodeFilter): TemplateNodeAggregateResult
+}
+
+type TemplateNodesGroupAggregateResult {
+  count: Int
+  nameMin: String
+  nameMax: String
+  descriptionMin: String
+  descriptionMax: String
+}
+
+input TemplateNodesGroupFilter {
+  id: [ID!]
+  has: [TemplateNodesGroupHasFilter]
+  and: [TemplateNodesGroupFilter]
+  or: [TemplateNodesGroupFilter]
+  not: TemplateNodesGroupFilter
+}
+
+enum TemplateNodesGroupHasFilter {
+  name
+  description
+  nodes
+}
+
+input TemplateNodesGroupOrder {
+  asc: TemplateNodesGroupOrderable
+  desc: TemplateNodesGroupOrderable
+  then: TemplateNodesGroupOrder
+}
+
+enum TemplateNodesGroupOrderable {
+  name
+  description
+}
+
+input TemplateNodesGroupPatch {
+  name: String
+  description: String
+  nodes: [TemplateNodeRef!]
+}
+
+input TemplateNodesGroupRef {
+  id: ID
+  name: String
+  description: String
+  nodes: [TemplateNodeRef!]
+}
+
+input UpdateBotFlowInput {
+  filter: BotFlowFilter!
+  set: BotFlowPatch
+  remove: BotFlowPatch
+}
+
+type UpdateBotFlowPayload {
+  botFlow(filter: BotFlowFilter, order: BotFlowOrder, first: Int, offset: Int): [BotFlow]
+  numUids: Int
+}
+
+input UpdateBotFlowVersionInput {
+  filter: BotFlowVersionFilter!
+  set: BotFlowVersionPatch
+  remove: BotFlowVersionPatch
+}
+
+type UpdateBotFlowVersionPayload {
+  botFlowVersion(filter: BotFlowVersionFilter, order: BotFlowVersionOrder, first: Int, offset: Int): [BotFlowVersion]
+  numUids: Int
+}
+
+input UpdateFlowNodeInput {
+  filter: FlowNodeFilter!
+  set: FlowNodePatch
+  remove: FlowNodePatch
+}
+
+type UpdateFlowNodePayload {
+  flowNode(filter: FlowNodeFilter, order: FlowNodeOrder, first: Int, offset: Int): [FlowNode]
+  numUids: Int
+}
+
+input UpdateNodeAudioPropsInput {
+  filter: NodeAudioPropsFilter!
+  set: NodeAudioPropsPatch
+  remove: NodeAudioPropsPatch
+}
+
+type UpdateNodeAudioPropsPayload {
+  nodeAudioProps(filter: NodeAudioPropsFilter, order: NodeAudioPropsOrder, first: Int, offset: Int): [NodeAudioProps]
+  numUids: Int
+}
+
+input UpdateNodeCountdownPropsInput {
+  filter: NodeCountdownPropsFilter!
+  set: NodeCountdownPropsPatch
+  remove: NodeCountdownPropsPatch
+}
+
+type UpdateNodeCountdownPropsPayload {
+  nodeCountdownProps(filter: NodeCountdownPropsFilter, order: NodeCountdownPropsOrder, first: Int, offset: Int): [NodeCountdownProps]
+  numUids: Int
+}
+
+input UpdateNodeFilePropsInput {
+  filter: NodeFilePropsFilter!
+  set: NodeFilePropsPatch
+  remove: NodeFilePropsPatch
+}
+
+type UpdateNodeFilePropsPayload {
+  nodeFileProps(filter: NodeFilePropsFilter, order: NodeFilePropsOrder, first: Int, offset: Int): [NodeFileProps]
+  numUids: Int
+}
+
+input UpdateNodeImagePropsInput {
+  filter: NodeImagePropsFilter!
+  set: NodeImagePropsPatch
+  remove: NodeImagePropsPatch
+}
+
+type UpdateNodeImagePropsPayload {
+  nodeImageProps(filter: NodeImagePropsFilter, order: NodeImagePropsOrder, first: Int, offset: Int): [NodeImageProps]
+  numUids: Int
+}
+
+input UpdateNodeInfoInput {
+  filter: NodeInfoFilter!
+  set: NodeInfoPatch
+  remove: NodeInfoPatch
+}
+
+type UpdateNodeInfoPayload {
+  nodeInfo(filter: NodeInfoFilter, order: NodeInfoOrder, first: Int, offset: Int): [NodeInfo]
+  numUids: Int
+}
+
+input UpdateNodeInput {
+  filter: NodeFilter!
+  set: NodePatch
+  remove: NodePatch
+}
+
+input UpdateNodeLinkPropsInput {
+  filter: NodeLinkPropsFilter!
+  set: NodeLinkPropsPatch
+  remove: NodeLinkPropsPatch
+}
+
+type UpdateNodeLinkPropsPayload {
+  nodeLinkProps(filter: NodeLinkPropsFilter, order: NodeLinkPropsOrder, first: Int, offset: Int): [NodeLinkProps]
+  numUids: Int
+}
+
+type UpdateNodePayload {
+  node(filter: NodeFilter, first: Int, offset: Int): [Node]
+  numUids: Int
+}
+
+input UpdateNodeSwitchOptionPropsInput {
+  filter: NodeSwitchOptionPropsFilter!
+  set: NodeSwitchOptionPropsPatch
+  remove: NodeSwitchOptionPropsPatch
+}
+
+type UpdateNodeSwitchOptionPropsPayload {
+  nodeSwitchOptionProps(filter: NodeSwitchOptionPropsFilter, order: NodeSwitchOptionPropsOrder, first: Int, offset: Int): [NodeSwitchOptionProps]
+  numUids: Int
+}
+
+input UpdateNodeSwitchPropsInput {
+  filter: NodeSwitchPropsFilter!
+  set: NodeSwitchPropsPatch
+  remove: NodeSwitchPropsPatch
+}
+
+type UpdateNodeSwitchPropsPayload {
+  nodeSwitchProps(filter: NodeSwitchPropsFilter, first: Int, offset: Int): [NodeSwitchProps]
+  numUids: Int
+}
+
+input UpdateNodeTextPropsInput {
+  filter: NodeTextPropsFilter!
+  set: NodeTextPropsPatch
+  remove: NodeTextPropsPatch
+}
+
+type UpdateNodeTextPropsPayload {
+  nodeTextProps(filter: NodeTextPropsFilter, order: NodeTextPropsOrder, first: Int, offset: Int): [NodeTextProps]
+  numUids: Int
+}
+
+input UpdateNodeVideoPropsInput {
+  filter: NodeVideoPropsFilter!
+  set: NodeVideoPropsPatch
+  remove: NodeVideoPropsPatch
+}
+
+type UpdateNodeVideoPropsPayload {
+  nodeVideoProps(filter: NodeVideoPropsFilter, order: NodeVideoPropsOrder, first: Int, offset: Int): [NodeVideoProps]
+  numUids: Int
+}
+
+input UpdateNodeWaitPropsInput {
+  filter: NodeWaitPropsFilter!
+  set: NodeWaitPropsPatch
+  remove: NodeWaitPropsPatch
+}
+
+type UpdateNodeWaitPropsPayload {
+  nodeWaitProps(filter: NodeWaitPropsFilter, order: NodeWaitPropsOrder, first: Int, offset: Int): [NodeWaitProps]
+  numUids: Int
+}
+
+input UpdateTemplateNodeInput {
+  filter: TemplateNodeFilter!
+  set: TemplateNodePatch
+  remove: TemplateNodePatch
+}
+
+type UpdateTemplateNodePayload {
+  templateNode(filter: TemplateNodeFilter, first: Int, offset: Int): [TemplateNode]
+  numUids: Int
+}
+
+input UpdateTemplateNodesGroupInput {
+  filter: TemplateNodesGroupFilter!
+  set: TemplateNodesGroupPatch
+  remove: TemplateNodesGroupPatch
+}
+
+type UpdateTemplateNodesGroupPayload {
+  templateNodesGroup(filter: TemplateNodesGroupFilter, order: TemplateNodesGroupOrder, first: Int, offset: Int): [TemplateNodesGroup]
+  numUids: Int
+}
+
+input WithinFilter {
+  polygon: PolygonRef!
+}
+

@@ -12,26 +12,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const ADD_TASK = gql`
-  mutation {
-    addTask(input: [{ title: "kk" }]) {
-      task {
-        id
-      }
-    }
-  }
-`;
-
-const queryTasks = gql`
-  {
-    queryTask {
-      completed
-      id
-      title
-    }
-  }
-`;
-
 const TestApp = () => {
   // const { loading, error, data } = useQuery(queryTasks);
   // if (loading) return <>{"Loading..."}</>;

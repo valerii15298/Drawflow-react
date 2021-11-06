@@ -1,0 +1,8 @@
+show all data dql query:
+
+{
+  showallnodes(func: has(dgraph.type)){
+    dgraph.type
+    expand(_all_)
+  }
+}

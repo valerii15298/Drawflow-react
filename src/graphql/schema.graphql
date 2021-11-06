@@ -1,11 +1,19 @@
 # noinspection GraphQLInterfaceImplementation
 # noinspection GraphQLTypeRedefinition
 
+type BotFlowVersion {
+    id: ID!
+    version: Int!
+    nodes: [FlowNode!]! @hasInverse(field: "flow")
+    botFlow: BotFlow!
+}
+
 type BotFlow {
     id: ID!
     name: String!
     description: String!
-    nodes: [FlowNode!]!
+    versions: [BotFlowVersion!]! @hasInverse(field: "botFlow")
+    nextVersionNumber: Int!
 }
 
 interface Node {
@@ -35,6 +43,7 @@ type FlowNode implements Node {
     parentNode: FlowNode
     subnodesVisibility: Boolean!
     childrenVisibility: Boolean!
+    flow: BotFlowVersion
 }
 
 type TemplateNodesGroup {

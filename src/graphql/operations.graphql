@@ -1,0 +1,13 @@
+query getBotFlow{
+    queryBotFlow {
+        name
+    }
+}
+
+mutation postBotFlow($flow: [AddBotFlowInput!]!) {
+    addBotFlow(input: $flow) {
+        botFlow {
+            id
+        }
+    }
+}
