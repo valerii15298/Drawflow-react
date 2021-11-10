@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import {
+  useTemplateNodesMutation,
+  useTemplateNodesQuery,
+} from "../generated/apollo";
 import { getTemplateNode } from "../models/getTemplateNode";
-import { updateTemplateNode } from "../redux/api";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Plus } from "../svg";
 import { NodeDiv, NodeTemplate } from "./NodeTemplate";
 
@@ -52,10 +54,17 @@ const AddTemplateNodeDiv = styled(NodeDiv)`
 
 const TemplateNodesList = (props: {
   searchWord: string;
-  selectedGroup: number;
+  selectedGroup: string;
 }) => {
-  const list = useAppSelector((s) => s.templates);
-  const dispatch = useAppDispatch();
+  const { data, loading, error } = useTemplateNodesQuery();
+  const [addTemplateNodes] = useTemplateNodesMutation({
+    refetchQueries: ["templateNodes"],
+  });
+  if (loading) return <>Loading...</>;
+  if (error) return <>Error</>;
+  const list = data.queryTemplateNode;
+  // console.log(list);
+  // const dispatch = useAppDispatch();
   const { searchWord, selectedGroup } = props;
   const searchArr = searchWord
     .toLowerCase()
@@ -66,26 +75,45 @@ const TemplateNodesList = (props: {
     <ListDiv>
       {list.map((block) => {
         // const label = JSON.stringify(block, null, 2);
-        const label = block.name + " " + block.description;
+        const label = block.info.name + " " + block.info.description;
 
         return (
-          (selectedGroup === 0 || block.nodes_group_id === selectedGroup) &&
+          (selectedGroup === "All" || block.group.id === selectedGroup) &&
           (searchArr.find((word) => label.toLowerCase().includes(word)) ||
-            !searchArr.length) && (
-            <NodeTemplate key={block.nodes_id} {...block} />
-          )
+            !searchArr.length) && <NodeTemplate key={block.id} {...block} />
         );
       })}
       <AddTemplateNodeDiv
         onClick={() => {
           const templateNode = getTemplateNode();
-          templateNode.nodes_group_id = selectedGroup;
-          dispatch(
-            updateTemplateNode({
+          // const a:TemplateNode
+          delete templateNode.props;
+          delete templateNode.id;
+          templateNode.group = { id: "0x2715" };
+          const input = [
+            {
               ...templateNode,
-              order: Math.max(...list.map((v) => v.order)) + 1,
-            })
-          );
+              props: {
+                nodeImagePropsRef: {
+                  src: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+                },
+              },
+            },
+          ];
+          console.log(input);
+          addTemplateNodes({
+            variables: {
+              input,
+            },
+          }).then((a) => {
+            console.log(a);
+          });
+          // dispatch(
+          //   updateTemplateNode({
+          //     ...templateNode,
+          //     order: Math.max(...list.map((v) => v.order)) + 1,
+          //   })
+          // );
         }}
       >
         <Plus />

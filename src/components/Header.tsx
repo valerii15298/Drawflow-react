@@ -1,11 +1,10 @@
-import styled, { css } from "styled-components";
-import { setStateAction } from "../redux/actions";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { Arrow } from "../svg";
-import settingsPng from "../assets/flowsettings.png";
 import Toggle from "react-toggle";
-import { mainWindow, sideWindow } from "../types";
+import styled, { css } from "styled-components";
+import settingsPng from "../assets/flowsettings.png";
+import { setStateAction } from "../redux/actions";
 import { postFlow } from "../redux/api";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { mainWindow, sideWindow } from "../types";
 import { SelectFlowVersion } from "./SelectFlowVersion";
 import { ToggleSidebar } from "./Sidebar";
 

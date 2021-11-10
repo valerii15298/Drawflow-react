@@ -7,7 +7,6 @@ import {
   flowType,
   mainWindow,
   node,
-  NODE_TYPE,
   sideWindow,
   Slices,
 } from "../types";
@@ -112,7 +111,6 @@ const reducer = createReducer(initialState, (builder) => {
         // use template to get data for node
         const node: node = {
           id: 0,
-          type: NODE_TYPE.MIDDLE,
           data: getNodeFromTemplate(templateNode),
           port: {
             in: 1,
@@ -201,7 +199,6 @@ const reducer = createReducer(initialState, (builder) => {
           id: this_node_unique_id,
           height: 0,
           width: 0,
-          type: NODE_TYPE.MIDDLE,
           isSub,
           port: {
             out: isSub ? 1 : 2,

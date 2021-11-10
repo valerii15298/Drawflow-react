@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import { dragTemplate, setStateAction } from "../redux/actions";
-import { getFileUrl, updateTemplateNode } from "../redux/api";
+import { getFileUrl } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { ThreeDots } from "../svg";
-import { block, mainWindow } from "../types";
+import { mainWindow } from "../types";
+import { formType } from "./NodeSettings/TemplateNodeSettings";
 
 export const TapMoreButton = styled.button`
   position: absolute;
@@ -66,8 +67,8 @@ const NodeTitleSpan = styled.div`
   //hyphens: auto;
 `;
 
-export const NodeTemplate = (props: block) => {
-  const { nodes_id, order } = props;
+export const NodeTemplate = (props: formType) => {
+  const { id, order } = props;
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const canvas = useAppSelector((s) => s.precanvas);
@@ -76,7 +77,7 @@ export const NodeTemplate = (props: block) => {
     if (dragTemplate === undefined) {
       return;
     }
-    dispatch(dragTemplate(nodes_id));
+    // dispatch(dragTemplate(id));
     const { current } = ref;
     if (!current) {
       console.error("No node to copy");
@@ -128,7 +129,7 @@ export const NodeTemplate = (props: block) => {
           dispatch(
             setStateAction({
               windowConfig: {
-                id: nodes_id,
+                id,
                 mainId: mainWindow.templateNodeSettings,
               },
             })
@@ -150,12 +151,12 @@ export const NodeTemplate = (props: block) => {
           const icon_link = await getFileUrl(e.dataTransfer.files[0]);
           // const icon_link =
           //   "https://tastypoints.io/akm/tasty_images/6WBIrTaO.png";
-          dispatch(updateTemplateNode({ nodes_id, icon_link }));
+          // dispatch(updateTemplateNode({ nodes_id, icon_link }));
         }}
         draggable={false}
-        src={props.icon_link}
+        src={props.info.iconLink}
       />
-      <NodeTitleSpan>{props.name}</NodeTitleSpan>
+      <NodeTitleSpan>{props.info.name}</NodeTitleSpan>
     </NodeDiv>
   );
 };

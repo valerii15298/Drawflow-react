@@ -1,12 +1,12 @@
 // depends on key and value
-import { chatNodeType } from "../chat/chatNodes/chatNodeType";
+import { ChatNodeType } from "../generated/apollo";
 
 export const mapNodeSettingsKeyToComponent = {
-  node_object_lists: {
+  info: {
     type: ({ field }: any) => {
       return (
-        <select {...field}>
-          {Object.entries(chatNodeType).map(([type, value], i) => (
+        <select {...field} disabled>
+          {Object.entries(ChatNodeType).map(([type, value], i) => (
             <option key={i} value={value}>
               {type}
             </option>

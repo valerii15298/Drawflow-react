@@ -73,7 +73,7 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
   return <NodeComponent {...{ ...props, ...flowNodeData }} />;
 };
 
-export const usePushNextNode = (flowNodeId) => {
+export const usePushNextNode = (flowNodeId: number) => {
   const { actions, flow } = useChatBotContext();
 
   return useCallback(() => {

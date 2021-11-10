@@ -1,10 +1,10 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -48,6 +48,7 @@ export type AddBotFlowPayloadBotFlowArgs = {
 
 export type AddBotFlowVersionInput = {
   botFlow: BotFlowRef;
+  connections: Array<ConnectionRef>;
   nodes: Array<FlowNodeRef>;
   version: Scalars['Int'];
 };
@@ -66,15 +67,32 @@ export type AddBotFlowVersionPayloadBotFlowVersionArgs = {
   order?: Maybe<BotFlowVersionOrder>;
 };
 
+export type AddConnectionInput = {
+  flow: BotFlowVersionRef;
+  from: PortRef;
+  to: PortRef;
+};
+
+export type AddConnectionPayload = {
+  __typename?: 'AddConnectionPayload';
+  connection?: Maybe<Array<Maybe<Connection>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+
+export type AddConnectionPayloadConnectionArgs = {
+  filter?: Maybe<ConnectionFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
 export type AddFlowNodeInput = {
-  childrenVisibility: Scalars['Boolean'];
-  flow?: Maybe<BotFlowVersionRef>;
+  flow: BotFlowVersionRef;
   id: Scalars['Int'];
   info: NodeInfoRef;
-  nextNodes: Array<FlowNodeRef>;
-  parentNode?: Maybe<FlowNodeRef>;
+  ports: Array<PortRef>;
+  pos: PosRef;
   props: NodePropsRef;
-  subnodesVisibility: Scalars['Boolean'];
   templateNode?: Maybe<TemplateNodeRef>;
 };
 
@@ -167,9 +185,8 @@ export type AddNodeImagePropsPayloadNodeImagePropsArgs = {
 
 export type AddNodeInfoInput = {
   description: Scalars['String'];
-  imageLink: Scalars['String'];
+  iconLink: Scalars['String'];
   name: Scalars['String'];
-  order: Scalars['Int'];
   type: ChatNodeType;
 };
 
@@ -207,7 +224,7 @@ export type AddNodeLinkPropsPayloadNodeLinkPropsArgs = {
 };
 
 export type AddNodeSwitchOptionPropsInput = {
-  imageUrl: Scalars['String'];
+  imageLink: Scalars['String'];
   text: Scalars['String'];
 };
 
@@ -297,9 +314,49 @@ export type AddNodeWaitPropsPayloadNodeWaitPropsArgs = {
   order?: Maybe<NodeWaitPropsOrder>;
 };
 
+export type AddPortInput = {
+  index: Scalars['Int'];
+  node: FlowNodeRef;
+  pos: PosRef;
+};
+
+export type AddPortPayload = {
+  __typename?: 'AddPortPayload';
+  numUids?: Maybe<Scalars['Int']>;
+  port?: Maybe<Array<Maybe<Port>>>;
+};
+
+
+export type AddPortPayloadPortArgs = {
+  filter?: Maybe<PortFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PortOrder>;
+};
+
+export type AddPosInput = {
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
+export type AddPosPayload = {
+  __typename?: 'AddPosPayload';
+  numUids?: Maybe<Scalars['Int']>;
+  pos?: Maybe<Array<Maybe<Pos>>>;
+};
+
+
+export type AddPosPayloadPosArgs = {
+  filter?: Maybe<PosFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PosOrder>;
+};
+
 export type AddTemplateNodeInput = {
   group: TemplateNodesGroupRef;
   info: NodeInfoRef;
+  order: Scalars['Int'];
   props: NodePropsRef;
 };
 
@@ -314,6 +371,7 @@ export type AddTemplateNodePayloadTemplateNodeArgs = {
   filter?: Maybe<TemplateNodeFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<TemplateNodeOrder>;
 };
 
 export type AddTemplateNodesGroupInput = {
@@ -424,6 +482,8 @@ export type BotFlowRef = {
 export type BotFlowVersion = {
   __typename?: 'BotFlowVersion';
   botFlow: BotFlow;
+  connections: Array<Connection>;
+  connectionsAggregate?: Maybe<ConnectionAggregateResult>;
   id: Scalars['ID'];
   nodes: Array<FlowNode>;
   nodesAggregate?: Maybe<FlowNodeAggregateResult>;
@@ -433,6 +493,18 @@ export type BotFlowVersion = {
 
 export type BotFlowVersionBotFlowArgs = {
   filter?: Maybe<BotFlowFilter>;
+};
+
+
+export type BotFlowVersionConnectionsArgs = {
+  filter?: Maybe<ConnectionFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+
+export type BotFlowVersionConnectionsAggregateArgs = {
+  filter?: Maybe<ConnectionFilter>;
 };
 
 
@@ -467,6 +539,7 @@ export type BotFlowVersionFilter = {
 
 export enum BotFlowVersionHasFilter {
   BotFlow = 'botFlow',
+  Connections = 'connections',
   Nodes = 'nodes',
   Version = 'version'
 }
@@ -483,12 +556,14 @@ export enum BotFlowVersionOrderable {
 
 export type BotFlowVersionPatch = {
   botFlow?: Maybe<BotFlowRef>;
+  connections?: Maybe<Array<ConnectionRef>>;
   nodes?: Maybe<Array<FlowNodeRef>>;
   version?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionRef = {
   botFlow?: Maybe<BotFlowRef>;
+  connections?: Maybe<Array<ConnectionRef>>;
   id?: Maybe<Scalars['ID']>;
   nodes?: Maybe<Array<FlowNodeRef>>;
   version?: Maybe<Scalars['Int']>;
@@ -509,6 +584,61 @@ export enum ChatNodeType {
   Text = 'Text',
   Video = 'Video'
 }
+
+export type Connection = {
+  __typename?: 'Connection';
+  flow: BotFlowVersion;
+  from: Port;
+  id: Scalars['ID'];
+  to: Port;
+};
+
+
+export type ConnectionFlowArgs = {
+  filter?: Maybe<BotFlowVersionFilter>;
+};
+
+
+export type ConnectionFromArgs = {
+  filter?: Maybe<PortFilter>;
+};
+
+
+export type ConnectionToArgs = {
+  filter?: Maybe<PortFilter>;
+};
+
+export type ConnectionAggregateResult = {
+  __typename?: 'ConnectionAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+};
+
+export type ConnectionFilter = {
+  and?: Maybe<Array<Maybe<ConnectionFilter>>>;
+  has?: Maybe<Array<Maybe<ConnectionHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
+  not?: Maybe<ConnectionFilter>;
+  or?: Maybe<Array<Maybe<ConnectionFilter>>>;
+};
+
+export enum ConnectionHasFilter {
+  Flow = 'flow',
+  From = 'from',
+  To = 'to'
+}
+
+export type ConnectionPatch = {
+  flow?: Maybe<BotFlowVersionRef>;
+  from?: Maybe<PortRef>;
+  to?: Maybe<PortRef>;
+};
+
+export type ConnectionRef = {
+  flow?: Maybe<BotFlowVersionRef>;
+  from?: Maybe<PortRef>;
+  id?: Maybe<Scalars['ID']>;
+  to?: Maybe<PortRef>;
+};
 
 export type ContainsFilter = {
   point?: Maybe<PointRef>;
@@ -570,6 +700,20 @@ export type DeleteBotFlowVersionPayloadBotFlowVersionArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   order?: Maybe<BotFlowVersionOrder>;
+};
+
+export type DeleteConnectionPayload = {
+  __typename?: 'DeleteConnectionPayload';
+  connection?: Maybe<Array<Maybe<Connection>>>;
+  msg?: Maybe<Scalars['String']>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+
+export type DeleteConnectionPayloadConnectionArgs = {
+  filter?: Maybe<ConnectionFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 };
 
 export type DeleteFlowNodePayload = {
@@ -765,6 +909,36 @@ export type DeleteNodeWaitPropsPayloadNodeWaitPropsArgs = {
   order?: Maybe<NodeWaitPropsOrder>;
 };
 
+export type DeletePortPayload = {
+  __typename?: 'DeletePortPayload';
+  msg?: Maybe<Scalars['String']>;
+  numUids?: Maybe<Scalars['Int']>;
+  port?: Maybe<Array<Maybe<Port>>>;
+};
+
+
+export type DeletePortPayloadPortArgs = {
+  filter?: Maybe<PortFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PortOrder>;
+};
+
+export type DeletePosPayload = {
+  __typename?: 'DeletePosPayload';
+  msg?: Maybe<Scalars['String']>;
+  numUids?: Maybe<Scalars['Int']>;
+  pos?: Maybe<Array<Maybe<Pos>>>;
+};
+
+
+export type DeletePosPayloadPosArgs = {
+  filter?: Maybe<PosFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PosOrder>;
+};
+
 export type DeleteTemplateNodePayload = {
   __typename?: 'DeleteTemplateNodePayload';
   msg?: Maybe<Scalars['String']>;
@@ -777,6 +951,7 @@ export type DeleteTemplateNodePayloadTemplateNodeArgs = {
   filter?: Maybe<TemplateNodeFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<TemplateNodeOrder>;
 };
 
 export type DeleteTemplateNodesGroupPayload = {
@@ -829,15 +1004,13 @@ export type FloatRange = {
 
 export type FlowNode = Node & {
   __typename?: 'FlowNode';
-  childrenVisibility: Scalars['Boolean'];
-  flow?: Maybe<BotFlowVersion>;
+  flow: BotFlowVersion;
   id: Scalars['Int'];
   info: NodeInfo;
-  nextNodes: Array<FlowNode>;
-  nextNodesAggregate?: Maybe<FlowNodeAggregateResult>;
-  parentNode?: Maybe<FlowNode>;
+  ports: Array<Port>;
+  portsAggregate?: Maybe<PortAggregateResult>;
+  pos: Pos;
   props: NodeProps;
-  subnodesVisibility: Scalars['Boolean'];
   templateNode?: Maybe<TemplateNode>;
 };
 
@@ -852,21 +1025,21 @@ export type FlowNodeInfoArgs = {
 };
 
 
-export type FlowNodeNextNodesArgs = {
-  filter?: Maybe<FlowNodeFilter>;
+export type FlowNodePortsArgs = {
+  filter?: Maybe<PortFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order?: Maybe<FlowNodeOrder>;
+  order?: Maybe<PortOrder>;
 };
 
 
-export type FlowNodeNextNodesAggregateArgs = {
-  filter?: Maybe<FlowNodeFilter>;
+export type FlowNodePortsAggregateArgs = {
+  filter?: Maybe<PortFilter>;
 };
 
 
-export type FlowNodeParentNodeArgs = {
-  filter?: Maybe<FlowNodeFilter>;
+export type FlowNodePosArgs = {
+  filter?: Maybe<PosFilter>;
 };
 
 
@@ -897,14 +1070,12 @@ export type FlowNodeFilter = {
 };
 
 export enum FlowNodeHasFilter {
-  ChildrenVisibility = 'childrenVisibility',
   Flow = 'flow',
   Id = 'id',
   Info = 'info',
-  NextNodes = 'nextNodes',
-  ParentNode = 'parentNode',
+  Ports = 'ports',
+  Pos = 'pos',
   Props = 'props',
-  SubnodesVisibility = 'subnodesVisibility',
   TemplateNode = 'templateNode'
 }
 
@@ -919,25 +1090,21 @@ export enum FlowNodeOrderable {
 }
 
 export type FlowNodePatch = {
-  childrenVisibility?: Maybe<Scalars['Boolean']>;
   flow?: Maybe<BotFlowVersionRef>;
   info?: Maybe<NodeInfoRef>;
-  nextNodes?: Maybe<Array<FlowNodeRef>>;
-  parentNode?: Maybe<FlowNodeRef>;
+  ports?: Maybe<Array<PortRef>>;
+  pos?: Maybe<PosRef>;
   props?: Maybe<NodePropsRef>;
-  subnodesVisibility?: Maybe<Scalars['Boolean']>;
   templateNode?: Maybe<TemplateNodeRef>;
 };
 
 export type FlowNodeRef = {
-  childrenVisibility?: Maybe<Scalars['Boolean']>;
   flow?: Maybe<BotFlowVersionRef>;
   id?: Maybe<Scalars['Int']>;
   info?: Maybe<NodeInfoRef>;
-  nextNodes?: Maybe<Array<FlowNodeRef>>;
-  parentNode?: Maybe<FlowNodeRef>;
+  ports?: Maybe<Array<PortRef>>;
+  pos?: Maybe<PosRef>;
   props?: Maybe<NodePropsRef>;
-  subnodesVisibility?: Maybe<Scalars['Boolean']>;
   templateNode?: Maybe<TemplateNodeRef>;
 };
 
@@ -1015,6 +1182,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addBotFlow?: Maybe<AddBotFlowPayload>;
   addBotFlowVersion?: Maybe<AddBotFlowVersionPayload>;
+  addConnection?: Maybe<AddConnectionPayload>;
   addFlowNode?: Maybe<AddFlowNodePayload>;
   addNodeAudioProps?: Maybe<AddNodeAudioPropsPayload>;
   addNodeCountdownProps?: Maybe<AddNodeCountdownPropsPayload>;
@@ -1027,10 +1195,13 @@ export type Mutation = {
   addNodeTextProps?: Maybe<AddNodeTextPropsPayload>;
   addNodeVideoProps?: Maybe<AddNodeVideoPropsPayload>;
   addNodeWaitProps?: Maybe<AddNodeWaitPropsPayload>;
+  addPort?: Maybe<AddPortPayload>;
+  addPos?: Maybe<AddPosPayload>;
   addTemplateNode?: Maybe<AddTemplateNodePayload>;
   addTemplateNodesGroup?: Maybe<AddTemplateNodesGroupPayload>;
   deleteBotFlow?: Maybe<DeleteBotFlowPayload>;
   deleteBotFlowVersion?: Maybe<DeleteBotFlowVersionPayload>;
+  deleteConnection?: Maybe<DeleteConnectionPayload>;
   deleteFlowNode?: Maybe<DeleteFlowNodePayload>;
   deleteNode?: Maybe<DeleteNodePayload>;
   deleteNodeAudioProps?: Maybe<DeleteNodeAudioPropsPayload>;
@@ -1044,10 +1215,13 @@ export type Mutation = {
   deleteNodeTextProps?: Maybe<DeleteNodeTextPropsPayload>;
   deleteNodeVideoProps?: Maybe<DeleteNodeVideoPropsPayload>;
   deleteNodeWaitProps?: Maybe<DeleteNodeWaitPropsPayload>;
+  deletePort?: Maybe<DeletePortPayload>;
+  deletePos?: Maybe<DeletePosPayload>;
   deleteTemplateNode?: Maybe<DeleteTemplateNodePayload>;
   deleteTemplateNodesGroup?: Maybe<DeleteTemplateNodesGroupPayload>;
   updateBotFlow?: Maybe<UpdateBotFlowPayload>;
   updateBotFlowVersion?: Maybe<UpdateBotFlowVersionPayload>;
+  updateConnection?: Maybe<UpdateConnectionPayload>;
   updateFlowNode?: Maybe<UpdateFlowNodePayload>;
   updateNode?: Maybe<UpdateNodePayload>;
   updateNodeAudioProps?: Maybe<UpdateNodeAudioPropsPayload>;
@@ -1061,6 +1235,8 @@ export type Mutation = {
   updateNodeTextProps?: Maybe<UpdateNodeTextPropsPayload>;
   updateNodeVideoProps?: Maybe<UpdateNodeVideoPropsPayload>;
   updateNodeWaitProps?: Maybe<UpdateNodeWaitPropsPayload>;
+  updatePort?: Maybe<UpdatePortPayload>;
+  updatePos?: Maybe<UpdatePosPayload>;
   updateTemplateNode?: Maybe<UpdateTemplateNodePayload>;
   updateTemplateNodesGroup?: Maybe<UpdateTemplateNodesGroupPayload>;
 };
@@ -1073,6 +1249,11 @@ export type MutationAddBotFlowArgs = {
 
 export type MutationAddBotFlowVersionArgs = {
   input: Array<AddBotFlowVersionInput>;
+};
+
+
+export type MutationAddConnectionArgs = {
+  input: Array<AddConnectionInput>;
 };
 
 
@@ -1137,6 +1318,16 @@ export type MutationAddNodeWaitPropsArgs = {
 };
 
 
+export type MutationAddPortArgs = {
+  input: Array<AddPortInput>;
+};
+
+
+export type MutationAddPosArgs = {
+  input: Array<AddPosInput>;
+};
+
+
 export type MutationAddTemplateNodeArgs = {
   input: Array<AddTemplateNodeInput>;
 };
@@ -1154,6 +1345,11 @@ export type MutationDeleteBotFlowArgs = {
 
 export type MutationDeleteBotFlowVersionArgs = {
   filter: BotFlowVersionFilter;
+};
+
+
+export type MutationDeleteConnectionArgs = {
+  filter: ConnectionFilter;
 };
 
 
@@ -1222,6 +1418,16 @@ export type MutationDeleteNodeWaitPropsArgs = {
 };
 
 
+export type MutationDeletePortArgs = {
+  filter: PortFilter;
+};
+
+
+export type MutationDeletePosArgs = {
+  filter: PosFilter;
+};
+
+
 export type MutationDeleteTemplateNodeArgs = {
   filter: TemplateNodeFilter;
 };
@@ -1239,6 +1445,11 @@ export type MutationUpdateBotFlowArgs = {
 
 export type MutationUpdateBotFlowVersionArgs = {
   input: UpdateBotFlowVersionInput;
+};
+
+
+export type MutationUpdateConnectionArgs = {
+  input: UpdateConnectionInput;
 };
 
 
@@ -1307,6 +1518,16 @@ export type MutationUpdateNodeWaitPropsArgs = {
 };
 
 
+export type MutationUpdatePortArgs = {
+  input: UpdatePortInput;
+};
+
+
+export type MutationUpdatePosArgs = {
+  input: UpdatePosInput;
+};
+
+
 export type MutationUpdateTemplateNodeArgs = {
   input: UpdateTemplateNodeInput;
 };
@@ -1343,6 +1564,7 @@ export type NodeAggregateResult = {
 
 export type NodeAudioProps = {
   __typename?: 'NodeAudioProps';
+  id: Scalars['ID'];
   src: Scalars['String'];
 };
 
@@ -1356,6 +1578,7 @@ export type NodeAudioPropsAggregateResult = {
 export type NodeAudioPropsFilter = {
   and?: Maybe<Array<Maybe<NodeAudioPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeAudioPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeAudioPropsFilter>;
   or?: Maybe<Array<Maybe<NodeAudioPropsFilter>>>;
 };
@@ -1379,12 +1602,14 @@ export type NodeAudioPropsPatch = {
 };
 
 export type NodeAudioPropsRef = {
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
 };
 
 export type NodeCountdownProps = {
   __typename?: 'NodeCountdownProps';
   duration: Scalars['Int'];
+  id: Scalars['ID'];
 };
 
 export type NodeCountdownPropsAggregateResult = {
@@ -1399,6 +1624,7 @@ export type NodeCountdownPropsAggregateResult = {
 export type NodeCountdownPropsFilter = {
   and?: Maybe<Array<Maybe<NodeCountdownPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeCountdownPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeCountdownPropsFilter>;
   or?: Maybe<Array<Maybe<NodeCountdownPropsFilter>>>;
 };
@@ -1423,10 +1649,12 @@ export type NodeCountdownPropsPatch = {
 
 export type NodeCountdownPropsRef = {
   duration?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type NodeFileProps = {
   __typename?: 'NodeFileProps';
+  id: Scalars['ID'];
   info: Scalars['String'];
   url: Scalars['String'];
 };
@@ -1443,6 +1671,7 @@ export type NodeFilePropsAggregateResult = {
 export type NodeFilePropsFilter = {
   and?: Maybe<Array<Maybe<NodeFilePropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeFilePropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeFilePropsFilter>;
   or?: Maybe<Array<Maybe<NodeFilePropsFilter>>>;
 };
@@ -1469,6 +1698,7 @@ export type NodeFilePropsPatch = {
 };
 
 export type NodeFilePropsRef = {
+  id?: Maybe<Scalars['ID']>;
   info?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -1487,6 +1717,7 @@ export enum NodeHasFilter {
 
 export type NodeImageProps = {
   __typename?: 'NodeImageProps';
+  id: Scalars['ID'];
   src: Scalars['String'];
 };
 
@@ -1500,6 +1731,7 @@ export type NodeImagePropsAggregateResult = {
 export type NodeImagePropsFilter = {
   and?: Maybe<Array<Maybe<NodeImagePropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeImagePropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeImagePropsFilter>;
   or?: Maybe<Array<Maybe<NodeImagePropsFilter>>>;
 };
@@ -1523,15 +1755,16 @@ export type NodeImagePropsPatch = {
 };
 
 export type NodeImagePropsRef = {
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
 };
 
 export type NodeInfo = {
   __typename?: 'NodeInfo';
   description: Scalars['String'];
-  imageLink: Scalars['String'];
+  iconLink: Scalars['String'];
+  id: Scalars['ID'];
   name: Scalars['String'];
-  order: Scalars['Int'];
   type: ChatNodeType;
 };
 
@@ -1540,28 +1773,24 @@ export type NodeInfoAggregateResult = {
   count?: Maybe<Scalars['Int']>;
   descriptionMax?: Maybe<Scalars['String']>;
   descriptionMin?: Maybe<Scalars['String']>;
-  imageLinkMax?: Maybe<Scalars['String']>;
-  imageLinkMin?: Maybe<Scalars['String']>;
+  iconLinkMax?: Maybe<Scalars['String']>;
+  iconLinkMin?: Maybe<Scalars['String']>;
   nameMax?: Maybe<Scalars['String']>;
   nameMin?: Maybe<Scalars['String']>;
-  orderAvg?: Maybe<Scalars['Float']>;
-  orderMax?: Maybe<Scalars['Int']>;
-  orderMin?: Maybe<Scalars['Int']>;
-  orderSum?: Maybe<Scalars['Int']>;
 };
 
 export type NodeInfoFilter = {
   and?: Maybe<Array<Maybe<NodeInfoFilter>>>;
   has?: Maybe<Array<Maybe<NodeInfoHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeInfoFilter>;
   or?: Maybe<Array<Maybe<NodeInfoFilter>>>;
 };
 
 export enum NodeInfoHasFilter {
   Description = 'description',
-  ImageLink = 'imageLink',
+  IconLink = 'iconLink',
   Name = 'name',
-  Order = 'order',
   Type = 'type'
 }
 
@@ -1573,29 +1802,28 @@ export type NodeInfoOrder = {
 
 export enum NodeInfoOrderable {
   Description = 'description',
-  ImageLink = 'imageLink',
-  Name = 'name',
-  Order = 'order'
+  IconLink = 'iconLink',
+  Name = 'name'
 }
 
 export type NodeInfoPatch = {
   description?: Maybe<Scalars['String']>;
-  imageLink?: Maybe<Scalars['String']>;
+  iconLink?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['Int']>;
   type?: Maybe<ChatNodeType>;
 };
 
 export type NodeInfoRef = {
   description?: Maybe<Scalars['String']>;
-  imageLink?: Maybe<Scalars['String']>;
+  iconLink?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['Int']>;
   type?: Maybe<ChatNodeType>;
 };
 
 export type NodeLinkProps = {
   __typename?: 'NodeLinkProps';
+  id: Scalars['ID'];
   src: Scalars['String'];
   text: Scalars['String'];
 };
@@ -1612,6 +1840,7 @@ export type NodeLinkPropsAggregateResult = {
 export type NodeLinkPropsFilter = {
   and?: Maybe<Array<Maybe<NodeLinkPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeLinkPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeLinkPropsFilter>;
   or?: Maybe<Array<Maybe<NodeLinkPropsFilter>>>;
 };
@@ -1638,6 +1867,7 @@ export type NodeLinkPropsPatch = {
 };
 
 export type NodeLinkPropsRef = {
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
 };
@@ -1647,7 +1877,7 @@ export type NodePatch = {
   props?: Maybe<NodePropsRef>;
 };
 
-export type NodeProps = NodeAudioProps | NodeCountdownProps | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps | NodeSwitchProps;
+export type NodeProps = NodeAudioProps | NodeCountdownProps | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps | NodeSwitchProps | NodeTextProps | NodeVideoProps | NodeWaitProps;
 
 export type NodePropsFilter = {
   memberTypes?: Maybe<Array<NodePropsType>>;
@@ -1658,6 +1888,9 @@ export type NodePropsFilter = {
   nodeLinkPropsFilter?: Maybe<NodeLinkPropsFilter>;
   nodeSwitchOptionPropsFilter?: Maybe<NodeSwitchOptionPropsFilter>;
   nodeSwitchPropsFilter?: Maybe<NodeSwitchPropsFilter>;
+  nodeTextPropsFilter?: Maybe<NodeTextPropsFilter>;
+  nodeVideoPropsFilter?: Maybe<NodeVideoPropsFilter>;
+  nodeWaitPropsFilter?: Maybe<NodeWaitPropsFilter>;
 };
 
 export type NodePropsRef = {
@@ -1668,6 +1901,9 @@ export type NodePropsRef = {
   nodeLinkPropsRef?: Maybe<NodeLinkPropsRef>;
   nodeSwitchOptionPropsRef?: Maybe<NodeSwitchOptionPropsRef>;
   nodeSwitchPropsRef?: Maybe<NodeSwitchPropsRef>;
+  nodeTextPropsRef?: Maybe<NodeTextPropsRef>;
+  nodeVideoPropsRef?: Maybe<NodeVideoPropsRef>;
+  nodeWaitPropsRef?: Maybe<NodeWaitPropsRef>;
 };
 
 export enum NodePropsType {
@@ -1677,20 +1913,24 @@ export enum NodePropsType {
   NodeImageProps = 'NodeImageProps',
   NodeLinkProps = 'NodeLinkProps',
   NodeSwitchOptionProps = 'NodeSwitchOptionProps',
-  NodeSwitchProps = 'NodeSwitchProps'
+  NodeSwitchProps = 'NodeSwitchProps',
+  NodeTextProps = 'NodeTextProps',
+  NodeVideoProps = 'NodeVideoProps',
+  NodeWaitProps = 'NodeWaitProps'
 }
 
 export type NodeSwitchOptionProps = {
   __typename?: 'NodeSwitchOptionProps';
-  imageUrl: Scalars['String'];
+  id: Scalars['ID'];
+  imageLink: Scalars['String'];
   text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsAggregateResult = {
   __typename?: 'NodeSwitchOptionPropsAggregateResult';
   count?: Maybe<Scalars['Int']>;
-  imageUrlMax?: Maybe<Scalars['String']>;
-  imageUrlMin?: Maybe<Scalars['String']>;
+  imageLinkMax?: Maybe<Scalars['String']>;
+  imageLinkMin?: Maybe<Scalars['String']>;
   textMax?: Maybe<Scalars['String']>;
   textMin?: Maybe<Scalars['String']>;
 };
@@ -1698,12 +1938,13 @@ export type NodeSwitchOptionPropsAggregateResult = {
 export type NodeSwitchOptionPropsFilter = {
   and?: Maybe<Array<Maybe<NodeSwitchOptionPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeSwitchOptionPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeSwitchOptionPropsFilter>;
   or?: Maybe<Array<Maybe<NodeSwitchOptionPropsFilter>>>;
 };
 
 export enum NodeSwitchOptionPropsHasFilter {
-  ImageUrl = 'imageUrl',
+  ImageLink = 'imageLink',
   Text = 'text'
 }
 
@@ -1714,23 +1955,25 @@ export type NodeSwitchOptionPropsOrder = {
 };
 
 export enum NodeSwitchOptionPropsOrderable {
-  ImageUrl = 'imageUrl',
+  ImageLink = 'imageLink',
   Text = 'text'
 }
 
 export type NodeSwitchOptionPropsPatch = {
-  imageUrl?: Maybe<Scalars['String']>;
+  imageLink?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
 };
 
 export type NodeSwitchOptionPropsRef = {
-  imageUrl?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  imageLink?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
 };
 
 export type NodeSwitchProps = {
   __typename?: 'NodeSwitchProps';
   displayType: SwitchDisplayType;
+  id: Scalars['ID'];
 };
 
 export type NodeSwitchPropsAggregateResult = {
@@ -1741,6 +1984,7 @@ export type NodeSwitchPropsAggregateResult = {
 export type NodeSwitchPropsFilter = {
   and?: Maybe<Array<Maybe<NodeSwitchPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeSwitchPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeSwitchPropsFilter>;
   or?: Maybe<Array<Maybe<NodeSwitchPropsFilter>>>;
 };
@@ -1755,10 +1999,12 @@ export type NodeSwitchPropsPatch = {
 
 export type NodeSwitchPropsRef = {
   displayType?: Maybe<SwitchDisplayType>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type NodeTextProps = {
   __typename?: 'NodeTextProps';
+  id: Scalars['ID'];
   src: Scalars['String'];
 };
 
@@ -1772,6 +2018,7 @@ export type NodeTextPropsAggregateResult = {
 export type NodeTextPropsFilter = {
   and?: Maybe<Array<Maybe<NodeTextPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeTextPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeTextPropsFilter>;
   or?: Maybe<Array<Maybe<NodeTextPropsFilter>>>;
 };
@@ -1795,11 +2042,13 @@ export type NodeTextPropsPatch = {
 };
 
 export type NodeTextPropsRef = {
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
 };
 
 export type NodeVideoProps = {
   __typename?: 'NodeVideoProps';
+  id: Scalars['ID'];
   src: Scalars['String'];
 };
 
@@ -1813,6 +2062,7 @@ export type NodeVideoPropsAggregateResult = {
 export type NodeVideoPropsFilter = {
   and?: Maybe<Array<Maybe<NodeVideoPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeVideoPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeVideoPropsFilter>;
   or?: Maybe<Array<Maybe<NodeVideoPropsFilter>>>;
 };
@@ -1836,12 +2086,14 @@ export type NodeVideoPropsPatch = {
 };
 
 export type NodeVideoPropsRef = {
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
 };
 
 export type NodeWaitProps = {
   __typename?: 'NodeWaitProps';
   delay: Scalars['Int'];
+  id: Scalars['ID'];
   src: Scalars['String'];
 };
 
@@ -1859,6 +2111,7 @@ export type NodeWaitPropsAggregateResult = {
 export type NodeWaitPropsFilter = {
   and?: Maybe<Array<Maybe<NodeWaitPropsFilter>>>;
   has?: Maybe<Array<Maybe<NodeWaitPropsHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
   not?: Maybe<NodeWaitPropsFilter>;
   or?: Maybe<Array<Maybe<NodeWaitPropsFilter>>>;
 };
@@ -1886,6 +2139,7 @@ export type NodeWaitPropsPatch = {
 
 export type NodeWaitPropsRef = {
   delay?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
   src?: Maybe<Scalars['String']>;
 };
 
@@ -1930,10 +2184,130 @@ export type PolygonRef = {
   coordinates: Array<PointListRef>;
 };
 
+export type Port = {
+  __typename?: 'Port';
+  id: Scalars['ID'];
+  index: Scalars['Int'];
+  node: FlowNode;
+  pos: Pos;
+};
+
+
+export type PortNodeArgs = {
+  filter?: Maybe<FlowNodeFilter>;
+};
+
+
+export type PortPosArgs = {
+  filter?: Maybe<PosFilter>;
+};
+
+export type PortAggregateResult = {
+  __typename?: 'PortAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  indexAvg?: Maybe<Scalars['Float']>;
+  indexMax?: Maybe<Scalars['Int']>;
+  indexMin?: Maybe<Scalars['Int']>;
+  indexSum?: Maybe<Scalars['Int']>;
+};
+
+export type PortFilter = {
+  and?: Maybe<Array<Maybe<PortFilter>>>;
+  has?: Maybe<Array<Maybe<PortHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
+  not?: Maybe<PortFilter>;
+  or?: Maybe<Array<Maybe<PortFilter>>>;
+};
+
+export enum PortHasFilter {
+  Index = 'index',
+  Node = 'node',
+  Pos = 'pos'
+}
+
+export type PortOrder = {
+  asc?: Maybe<PortOrderable>;
+  desc?: Maybe<PortOrderable>;
+  then?: Maybe<PortOrder>;
+};
+
+export enum PortOrderable {
+  Index = 'index'
+}
+
+export type PortPatch = {
+  index?: Maybe<Scalars['Int']>;
+  node?: Maybe<FlowNodeRef>;
+  pos?: Maybe<PosRef>;
+};
+
+export type PortRef = {
+  id?: Maybe<Scalars['ID']>;
+  index?: Maybe<Scalars['Int']>;
+  node?: Maybe<FlowNodeRef>;
+  pos?: Maybe<PosRef>;
+};
+
+export type Pos = {
+  __typename?: 'Pos';
+  id: Scalars['ID'];
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
+export type PosAggregateResult = {
+  __typename?: 'PosAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  xAvg?: Maybe<Scalars['Float']>;
+  xMax?: Maybe<Scalars['Float']>;
+  xMin?: Maybe<Scalars['Float']>;
+  xSum?: Maybe<Scalars['Float']>;
+  yAvg?: Maybe<Scalars['Float']>;
+  yMax?: Maybe<Scalars['Float']>;
+  yMin?: Maybe<Scalars['Float']>;
+  ySum?: Maybe<Scalars['Float']>;
+};
+
+export type PosFilter = {
+  and?: Maybe<Array<Maybe<PosFilter>>>;
+  has?: Maybe<Array<Maybe<PosHasFilter>>>;
+  id?: Maybe<Array<Scalars['ID']>>;
+  not?: Maybe<PosFilter>;
+  or?: Maybe<Array<Maybe<PosFilter>>>;
+};
+
+export enum PosHasFilter {
+  X = 'x',
+  Y = 'y'
+}
+
+export type PosOrder = {
+  asc?: Maybe<PosOrderable>;
+  desc?: Maybe<PosOrderable>;
+  then?: Maybe<PosOrder>;
+};
+
+export enum PosOrderable {
+  X = 'x',
+  Y = 'y'
+}
+
+export type PosPatch = {
+  x?: Maybe<Scalars['Float']>;
+  y?: Maybe<Scalars['Float']>;
+};
+
+export type PosRef = {
+  id?: Maybe<Scalars['ID']>;
+  x?: Maybe<Scalars['Float']>;
+  y?: Maybe<Scalars['Float']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   aggregateBotFlow?: Maybe<BotFlowAggregateResult>;
   aggregateBotFlowVersion?: Maybe<BotFlowVersionAggregateResult>;
+  aggregateConnection?: Maybe<ConnectionAggregateResult>;
   aggregateFlowNode?: Maybe<FlowNodeAggregateResult>;
   aggregateNode?: Maybe<NodeAggregateResult>;
   aggregateNodeAudioProps?: Maybe<NodeAudioPropsAggregateResult>;
@@ -1947,15 +2321,32 @@ export type Query = {
   aggregateNodeTextProps?: Maybe<NodeTextPropsAggregateResult>;
   aggregateNodeVideoProps?: Maybe<NodeVideoPropsAggregateResult>;
   aggregateNodeWaitProps?: Maybe<NodeWaitPropsAggregateResult>;
+  aggregatePort?: Maybe<PortAggregateResult>;
+  aggregatePos?: Maybe<PosAggregateResult>;
   aggregateTemplateNode?: Maybe<TemplateNodeAggregateResult>;
   aggregateTemplateNodesGroup?: Maybe<TemplateNodesGroupAggregateResult>;
   getBotFlow?: Maybe<BotFlow>;
   getBotFlowVersion?: Maybe<BotFlowVersion>;
+  getConnection?: Maybe<Connection>;
   getFlowNode?: Maybe<FlowNode>;
+  getNodeAudioProps?: Maybe<NodeAudioProps>;
+  getNodeCountdownProps?: Maybe<NodeCountdownProps>;
+  getNodeFileProps?: Maybe<NodeFileProps>;
+  getNodeImageProps?: Maybe<NodeImageProps>;
+  getNodeInfo?: Maybe<NodeInfo>;
+  getNodeLinkProps?: Maybe<NodeLinkProps>;
+  getNodeSwitchOptionProps?: Maybe<NodeSwitchOptionProps>;
+  getNodeSwitchProps?: Maybe<NodeSwitchProps>;
+  getNodeTextProps?: Maybe<NodeTextProps>;
+  getNodeVideoProps?: Maybe<NodeVideoProps>;
+  getNodeWaitProps?: Maybe<NodeWaitProps>;
+  getPort?: Maybe<Port>;
+  getPos?: Maybe<Pos>;
   getTemplateNode?: Maybe<TemplateNode>;
   getTemplateNodesGroup?: Maybe<TemplateNodesGroup>;
   queryBotFlow?: Maybe<Array<Maybe<BotFlow>>>;
   queryBotFlowVersion?: Maybe<Array<Maybe<BotFlowVersion>>>;
+  queryConnection?: Maybe<Array<Maybe<Connection>>>;
   queryFlowNode?: Maybe<Array<Maybe<FlowNode>>>;
   queryNode?: Maybe<Array<Maybe<Node>>>;
   queryNodeAudioProps?: Maybe<Array<Maybe<NodeAudioProps>>>;
@@ -1969,6 +2360,8 @@ export type Query = {
   queryNodeTextProps?: Maybe<Array<Maybe<NodeTextProps>>>;
   queryNodeVideoProps?: Maybe<Array<Maybe<NodeVideoProps>>>;
   queryNodeWaitProps?: Maybe<Array<Maybe<NodeWaitProps>>>;
+  queryPort?: Maybe<Array<Maybe<Port>>>;
+  queryPos?: Maybe<Array<Maybe<Pos>>>;
   queryTemplateNode?: Maybe<Array<Maybe<TemplateNode>>>;
   queryTemplateNodesGroup?: Maybe<Array<Maybe<TemplateNodesGroup>>>;
 };
@@ -1981,6 +2374,11 @@ export type QueryAggregateBotFlowArgs = {
 
 export type QueryAggregateBotFlowVersionArgs = {
   filter?: Maybe<BotFlowVersionFilter>;
+};
+
+
+export type QueryAggregateConnectionArgs = {
+  filter?: Maybe<ConnectionFilter>;
 };
 
 
@@ -2049,6 +2447,16 @@ export type QueryAggregateNodeWaitPropsArgs = {
 };
 
 
+export type QueryAggregatePortArgs = {
+  filter?: Maybe<PortFilter>;
+};
+
+
+export type QueryAggregatePosArgs = {
+  filter?: Maybe<PosFilter>;
+};
+
+
 export type QueryAggregateTemplateNodeArgs = {
   filter?: Maybe<TemplateNodeFilter>;
 };
@@ -2069,8 +2477,78 @@ export type QueryGetBotFlowVersionArgs = {
 };
 
 
+export type QueryGetConnectionArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryGetFlowNodeArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGetNodeAudioPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeCountdownPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeFilePropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeImagePropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeInfoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeLinkPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeSwitchOptionPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeSwitchPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeTextPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeVideoPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetNodeWaitPropsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetPortArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetPosArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -2097,6 +2575,13 @@ export type QueryQueryBotFlowVersionArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   order?: Maybe<BotFlowVersionOrder>;
+};
+
+
+export type QueryQueryConnectionArgs = {
+  filter?: Maybe<ConnectionFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 };
 
 
@@ -2202,10 +2687,27 @@ export type QueryQueryNodeWaitPropsArgs = {
 };
 
 
+export type QueryQueryPortArgs = {
+  filter?: Maybe<PortFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PortOrder>;
+};
+
+
+export type QueryQueryPosArgs = {
+  filter?: Maybe<PosFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PosOrder>;
+};
+
+
 export type QueryQueryTemplateNodeArgs = {
   filter?: Maybe<TemplateNodeFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<TemplateNodeOrder>;
 };
 
 
@@ -2261,6 +2763,7 @@ export type TemplateNode = Node & {
   group: TemplateNodesGroup;
   id: Scalars['ID'];
   info: NodeInfo;
+  order: Scalars['Int'];
   props: NodeProps;
 };
 
@@ -2282,6 +2785,10 @@ export type TemplateNodePropsArgs = {
 export type TemplateNodeAggregateResult = {
   __typename?: 'TemplateNodeAggregateResult';
   count?: Maybe<Scalars['Int']>;
+  orderAvg?: Maybe<Scalars['Float']>;
+  orderMax?: Maybe<Scalars['Int']>;
+  orderMin?: Maybe<Scalars['Int']>;
+  orderSum?: Maybe<Scalars['Int']>;
 };
 
 export type TemplateNodeFilter = {
@@ -2295,12 +2802,24 @@ export type TemplateNodeFilter = {
 export enum TemplateNodeHasFilter {
   Group = 'group',
   Info = 'info',
+  Order = 'order',
   Props = 'props'
+}
+
+export type TemplateNodeOrder = {
+  asc?: Maybe<TemplateNodeOrderable>;
+  desc?: Maybe<TemplateNodeOrderable>;
+  then?: Maybe<TemplateNodeOrder>;
+};
+
+export enum TemplateNodeOrderable {
+  Order = 'order'
 }
 
 export type TemplateNodePatch = {
   group?: Maybe<TemplateNodesGroupRef>;
   info?: Maybe<NodeInfoRef>;
+  order?: Maybe<Scalars['Int']>;
   props?: Maybe<NodePropsRef>;
 };
 
@@ -2308,6 +2827,7 @@ export type TemplateNodeRef = {
   group?: Maybe<TemplateNodesGroupRef>;
   id?: Maybe<Scalars['ID']>;
   info?: Maybe<NodeInfoRef>;
+  order?: Maybe<Scalars['Int']>;
   props?: Maybe<NodePropsRef>;
 };
 
@@ -2325,6 +2845,7 @@ export type TemplateNodesGroupNodesArgs = {
   filter?: Maybe<TemplateNodeFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<TemplateNodeOrder>;
 };
 
 
@@ -2417,6 +2938,25 @@ export type UpdateBotFlowVersionPayloadBotFlowVersionArgs = {
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   order?: Maybe<BotFlowVersionOrder>;
+};
+
+export type UpdateConnectionInput = {
+  filter: ConnectionFilter;
+  remove?: Maybe<ConnectionPatch>;
+  set?: Maybe<ConnectionPatch>;
+};
+
+export type UpdateConnectionPayload = {
+  __typename?: 'UpdateConnectionPayload';
+  connection?: Maybe<Array<Maybe<Connection>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+
+export type UpdateConnectionPayloadConnectionArgs = {
+  filter?: Maybe<ConnectionFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 };
 
 export type UpdateFlowNodeInput = {
@@ -2677,6 +3217,46 @@ export type UpdateNodeWaitPropsPayloadNodeWaitPropsArgs = {
   order?: Maybe<NodeWaitPropsOrder>;
 };
 
+export type UpdatePortInput = {
+  filter: PortFilter;
+  remove?: Maybe<PortPatch>;
+  set?: Maybe<PortPatch>;
+};
+
+export type UpdatePortPayload = {
+  __typename?: 'UpdatePortPayload';
+  numUids?: Maybe<Scalars['Int']>;
+  port?: Maybe<Array<Maybe<Port>>>;
+};
+
+
+export type UpdatePortPayloadPortArgs = {
+  filter?: Maybe<PortFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PortOrder>;
+};
+
+export type UpdatePosInput = {
+  filter: PosFilter;
+  remove?: Maybe<PosPatch>;
+  set?: Maybe<PosPatch>;
+};
+
+export type UpdatePosPayload = {
+  __typename?: 'UpdatePosPayload';
+  numUids?: Maybe<Scalars['Int']>;
+  pos?: Maybe<Array<Maybe<Pos>>>;
+};
+
+
+export type UpdatePosPayloadPosArgs = {
+  filter?: Maybe<PosFilter>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<PosOrder>;
+};
+
 export type UpdateTemplateNodeInput = {
   filter: TemplateNodeFilter;
   remove?: Maybe<TemplateNodePatch>;
@@ -2694,6 +3274,7 @@ export type UpdateTemplateNodePayloadTemplateNodeArgs = {
   filter?: Maybe<TemplateNodeFilter>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  order?: Maybe<TemplateNodeOrder>;
 };
 
 export type UpdateTemplateNodesGroupInput = {
@@ -2720,49 +3301,602 @@ export type WithinFilter = {
   polygon: PolygonRef;
 };
 
-export type GetBotFlowQueryVariables = Exact<{ [key: string]: never; }>;
+export type NodeInfoFragment = { __typename?: 'NodeInfo', name: string, description: string, type: ChatNodeType, iconLink: string };
 
+export type NodeSwitchPropsFragment = { __typename?: 'NodeSwitchProps', displayType: SwitchDisplayType };
 
-export type GetBotFlowQuery = { __typename?: 'Query', queryBotFlow?: Array<{ __typename?: 'BotFlow', name: string } | null | undefined> | null | undefined };
+export type NodeFilePropsFragment = { __typename?: 'NodeFileProps', info: string, url: string };
 
-export type PostBotFlowMutationVariables = Exact<{
-  flow: Array<AddBotFlowInput> | AddBotFlowInput;
+export type NodeSwitchOptionPropsFragment = { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string };
+
+export type NodeLinkPropsFragment = { __typename?: 'NodeLinkProps', src: string, text: string };
+
+export type NodeAudioPropsFragment = { __typename?: 'NodeAudioProps', src: string };
+
+export type NodeImagePropsFragment = { __typename?: 'NodeImageProps', src: string };
+
+export type NodeTextPropsFragment = { __typename?: 'NodeTextProps', src: string };
+
+export type NodeVideoPropsFragment = { __typename?: 'NodeVideoProps', src: string };
+
+export type NodeWaitPropsFragment = { __typename?: 'NodeWaitProps', src: string, delay: number };
+
+export type NodeCountdownPropsFragment = { __typename?: 'NodeCountdownProps', duration: number };
+
+type NodeProps_NodeAudioProps_Fragment = { __typename?: 'NodeAudioProps', src: string };
+
+type NodeProps_NodeCountdownProps_Fragment = { __typename?: 'NodeCountdownProps', duration: number };
+
+type NodeProps_NodeFileProps_Fragment = { __typename?: 'NodeFileProps', info: string, url: string };
+
+type NodeProps_NodeImageProps_Fragment = { __typename?: 'NodeImageProps', src: string };
+
+type NodeProps_NodeLinkProps_Fragment = { __typename?: 'NodeLinkProps', src: string, text: string };
+
+type NodeProps_NodeSwitchOptionProps_Fragment = { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string };
+
+type NodeProps_NodeSwitchProps_Fragment = { __typename?: 'NodeSwitchProps', displayType: SwitchDisplayType };
+
+type NodeProps_NodeTextProps_Fragment = { __typename?: 'NodeTextProps', src: string };
+
+type NodeProps_NodeVideoProps_Fragment = { __typename?: 'NodeVideoProps', src: string };
+
+type NodeProps_NodeWaitProps_Fragment = { __typename?: 'NodeWaitProps', src: string, delay: number };
+
+export type NodePropsFragment = NodeProps_NodeAudioProps_Fragment | NodeProps_NodeCountdownProps_Fragment | NodeProps_NodeFileProps_Fragment | NodeProps_NodeImageProps_Fragment | NodeProps_NodeLinkProps_Fragment | NodeProps_NodeSwitchOptionProps_Fragment | NodeProps_NodeSwitchProps_Fragment | NodeProps_NodeTextProps_Fragment | NodeProps_NodeVideoProps_Fragment | NodeProps_NodeWaitProps_Fragment;
+
+export type TemplateNodeFragment = { __typename?: 'TemplateNode', id: string, order: number, group: { __typename?: 'TemplateNodesGroup', id: string }, info: { __typename?: 'NodeInfo', name: string, description: string, type: ChatNodeType, iconLink: string }, props: { __typename?: 'NodeAudioProps', src: string } | { __typename?: 'NodeCountdownProps', duration: number } | { __typename?: 'NodeFileProps', info: string, url: string } | { __typename?: 'NodeImageProps', src: string } | { __typename?: 'NodeLinkProps', src: string, text: string } | { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | { __typename?: 'NodeSwitchProps', displayType: SwitchDisplayType } | { __typename?: 'NodeTextProps', src: string } | { __typename?: 'NodeVideoProps', src: string } | { __typename?: 'NodeWaitProps', src: string, delay: number } };
+
+export type TemplateNodesQueryVariables = Exact<{
+  filter?: Maybe<TemplateNodeFilter>;
 }>;
 
 
-export type PostBotFlowMutation = { __typename?: 'Mutation', addBotFlow?: { __typename?: 'AddBotFlowPayload', botFlow?: Array<{ __typename?: 'BotFlow', id: string } | null | undefined> | null | undefined } | null | undefined };
+export type TemplateNodesQuery = { __typename?: 'Query', queryTemplateNode?: Array<{ __typename?: 'TemplateNode', id: string, order: number, group: { __typename?: 'TemplateNodesGroup', id: string }, info: { __typename?: 'NodeInfo', name: string, description: string, type: ChatNodeType, iconLink: string }, props: { __typename?: 'NodeAudioProps', src: string } | { __typename?: 'NodeCountdownProps', duration: number } | { __typename?: 'NodeFileProps', info: string, url: string } | { __typename?: 'NodeImageProps', src: string } | { __typename?: 'NodeLinkProps', src: string, text: string } | { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | { __typename?: 'NodeSwitchProps', displayType: SwitchDisplayType } | { __typename?: 'NodeTextProps', src: string } | { __typename?: 'NodeVideoProps', src: string } | { __typename?: 'NodeWaitProps', src: string, delay: number } } | null | undefined> | null | undefined };
+
+export type TemplateNodesMutationVariables = Exact<{
+  input: Array<AddTemplateNodeInput> | AddTemplateNodeInput;
+}>;
 
 
-export const GetBotFlowDocument = gql`
-    query getBotFlow {
-  queryBotFlow {
-    name
-  }
+export type TemplateNodesMutation = { __typename?: 'Mutation', addTemplateNode?: { __typename?: 'AddTemplateNodePayload', templateNode?: Array<{ __typename?: 'TemplateNode', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type TemplateNodesUpdateMutationVariables = Exact<{
+  input: UpdateTemplateNodeInput;
+}>;
+
+
+export type TemplateNodesUpdateMutation = { __typename?: 'Mutation', updateTemplateNode?: { __typename?: 'UpdateTemplateNodePayload', templateNode?: Array<{ __typename?: 'TemplateNode', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type TemplateNodesDeleteMutationVariables = Exact<{
+  filter: TemplateNodeFilter;
+}>;
+
+
+export type TemplateNodesDeleteMutation = { __typename?: 'Mutation', deleteTemplateNode?: { __typename?: 'DeleteTemplateNodePayload', templateNode?: Array<{ __typename?: 'TemplateNode', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type TemplateNodesGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TemplateNodesGroupsQuery = { __typename?: 'Query', queryTemplateNodesGroup?: Array<{ __typename?: 'TemplateNodesGroup', id: string, name: string, description: string } | null | undefined> | null | undefined };
+
+export type TemplateNodesGroupsMutationVariables = Exact<{
+  input: Array<AddTemplateNodesGroupInput> | AddTemplateNodesGroupInput;
+}>;
+
+
+export type TemplateNodesGroupsMutation = { __typename?: 'Mutation', addTemplateNodesGroup?: { __typename?: 'AddTemplateNodesGroupPayload', templateNodesGroup?: Array<{ __typename?: 'TemplateNodesGroup', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type TemplateNodesGroupsUpdateMutationVariables = Exact<{
+  input: UpdateTemplateNodesGroupInput;
+}>;
+
+
+export type TemplateNodesGroupsUpdateMutation = { __typename?: 'Mutation', updateTemplateNodesGroup?: { __typename?: 'UpdateTemplateNodesGroupPayload', templateNodesGroup?: Array<{ __typename?: 'TemplateNodesGroup', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type TemplateNodesGroupsDeleteMutationVariables = Exact<{
+  filter: TemplateNodesGroupFilter;
+}>;
+
+
+export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', deleteTemplateNodesGroup?: { __typename?: 'DeleteTemplateNodesGroupPayload', templateNodesGroup?: Array<{ __typename?: 'TemplateNodesGroup', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export type BotFlowQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type BotFlowQuery = { __typename?: 'Query', getBotFlow?: { __typename?: 'BotFlow', name: string, description: string, nextVersionNumber: number, versions: Array<{ __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, props: { __typename?: 'NodeAudioProps', src: string } | { __typename?: 'NodeCountdownProps', duration: number } | { __typename?: 'NodeFileProps', info: string, url: string } | { __typename?: 'NodeImageProps', src: string } | { __typename?: 'NodeLinkProps', src: string, text: string } | { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | { __typename?: 'NodeSwitchProps', displayType: SwitchDisplayType } | { __typename?: 'NodeTextProps', src: string } | { __typename?: 'NodeVideoProps', src: string } | { __typename?: 'NodeWaitProps', src: string, delay: number }, info: { __typename?: 'NodeInfo', name: string, description: string, type: ChatNodeType, iconLink: string }, pos: { __typename?: 'Pos', x: number, y: number }, ports: Array<{ __typename?: 'Port', index: number, pos: { __typename?: 'Pos', x: number, y: number } }> }>, connections: Array<{ __typename?: 'Connection', from: { __typename?: 'Port', id: string }, to: { __typename?: 'Port', id: string } }> }> } | null | undefined };
+
+export type BotFlowVersionMutationVariables = Exact<{
+  flow: Array<AddBotFlowVersionInput> | AddBotFlowVersionInput;
+}>;
+
+
+export type BotFlowVersionMutation = { __typename?: 'Mutation', addBotFlowVersion?: { __typename?: 'AddBotFlowVersionPayload', botFlowVersion?: Array<{ __typename?: 'BotFlowVersion', id: string } | null | undefined> | null | undefined } | null | undefined };
+
+export const NodeInfoFragmentDoc = gql`
+    fragment nodeInfo on NodeInfo {
+  name
+  description
+  type
+  iconLink
 }
     `;
-export const PostBotFlowDocument = gql`
-    mutation postBotFlow($flow: [AddBotFlowInput!]!) {
-  addBotFlow(input: $flow) {
-    botFlow {
+export const NodeFilePropsFragmentDoc = gql`
+    fragment NodeFileProps on NodeFileProps {
+  info
+  url
+}
+    `;
+export const NodeLinkPropsFragmentDoc = gql`
+    fragment NodeLinkProps on NodeLinkProps {
+  src
+  text
+}
+    `;
+export const NodeSwitchOptionPropsFragmentDoc = gql`
+    fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
+  imageLink
+  text
+}
+    `;
+export const NodeImagePropsFragmentDoc = gql`
+    fragment NodeImageProps on NodeImageProps {
+  src
+}
+    `;
+export const NodeCountdownPropsFragmentDoc = gql`
+    fragment NodeCountdownProps on NodeCountdownProps {
+  duration
+}
+    `;
+export const NodeAudioPropsFragmentDoc = gql`
+    fragment NodeAudioProps on NodeAudioProps {
+  src
+}
+    `;
+export const NodeSwitchPropsFragmentDoc = gql`
+    fragment NodeSwitchProps on NodeSwitchProps {
+  displayType
+}
+    `;
+export const NodeVideoPropsFragmentDoc = gql`
+    fragment NodeVideoProps on NodeVideoProps {
+  src
+}
+    `;
+export const NodeTextPropsFragmentDoc = gql`
+    fragment NodeTextProps on NodeTextProps {
+  src
+}
+    `;
+export const NodeWaitPropsFragmentDoc = gql`
+    fragment NodeWaitProps on NodeWaitProps {
+  src
+  delay
+}
+    `;
+export const NodePropsFragmentDoc = gql`
+    fragment nodeProps on NodeProps {
+  ...NodeFileProps
+  ...NodeLinkProps
+  ...NodeSwitchOptionProps
+  ...NodeImageProps
+  ...NodeCountdownProps
+  ...NodeAudioProps
+  ...NodeSwitchProps
+  ...NodeVideoProps
+  ...NodeTextProps
+  ...NodeWaitProps
+}
+    ${NodeFilePropsFragmentDoc}
+${NodeLinkPropsFragmentDoc}
+${NodeSwitchOptionPropsFragmentDoc}
+${NodeImagePropsFragmentDoc}
+${NodeCountdownPropsFragmentDoc}
+${NodeAudioPropsFragmentDoc}
+${NodeSwitchPropsFragmentDoc}
+${NodeVideoPropsFragmentDoc}
+${NodeTextPropsFragmentDoc}
+${NodeWaitPropsFragmentDoc}`;
+export const TemplateNodeFragmentDoc = gql`
+    fragment templateNode on TemplateNode {
+  id
+  order
+  group {
+    id
+  }
+  info {
+    ...nodeInfo
+  }
+  props {
+    ...nodeProps
+  }
+}
+    ${NodeInfoFragmentDoc}
+${NodePropsFragmentDoc}`;
+export const TemplateNodesDocument = gql`
+    query templateNodes($filter: TemplateNodeFilter) {
+  queryTemplateNode(filter: $filter) {
+    ...templateNode
+  }
+}
+    ${TemplateNodeFragmentDoc}`;
+
+/**
+ * __useTemplateNodesQuery__
+ *
+ * To run a query within a React component, call `useTemplateNodesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTemplateNodesQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useTemplateNodesQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
+      }
+export function useTemplateNodesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
+        }
+export type TemplateNodesQueryHookResult = ReturnType<typeof useTemplateNodesQuery>;
+export type TemplateNodesLazyQueryHookResult = ReturnType<typeof useTemplateNodesLazyQuery>;
+export type TemplateNodesQueryResult = Apollo.QueryResult<TemplateNodesQuery, TemplateNodesQueryVariables>;
+export const TemplateNodesMutationDocument = gql`
+    mutation templateNodesMutation($input: [AddTemplateNodeInput!]!) {
+  addTemplateNode(input: $input) {
+    templateNode {
       id
     }
   }
 }
     `;
+export type TemplateNodesMutationMutationFn = Apollo.MutationFunction<TemplateNodesMutation, TemplateNodesMutationVariables>;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    getBotFlow(variables?: GetBotFlowQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetBotFlowQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetBotFlowQuery>(GetBotFlowDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBotFlow');
-    },
-    postBotFlow(variables: PostBotFlowMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostBotFlowMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PostBotFlowMutation>(PostBotFlowDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'postBotFlow');
+/**
+ * __useTemplateNodesMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesMutation, { data, loading, error }] = useTemplateNodesMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTemplateNodesMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesMutation, TemplateNodesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesMutation, TemplateNodesMutationVariables>(TemplateNodesMutationDocument, options);
+      }
+export type TemplateNodesMutationHookResult = ReturnType<typeof useTemplateNodesMutation>;
+export type TemplateNodesMutationMutationResult = Apollo.MutationResult<TemplateNodesMutation>;
+export type TemplateNodesMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesMutation, TemplateNodesMutationVariables>;
+export const TemplateNodesUpdateDocument = gql`
+    mutation templateNodesUpdate($input: UpdateTemplateNodeInput!) {
+  updateTemplateNode(input: $input) {
+    templateNode {
+      id
     }
-  };
+  }
 }
-export type Sdk = ReturnType<typeof getSdk>;
+    `;
+export type TemplateNodesUpdateMutationFn = Apollo.MutationFunction<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
+
+/**
+ * __useTemplateNodesUpdateMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesUpdateMutation, { data, loading, error }] = useTemplateNodesUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTemplateNodesUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>(TemplateNodesUpdateDocument, options);
+      }
+export type TemplateNodesUpdateMutationHookResult = ReturnType<typeof useTemplateNodesUpdateMutation>;
+export type TemplateNodesUpdateMutationResult = Apollo.MutationResult<TemplateNodesUpdateMutation>;
+export type TemplateNodesUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
+export const TemplateNodesDeleteDocument = gql`
+    mutation templateNodesDelete($filter: TemplateNodeFilter!) {
+  deleteTemplateNode(filter: $filter) {
+    templateNode {
+      id
+    }
+  }
+}
+    `;
+export type TemplateNodesDeleteMutationFn = Apollo.MutationFunction<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
+
+/**
+ * __useTemplateNodesDeleteMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesDeleteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesDeleteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesDeleteMutation, { data, loading, error }] = useTemplateNodesDeleteMutation({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useTemplateNodesDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>(TemplateNodesDeleteDocument, options);
+      }
+export type TemplateNodesDeleteMutationHookResult = ReturnType<typeof useTemplateNodesDeleteMutation>;
+export type TemplateNodesDeleteMutationResult = Apollo.MutationResult<TemplateNodesDeleteMutation>;
+export type TemplateNodesDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
+export const TemplateNodesGroupsDocument = gql`
+    query templateNodesGroups {
+  queryTemplateNodesGroup {
+    id
+    name
+    description
+  }
+}
+    `;
+
+/**
+ * __useTemplateNodesGroupsQuery__
+ *
+ * To run a query within a React component, call `useTemplateNodesGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTemplateNodesGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTemplateNodesGroupsQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
+      }
+export function useTemplateNodesGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
+        }
+export type TemplateNodesGroupsQueryHookResult = ReturnType<typeof useTemplateNodesGroupsQuery>;
+export type TemplateNodesGroupsLazyQueryHookResult = ReturnType<typeof useTemplateNodesGroupsLazyQuery>;
+export type TemplateNodesGroupsQueryResult = Apollo.QueryResult<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>;
+export const TemplateNodesGroupsMutationDocument = gql`
+    mutation templateNodesGroupsMutation($input: [AddTemplateNodesGroupInput!]!) {
+  addTemplateNodesGroup(input: $input) {
+    templateNodesGroup {
+      id
+    }
+  }
+}
+    `;
+export type TemplateNodesGroupsMutationMutationFn = Apollo.MutationFunction<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
+
+/**
+ * __useTemplateNodesGroupsMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesGroupsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesGroupsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesGroupsMutation, { data, loading, error }] = useTemplateNodesGroupsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTemplateNodesGroupsMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>(TemplateNodesGroupsMutationDocument, options);
+      }
+export type TemplateNodesGroupsMutationHookResult = ReturnType<typeof useTemplateNodesGroupsMutation>;
+export type TemplateNodesGroupsMutationMutationResult = Apollo.MutationResult<TemplateNodesGroupsMutation>;
+export type TemplateNodesGroupsMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
+export const TemplateNodesGroupsUpdateDocument = gql`
+    mutation templateNodesGroupsUpdate($input: UpdateTemplateNodesGroupInput!) {
+  updateTemplateNodesGroup(input: $input) {
+    templateNodesGroup {
+      id
+    }
+  }
+}
+    `;
+export type TemplateNodesGroupsUpdateMutationFn = Apollo.MutationFunction<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
+
+/**
+ * __useTemplateNodesGroupsUpdateMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesGroupsUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesGroupsUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesGroupsUpdateMutation, { data, loading, error }] = useTemplateNodesGroupsUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTemplateNodesGroupsUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>(TemplateNodesGroupsUpdateDocument, options);
+      }
+export type TemplateNodesGroupsUpdateMutationHookResult = ReturnType<typeof useTemplateNodesGroupsUpdateMutation>;
+export type TemplateNodesGroupsUpdateMutationResult = Apollo.MutationResult<TemplateNodesGroupsUpdateMutation>;
+export type TemplateNodesGroupsUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
+export const TemplateNodesGroupsDeleteDocument = gql`
+    mutation templateNodesGroupsDelete($filter: TemplateNodesGroupFilter!) {
+  deleteTemplateNodesGroup(filter: $filter) {
+    templateNodesGroup {
+      id
+    }
+  }
+}
+    `;
+export type TemplateNodesGroupsDeleteMutationFn = Apollo.MutationFunction<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
+
+/**
+ * __useTemplateNodesGroupsDeleteMutation__
+ *
+ * To run a mutation, you first call `useTemplateNodesGroupsDeleteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTemplateNodesGroupsDeleteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [templateNodesGroupsDeleteMutation, { data, loading, error }] = useTemplateNodesGroupsDeleteMutation({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useTemplateNodesGroupsDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>(TemplateNodesGroupsDeleteDocument, options);
+      }
+export type TemplateNodesGroupsDeleteMutationHookResult = ReturnType<typeof useTemplateNodesGroupsDeleteMutation>;
+export type TemplateNodesGroupsDeleteMutationResult = Apollo.MutationResult<TemplateNodesGroupsDeleteMutation>;
+export type TemplateNodesGroupsDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
+export const BotFlowDocument = gql`
+    query botFlow($id: ID!) {
+  getBotFlow(id: $id) {
+    name
+    description
+    nextVersionNumber
+    versions {
+      nodes {
+        id
+        props {
+          ...nodeProps
+        }
+        info {
+          ...nodeInfo
+        }
+        pos {
+          x
+          y
+        }
+        ports {
+          index
+          pos {
+            x
+            y
+          }
+        }
+      }
+      connections {
+        from {
+          id
+        }
+        to {
+          id
+        }
+      }
+    }
+  }
+}
+    ${NodePropsFragmentDoc}
+${NodeInfoFragmentDoc}`;
+
+/**
+ * __useBotFlowQuery__
+ *
+ * To run a query within a React component, call `useBotFlowQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBotFlowQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBotFlowQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useBotFlowQuery(baseOptions: Apollo.QueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
+      }
+export function useBotFlowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
+        }
+export type BotFlowQueryHookResult = ReturnType<typeof useBotFlowQuery>;
+export type BotFlowLazyQueryHookResult = ReturnType<typeof useBotFlowLazyQuery>;
+export type BotFlowQueryResult = Apollo.QueryResult<BotFlowQuery, BotFlowQueryVariables>;
+export const BotFlowVersionDocument = gql`
+    mutation botFlowVersion($flow: [AddBotFlowVersionInput!]!) {
+  addBotFlowVersion(input: $flow) {
+    botFlowVersion {
+      id
+    }
+  }
+}
+    `;
+export type BotFlowVersionMutationFn = Apollo.MutationFunction<BotFlowVersionMutation, BotFlowVersionMutationVariables>;
+
+/**
+ * __useBotFlowVersionMutation__
+ *
+ * To run a mutation, you first call `useBotFlowVersionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBotFlowVersionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [botFlowVersionMutation, { data, loading, error }] = useBotFlowVersionMutation({
+ *   variables: {
+ *      flow: // value for 'flow'
+ *   },
+ * });
+ */
+export function useBotFlowVersionMutation(baseOptions?: Apollo.MutationHookOptions<BotFlowVersionMutation, BotFlowVersionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BotFlowVersionMutation, BotFlowVersionMutationVariables>(BotFlowVersionDocument, options);
+      }
+export type BotFlowVersionMutationHookResult = ReturnType<typeof useBotFlowVersionMutation>;
+export type BotFlowVersionMutationResult = Apollo.MutationResult<BotFlowVersionMutation>;
+export type BotFlowVersionMutationOptions = Apollo.BaseMutationOptions<BotFlowVersionMutation, BotFlowVersionMutationVariables>;

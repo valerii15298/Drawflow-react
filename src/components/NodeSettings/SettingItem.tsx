@@ -1,18 +1,18 @@
-import Switch from "@mui/material/Switch";
+import Checkbox from "@mui/material/Checkbox";
 import { useContext } from "react";
 import { Controller } from "react-hook-form";
+import { getNestedObjectField } from "../../models/GetNestedObjectField";
 import { mapNodeSettingsKeyToComponent } from "../../models/mapNodeSettingsKeyToComponent";
 import { capitalize } from "../../models/tools";
-import { getNestedObjectField } from "../../models/GetNestedObjectField";
 import { SelectorJparam } from "./SelectorJparam";
 import { NodeSettingsContext, templateNode } from "./Settings";
 import { ItemSettingLabel, RightInputDiv } from "./StyledComponents";
-import Checkbox from "@mui/material/Checkbox";
 
 export const SettingItem = ({ path }: { path: string[] }) => {
   const { type } = useContext(NodeSettingsContext);
 
   const key = path[path.length - 1];
+  if (key === "__typename") return null;
   const keyPath = `${path.join(".")}`;
 
   const validate = (value: any) => {

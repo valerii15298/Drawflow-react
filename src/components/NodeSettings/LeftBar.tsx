@@ -1,9 +1,15 @@
 import { useContext, useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import {
+  ChatNodeType,
+  useTemplateNodesMutation,
+  useTemplateNodesUpdateMutation,
+} from "../../generated/apollo";
 import { mapKeyToDisplayName } from "../../models/tools";
 import { updateTemplateNode } from "../../redux/api";
 import { actions } from "../../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { filterTypename } from "../../tools/helpers";
 import { ObjectKeys, step } from "../../types";
 import { ToggleSidebar } from "../Sidebar";
 import { FormSettings } from "./FormSettings";
@@ -30,7 +36,7 @@ import {
 export const LeftBar = (props: {
   defaultValues: formType;
   setControl: (p: any) => void;
-  id: number;
+  id: string;
   rightBarNeedsToRemount: boolean;
   remountRightBar: () => void;
 }) => {
@@ -60,8 +66,11 @@ export const LeftBar = (props: {
   }, []);
   const { type } = useContext(NodeSettingsContext);
   const dispatch = useAppDispatch();
+  const [updateNode] = useTemplateNodesUpdateMutation({
+    refetchQueries: ["templateNodes"],
+  });
   const methods = useForm({
-    defaultValues: JSON.parse(JSON.stringify(defaultValues)),
+    defaultValues: JSON.parse(JSON.stringify(defaultValues)) as formType,
   });
   const {
     handleSubmit,
@@ -76,37 +85,38 @@ export const LeftBar = (props: {
   }, [control, setControl]);
 
   // const values = defaultValues;
-  const values = getValues();
-  let { name, description, icon_link } = values;
-  if (
-    [name, description, icon_link].includes(undefined) &&
-    "flow_node" in values
-  ) {
-    const { node_name, node_description, node_icon_link } = values.flow_node;
-    name = node_name;
-    description = node_description;
-    icon_link = node_icon_link;
-  }
+  const values = getValues() as formType;
+  const {
+    info: { name, description, iconLink },
+  } = values;
 
   const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
 
+  // ChatNodeType
   // console.log("render", { defaultValues, values });
-  const onSubmit = (data: formType) => {
-    data = getValues();
-    type === "template" &&
-      dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
-    type === "node" &&
-      dispatch(actions.updateNode(JSON.parse(JSON.stringify(data)) as step));
+  const onSubmit = () => {
+    const { id, ...data } = getValues();
+    const set = filterTypename(data);
+    set.props = { [`node${data.info.type}PropsRef`]: data.props };
+    console.log(set);
+    updateNode({
+      variables: { input: { filter: { id: [id] }, set } },
+    }).then(console.log);
+    // type === "template" &&
+    //   dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
+    // type === "node" &&
+    //   dispatch(actions.updateNode(JSON.parse(JSON.stringify(data)) as step));
   };
 
   const onDelete = () => {
-    type === "template" &&
-      dispatch(
-        updateTemplateNode({
-          ...getValues(),
-          delete: 1,
-        })
-      );
+    // type === "template" &&
+    //   dispatch(
+    //     updateTemplateNode({
+    //       ...getValues(),
+    //       delete: 1,
+    //     })
+    //   );
+    //
     // type === "node" &&
     //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
   };
@@ -122,7 +132,7 @@ export const LeftBar = (props: {
               <ToggleSidebar />
             </ToggleSidebarDiv>
           )}
-          <TitleImg src={icon_link} />
+          <TitleImg src={iconLink} />
 
           <TitleInfoDiv>
             <TitleDiv>{name}</TitleDiv>
@@ -130,30 +140,37 @@ export const LeftBar = (props: {
           </TitleInfoDiv>
         </LeftBarHeader>
         {type === "node" && <NodeJumpControls id={id} />}
-        <DefaultSettingsDetails open={true}>
-          <StyledSummary>Default settings</StyledSummary>
-          <ListSettingsDiv>
-            {Object.entries(values).map(([key, value]) => {
-              if (
-                (typeof value !== "object" || value === null) &&
-                !(key in mapKeyToDisplayName)
-              ) {
-                return <SettingItem key={key} path={[key]} />;
-              }
-              return null;
-            })}
-          </ListSettingsDiv>
-        </DefaultSettingsDetails>
-        {ObjectKeys(mapKeyToDisplayName).map((key) => {
-          return values[key] ? (
-            <FormSettings
-              RenderElement={SettingItem}
-              key={key}
-              obj={values[key]}
-              path={[key]}
-            />
-          ) : null;
-        })}
+        {/*<DefaultSettingsDetails>*/}
+        {/*  <StyledSummary>Default settings</StyledSummary>*/}
+        <ListSettingsDiv>
+          {Object.entries(values).map(([key, value]) => {
+            if (
+              (typeof value !== "object" || value === null) &&
+              !(key in mapKeyToDisplayName)
+            ) {
+              return <SettingItem key={key} path={[key]} />;
+            }
+            return (
+              <FormSettings
+                RenderElement={SettingItem}
+                key={key}
+                obj={values[key]}
+                path={[key]}
+              />
+            );
+          })}
+        </ListSettingsDiv>
+        {/*</DefaultSettingsDetails>*/}
+        {/*{ObjectKeys(mapKeyToDisplayName).map((key) => {*/}
+        {/*  return values[key] ? (*/}
+        {/*    <FormSettings*/}
+        {/*      RenderElement={SettingItem}*/}
+        {/*      key={key}*/}
+        {/*      obj={values[key]}*/}
+        {/*      path={[key]}*/}
+        {/*    />*/}
+        {/*  ) : null;*/}
+        {/*})}*/}
         {Object.keys(errors).length !== 0 && (
           <div>
             <pre>{JSON.stringify(errors, null, 2)}</pre>

@@ -1,11 +1,5 @@
 import { chatNodeType } from "./chat/chatNodes/chatNodeType";
 
-export enum NODE_TYPE {
-  START = "START",
-  MIDDLE = "MIDDLE",
-  END = "END",
-}
-
 export enum Slices {
   Drawflow = "drawflow",
   Groups = "groups",
@@ -115,7 +109,6 @@ export const ObjectKeys = <O>(o: O) => {
 // };
 
 export type dataNode = {
-  type: NODE_TYPE;
   data: step;
   port: port;
   pos: pos;

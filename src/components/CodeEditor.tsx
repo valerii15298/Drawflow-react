@@ -7,6 +7,7 @@ const CodeEditorDiv = styled.div<{ shift?: boolean }>`
   flex: 1;
   max-height: 100vh;
   min-width: 480px;
+  height: 100%;
   ${({ shift }) =>
     shift &&
     css`
@@ -64,6 +65,7 @@ export const CodeEditor = ({ values, setValues }: CodeEditorProps) => {
     return () => {
       jsonEditorRef.current?.destroy();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -1,12 +1,16 @@
+import { TextField } from "@mui/material";
 import { useState } from "react";
 import styled from "styled-components";
+import {
+  useTemplateNodesGroupsDeleteMutation,
+  useTemplateNodesGroupsMutation,
+  useTemplateNodesGroupsQuery,
+  useTemplateNodesGroupsUpdateMutation,
+} from "../generated/apollo";
 import { setStateAction } from "../redux/actions";
-import { updateGroup } from "../redux/api";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { groups, sideWindow } from "../types";
-import lodash from "lodash";
-import { getGroupTemplate } from "../models/getGroupTemplate";
+import { useAppDispatch } from "../redux/hooks";
 import { Close } from "../svg";
+import { sideWindow } from "../types";
 import { CloseButton } from "./FlowInfoSettings";
 import { Button } from "./StyledComponents";
 
@@ -77,21 +81,33 @@ const GroupDescriptionTextarea = styled.textarea`
 `;
 
 export const GroupsSettings = () => {
-  const originalGroups = useAppSelector((s) => s.groups);
+  // const originalGroups = useAppSelector((s) => s.groups);
+  const { loading, error, data } = useTemplateNodesGroupsQuery();
+  const refetchQueries = ["templateNodesGroups"];
+  const [addGroups] = useTemplateNodesGroupsMutation({
+    refetchQueries,
+  });
+  const [updateGroups] = useTemplateNodesGroupsUpdateMutation({
+    refetchQueries,
+  });
+  const [deleteGroups] = useTemplateNodesGroupsDeleteMutation({
+    refetchQueries,
+  });
   const dispatch = useAppDispatch();
-  const [groups, setGroups] = useState(originalGroups);
-  const setGroup = (id: number, info: Record<string, unknown>) => {
-    const group = { ...groups[id], ...info };
-    setGroups({ ...groups, [id]: group });
+  const [groups, setGroups] = useState(data.queryTemplateNodesGroup);
+  // console.log(groups);
+  const setGroup = (
+    id: string,
+    info: { name?: string; description?: string }
+  ) => {
+    const group = groups.find((g) => g.id === id);
+    setGroups([
+      ...groups.filter((g) => g !== group),
+      { id, ...group, ...info },
+    ]);
   };
-  // console.log({ groups });
-  if (Object.keys(originalGroups).length !== Object.keys(groups).length) {
-    const newGroups: groups = {};
-    for (const [id, group] of Object.entries(originalGroups)) {
-      newGroups[Number(id)] = lodash.merge(group, groups[Number(id)] ?? {});
-    }
-    setGroups(newGroups);
-  }
+  if (loading) return <>Loading...</>;
+  if (error) return <>Error</>;
 
   return (
     <GroupsDiv>
@@ -107,59 +123,151 @@ export const GroupsSettings = () => {
         <Close width={19} height={19} />
       </CloseButton>
       <GroupsSettingsH1>Node groups</GroupsSettingsH1>
-      {Object.values(groups).map(
-        ({ id, node_group_name, node_group_order, node_group_description }) => {
-          return (
-            <GroupDiv key={id}>
-              <DivGroup1>
-                <GroupIdSpan>{id}</GroupIdSpan>
-                <ButtonDeleteGroup
-                  onClick={() => {
-                    const approval = window.confirm(
-                      `Do you really wanna delete group ${node_group_name}, ID.${id}`
-                    );
-                    if (!approval) return;
+      {groups.map(({ id, name, description }) => {
+        return (
+          <GroupDiv key={id}>
+            <DivGroup1>
+              <GroupIdSpan>{id}</GroupIdSpan>
+              <ButtonDeleteGroup
+                onClick={() => {
+                  const approval = window.confirm(
+                    `Do you really wanna delete group ${name}, ID.${id}`
+                  );
+                  if (!approval) return;
 
-                    dispatch(updateGroup({ id, delete: 1 }));
-                  }}
-                >
-                  Delete
-                </ButtonDeleteGroup>
-                <ButtonSaveGroup
-                  onClick={() => {
-                    const approval = window.confirm(
-                      `Do you really wanna save group ${node_group_name}, ID.${id}`
-                    );
-                    if (!approval) return;
+                  setGroups((groups) =>
+                    groups.filter((group) => group.id !== id)
+                  );
+                  deleteGroups({
+                    variables: {
+                      filter: {
+                        id: [id],
+                      },
+                    },
+                  });
 
-                    dispatch(updateGroup(groups[id]));
-                    // save group
-                  }}
-                >
-                  Save
-                </ButtonSaveGroup>
-              </DivGroup1>
-              <GroupTitleInput
-                value={node_group_name}
-                type="text"
-                onChange={(e) => {
-                  setGroup(id, { node_group_name: e.target.value });
+                  // dispatch(
+                  //   updateGroup({
+                  //     id,
+                  //     delete: 1,
+                  //   })
+                  // );
                 }}
-              />
-              <GroupDescriptionTextarea
-                value={node_group_description}
-                onChange={(e) => {
-                  setGroup(id, { node_group_description: e.target.value });
+              >
+                Delete
+              </ButtonDeleteGroup>
+              <ButtonSaveGroup
+                onClick={() => {
+                  const approval = window.confirm(
+                    `Do you really wanna save group ${name}, ID.${id}`
+                  );
+                  if (!approval) return;
+
+                  updateGroups({
+                    variables: {
+                      input: {
+                        filter: { id: [id] },
+                        set: {
+                          name,
+                          description,
+                        },
+                      },
+                    },
+                  });
+                  setGroups((groups) =>
+                    groups.map((group) => {
+                      return group.id === id
+                        ? {
+                            ...group,
+                            name,
+                            description,
+                          }
+                        : group;
+                    })
+                  );
+
+                  // dispatch(updateGroup(groups[id]));
+                  // save group
                 }}
-              />
-            </GroupDiv>
-          );
-        }
-      )}
+              >
+                Save
+              </ButtonSaveGroup>
+            </DivGroup1>
+            <TextField
+              value={name}
+              type="text"
+              onChange={(e) => {
+                setGroup(id, { name: e.target.value });
+              }}
+              label="Name"
+              size={"small"}
+              sx={{ width: "100%", mt: 0.5 }}
+              variant="outlined"
+            />
+            {/*<GroupTitleInput*/}
+            {/*  value={name}*/}
+            {/*  type="text"*/}
+            {/*  onChange={(e) => {*/}
+            {/*    setGroup(id, { name: e.target.value });*/}
+            {/*  }}*/}
+            {/*/>*/}
+            <TextField
+              sx={{
+                mt: 1.5,
+                width: "100%",
+              }}
+              label="Description"
+              placeholder="Write description of nodes in this group:)"
+              multiline
+              value={description}
+              onChange={(e) => {
+                setGroup(id, { description: e.target.value });
+              }}
+            />
+            {/*<GroupDescriptionTextarea*/}
+            {/*  value={description}*/}
+            {/*  onChange={(e) => {*/}
+            {/*    setGroup(id, { description: e.target.value });*/}
+            {/*  }}*/}
+            {/*/>*/}
+          </GroupDiv>
+        );
+      })}
       <ControlButtonsDiv>
         <AddNewGroupButton
           onClick={() => {
-            dispatch(updateGroup(getGroupTemplate()));
+            const input = {
+              name: "New group",
+              description: "Group description",
+            };
+            addGroups({
+              variables: {
+                input: {
+                  ...input,
+                  nodes: [],
+                },
+              },
+            }).then(
+              ({
+                data: {
+                  addTemplateNodesGroup: {
+                    templateNodesGroup: {
+                      0: { id },
+                    },
+                  },
+                },
+              }) => {
+                // console.log({ id });
+                setGroups((groups) => [
+                  ...groups,
+                  {
+                    ...input,
+                    id,
+                  },
+                ]);
+              }
+            );
+            // dispatch(updateGroup(getGroupTemplate()));
           }}
         >
           Add new

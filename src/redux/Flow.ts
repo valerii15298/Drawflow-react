@@ -257,7 +257,7 @@ export class Flow {
       //@ts-ignore
       this.state.portToConnect = nearestPort.port;
     } else {
-      this.state.portToConnect = null;
+      this.state.portToConnect = undefined;
     }
     // console.timeEnd("toggle");
   }

@@ -1,30 +1,24 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  gql,
-  InMemoryCache,
-  useQuery,
-} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { FC } from "react";
+import introspectionQueryResultData from "./fragmentTypes";
 
-const client = new ApolloClient({
-  uri: "https://drawflow.ml:8090/graphql",
-  cache: new InMemoryCache(),
+export const cache = new InMemoryCache({
+  possibleTypes: introspectionQueryResultData.possibleTypes,
+  // addTypename: false,
 });
 
-const TestApp = () => {
-  // const { loading, error, data } = useQuery(queryTasks);
-  // if (loading) return <>{"Loading..."}</>;
-  // if (error) return <>{`Error! ${error.message}`}</>;
-  // return <div>{JSON.stringify(data)}</div>;
-  return null;
-};
+export const apolloClient = new ApolloClient({
+  uri: "https://drawflow.ml:8090/graphql",
+  cache,
+});
+
+// const TestApp = () => {
+// const { error, loading, data } = useTemplateNodes();
+// if (error) return <div>Error: {error}</div>;
+// if (loading) return <div>Loading...{loading}</div>;
+// return null;
+// };
 
 export default (({ children }) => {
-  return (
-    <ApolloProvider client={client}>
-      {children}
-      <TestApp />
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 }) as FC;

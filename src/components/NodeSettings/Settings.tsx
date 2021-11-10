@@ -1,9 +1,9 @@
 import { createContext, useState } from "react";
 import { getTemplateNode } from "../../models/getTemplateNode";
-import { block, step } from "../../types";
 import { LeftBar } from "./LeftBar";
 import { RightBar } from "./RightBar";
 import { NodeSettingsDiv, NodeSettingsWrapper } from "./StyledComponents";
+import { formType } from "./TemplateNodeSettings";
 
 export const templateNode = getTemplateNode();
 
@@ -21,16 +21,14 @@ export const FormSettingsContext = createContext<{
   setFormValues: null,
 });
 
-export type formType = block | step;
-
-export const Settings = ({ json, id }: { json: formType; id: number }) => {
+export const Settings = ({ json, id }: { json: formType; id: string }) => {
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
   const [defaultValues, setDefaultValues] = useState(json);
   const [control, setControl] = useState();
   const [rightBarNeedsToRemount, setRightBarNeedsToRemount] = useState(false);
 
-  const setFormValues = (newData: block) => {
+  const setFormValues = (newData: formType) => {
     setDefaultValues(newData);
     setLeftBarKey((key) => key + 1);
     setRightBarNeedsToRemount(true);

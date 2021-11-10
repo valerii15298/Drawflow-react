@@ -11,7 +11,7 @@ import {
 import { selectActiveDrawflow } from "../redux/drawflowSlice";
 import { Flow } from "../redux/Flow";
 import { useAppSelector } from "../redux/hooks";
-import { ObjectKeys, RecursivePartial } from "../types";
+import { ObjectKeys, RecursivePartial, stateData } from "../types";
 import {
   chatState,
   getDefaultBotNodeData,
@@ -80,6 +80,7 @@ export const reactions = {
   fileChosen: (state: chatState, file: File) => {
     const url = URL.createObjectURL(file);
     state.currentMessageValue = {
+      flowNodeId: -1,
       renderable: true,
       src: url,
       type: chatNodeType.File,
@@ -139,7 +140,7 @@ export const chatReducer = (
 export const ChatBotContext = createContext({
   state: initialState,
   actions: {} as ActionType,
-  flow: null as Flow,
+  flow: null as unknown as Flow,
 });
 export const useChatBotContext = () => useContext(ChatBotContext);
 export const Chat = () => {
@@ -187,7 +188,7 @@ export const Chat = () => {
       ports: purePorts,
     };
   }, lodash.isEqual);
-  const flow = useMemo(() => new Flow(flowState), [flowState]);
+  const flow = useMemo(() => new Flow(flowState as stateData), [flowState]);
   const head = flow.heads[0];
 
   const [key, setKey] = useState(0);

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { GraphQLClient } from "graphql-request";
 import lodash from "lodash";
+// import { getSdk } from "../generated/graphql-request";
 import {
   block,
   drawflow,
@@ -14,12 +16,80 @@ import {
   step,
 } from "../types";
 import { setStateAction } from "./actions";
+import { initialState } from "./drawflowSlice";
 import { Flow } from "./Flow";
 
 export const corsUrl = "https://drawflow.ml:8080/";
 
 const apiUrl = "https://tastypoints.io/akm/restapi.php";
 const baseUrl = corsUrl + apiUrl;
+
+const localNodeFlowFields = {
+  positionNumber: 0,
+  pos: {
+    x: 0,
+    y: 0,
+  },
+  isSub: false,
+  port: {
+    out: 2,
+    in: 1,
+  },
+  height: 0,
+  width: 0,
+  childrenVisibility: true,
+  subnodesVisibility: true,
+  head: 0,
+  lane: 0,
+  selected: false,
+  visible: true,
+};
+
+const graphQlEndpoint = "https://drawflow.ml:8090/graphql";
+// const client = new GraphQLClient(graphQlEndpoint);
+// const graphQlSdk = getSdk(client);
+// graphQlSdk.getBotFlow({ id: "0" }).then((botFlow) => {
+//   const { getBotFlow } = botFlow;
+//   if (getBotFlow) {
+//     const versions = getBotFlow.versions.map((version): stateData => {
+//       return {
+//         nodeId: 1 + Math.max(...version.nodes.map((node) => node.id)),
+//         drawflow: version.nodes.map((node) => {
+//           const { id, info, props } = node;
+//           return {
+//             id,
+//             info,
+//             props,
+//             ...localNodeFlowFields,
+//           };
+//         }),
+//         ...initialState,
+//       };
+//     });
+//     console.log(versions);
+//   }
+// });
+//
+// const postVersion = (nodes: any) => {
+//   nodes.forEach((node) => {
+//     for (const key in localNodeFlowFields) {
+//       delete node[key];
+//     }
+//   });
+//   graphQlSdk
+//     .postBotFlowVersion({
+//       flow: {
+//         botFlow: {
+//           id: "de",
+//         },
+//         version: 1,
+//         nodes: [{}],
+//       },
+//     })
+//     .then((resp) => {
+//       console.log(resp.addBotFlowVersion.botFlowVersion);
+//     });
+// };
 
 export const getFileUrl = async (file: File) => {
   /*Upload file to server
@@ -187,7 +257,7 @@ export const updateGroup = createAsyncThunk(
 
 export const fetchTemplateNodes = createAsyncThunk(
   "fetchTemplateNodes",
-  async () => {
+  async (_, { dispatch }) => {
     const { flow_nodes } = (await request(
       REQUEST_TYPE.getTemplateNodes,
       {}
@@ -195,6 +265,14 @@ export const fetchTemplateNodes = createAsyncThunk(
       flow_nodes: block[];
     };
     // console.log({ flow_nodes });
+    // const { queryTemplateNodesGroup, queryTemplateNode } =
+    //   await graphQlSdk.getGroupsAndTemplateNodes();
+    // dispatch(
+    //   setStateAction({
+    //     queryTemplateNodesGroup,
+    //     queryTemplateNode,
+    //   })
+    // );
 
     return flow_nodes;
   }
@@ -202,60 +280,8 @@ export const fetchTemplateNodes = createAsyncThunk(
 
 export const updateTemplateNode = createAsyncThunk(
   "updateTemplateNode",
-  async (templateNode: RecursivePartial<block>, { dispatch, getState }) => {
-    const state = getState() as flowType;
-    console.log(state.templates, templateNode);
-    const existedTemplateNode = state.templates.find(
-      ({ nodes_id }) => nodes_id === templateNode.nodes_id
-    );
-    if (existedTemplateNode) {
-      templateNode = lodash.merge(
-        lodash.cloneDeep(existedTemplateNode),
-        templateNode
-      );
-    }
-
-    if (!("delete" in templateNode)) {
-      templateNode.delete = 0;
-    }
-    const resp = await request(REQUEST_TYPE.postTemplateNodes, {
-      flow_nodes: [templateNode],
-      item_id: templateNode.nodes_id ?? 0,
-    });
-    console.log({ resp });
-
-    if (resp.status === "OK") {
-      dispatch(fetchTemplateNodes());
-
-      // if creating new templateNode
-      if (!templateNode.nodes_id) {
-        templateNode.nodes_id = resp.item_id;
-        dispatch(
-          setStateAction({
-            windowConfig: {
-              id: templateNode.nodes_id,
-              mainId: mainWindow.templateNodeSettings,
-            },
-          })
-        );
-      }
-      alert(`TemplateNode ${templateNode.nodes_id} updated`);
-      if (templateNode.delete === 1) {
-        dispatch(
-          setStateAction({
-            windowConfig: {
-              mainId: mainWindow.mainFlow,
-            },
-          })
-        );
-      }
-    } else {
-      alert(
-        `Error: cannot ${
-          templateNode.nodes_id ? "update" : "create"
-        } templateNode ${templateNode.name}, ID: ${templateNode.nodes_id}`
-      );
-    }
+  async (templateNode: RecursivePartial<string>, { dispatch }) => {
+    console.log("dde");
   }
 );
 

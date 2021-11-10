@@ -1,31 +1,32 @@
-import { chatNodeType } from "../chat/chatNodes/chatNodeType";
-import { block } from "../types";
+import {
+  ChatNodeType,
+  TemplateNode,
+  TemplateNodePatch,
+} from "../generated/apollo";
+import { RecursivePartial } from "../types";
 
-export const getTemplateNode: () => block = () => ({
-  flow_node_type_id: 0,
-  nodes_id: 0,
-  node_scrdata_id: 0,
-  flow_action_scrdata_id: 0,
+type PartialBy<T, K extends keyof T> = Omit<T, K> &
+  RecursivePartial<Pick<T, K>>;
+
+export type templateNode = Omit<TemplateNode, "group"> & {
+  group: { id: string };
+};
+
+export const getTemplateNode: () => TemplateNodePatch = () => ({
+  id: "",
   order: 0,
-  nodes_group_id: 0,
-  name: "**",
-  description: "**",
-  icon_link: "https://tastypoints.io/akm/tasty_images/pQ6hREGM.png",
-  icon_link_selected: "https://tastypoints.io/akm/tasty_images/pQ6hREGM.png",
-  nodes_tooltip: "",
-  id_priority: 0,
-  active: 0,
-  execution_wait_time_seconds: 0,
-  execute_node_specific_date_time: "2020-11-11T19:30",
-  loop_cycles: 0,
-  node_settings_json: {},
-  node_response_settings_json: {},
-  loop_cycle_reached_jump_to_node: 0,
-  node_attributes: [],
-  node_object_lists: {
-    props: null,
-    type: chatNodeType.Empty,
-    renderable: true,
+  props: {
+    nodeImagePropsRef: {
+      src: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+    },
   },
-  node_story: "Node story",
+  group: {
+    id: "",
+  },
+  info: {
+    description: "New template node description",
+    name: "New template node",
+    type: ChatNodeType.Image,
+    iconLink: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+  },
 });

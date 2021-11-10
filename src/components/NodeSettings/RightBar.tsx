@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import { block } from "../../types";
 import { CodeEditor } from "../CodeEditor";
+import { formType } from "./Settings";
 
 export const RightBar = ({
   setFormValues,
@@ -9,10 +10,10 @@ export const RightBar = ({
   remount,
   defaultValue,
 }: {
-  setFormValues: (p: block) => void;
+  setFormValues: (p: formType) => void;
   control: any;
   remount: () => void;
-  defaultValue: block;
+  defaultValue: formType;
 }) => {
   const values = useWatch({
     control,

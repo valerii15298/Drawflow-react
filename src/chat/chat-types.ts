@@ -13,7 +13,7 @@ export interface IChatNodeData {
   direction: msgDirection;
   renderable: boolean;
 
-  flowNodeId?: number;
+  flowNodeId: number;
   executed: boolean;
   running?: boolean;
   as?: any;
@@ -38,6 +38,7 @@ export const getDefaultCurrentMessageValue: () => IChatNodeDataPreview =
     src: "",
     direction: msgDirection.Out,
     renderable: true,
+    flowNodeId: -1,
   });
 
 export const getDefaultBotNodeData = (): IChatNodeDataPreview => ({

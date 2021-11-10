@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
+import { useTemplateNodesGroupsQuery } from "../generated/apollo";
 import { setStateAction, toggleSidebar } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Arrows, SearchIcon, SettingsIcon } from "../svg";
@@ -69,34 +70,36 @@ const GroupList = ({
   selectedGroup,
   setSelectedGroup,
 }: {
-  selectedGroup: number;
-  setSelectedGroup: (arg: number) => void;
+  selectedGroup: string;
+  setSelectedGroup: (arg: string) => void;
 }) => {
-  const dispatch = useAppDispatch();
-  const groups = useAppSelector((s) => s.groups);
+  // const dispatch = useAppDispatch();
+  // const groups = useAppSelector((s) => s.groups);
+  const { loading, error, data } = useTemplateNodesGroupsQuery();
+  if (error) return <>Error!</>;
+  if (loading) return <>Loading...</>;
+  const groups = data.queryTemplateNodesGroup;
 
   return (
     <GroupsDiv>
       <GroupDiv
         key={0}
-        selected={0 === selectedGroup}
-        onClick={() => setSelectedGroup(0)}
+        selected={"All" === selectedGroup}
+        onClick={() => setSelectedGroup("All")}
       >
         {"All"}
       </GroupDiv>
-      {Object.values(groups).map(
-        ({ id, node_group_name, node_group_order }) => {
-          return (
-            <GroupDiv
-              key={id}
-              selected={id === selectedGroup}
-              onClick={() => setSelectedGroup(id)}
-            >
-              {node_group_name}
-            </GroupDiv>
-          );
-        }
-      )}
+      {groups.map(({ id, name }) => {
+        return (
+          <GroupDiv
+            key={id}
+            selected={id === selectedGroup}
+            onClick={() => setSelectedGroup(id)}
+          >
+            {name}
+          </GroupDiv>
+        );
+      })}
     </GroupsDiv>
   );
 };
@@ -218,7 +221,7 @@ export const ToggleSidebar = (props: any) => {
 
 export const Sidebar = () => {
   const [searchWord, setSearchWord] = useState("");
-  const [selectedGroup, setSelectedGroup] = useState<number>(0);
+  const [selectedGroup, setSelectedGroup] = useState<string>("All");
   const visible = useAppSelector((s) => s.sidebarVisible);
 
   if (visible === false) return null;
