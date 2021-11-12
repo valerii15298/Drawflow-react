@@ -1,6 +1,9 @@
 {
   "name": "App schema",
-  "schemaPath": "generatedSchema.graphql",
+  "schemaPath": "prisma/generatedSchema.graphql",
+  "excludes": [
+    "generatedSchema.graphql"
+  ],
   "extensions": {
     "endpoints": {
       "Dgraph graphql api": {
