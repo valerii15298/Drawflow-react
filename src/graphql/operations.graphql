@@ -1,185 +1,184 @@
 fragment nodeInfo on NodeInfo {
-  name
-  description
-  type
-  iconLink
+    name
+    description
+    iconLink
 }
 
 fragment NodeSwitchProps on NodeSwitchProps {
-  displayType
+    SwitchDisplayType
 }
 
 fragment NodeFileProps on NodeFileProps {
-  info
-  url
+    info
+    url
 }
 
 fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
-  imageLink
-  text
+    imageLink
+    text
 }
 
 fragment NodeLinkProps on NodeLinkProps {
-  src
-  text
+    src
+    text
 }
 
 fragment NodeAudioProps on NodeAudioProps {
-  src
+    src
 }
 
 fragment NodeImageProps on NodeImageProps {
-  src
+    src
 }
 
 fragment NodeTextProps on NodeTextProps {
-  src
+    src
 }
 
 fragment NodeVideoProps on NodeVideoProps {
-  src
+    src
 }
 
 fragment NodeWaitProps on NodeWaitProps {
-  src
-  delay
+    src
+    delay
 }
 
 fragment NodeCountdownProps on NodeCountdownProps {
-  duration
+    duration
 }
 
-fragment nodeProps on NodeProps {
-  ...NodeFileProps
-  ...NodeLinkProps
-  ...NodeSwitchOptionProps
-  ...NodeImageProps
-  ...NodeCountdownProps
-  ...NodeAudioProps
-  ...NodeSwitchProps
-  ...NodeVideoProps
-  ...NodeTextProps
-  ...NodeWaitProps
-}
+#fragment nodeProps on NodeProps {
+#
+#    ...NodeFileProps
+#    ...NodeLinkProps
+#    ...NodeSwitchOptionProps
+#    ...NodeImageProps
+#    ...NodeCountdownProps
+#    ...NodeAudioProps
+#    ...NodeSwitchProps
+#    ...NodeVideoProps
+#    ...NodeTextProps
+#    ...NodeWaitProps
+#}
 
 fragment templateNode on TemplateNode {
-  id
-  order
-  group {
     id
-  }
-  info {
-    ...nodeInfo
-  }
-  props {
-    ...nodeProps
-  }
-}
-
-query templateNodes($filter: TemplateNodeFilter) {
-  queryTemplateNode(filter: $filter) {
-    ...templateNode
-  }
-}
-
-mutation templateNodesMutation($input: [AddTemplateNodeInput!]!) {
-  addTemplateNode(input: $input) {
-    templateNode {
-      id
-    }
-  }
-}
-
-mutation templateNodesUpdate($input: UpdateTemplateNodeInput!) {
-  updateTemplateNode(input: $input) {
-    templateNode {
-      id
-    }
-  }
-}
-
-mutation templateNodesDelete($filter: TemplateNodeFilter!) {
-  deleteTemplateNode(filter: $filter) {
-    templateNode {
-      id
-    }
-  }
-}
-
-query templateNodesGroups {
-  queryTemplateNodesGroup {
-    id
-    name
-    description
-  }
-}
-
-mutation templateNodesGroupsMutation($input: [AddTemplateNodesGroupInput!]!) {
-  addTemplateNodesGroup(input: $input) {
-    templateNodesGroup {
-      id
-    }
-  }
-}
-
-mutation templateNodesGroupsUpdate($input: UpdateTemplateNodesGroupInput!) {
-  updateTemplateNodesGroup(input: $input) {
-    templateNodesGroup {
-      id
-    }
-  }
-}
-
-mutation templateNodesGroupsDelete($filter: TemplateNodesGroupFilter!) {
-  deleteTemplateNodesGroup(filter: $filter) {
-    templateNodesGroup {
-      id
-    }
-  }
-}
-
-query botFlow($id: ID!) {
-  getBotFlow(id: $id) {
-    name
-    description
-    nextVersionNumber
-    versions {
-      nodes {
+    order
+    group {
         id
-        props {
-          ...nodeProps
-        }
-        info {
-          ...nodeInfo
-        }
-        pos {
-          x
-          y
-        }
-        ports {
-          index
-          pos {
-            x
-            y
-          }
-        }
-      }
-      connections {
-        from {
-          id
-        }
-        to {
-          id
-        }
-      }
     }
-  }
+    info {
+        ...nodeInfo
+    }
+
+    #    props {
+    #        ...nodeProps
+    #    }
 }
 
-mutation botFlowVersion($flow: [AddBotFlowVersionInput!]!) {
-  addBotFlowVersion(input: $flow) {
-    botFlowVersion {
-      id
+query templateNodes($cursor: TemplateNodeWhereUniqueInput,
+    $distinct: [TemplateNodeScalarFieldEnum!],
+    $orderBy: [TemplateNodeOrderByWithRelationInput!],
+    $skip: Int,
+    $take: Int,
+    $where: TemplateNodeWhereInput){
+    templateNodes(cursor: $cursor, where: $where, take: $take, skip: $skip, orderBy: $orderBy, distinct: $distinct) {
+        ...templateNode
     }
-  }
 }
+#}
+
+mutation templateNodesMutation($input: TemplateNodeCreateInput!) {
+
+    createTemplateNode(data: $input)
+    {
+        id
+    }
+}
+
+mutation templateNodesUpdate($data: TemplateNodeUpdateInput!, $where: TemplateNodeWhereUniqueInput!) {
+    updateTemplateNode(data: $data, where: $where) {
+        id
+    }
+}
+
+mutation templateNodesDelete($where: TemplateNodeWhereUniqueInput!) {
+    deleteTemplateNode(where: $where) {
+        id
+    }
+}
+
+# TemplateNodes groups
+
+query templateNodesGroups($cursor: TemplateNodesGroupWhereUniqueInput, $distinct: [TemplateNodesGroupScalarFieldEnum!], $orderBy: [TemplateNodesGroupOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodesGroupWhereInput) {
+    templateNodesGroups(cursor: $cursor, distinct: $distinct, orderBy: $orderBy, skip: $skip, where: $where, take: $take) {
+        id
+        name
+        description
+    }
+}
+
+mutation templateNodesGroupsMutation($data: TemplateNodesGroupCreateInput!) {
+    createTemplateNodesGroup(data: $data) {
+        id
+    }
+}
+
+mutation templateNodesGroupsUpdate($data: TemplateNodesGroupUpdateInput!, $where: TemplateNodesGroupWhereUniqueInput!) {
+    updateTemplateNodesGroup(data: $data, where: $where) {
+        id
+    }
+}
+
+mutation templateNodesGroupsDelete($where: TemplateNodesGroupWhereUniqueInput!) {
+    deleteTemplateNodesGroup(where: $where) {
+        id
+    }
+}
+
+#query botFlow($id: ID!) {
+#    getBotFlow(id: $id) {
+#        name
+#        description
+#        nextVersionNumber
+#        versions {
+#            nodes {
+#                id
+#                props {
+#                    ...nodeProps
+#                }
+#                info {
+#                    ...nodeInfo
+#                }
+#                pos {
+#                    x
+#                    y
+#                }
+#                ports {
+#                    index
+#                    pos {
+#                        x
+#                        y
+#                    }
+#                }
+#            }
+#            connections {
+#                from {
+#                    id
+#                }
+#                to {
+#                    id
+#                }
+#            }
+#        }
+#    }
+#}
+#
+#mutation botFlowVersion($flow: [AddBotFlowVersionInput!]!) {
+#    addBotFlowVersion(input: $flow) {
+#        botFlowVersion {
+#            id
+#        }
+#    }
+#}

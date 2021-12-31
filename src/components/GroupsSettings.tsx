@@ -94,10 +94,10 @@ export const GroupsSettings = () => {
     refetchQueries,
   });
   const dispatch = useAppDispatch();
-  const [groups, setGroups] = useState(data.queryTemplateNodesGroup);
+  const [groups, setGroups] = useState(data.templateNodesGroups);
   // console.log(groups);
   const setGroup = (
-    id: string,
+    id: number,
     info: { name?: string; description?: string }
   ) => {
     const group = groups.find((g) => g.id === id);
@@ -138,13 +138,13 @@ export const GroupsSettings = () => {
                   setGroups((groups) =>
                     groups.filter((group) => group.id !== id)
                   );
-                  deleteGroups({
-                    variables: {
-                      filter: {
-                        id: [id],
-                      },
-                    },
-                  });
+                  // deleteGroups({
+                  //   variables: {
+                  //     filter: {
+                  //       id: [id],
+                  //     },
+                  //   },
+                  // });
 
                   // dispatch(
                   //   updateGroup({
@@ -163,28 +163,28 @@ export const GroupsSettings = () => {
                   );
                   if (!approval) return;
 
-                  updateGroups({
-                    variables: {
-                      input: {
-                        filter: { id: [id] },
-                        set: {
-                          name,
-                          description,
-                        },
-                      },
-                    },
-                  });
-                  setGroups((groups) =>
-                    groups.map((group) => {
-                      return group.id === id
-                        ? {
-                            ...group,
-                            name,
-                            description,
-                          }
-                        : group;
-                    })
-                  );
+                  // updateGroups({
+                  //   variables: {
+                  //     input: {
+                  //       filter: { id: [id] },
+                  //       set: {
+                  //         name,
+                  //         description,
+                  //       },
+                  //     },
+                  //   },
+                  // });
+                  // setGroups((groups) =>
+                  //   groups.map((group) => {
+                  //     return group.id === id
+                  //       ? {
+                  //           ...group,
+                  //           name,
+                  //           description,
+                  //         }
+                  //       : group;
+                  //   })
+                  // );
 
                   // dispatch(updateGroup(groups[id]));
                   // save group
@@ -236,37 +236,37 @@ export const GroupsSettings = () => {
       <ControlButtonsDiv>
         <AddNewGroupButton
           onClick={() => {
-            const input = {
-              name: "New group",
-              description: "Group description",
-            };
-            addGroups({
-              variables: {
-                input: {
-                  ...input,
-                  nodes: [],
-                },
-              },
-            }).then(
-              ({
-                data: {
-                  addTemplateNodesGroup: {
-                    templateNodesGroup: {
-                      0: { id },
-                    },
-                  },
-                },
-              }) => {
-                // console.log({ id });
-                setGroups((groups) => [
-                  ...groups,
-                  {
-                    ...input,
-                    id,
-                  },
-                ]);
-              }
-            );
+            // const input = {
+            //   name: "New group",
+            //   description: "Group description",
+            // };
+            // addGroups({
+            //   variables: {
+            //     input: {
+            //       ...input,
+            //       nodes: [],
+            //     },
+            //   },
+            // }).then(
+            //   ({
+            //     data: {
+            //       addTemplateNodesGroup: {
+            //         templateNodesGroup: {
+            //           0: { id },
+            //         },
+            //       },
+            //     },
+            //   }) => {
+            //     // console.log({ id });
+            //     setGroups((groups) => [
+            //       ...groups,
+            //       {
+            //         ...input,
+            //         id,
+            //       },
+            //     ]);
+            //   }
+            // );
             // dispatch(updateGroup(getGroupTemplate()));
           }}
         >

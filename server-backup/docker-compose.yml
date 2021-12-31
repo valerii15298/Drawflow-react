@@ -1,0 +1,31 @@
+# This Docker Compose file can be used to quickly bootup Dgraph Zero
+# and Alpha in different Docker containers.
+
+# It mounts /tmp/data on the host machine to /dgraph within the
+# container. You can change /tmp/data to a more appropriate location.
+# Run `docker-compose up` to start Dgraph.
+
+version: "3.2"
+services:
+  zero:
+    image: dgraph/dgraph:latest
+    volumes:
+      - /tmp/data:/dgraph
+
+    ports:
+      - 5080:5080
+      - 6080:6080
+    restart: on-failure
+    command: dgraph zero --my=zero:5080
+  alpha:
+    image: dgraph/dgraph:latest
+    volumes:
+      - /tmp/data:/dgraph
+      - /home/ubuntu/projects/docker/dgraph:/keys
+    ports:
+      - 8090:8080
+      - 9080:9080
+    restart: on-failure
+    command: bash -c 'dgraph cert; dgraph cert -n localhost,drawflow.ml; cp /keys/* /dgraph/tls; dgraph alpha --tls "ca-cert=/dgraph/tls/ca.crt; server-cert=/dgraph/tls/node.crt; server-key=/dgraph/tls/node.key" --security whitelist=0.0.0.0/0 --graphql introspection=true --my=alpha:7080 --zero=zero:5080'
+# cp /keys/ca.key /dgraph/tls; cp /dgraph/tls/ca.crt /dgraph/tls/node.crt;
+#  cp /dgraph/tls/ca.key /dgraph/tls/node.key;

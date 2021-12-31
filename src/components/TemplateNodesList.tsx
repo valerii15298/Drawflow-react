@@ -54,7 +54,7 @@ const AddTemplateNodeDiv = styled(NodeDiv)`
 
 const TemplateNodesList = (props: {
   searchWord: string;
-  selectedGroup: string;
+  selectedGroup: number;
 }) => {
   const { data, loading, error } = useTemplateNodesQuery();
   const [addTemplateNodes] = useTemplateNodesMutation({
@@ -62,7 +62,7 @@ const TemplateNodesList = (props: {
   });
   if (loading) return <>Loading...</>;
   if (error) return <>Error</>;
-  const list = data.queryTemplateNode;
+  const list = data.templateNodes;
   // console.log(list);
   // const dispatch = useAppDispatch();
   const { searchWord, selectedGroup } = props;
@@ -78,7 +78,7 @@ const TemplateNodesList = (props: {
         const label = block.info.name + " " + block.info.description;
 
         return (
-          (selectedGroup === "All" || block.group.id === selectedGroup) &&
+          (selectedGroup === -1 || block.group.id === Number(selectedGroup)) &&
           (searchArr.find((word) => label.toLowerCase().includes(word)) ||
             !searchArr.length) && <NodeTemplate key={block.id} {...block} />
         );
@@ -86,10 +86,6 @@ const TemplateNodesList = (props: {
       <AddTemplateNodeDiv
         onClick={() => {
           const templateNode = getTemplateNode();
-          // const a:TemplateNode
-          delete templateNode.props;
-          delete templateNode.id;
-          templateNode.group = { id: "0x2715" };
           const input = [
             {
               ...templateNode,
@@ -103,7 +99,7 @@ const TemplateNodesList = (props: {
           console.log(input);
           addTemplateNodes({
             variables: {
-              input,
+              input: { ...templateNode },
             },
           }).then((a) => {
             console.log(a);

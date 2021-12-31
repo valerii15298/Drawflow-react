@@ -21,7 +21,7 @@ export const FormSettingsContext = createContext<{
   setFormValues: null,
 });
 
-export const Settings = ({ json, id }: { json: formType; id: string }) => {
+export const Settings = ({ json, id }: { json: formType; id: number }) => {
   const [leftBarKey, setLeftBarKey] = useState(0);
   const [rightBarKey, setRightBarKey] = useState(0);
   const [defaultValues, setDefaultValues] = useState(json);

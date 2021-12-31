@@ -1,0 +1,103 @@
+#ignore
+
+type Task  {
+    id: ID!
+    title: String! @search(by:[fulltext])
+    completed: Boolean! @search
+    user: User!
+}
+
+type User  {
+    username: String! @search(by:[hash]) @id
+    name: String @search(by:[exact])
+    tasks: [Task] @hasInverse(field:"user")
+}
+
+enum ChatNodeType {
+    Text
+    Audio
+    Video
+    File
+    Image
+    Empty
+    Link
+    Switch
+    SwitchOption
+    SetTypingIndicator
+    Countdown
+    Delay
+    HttpRequest
+}
+
+type TemplateNodeInfo  {
+    name: String!
+    description: String
+    imageLink: String!
+    type: ChatNodeType
+}
+
+
+# chatNodes
+enum SwitchDisplayType {
+    Select
+    Carousel
+    List
+}
+
+type NodeSwitchProps {
+    displayType: SwitchDisplayType!
+}
+
+type NodeFileProps {
+    info: String!
+    url: String!
+}
+
+type NodeAudioProps {
+    src: String!
+}
+
+type NodeImageProps {
+    src: String!
+}
+
+type NodeLinkProps {
+    src: String!
+    text: String!
+}
+
+
+type NodeSwitchOptionProps {
+    text: String!
+    imageUrl: String!
+}
+
+type NodeTextProps {
+    src: String!
+}
+
+type NodeVideoProps {
+    src: String!
+}
+
+type NodeWaitProps {
+    src: String!
+    delay: Int!
+}
+
+
+type NodeCountdownProps {
+    duration: Int!
+}
+
+
+
+union NodeProps = NodeSwitchProps | NodeAudioProps | NodeCountdownProps
+    | NodeFileProps | NodeImageProps | NodeLinkProps | NodeSwitchOptionProps
+
+type TemplateNode  {
+    id: ID!
+    info: TemplateNodeInfo!
+    props: NodeProps!
+}
+

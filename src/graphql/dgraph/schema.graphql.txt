@@ -1,0 +1,178 @@
+# noinspection GraphQLInterfaceImplementation
+# noinspection GraphQLTypeRedefinition
+
+type BotFlowVersion {
+  id: ID!
+  version: Int!
+  nodes: [FlowNode!]! @hasInverse(field: "flow")
+  connections: [Connection!]! @hasInverse(field: "flow")
+  botFlow: BotFlow!
+}
+
+type Pos {
+  id: ID!
+  x: Float!
+  y: Float!
+}
+
+type Port {
+  id: ID!
+  index: Int!
+  node: FlowNode!
+  pos: Pos!
+  outConnections: [Connection!]! @hasInverse(field: "from")
+  inConnections: [Connection!]! @hasInverse(field: "to")
+}
+
+type Connection {
+  id: ID!
+  from: Port!
+  to: Port!
+  flow: BotFlowVersion!
+}
+
+type BotFlow {
+  id: ID!
+  name: String!
+  description: String!
+  versions: [BotFlowVersion!]! @hasInverse(field: "botFlow")
+  nextVersionNumber: Int!
+}
+
+interface Node {
+  info: NodeInfo!
+  props: NodeProps!
+}
+
+type NodeInfo {
+  id: ID!
+
+  name: String!
+  description: String!
+  iconLink: String!
+  type: ChatNodeType!
+}
+
+type TemplateNode implements Node {
+  id: ID!
+  group: TemplateNodesGroup!
+  order: Int!
+
+  ports: [Port!]!
+  pos: Pos!
+}
+
+type FlowNode implements Node {
+  id: Int! @id
+  templateNode: TemplateNode
+  flow: BotFlowVersion!
+
+  ports: [Port!]! @hasInverse(field: "node")
+  pos: Pos!
+}
+
+type TemplateNodesGroup {
+  id: ID!
+  name: String!
+  description: String!
+  nodes: [TemplateNode!]! @hasInverse(field: "group")
+}
+
+enum ChatNodeType {
+  Text
+  Audio
+  Video
+  File
+  Image
+  Empty
+  Link
+  Switch
+  SwitchOption
+  SetTypingIndicator
+  Countdown
+  Delay
+  HttpRequest
+}
+
+##########################################
+########### ChatNode PROPS ###############
+##########################################
+
+enum SwitchDisplayType {
+  Select
+  Carousel
+  List
+}
+
+type NodeSwitchProps {
+  id: ID!
+  displayType: SwitchDisplayType!
+}
+
+type NodeFileProps {
+  id: ID!
+  info: String!
+  url: String!
+}
+
+type NodeAudioProps {
+  id: ID!
+  src: String!
+}
+
+type NodeImageProps {
+  id: ID!
+
+  src: String!
+}
+
+type NodeLinkProps {
+  id: ID!
+
+  src: String!
+  text: String!
+}
+
+type NodeSwitchOptionProps {
+  id: ID!
+
+  text: String!
+  imageLink: String!
+}
+
+type NodeTextProps {
+  id: ID!
+
+  src: String!
+}
+
+type NodeVideoProps {
+  id: ID!
+
+  src: String!
+}
+
+type NodeWaitProps {
+  id: ID!
+
+  src: String!
+  delay: Int!
+}
+
+type NodeCountdownProps {
+  id: ID!
+
+  duration: Int!
+}
+
+union NodeProps =
+    NodeSwitchProps
+  | NodeAudioProps
+  | NodeCountdownProps
+  | NodeFileProps
+  | NodeImageProps
+  | NodeLinkProps
+  | NodeSwitchOptionProps
+  | NodeVideoProps
+  | NodeTextProps
+  | NodeWaitProps

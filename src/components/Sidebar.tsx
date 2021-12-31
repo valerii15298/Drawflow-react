@@ -70,22 +70,22 @@ const GroupList = ({
   selectedGroup,
   setSelectedGroup,
 }: {
-  selectedGroup: string;
-  setSelectedGroup: (arg: string) => void;
+  selectedGroup: number;
+  setSelectedGroup: (arg: number) => void;
 }) => {
   // const dispatch = useAppDispatch();
   // const groups = useAppSelector((s) => s.groups);
   const { loading, error, data } = useTemplateNodesGroupsQuery();
   if (error) return <>Error!</>;
   if (loading) return <>Loading...</>;
-  const groups = data.queryTemplateNodesGroup;
+  const groups = data.templateNodesGroups;
 
   return (
     <GroupsDiv>
       <GroupDiv
         key={0}
-        selected={"All" === selectedGroup}
-        onClick={() => setSelectedGroup("All")}
+        selected={-1 === selectedGroup}
+        onClick={() => setSelectedGroup(-1)}
       >
         {"All"}
       </GroupDiv>
@@ -221,7 +221,7 @@ export const ToggleSidebar = (props: any) => {
 
 export const Sidebar = () => {
   const [searchWord, setSearchWord] = useState("");
-  const [selectedGroup, setSelectedGroup] = useState<string>("All");
+  const [selectedGroup, setSelectedGroup] = useState<number>(-1);
   const visible = useAppSelector((s) => s.sidebarVisible);
 
   if (visible === false) return null;

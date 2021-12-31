@@ -1,24 +1,17 @@
 import { useContext, useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import {
-  ChatNodeType,
-  useTemplateNodesMutation,
-  useTemplateNodesUpdateMutation,
-} from "../../generated/apollo";
+import { useTemplateNodesUpdateMutation } from "../../generated/apollo";
 import { mapKeyToDisplayName } from "../../models/tools";
-import { updateTemplateNode } from "../../redux/api";
-import { actions } from "../../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { filterTypename } from "../../tools/helpers";
-import { ObjectKeys, step } from "../../types";
 import { ToggleSidebar } from "../Sidebar";
 import { FormSettings } from "./FormSettings";
 import { NodeJumpControls } from "./NodeJumpControls";
 import { SettingItem } from "./SettingItem";
-import { formType, NodeSettingsContext } from "./Settings";
+import { NodeSettingsContext } from "./Settings";
+import { formType } from "./TemplateNodeSettings";
+
 import {
   ControlsDiv,
-  DefaultSettingsDetails,
   DeleteButton,
   DescriptionDiv,
   LeftBarForm,
@@ -26,7 +19,6 @@ import {
   ListSettingsDiv,
   ResetButton,
   SaveButton,
-  StyledSummary,
   TitleDiv,
   TitleImg,
   TitleInfoDiv,
@@ -36,7 +28,7 @@ import {
 export const LeftBar = (props: {
   defaultValues: formType;
   setControl: (p: any) => void;
-  id: string;
+  id: number;
   rightBarNeedsToRemount: boolean;
   remountRightBar: () => void;
 }) => {
@@ -95,13 +87,14 @@ export const LeftBar = (props: {
   // ChatNodeType
   // console.log("render", { defaultValues, values });
   const onSubmit = () => {
-    const { id, ...data } = getValues();
-    const set = filterTypename(data);
-    set.props = { [`node${data.info.type}PropsRef`]: data.props };
-    console.log(set);
-    updateNode({
-      variables: { input: { filter: { id: [id] }, set } },
-    }).then(console.log);
+    // const { id, ...data } = getValues();
+    // const set = filterTypename(data);
+    // set.props = { [`node${data.info.type}PropsRef`]: data.props };
+    // console.log(set);
+    // TODO
+    // updateNode({
+    //   variables: { input: { filter: { id: [id] }, set } },
+    // }).then(console.log);
     // type === "template" &&
     //   dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
     // type === "node" &&

@@ -1,6 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GraphQLClient } from "graphql-request";
-import lodash from "lodash";
 // import { getSdk } from "../generated/graphql-request";
 import {
   block,
@@ -9,87 +7,18 @@ import {
   flowType,
   group,
   groups,
-  mainWindow,
   optGroup,
   RecursivePartial,
   stateData,
   step,
 } from "../types";
 import { setStateAction } from "./actions";
-import { initialState } from "./drawflowSlice";
 import { Flow } from "./Flow";
 
-export const corsUrl = "https://drawflow.ml:8080/";
+export const corsUrl = "http://localhost:8080/";
 
 const apiUrl = "https://tastypoints.io/akm/restapi.php";
 const baseUrl = corsUrl + apiUrl;
-
-const localNodeFlowFields = {
-  positionNumber: 0,
-  pos: {
-    x: 0,
-    y: 0,
-  },
-  isSub: false,
-  port: {
-    out: 2,
-    in: 1,
-  },
-  height: 0,
-  width: 0,
-  childrenVisibility: true,
-  subnodesVisibility: true,
-  head: 0,
-  lane: 0,
-  selected: false,
-  visible: true,
-};
-
-const graphQlEndpoint = "https://drawflow.ml:8090/graphql";
-// const client = new GraphQLClient(graphQlEndpoint);
-// const graphQlSdk = getSdk(client);
-// graphQlSdk.getBotFlow({ id: "0" }).then((botFlow) => {
-//   const { getBotFlow } = botFlow;
-//   if (getBotFlow) {
-//     const versions = getBotFlow.versions.map((version): stateData => {
-//       return {
-//         nodeId: 1 + Math.max(...version.nodes.map((node) => node.id)),
-//         drawflow: version.nodes.map((node) => {
-//           const { id, info, props } = node;
-//           return {
-//             id,
-//             info,
-//             props,
-//             ...localNodeFlowFields,
-//           };
-//         }),
-//         ...initialState,
-//       };
-//     });
-//     console.log(versions);
-//   }
-// });
-//
-// const postVersion = (nodes: any) => {
-//   nodes.forEach((node) => {
-//     for (const key in localNodeFlowFields) {
-//       delete node[key];
-//     }
-//   });
-//   graphQlSdk
-//     .postBotFlowVersion({
-//       flow: {
-//         botFlow: {
-//           id: "de",
-//         },
-//         version: 1,
-//         nodes: [{}],
-//       },
-//     })
-//     .then((resp) => {
-//       console.log(resp.addBotFlowVersion.botFlowVersion);
-//     });
-// };
 
 export const getFileUrl = async (file: File) => {
   /*Upload file to server

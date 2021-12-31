@@ -1,7 +1,7 @@
 import {
-  ChatNodeType,
+  NodeType,
   TemplateNode,
-  TemplateNodePatch,
+  TemplateNodeCreateInput,
 } from "../generated/apollo";
 import { RecursivePartial } from "../types";
 
@@ -12,21 +12,26 @@ export type templateNode = Omit<TemplateNode, "group"> & {
   group: { id: string };
 };
 
-export const getTemplateNode: () => TemplateNodePatch = () => ({
-  id: "",
+export const getTemplateNode: () => TemplateNodeCreateInput = () => ({
   order: 0,
-  props: {
-    nodeImagePropsRef: {
-      src: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+  NodeProps: {
+    create: {
+      type: NodeType.Audio,
+      NodeAudioProps: { create: { src: "SomeTestaudioUrl" } },
     },
   },
   group: {
-    id: "",
+    create: {
+      name: `Some group ${Date.now()}`,
+      description: `Some description ${Date.now()}`,
+    },
   },
   info: {
-    description: "New template node description",
-    name: "New template node",
-    type: ChatNodeType.Image,
-    iconLink: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+    create: {
+      description: "New template node description",
+      name: "New template node",
+      type: NodeType.Image,
+      iconLink: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+    },
   },
 });

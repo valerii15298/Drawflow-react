@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
-import { block } from "../../types";
 import { CodeEditor } from "../CodeEditor";
-import { formType } from "./Settings";
+import { formType } from "./TemplateNodeSettings";
 
 export const RightBar = ({
   setFormValues,

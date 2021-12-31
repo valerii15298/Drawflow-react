@@ -1,13 +1,13 @@
 {
   "name": "App schema",
-  "schemaPath": "prisma/generatedSchema.graphql",
+  "schemaPath": "schema.graphql",
   "excludes": [
-    "generatedSchema.graphql"
+    "dgraph/generatedSchema.graphql"
   ],
   "extensions": {
     "endpoints": {
       "Dgraph graphql api": {
-        "url": "https://drawflow.ml:8090/graphql",
+        "url": "https://localhost:3000/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

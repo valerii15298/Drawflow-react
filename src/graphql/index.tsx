@@ -8,7 +8,7 @@ export const cache = new InMemoryCache({
 });
 
 export const apolloClient = new ApolloClient({
-  uri: "https://drawflow.ml:8090/graphql",
+  uri: "http://localhost:3000/graphql",
   cache,
 });
 

@@ -106,7 +106,7 @@ const JumpNodesChooserList = <T extends {}>(props: {
   );
 };
 
-const NodeJumpControls = ({ id }: { id: string }) => {
+const NodeJumpControls = ({ id }: { id: number }) => {
   const state = useAppSelector(selectActiveDrawflow);
   const flow = new Flow(state);
   // @ts-ignore

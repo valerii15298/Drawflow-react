@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="23.22.24.76" id="0de448be-f8fc-4f52-95a7-3bf7ce1cc447" keyPath="C:\Users\valer\OneDrive\Desktop\vpetryniak.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" />
+      <sshConfig host="54.91.173.161" id="0de448be-f8fc-4f52-95a7-3bf7ce1cc447" keyPath="C:\Users\valer\OneDrive\Desktop\vpetryniak.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" />
     </configs>
   </component>
 </project>
