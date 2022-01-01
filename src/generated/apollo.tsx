@@ -7859,7 +7859,9 @@ export type NodeWaitPropsFragment = { __typename?: 'NodeWaitProps', src: string,
 
 export type NodeCountdownPropsFragment = { __typename?: 'NodeCountdownProps', duration: number };
 
-export type TemplateNodeFragment = { __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', name: string, description: string, iconLink: string } };
+export type NodePropsFragment = { __typename?: 'NodeProps', NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined };
+
+export type TemplateNodeFragment = { __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', name: string, description: string, iconLink: string }, NodeProps: { __typename?: 'NodeProps', type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined } };
 
 export type TemplateNodesQueryVariables = Exact<{
   cursor?: Maybe<TemplateNodeWhereUniqueInput>;
@@ -7871,7 +7873,7 @@ export type TemplateNodesQueryVariables = Exact<{
 }>;
 
 
-export type TemplateNodesQuery = { __typename?: 'Query', templateNodes: Array<{ __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', name: string, description: string, iconLink: string } }> };
+export type TemplateNodesQuery = { __typename?: 'Query', templateNodes: Array<{ __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', name: string, description: string, iconLink: string }, NodeProps: { __typename?: 'NodeProps', type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined } }> };
 
 export type TemplateNodesMutationVariables = Exact<{
   input: TemplateNodeCreateInput;
@@ -7929,9 +7931,11 @@ export type TemplateNodesGroupsDeleteMutationVariables = Exact<{
 
 export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', deleteTemplateNodesGroup?: { __typename?: 'TemplateNodesGroup', id: number } | null | undefined };
 
-export const NodeSwitchPropsFragmentDoc = gql`
-    fragment NodeSwitchProps on NodeSwitchProps {
-  SwitchDisplayType
+export const NodeInfoFragmentDoc = gql`
+    fragment nodeInfo on NodeInfo {
+  name
+  description
+  iconLink
 }
     `;
 export const NodeFilePropsFragmentDoc = gql`
@@ -7940,21 +7944,16 @@ export const NodeFilePropsFragmentDoc = gql`
   url
 }
     `;
-export const NodeSwitchOptionPropsFragmentDoc = gql`
-    fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
-  imageLink
-  text
-}
-    `;
 export const NodeLinkPropsFragmentDoc = gql`
     fragment NodeLinkProps on NodeLinkProps {
   src
   text
 }
     `;
-export const NodeAudioPropsFragmentDoc = gql`
-    fragment NodeAudioProps on NodeAudioProps {
-  src
+export const NodeSwitchOptionPropsFragmentDoc = gql`
+    fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
+  imageLink
+  text
 }
     `;
 export const NodeImagePropsFragmentDoc = gql`
@@ -7962,13 +7961,28 @@ export const NodeImagePropsFragmentDoc = gql`
   src
 }
     `;
-export const NodeTextPropsFragmentDoc = gql`
-    fragment NodeTextProps on NodeTextProps {
+export const NodeAudioPropsFragmentDoc = gql`
+    fragment NodeAudioProps on NodeAudioProps {
   src
+}
+    `;
+export const NodeCountdownPropsFragmentDoc = gql`
+    fragment NodeCountdownProps on NodeCountdownProps {
+  duration
+}
+    `;
+export const NodeSwitchPropsFragmentDoc = gql`
+    fragment NodeSwitchProps on NodeSwitchProps {
+  SwitchDisplayType
 }
     `;
 export const NodeVideoPropsFragmentDoc = gql`
     fragment NodeVideoProps on NodeVideoProps {
+  src
+}
+    `;
+export const NodeTextPropsFragmentDoc = gql`
+    fragment NodeTextProps on NodeTextProps {
   src
 }
     `;
@@ -7978,18 +7992,49 @@ export const NodeWaitPropsFragmentDoc = gql`
   delay
 }
     `;
-export const NodeCountdownPropsFragmentDoc = gql`
-    fragment NodeCountdownProps on NodeCountdownProps {
-  duration
+export const NodePropsFragmentDoc = gql`
+    fragment nodeProps on NodeProps {
+  NodeFileProps {
+    ...NodeFileProps
+  }
+  NodeLinkProps {
+    ...NodeLinkProps
+  }
+  NodeSwitchOptionProps {
+    ...NodeSwitchOptionProps
+  }
+  NodeImageProps {
+    ...NodeImageProps
+  }
+  NodeAudioProps {
+    ...NodeAudioProps
+  }
+  NodeCountdownProps {
+    ...NodeCountdownProps
+  }
+  NodeSwitchProps {
+    ...NodeSwitchProps
+  }
+  NodeVideoProps {
+    ...NodeVideoProps
+  }
+  NodeTextProps {
+    ...NodeTextProps
+  }
+  NodeWaitProps {
+    ...NodeWaitProps
+  }
 }
-    `;
-export const NodeInfoFragmentDoc = gql`
-    fragment nodeInfo on NodeInfo {
-  name
-  description
-  iconLink
-}
-    `;
+    ${NodeFilePropsFragmentDoc}
+${NodeLinkPropsFragmentDoc}
+${NodeSwitchOptionPropsFragmentDoc}
+${NodeImagePropsFragmentDoc}
+${NodeAudioPropsFragmentDoc}
+${NodeCountdownPropsFragmentDoc}
+${NodeSwitchPropsFragmentDoc}
+${NodeVideoPropsFragmentDoc}
+${NodeTextPropsFragmentDoc}
+${NodeWaitPropsFragmentDoc}`;
 export const TemplateNodeFragmentDoc = gql`
     fragment templateNode on TemplateNode {
   id
@@ -8000,8 +8045,13 @@ export const TemplateNodeFragmentDoc = gql`
   info {
     ...nodeInfo
   }
+  NodeProps {
+    type
+    ...nodeProps
+  }
 }
-    ${NodeInfoFragmentDoc}`;
+    ${NodeInfoFragmentDoc}
+${NodePropsFragmentDoc}`;
 export const TemplateNodesDocument = gql`
     query templateNodes($cursor: TemplateNodeWhereUniqueInput, $distinct: [TemplateNodeScalarFieldEnum!], $orderBy: [TemplateNodeOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodeWhereInput) {
   templateNodes(

@@ -2,7 +2,7 @@
 import { NodeType } from "../generated/apollo";
 
 export const mapNodeSettingsKeyToComponent = {
-  info: {
+  NodeProps: {
     type: ({ field }: any) => {
       return (
         <select {...field} disabled>

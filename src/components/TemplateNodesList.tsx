@@ -86,30 +86,17 @@ const TemplateNodesList = (props: {
       <AddTemplateNodeDiv
         onClick={() => {
           const templateNode = getTemplateNode();
-          const input = [
-            {
-              ...templateNode,
-              props: {
-                nodeImagePropsRef: {
-                  src: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
-                },
-              },
-            },
-          ];
-          console.log(input);
+          templateNode.order =
+            list.length === 0
+              ? 1
+              : Math.max(...list.map(({ order }) => order)) + 1;
           addTemplateNodes({
             variables: {
-              input: { ...templateNode },
+              input: templateNode,
             },
           }).then((a) => {
             console.log(a);
           });
-          // dispatch(
-          //   updateTemplateNode({
-          //     ...templateNode,
-          //     order: Math.max(...list.map((v) => v.order)) + 1,
-          //   })
-          // );
         }}
       >
         <Plus />

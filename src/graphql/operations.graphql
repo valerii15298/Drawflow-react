@@ -1,140 +1,198 @@
 fragment nodeInfo on NodeInfo {
-    name
-    description
-    iconLink
+  name
+  description
+  iconLink
 }
 
 fragment NodeSwitchProps on NodeSwitchProps {
-    SwitchDisplayType
+  SwitchDisplayType
 }
 
 fragment NodeFileProps on NodeFileProps {
-    info
-    url
+  info
+  url
 }
 
 fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
-    imageLink
-    text
+  imageLink
+  text
 }
 
 fragment NodeLinkProps on NodeLinkProps {
-    src
-    text
+  src
+  text
 }
 
 fragment NodeAudioProps on NodeAudioProps {
-    src
+  src
 }
 
 fragment NodeImageProps on NodeImageProps {
-    src
+  src
 }
 
 fragment NodeTextProps on NodeTextProps {
-    src
+  src
 }
 
 fragment NodeVideoProps on NodeVideoProps {
-    src
+  src
 }
 
 fragment NodeWaitProps on NodeWaitProps {
-    src
-    delay
+  src
+  delay
 }
 
 fragment NodeCountdownProps on NodeCountdownProps {
-    duration
+  duration
 }
 
-#fragment nodeProps on NodeProps {
-#
-#    ...NodeFileProps
-#    ...NodeLinkProps
-#    ...NodeSwitchOptionProps
-#    ...NodeImageProps
-#    ...NodeCountdownProps
-#    ...NodeAudioProps
-#    ...NodeSwitchProps
-#    ...NodeVideoProps
-#    ...NodeTextProps
-#    ...NodeWaitProps
+fragment nodeProps on NodeProps {
+  NodeFileProps {
+    ...NodeFileProps
+  }
+  NodeLinkProps {
+    ...NodeLinkProps
+  }
+  NodeSwitchOptionProps {
+    ...NodeSwitchOptionProps
+  }
+  NodeImageProps {
+    ...NodeImageProps
+  }
+  NodeAudioProps {
+    ...NodeAudioProps
+  }
+  NodeCountdownProps {
+    ...NodeCountdownProps
+  }
+
+  NodeSwitchProps {
+    ...NodeSwitchProps
+  }
+
+  NodeVideoProps {
+    ...NodeVideoProps
+  }
+
+  NodeTextProps {
+    ...NodeTextProps
+  }
+  NodeWaitProps {
+    ...NodeWaitProps
+  }
+}
+
+#fragment NodeProps on NodeProps {
+#    NodeAudioProps {
+#        ...NodeAudioProps
+#    }
 #}
 
 fragment templateNode on TemplateNode {
+  id
+  order
+  group {
     id
-    order
-    group {
-        id
-    }
-    info {
-        ...nodeInfo
-    }
+  }
+  info {
+    ...nodeInfo
+  }
 
-    #    props {
-    #        ...nodeProps
-    #    }
+  NodeProps {
+    type
+    ...nodeProps
+  }
 }
 
-query templateNodes($cursor: TemplateNodeWhereUniqueInput,
-    $distinct: [TemplateNodeScalarFieldEnum!],
-    $orderBy: [TemplateNodeOrderByWithRelationInput!],
-    $skip: Int,
-    $take: Int,
-    $where: TemplateNodeWhereInput){
-    templateNodes(cursor: $cursor, where: $where, take: $take, skip: $skip, orderBy: $orderBy, distinct: $distinct) {
-        ...templateNode
-    }
+query templateNodes(
+  $cursor: TemplateNodeWhereUniqueInput
+  $distinct: [TemplateNodeScalarFieldEnum!]
+  $orderBy: [TemplateNodeOrderByWithRelationInput!]
+  $skip: Int
+  $take: Int
+  $where: TemplateNodeWhereInput
+) {
+  templateNodes(
+    cursor: $cursor
+    where: $where
+    take: $take
+    skip: $skip
+    orderBy: $orderBy
+    distinct: $distinct
+  ) {
+    ...templateNode
+  }
 }
 #}
 
 mutation templateNodesMutation($input: TemplateNodeCreateInput!) {
-
-    createTemplateNode(data: $input)
-    {
-        id
-    }
+  createTemplateNode(data: $input) {
+    id
+  }
 }
 
-mutation templateNodesUpdate($data: TemplateNodeUpdateInput!, $where: TemplateNodeWhereUniqueInput!) {
-    updateTemplateNode(data: $data, where: $where) {
-        id
-    }
+mutation templateNodesUpdate(
+  $data: TemplateNodeUpdateInput!
+  $where: TemplateNodeWhereUniqueInput!
+) {
+  updateTemplateNode(data: $data, where: $where) {
+    id
+  }
 }
 
 mutation templateNodesDelete($where: TemplateNodeWhereUniqueInput!) {
-    deleteTemplateNode(where: $where) {
-        id
-    }
+  deleteTemplateNode(where: $where) {
+    id
+  }
 }
 
 # TemplateNodes groups
 
-query templateNodesGroups($cursor: TemplateNodesGroupWhereUniqueInput, $distinct: [TemplateNodesGroupScalarFieldEnum!], $orderBy: [TemplateNodesGroupOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodesGroupWhereInput) {
-    templateNodesGroups(cursor: $cursor, distinct: $distinct, orderBy: $orderBy, skip: $skip, where: $where, take: $take) {
-        id
-        name
-        description
-    }
+query templateNodesGroups(
+  $cursor: TemplateNodesGroupWhereUniqueInput
+  $distinct: [TemplateNodesGroupScalarFieldEnum!]
+  $orderBy: [TemplateNodesGroupOrderByWithRelationInput!]
+  $skip: Int
+  $take: Int
+  $where: TemplateNodesGroupWhereInput
+) {
+  templateNodesGroups(
+    cursor: $cursor
+    distinct: $distinct
+    orderBy: $orderBy
+    skip: $skip
+    where: $where
+    take: $take
+  ) {
+    id
+    name
+    description
+  }
 }
 
 mutation templateNodesGroupsMutation($data: TemplateNodesGroupCreateInput!) {
-    createTemplateNodesGroup(data: $data) {
-        id
-    }
+  createTemplateNodesGroup(data: $data) {
+    id
+  }
 }
 
-mutation templateNodesGroupsUpdate($data: TemplateNodesGroupUpdateInput!, $where: TemplateNodesGroupWhereUniqueInput!) {
-    updateTemplateNodesGroup(data: $data, where: $where) {
-        id
-    }
+mutation templateNodesGroupsUpdate(
+  $data: TemplateNodesGroupUpdateInput!
+  $where: TemplateNodesGroupWhereUniqueInput!
+) {
+  updateTemplateNodesGroup(data: $data, where: $where) {
+    id
+  }
 }
 
-mutation templateNodesGroupsDelete($where: TemplateNodesGroupWhereUniqueInput!) {
-    deleteTemplateNodesGroup(where: $where) {
-        id
-    }
+mutation templateNodesGroupsDelete(
+  $where: TemplateNodesGroupWhereUniqueInput!
+) {
+  deleteTemplateNodesGroup(where: $where) {
+    id
+  }
 }
 
 #query botFlow($id: ID!) {

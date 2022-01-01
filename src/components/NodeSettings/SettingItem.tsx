@@ -1,6 +1,6 @@
 import Checkbox from "@mui/material/Checkbox";
 import { useContext } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { getNestedObjectField } from "../../models/GetNestedObjectField";
 import { mapNodeSettingsKeyToComponent } from "../../models/mapNodeSettingsKeyToComponent";
 import { capitalize } from "../../models/tools";
@@ -10,10 +10,14 @@ import { ItemSettingLabel, RightInputDiv } from "./StyledComponents";
 
 export const SettingItem = ({ path }: { path: string[] }) => {
   const { type } = useContext(NodeSettingsContext);
-
   const key = path[path.length - 1];
+  const { getValues } = useFormContext();
   if (key === "__typename") return null;
   const keyPath = `${path.join(".")}`;
+  const value = getValues(keyPath);
+  if (value === null && path.at(-2) === "NodeProps") {
+    return null;
+  }
 
   const validate = (value: any) => {
     const valid =

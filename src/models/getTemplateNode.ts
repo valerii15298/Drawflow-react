@@ -14,12 +14,6 @@ export type templateNode = Omit<TemplateNode, "group"> & {
 
 export const getTemplateNode: () => TemplateNodeCreateInput = () => ({
   order: 0,
-  NodeProps: {
-    create: {
-      type: NodeType.Audio,
-      NodeAudioProps: { create: { src: "SomeTestaudioUrl" } },
-    },
-  },
   group: {
     create: {
       name: `Some group ${Date.now()}`,
@@ -30,8 +24,15 @@ export const getTemplateNode: () => TemplateNodeCreateInput = () => ({
     create: {
       description: "New template node description",
       name: "New template node",
-      type: NodeType.Image,
       iconLink: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png",
+    },
+  },
+  NodeProps: {
+    create: {
+      type: NodeType.Image,
+      NodeAudioProps: {
+        create: { src: "https://tastypoints.io/akm/tasty_images/cuTWiGOJ.png" },
+      },
     },
   },
 });

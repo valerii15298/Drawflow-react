@@ -1,14 +1,16 @@
 import { useContext, useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useTemplateNodesUpdateMutation } from "../../generated/apollo";
-import { mapKeyToDisplayName } from "../../models/tools";
+import {
+  useTemplateNodesDeleteMutation,
+  useTemplateNodesUpdateMutation,
+} from "../../generated/apollo";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { filterTypename } from "../../tools/helpers";
 import { ToggleSidebar } from "../Sidebar";
 import { FormSettings } from "./FormSettings";
 import { NodeJumpControls } from "./NodeJumpControls";
 import { SettingItem } from "./SettingItem";
 import { NodeSettingsContext } from "./Settings";
-import { formType } from "./TemplateNodeSettings";
 
 import {
   ControlsDiv,
@@ -24,6 +26,7 @@ import {
   TitleInfoDiv,
   ToggleSidebarDiv,
 } from "./StyledComponents";
+import { formType } from "./TemplateNodeSettings";
 
 export const LeftBar = (props: {
   defaultValues: formType;
@@ -58,7 +61,10 @@ export const LeftBar = (props: {
   }, []);
   const { type } = useContext(NodeSettingsContext);
   const dispatch = useAppDispatch();
-  const [updateNode] = useTemplateNodesUpdateMutation({
+  const [deleteTemplateNode] = useTemplateNodesDeleteMutation({
+    refetchQueries: ["templateNodes"],
+  });
+  const [updateTemplateNode] = useTemplateNodesUpdateMutation({
     refetchQueries: ["templateNodes"],
   });
   const methods = useForm({
@@ -87,14 +93,34 @@ export const LeftBar = (props: {
   // ChatNodeType
   // console.log("render", { defaultValues, values });
   const onSubmit = () => {
-    // const { id, ...data } = getValues();
-    // const set = filterTypename(data);
+    const traverseRecursive = (obj: Record<string, any>, key: string) => {
+      if (typeof obj[key] !== "object") {
+        obj[key] = { set: obj[key] };
+      } else {
+        for (const key2 in obj[key]) {
+          traverseRecursive(obj[key], key2);
+        }
+      }
+    };
+    const { id, ...data } = getValues();
+    console.log({ data });
+    for (const key in data) {
+      traverseRecursive(data, key);
+    }
+    const set = filterTypename(data);
     // set.props = { [`node${data.info.type}PropsRef`]: data.props };
-    // console.log(set);
-    // TODO
-    // updateNode({
-    //   variables: { input: { filter: { id: [id] }, set } },
+    console.log({ set });
+    // updateTemplateNode({
+    //   variables: {
+    //     where: { id },
+    //     data: {
+    //       info: { update: { description: { set: "wwee" } } },
+    //       group: { connect: { id: set.group.id } },
+    //       // NodeProps: {update}
+    //     },
+    //   },
     // }).then(console.log);
+
     // type === "template" &&
     //   dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));
     // type === "node" &&
@@ -102,16 +128,7 @@ export const LeftBar = (props: {
   };
 
   const onDelete = () => {
-    // type === "template" &&
-    //   dispatch(
-    //     updateTemplateNode({
-    //       ...getValues(),
-    //       delete: 1,
-    //     })
-    //   );
-    //
-    // type === "node" &&
-    //   dispatch(updateTemplateNode({ ...getValues(), delete: 1 }));
+    deleteTemplateNode({ variables: { where: { id } } }).then(console.log);
   };
 
   // console.log(defaultValues);
@@ -133,14 +150,9 @@ export const LeftBar = (props: {
           </TitleInfoDiv>
         </LeftBarHeader>
         {type === "node" && <NodeJumpControls id={id} />}
-        {/*<DefaultSettingsDetails>*/}
-        {/*  <StyledSummary>Default settings</StyledSummary>*/}
         <ListSettingsDiv>
           {Object.entries(values).map(([key, value]) => {
-            if (
-              (typeof value !== "object" || value === null) &&
-              !(key in mapKeyToDisplayName)
-            ) {
+            if (typeof value !== "object" || value === null) {
               return <SettingItem key={key} path={[key]} />;
             }
             return (
@@ -153,17 +165,6 @@ export const LeftBar = (props: {
             );
           })}
         </ListSettingsDiv>
-        {/*</DefaultSettingsDetails>*/}
-        {/*{ObjectKeys(mapKeyToDisplayName).map((key) => {*/}
-        {/*  return values[key] ? (*/}
-        {/*    <FormSettings*/}
-        {/*      RenderElement={SettingItem}*/}
-        {/*      key={key}*/}
-        {/*      obj={values[key]}*/}
-        {/*      path={[key]}*/}
-        {/*    />*/}
-        {/*  ) : null;*/}
-        {/*})}*/}
         {Object.keys(errors).length !== 0 && (
           <div>
             <pre>{JSON.stringify(errors, null, 2)}</pre>
