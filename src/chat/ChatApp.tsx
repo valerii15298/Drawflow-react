@@ -16,11 +16,11 @@ import useLongPress from "../hooks/useLongPress";
 import { startRecordMedia } from "../tools/recordMedia";
 import { useChatBotContext } from "./Chat";
 import { ChatHeader } from "./ChatHeader";
+import { NodeAudio } from "./chatNodes/Audio";
 import { chatNodeType } from "./chatNodes/chatNodeType";
+import { NodeFile } from "./chatNodes/File";
 import { EmojiPicker } from "./EmojiPicker";
 import { FileChooser } from "./FileChooser";
-import { NodeAudio } from "./chatNodes/Audio";
-import { NodeFile } from "./chatNodes/File";
 import { MessageImagePreview } from "./MessageImagePreview";
 
 import { Messages } from "./Messages";
@@ -34,7 +34,6 @@ import {
   Trash,
 } from "./svg-components";
 import { WaveJSAudioVisualizer } from "./WaveJSAudioVisualizer";
-
 
 export const ChatApp = () => {
   const { state, actions } = useChatBotContext();

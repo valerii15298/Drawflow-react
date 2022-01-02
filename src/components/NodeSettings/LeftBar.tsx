@@ -1,11 +1,13 @@
 import { useContext, useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
+  NodeType,
   useTemplateNodesDeleteMutation,
   useTemplateNodesUpdateMutation,
 } from "../../generated/apollo";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { filterTypename } from "../../tools/helpers";
+import { ObjectKeys } from "../../types";
 import { ToggleSidebar } from "../Sidebar";
 import { FormSettings } from "./FormSettings";
 import { NodeJumpControls } from "./NodeJumpControls";
@@ -102,24 +104,43 @@ export const LeftBar = (props: {
         }
       }
     };
-    const { id, ...data } = getValues();
-    console.log({ data });
-    for (const key in data) {
-      traverseRecursive(data, key);
+    const { id, ...info } = filterTypename(
+      JSON.parse(JSON.stringify(getValues()))
+    ) as formType;
+
+    const {
+      NodeProps: { type },
+    } = info;
+    const p1 = ObjectKeys(NodeType);
+    type p2 = typeof p1[number];
+    type keyType = `Node${p2}Props`;
+    const NodePropsKey = `Node${type}Props` as keyType;
+    const NodePropsValue = info.NodeProps[NodePropsKey];
+    const dataToInsert = JSON.parse(JSON.stringify(info));
+    for (const key in dataToInsert) {
+      traverseRecursive(dataToInsert, key);
     }
-    const set = filterTypename(data);
+
+    // const {} = info
     // set.props = { [`node${data.info.type}PropsRef`]: data.props };
-    console.log({ set });
-    // updateTemplateNode({
-    //   variables: {
-    //     where: { id },
-    //     data: {
-    //       info: { update: { description: { set: "wwee" } } },
-    //       group: { connect: { id: set.group.id } },
-    //       // NodeProps: {update}
-    //     },
-    //   },
-    // }).then(console.log);
+
+    const data = {
+      order: dataToInsert.order,
+      info: { update: dataToInsert.info },
+      group: { connect: { id: info.group.id } },
+      NodeProps: {
+        update: {
+          [NodePropsKey]: { update: dataToInsert.NodeProps[NodePropsKey] },
+        },
+      },
+    };
+    console.log({ data });
+    updateTemplateNode({
+      variables: {
+        where: { id },
+        data,
+      },
+    }).then(console.log);
 
     // type === "template" &&
     //   dispatch(updateTemplateNode(JSON.parse(JSON.stringify(data))));

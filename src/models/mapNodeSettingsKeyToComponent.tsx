@@ -1,5 +1,20 @@
 // depends on key and value
-import { NodeType } from "../generated/apollo";
+import { NodeType, useTemplateNodesGroupsQuery } from "../generated/apollo";
+
+const ChooseGroup = ({ field }: any) => {
+  const { data, loading, error } = useTemplateNodesGroupsQuery();
+  if (loading) return <>Loading...</>;
+  if (error) return <>Error</>;
+  return (
+    <select {...field}>
+      {data.templateNodesGroups.map(({ id, name }) => (
+        <option key={id} value={id}>
+          {name} ID.{id}
+        </option>
+      ))}
+    </select>
+  );
+};
 
 export const mapNodeSettingsKeyToComponent = {
   NodeProps: {
@@ -14,5 +29,8 @@ export const mapNodeSettingsKeyToComponent = {
         </select>
       );
     },
+  },
+  group: {
+    id: ChooseGroup,
   },
 };

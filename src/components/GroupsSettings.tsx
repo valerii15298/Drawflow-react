@@ -135,23 +135,11 @@ export const GroupsSettings = () => {
                   );
                   if (!approval) return;
 
-                  setGroups((groups) =>
-                    groups.filter((group) => group.id !== id)
-                  );
-                  // deleteGroups({
-                  //   variables: {
-                  //     filter: {
-                  //       id: [id],
-                  //     },
-                  //   },
-                  // });
-
-                  // dispatch(
-                  //   updateGroup({
-                  //     id,
-                  //     delete: 1,
-                  //   })
-                  // );
+                  deleteGroups({ variables: { where: { id } } }).then(() => {
+                    setGroups((groups) =>
+                      groups.filter((group) => group.id !== id)
+                    );
+                  });
                 }}
               >
                 Delete
@@ -159,35 +147,21 @@ export const GroupsSettings = () => {
               <ButtonSaveGroup
                 onClick={() => {
                   const approval = window.confirm(
-                    `Do you really wanna save group ${name}, ID.${id}`
+                    `Do you really wanna update group ${name}, ID.${id}`
                   );
                   if (!approval) return;
 
-                  // updateGroups({
-                  //   variables: {
-                  //     input: {
-                  //       filter: { id: [id] },
-                  //       set: {
-                  //         name,
-                  //         description,
-                  //       },
-                  //     },
-                  //   },
-                  // });
-                  // setGroups((groups) =>
-                  //   groups.map((group) => {
-                  //     return group.id === id
-                  //       ? {
-                  //           ...group,
-                  //           name,
-                  //           description,
-                  //         }
-                  //       : group;
-                  //   })
-                  // );
-
-                  // dispatch(updateGroup(groups[id]));
-                  // save group
+                  updateGroups({
+                    variables: {
+                      where: { id },
+                      data: {
+                        name: { set: name },
+                        description: { set: description },
+                      },
+                    },
+                  }).then(() => {
+                    alert(`Successfully updated group`);
+                  });
                 }}
               >
                 Save
@@ -201,7 +175,10 @@ export const GroupsSettings = () => {
               }}
               label="Name"
               size={"small"}
-              sx={{ width: "100%", mt: 0.5 }}
+              sx={{
+                width: "100%",
+                mt: 0.5,
+              }}
               variant="outlined"
             />
             {/*<GroupTitleInput*/}
@@ -236,38 +213,25 @@ export const GroupsSettings = () => {
       <ControlButtonsDiv>
         <AddNewGroupButton
           onClick={() => {
-            // const input = {
-            //   name: "New group",
-            //   description: "Group description",
-            // };
-            // addGroups({
-            //   variables: {
-            //     input: {
-            //       ...input,
-            //       nodes: [],
-            //     },
-            //   },
-            // }).then(
-            //   ({
-            //     data: {
-            //       addTemplateNodesGroup: {
-            //         templateNodesGroup: {
-            //           0: { id },
-            //         },
-            //       },
-            //     },
-            //   }) => {
-            //     // console.log({ id });
-            //     setGroups((groups) => [
-            //       ...groups,
-            //       {
-            //         ...input,
-            //         id,
-            //       },
-            //     ]);
-            //   }
-            // );
-            // dispatch(updateGroup(getGroupTemplate()));
+            const data = {
+              name: "New group",
+              description: "Group description",
+            };
+            addGroups({ variables: { data } }).then(
+              ({
+                data: {
+                  createTemplateNodesGroup: { id },
+                },
+              }) => {
+                setGroups((groups) => [
+                  ...groups,
+                  {
+                    ...data,
+                    id,
+                  },
+                ]);
+              }
+            );
           }}
         >
           Add new
