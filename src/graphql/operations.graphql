@@ -1,4 +1,5 @@
 fragment nodeInfo on NodeInfo {
+  id
   name
   description
   iconLink
@@ -49,6 +50,8 @@ fragment NodeCountdownProps on NodeCountdownProps {
 }
 
 fragment nodeProps on NodeProps {
+  id
+  type
   NodeFileProps {
     ...NodeFileProps
   }
@@ -195,44 +198,60 @@ mutation templateNodesGroupsDelete(
   }
 }
 
-#query botFlow($id: ID!) {
-#    getBotFlow(id: $id) {
-#        name
-#        description
-#        nextVersionNumber
-#        versions {
-#            nodes {
-#                id
-#                props {
-#                    ...nodeProps
-#                }
-#                info {
-#                    ...nodeInfo
-#                }
-#                pos {
-#                    x
-#                    y
-#                }
-#                ports {
-#                    index
-#                    pos {
-#                        x
-#                        y
-#                    }
-#                }
-#            }
-#            connections {
-#                from {
-#                    id
-#                }
-#                to {
-#                    id
-#                }
-#            }
-#        }
-#    }
-#}
-#
+directive @client on FIELD
+directive @export(as: String) on FIELD
+
+fragment connectionsList on BotFlowVersion {
+  connections {
+    id
+    fromPort {
+      id
+    }
+    toPort {
+      id
+    }
+  }
+}
+
+query botFlow($where: BotFlowWhereUniqueInput!) {
+  botFlow(where: $where) {
+    id
+    name
+    description
+    versions {
+      id
+      version
+      nodes {
+        id
+        NodeProps {
+          ...nodeProps
+        }
+        info {
+          ...nodeInfo
+        }
+        ports {
+          id
+          index
+          flowNodeId
+        }
+        pos @client {
+          x
+          y
+        }
+      }
+      connections {
+        id
+        fromPort {
+          id
+        }
+        toPort {
+          id
+        }
+      }
+    }
+  }
+}
+
 #mutation botFlowVersion($flow: [AddBotFlowVersionInput!]!) {
 #    addBotFlowVersion(input: $flow) {
 #        botFlowVersion {

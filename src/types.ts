@@ -176,6 +176,13 @@ export type select = {
   selectId: number;
 };
 
+export interface newStateData {
+  drawflow: drawflow;
+  ports: ports;
+  connections: connections;
+  portToConnect?: Port | undefined;
+}
+
 export interface stateData {
   nodeId: number;
   canvasDrag: boolean;

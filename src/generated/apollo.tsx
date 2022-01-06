@@ -1,17 +1,11 @@
-import * as Apollo from "@apollo/client";
-import { gql } from "@apollo/client";
-
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-const defaultOptions = {};
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -24,12 +18,12 @@ export type Scalars = {
 };
 
 export type AffectedRowsOutput = {
-  __typename?: "AffectedRowsOutput";
-  count: Scalars["Int"];
+  __typename?: 'AffectedRowsOutput';
+  count: Scalars['Int'];
 };
 
 export type AggregateBotFlow = {
-  __typename?: "AggregateBotFlow";
+  __typename?: 'AggregateBotFlow';
   _avg?: Maybe<BotFlowAvgAggregate>;
   _count?: Maybe<BotFlowCountAggregate>;
   _max?: Maybe<BotFlowMaxAggregate>;
@@ -38,7 +32,7 @@ export type AggregateBotFlow = {
 };
 
 export type AggregateBotFlowVersion = {
-  __typename?: "AggregateBotFlowVersion";
+  __typename?: 'AggregateBotFlowVersion';
   _avg?: Maybe<BotFlowVersionAvgAggregate>;
   _count?: Maybe<BotFlowVersionCountAggregate>;
   _max?: Maybe<BotFlowVersionMaxAggregate>;
@@ -47,7 +41,7 @@ export type AggregateBotFlowVersion = {
 };
 
 export type AggregateConnection = {
-  __typename?: "AggregateConnection";
+  __typename?: 'AggregateConnection';
   _avg?: Maybe<ConnectionAvgAggregate>;
   _count?: Maybe<ConnectionCountAggregate>;
   _max?: Maybe<ConnectionMaxAggregate>;
@@ -56,7 +50,7 @@ export type AggregateConnection = {
 };
 
 export type AggregateFlowNode = {
-  __typename?: "AggregateFlowNode";
+  __typename?: 'AggregateFlowNode';
   _avg?: Maybe<FlowNodeAvgAggregate>;
   _count?: Maybe<FlowNodeCountAggregate>;
   _max?: Maybe<FlowNodeMaxAggregate>;
@@ -65,7 +59,7 @@ export type AggregateFlowNode = {
 };
 
 export type AggregateNodeAudioProps = {
-  __typename?: "AggregateNodeAudioProps";
+  __typename?: 'AggregateNodeAudioProps';
   _avg?: Maybe<NodeAudioPropsAvgAggregate>;
   _count?: Maybe<NodeAudioPropsCountAggregate>;
   _max?: Maybe<NodeAudioPropsMaxAggregate>;
@@ -74,7 +68,7 @@ export type AggregateNodeAudioProps = {
 };
 
 export type AggregateNodeCountdownProps = {
-  __typename?: "AggregateNodeCountdownProps";
+  __typename?: 'AggregateNodeCountdownProps';
   _avg?: Maybe<NodeCountdownPropsAvgAggregate>;
   _count?: Maybe<NodeCountdownPropsCountAggregate>;
   _max?: Maybe<NodeCountdownPropsMaxAggregate>;
@@ -83,7 +77,7 @@ export type AggregateNodeCountdownProps = {
 };
 
 export type AggregateNodeFileProps = {
-  __typename?: "AggregateNodeFileProps";
+  __typename?: 'AggregateNodeFileProps';
   _avg?: Maybe<NodeFilePropsAvgAggregate>;
   _count?: Maybe<NodeFilePropsCountAggregate>;
   _max?: Maybe<NodeFilePropsMaxAggregate>;
@@ -92,7 +86,7 @@ export type AggregateNodeFileProps = {
 };
 
 export type AggregateNodeImageProps = {
-  __typename?: "AggregateNodeImageProps";
+  __typename?: 'AggregateNodeImageProps';
   _avg?: Maybe<NodeImagePropsAvgAggregate>;
   _count?: Maybe<NodeImagePropsCountAggregate>;
   _max?: Maybe<NodeImagePropsMaxAggregate>;
@@ -101,7 +95,7 @@ export type AggregateNodeImageProps = {
 };
 
 export type AggregateNodeInfo = {
-  __typename?: "AggregateNodeInfo";
+  __typename?: 'AggregateNodeInfo';
   _avg?: Maybe<NodeInfoAvgAggregate>;
   _count?: Maybe<NodeInfoCountAggregate>;
   _max?: Maybe<NodeInfoMaxAggregate>;
@@ -110,7 +104,7 @@ export type AggregateNodeInfo = {
 };
 
 export type AggregateNodeLinkProps = {
-  __typename?: "AggregateNodeLinkProps";
+  __typename?: 'AggregateNodeLinkProps';
   _avg?: Maybe<NodeLinkPropsAvgAggregate>;
   _count?: Maybe<NodeLinkPropsCountAggregate>;
   _max?: Maybe<NodeLinkPropsMaxAggregate>;
@@ -119,7 +113,7 @@ export type AggregateNodeLinkProps = {
 };
 
 export type AggregateNodeProps = {
-  __typename?: "AggregateNodeProps";
+  __typename?: 'AggregateNodeProps';
   _avg?: Maybe<NodePropsAvgAggregate>;
   _count?: Maybe<NodePropsCountAggregate>;
   _max?: Maybe<NodePropsMaxAggregate>;
@@ -128,7 +122,7 @@ export type AggregateNodeProps = {
 };
 
 export type AggregateNodeSwitchOptionProps = {
-  __typename?: "AggregateNodeSwitchOptionProps";
+  __typename?: 'AggregateNodeSwitchOptionProps';
   _avg?: Maybe<NodeSwitchOptionPropsAvgAggregate>;
   _count?: Maybe<NodeSwitchOptionPropsCountAggregate>;
   _max?: Maybe<NodeSwitchOptionPropsMaxAggregate>;
@@ -137,7 +131,7 @@ export type AggregateNodeSwitchOptionProps = {
 };
 
 export type AggregateNodeSwitchProps = {
-  __typename?: "AggregateNodeSwitchProps";
+  __typename?: 'AggregateNodeSwitchProps';
   _avg?: Maybe<NodeSwitchPropsAvgAggregate>;
   _count?: Maybe<NodeSwitchPropsCountAggregate>;
   _max?: Maybe<NodeSwitchPropsMaxAggregate>;
@@ -146,7 +140,7 @@ export type AggregateNodeSwitchProps = {
 };
 
 export type AggregateNodeTextProps = {
-  __typename?: "AggregateNodeTextProps";
+  __typename?: 'AggregateNodeTextProps';
   _avg?: Maybe<NodeTextPropsAvgAggregate>;
   _count?: Maybe<NodeTextPropsCountAggregate>;
   _max?: Maybe<NodeTextPropsMaxAggregate>;
@@ -155,7 +149,7 @@ export type AggregateNodeTextProps = {
 };
 
 export type AggregateNodeVideoProps = {
-  __typename?: "AggregateNodeVideoProps";
+  __typename?: 'AggregateNodeVideoProps';
   _avg?: Maybe<NodeVideoPropsAvgAggregate>;
   _count?: Maybe<NodeVideoPropsCountAggregate>;
   _max?: Maybe<NodeVideoPropsMaxAggregate>;
@@ -164,7 +158,7 @@ export type AggregateNodeVideoProps = {
 };
 
 export type AggregateNodeWaitProps = {
-  __typename?: "AggregateNodeWaitProps";
+  __typename?: 'AggregateNodeWaitProps';
   _avg?: Maybe<NodeWaitPropsAvgAggregate>;
   _count?: Maybe<NodeWaitPropsCountAggregate>;
   _max?: Maybe<NodeWaitPropsMaxAggregate>;
@@ -173,7 +167,7 @@ export type AggregateNodeWaitProps = {
 };
 
 export type AggregatePort = {
-  __typename?: "AggregatePort";
+  __typename?: 'AggregatePort';
   _avg?: Maybe<PortAvgAggregate>;
   _count?: Maybe<PortCountAggregate>;
   _max?: Maybe<PortMaxAggregate>;
@@ -182,7 +176,7 @@ export type AggregatePort = {
 };
 
 export type AggregateTemplateNode = {
-  __typename?: "AggregateTemplateNode";
+  __typename?: 'AggregateTemplateNode';
   _avg?: Maybe<TemplateNodeAvgAggregate>;
   _count?: Maybe<TemplateNodeCountAggregate>;
   _max?: Maybe<TemplateNodeMaxAggregate>;
@@ -191,7 +185,7 @@ export type AggregateTemplateNode = {
 };
 
 export type AggregateTemplateNodesGroup = {
-  __typename?: "AggregateTemplateNodesGroup";
+  __typename?: 'AggregateTemplateNodesGroup';
   _avg?: Maybe<TemplateNodesGroupAvgAggregate>;
   _count?: Maybe<TemplateNodesGroupCountAggregate>;
   _max?: Maybe<TemplateNodesGroupMaxAggregate>;
@@ -200,91 +194,92 @@ export type AggregateTemplateNodesGroup = {
 };
 
 export type BoolFieldUpdateOperationsInput = {
-  set?: Maybe<Scalars["Boolean"]>;
+  set?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type BoolFilter = {
-  equals?: Maybe<Scalars["Boolean"]>;
-  not?: Maybe<NestedBoolFilter>;
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolFilter>;
 };
 
 export type BoolWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedBoolFilter>;
-  _min?: Maybe<NestedBoolFilter>;
-  equals?: Maybe<Scalars["Boolean"]>;
-  not?: Maybe<NestedBoolWithAggregatesFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBoolFilter>;
+  _min?: InputMaybe<NestedBoolFilter>;
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolWithAggregatesFilter>;
 };
 
 export type BotFlow = {
-  __typename?: "BotFlow";
+  __typename?: 'BotFlow';
   _count?: Maybe<BotFlowCount>;
-  description: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
-  nextVersionNumber: Scalars["Int"];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  nextVersionNumber: Scalars['Int'];
   versions: Array<BotFlowVersion>;
 };
 
+
 export type BotFlowVersionsArgs = {
-  cursor?: Maybe<BotFlowVersionWhereUniqueInput>;
-  distinct?: Maybe<Array<BotFlowVersionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<BotFlowVersionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  cursor?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<BotFlowVersionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<BotFlowVersionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
 
 export type BotFlowAvgAggregate = {
-  __typename?: "BotFlowAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
-  nextVersionNumber?: Maybe<Scalars["Float"]>;
+  __typename?: 'BotFlowAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+  nextVersionNumber?: Maybe<Scalars['Float']>;
 };
 
 export type BotFlowAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowCount = {
-  __typename?: "BotFlowCount";
-  versions: Scalars["Int"];
+  __typename?: 'BotFlowCount';
+  versions: Scalars['Int'];
 };
 
 export type BotFlowCountAggregate = {
-  __typename?: "BotFlowCountAggregate";
-  _all: Scalars["Int"];
-  description: Scalars["Int"];
-  id: Scalars["Int"];
-  name: Scalars["Int"];
-  nextVersionNumber: Scalars["Int"];
+  __typename?: 'BotFlowCountAggregate';
+  _all: Scalars['Int'];
+  description: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowCountOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowCreateInput = {
-  description: Scalars["String"];
-  name: Scalars["String"];
-  nextVersionNumber: Scalars["Int"];
-  versions?: Maybe<BotFlowVersionCreateNestedManyWithoutBotFlowInput>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  nextVersionNumber: Scalars['Int'];
+  versions?: InputMaybe<BotFlowVersionCreateNestedManyWithoutBotFlowInput>;
 };
 
 export type BotFlowCreateManyInput = {
-  description: Scalars["String"];
-  id?: Maybe<Scalars["Int"]>;
-  name: Scalars["String"];
-  nextVersionNumber: Scalars["Int"];
+  description: Scalars['String'];
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowCreateNestedOneWithoutVersionsInput = {
-  connect?: Maybe<BotFlowWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowCreateOrConnectWithoutVersionsInput>;
-  create?: Maybe<BotFlowCreateWithoutVersionsInput>;
+  connect?: InputMaybe<BotFlowWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowCreateOrConnectWithoutVersionsInput>;
+  create?: InputMaybe<BotFlowCreateWithoutVersionsInput>;
 };
 
 export type BotFlowCreateOrConnectWithoutVersionsInput = {
@@ -293,132 +288,132 @@ export type BotFlowCreateOrConnectWithoutVersionsInput = {
 };
 
 export type BotFlowCreateWithoutVersionsInput = {
-  description: Scalars["String"];
-  name: Scalars["String"];
-  nextVersionNumber: Scalars["Int"];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowGroupBy = {
-  __typename?: "BotFlowGroupBy";
+  __typename?: 'BotFlowGroupBy';
   _avg?: Maybe<BotFlowAvgAggregate>;
   _count?: Maybe<BotFlowCountAggregate>;
   _max?: Maybe<BotFlowMaxAggregate>;
   _min?: Maybe<BotFlowMinAggregate>;
   _sum?: Maybe<BotFlowSumAggregate>;
-  description: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
-  nextVersionNumber: Scalars["Int"];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowMaxAggregate = {
-  __typename?: "BotFlowMaxAggregate";
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
-  nextVersionNumber?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowMaxAggregate';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowMaxOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowMinAggregate = {
-  __typename?: "BotFlowMinAggregate";
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
-  nextVersionNumber?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowMinAggregate';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowMinOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowOrderByWithAggregationInput = {
-  _avg?: Maybe<BotFlowAvgOrderByAggregateInput>;
-  _count?: Maybe<BotFlowCountOrderByAggregateInput>;
-  _max?: Maybe<BotFlowMaxOrderByAggregateInput>;
-  _min?: Maybe<BotFlowMinOrderByAggregateInput>;
-  _sum?: Maybe<BotFlowSumOrderByAggregateInput>;
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  _avg?: InputMaybe<BotFlowAvgOrderByAggregateInput>;
+  _count?: InputMaybe<BotFlowCountOrderByAggregateInput>;
+  _max?: InputMaybe<BotFlowMaxOrderByAggregateInput>;
+  _min?: InputMaybe<BotFlowMinOrderByAggregateInput>;
+  _sum?: InputMaybe<BotFlowSumOrderByAggregateInput>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowOrderByWithRelationInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
-  versions?: Maybe<BotFlowVersionOrderByRelationAggregateInput>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
+  versions?: InputMaybe<BotFlowVersionOrderByRelationAggregateInput>;
 };
 
 export type BotFlowRelationFilter = {
-  is?: Maybe<BotFlowWhereInput>;
-  isNot?: Maybe<BotFlowWhereInput>;
+  is?: InputMaybe<BotFlowWhereInput>;
+  isNot?: InputMaybe<BotFlowWhereInput>;
 };
 
 export enum BotFlowScalarFieldEnum {
-  Description = "description",
-  Id = "id",
-  Name = "name",
-  NextVersionNumber = "nextVersionNumber",
+  Description = 'description',
+  Id = 'id',
+  Name = 'name',
+  NextVersionNumber = 'nextVersionNumber'
 }
 
 export type BotFlowScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
-  description?: Maybe<StringWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  name?: Maybe<StringWithAggregatesFilter>;
-  nextVersionNumber?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<BotFlowScalarWhereWithAggregatesInput>>;
+  description?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
+  nextVersionNumber?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type BotFlowSumAggregate = {
-  __typename?: "BotFlowSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  nextVersionNumber?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nextVersionNumber?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowUpdateInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: Maybe<IntFieldUpdateOperationsInput>;
-  versions?: Maybe<BotFlowVersionUpdateManyWithoutBotFlowInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
+  versions?: InputMaybe<BotFlowVersionUpdateManyWithoutBotFlowInput>;
 };
 
 export type BotFlowUpdateManyMutationInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: Maybe<IntFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowUpdateOneRequiredWithoutVersionsInput = {
-  connect?: Maybe<BotFlowWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowCreateOrConnectWithoutVersionsInput>;
-  create?: Maybe<BotFlowCreateWithoutVersionsInput>;
-  update?: Maybe<BotFlowUpdateWithoutVersionsInput>;
-  upsert?: Maybe<BotFlowUpsertWithoutVersionsInput>;
+  connect?: InputMaybe<BotFlowWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowCreateOrConnectWithoutVersionsInput>;
+  create?: InputMaybe<BotFlowCreateWithoutVersionsInput>;
+  update?: InputMaybe<BotFlowUpdateWithoutVersionsInput>;
+  upsert?: InputMaybe<BotFlowUpsertWithoutVersionsInput>;
 };
 
 export type BotFlowUpdateWithoutVersionsInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: Maybe<IntFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowUpsertWithoutVersionsInput = {
@@ -427,109 +422,109 @@ export type BotFlowUpsertWithoutVersionsInput = {
 };
 
 export type BotFlowVersion = {
-  __typename?: "BotFlowVersion";
+  __typename?: 'BotFlowVersion';
   _count?: Maybe<BotFlowVersionCount>;
   botFlow: BotFlow;
-  botFlowId: Scalars["Int"];
+  botFlowId: Scalars['Int'];
   connections: Array<Connection>;
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   nodes: Array<FlowNode>;
-  version: Scalars["Int"];
+  version: Scalars['Int'];
 };
+
 
 export type BotFlowVersionConnectionsArgs = {
-  cursor?: Maybe<ConnectionWhereUniqueInput>;
-  distinct?: Maybe<Array<ConnectionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  cursor?: InputMaybe<ConnectionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ConnectionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
 
+
 export type BotFlowVersionNodesArgs = {
-  cursor?: Maybe<FlowNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<FlowNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  cursor?: InputMaybe<FlowNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FlowNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
 
 export type BotFlowVersionAvgAggregate = {
-  __typename?: "BotFlowVersionAvgAggregate";
-  botFlowId?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
-  version?: Maybe<Scalars["Float"]>;
+  __typename?: 'BotFlowVersionAvgAggregate';
+  botFlowId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  version?: Maybe<Scalars['Float']>;
 };
 
 export type BotFlowVersionAvgOrderByAggregateInput = {
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionCount = {
-  __typename?: "BotFlowVersionCount";
-  connections: Scalars["Int"];
-  nodes: Scalars["Int"];
+  __typename?: 'BotFlowVersionCount';
+  connections: Scalars['Int'];
+  nodes: Scalars['Int'];
 };
 
 export type BotFlowVersionCountAggregate = {
-  __typename?: "BotFlowVersionCountAggregate";
-  _all: Scalars["Int"];
-  botFlowId: Scalars["Int"];
-  id: Scalars["Int"];
-  version: Scalars["Int"];
+  __typename?: 'BotFlowVersionCountAggregate';
+  _all: Scalars['Int'];
+  botFlowId: Scalars['Int'];
+  id: Scalars['Int'];
+  version: Scalars['Int'];
 };
 
 export type BotFlowVersionCountOrderByAggregateInput = {
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionCreateInput = {
   botFlow: BotFlowCreateNestedOneWithoutVersionsInput;
-  connections?: Maybe<ConnectionCreateNestedManyWithoutFlowInput>;
-  nodes?: Maybe<FlowNodeCreateNestedManyWithoutFlowInput>;
-  version?: Maybe<Scalars["Int"]>;
+  connections?: InputMaybe<ConnectionCreateNestedManyWithoutFlowInput>;
+  nodes?: InputMaybe<FlowNodeCreateNestedManyWithoutFlowInput>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionCreateManyBotFlowInput = {
-  id?: Maybe<Scalars["Int"]>;
-  version?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionCreateManyBotFlowInputEnvelope = {
   data: Array<BotFlowVersionCreateManyBotFlowInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type BotFlowVersionCreateManyInput = {
-  botFlowId: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  version?: Maybe<Scalars["Int"]>;
+  botFlowId: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionCreateNestedManyWithoutBotFlowInput = {
-  connect?: Maybe<Array<BotFlowVersionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<
-    Array<BotFlowVersionCreateOrConnectWithoutBotFlowInput>
-  >;
-  create?: Maybe<Array<BotFlowVersionCreateWithoutBotFlowInput>>;
-  createMany?: Maybe<BotFlowVersionCreateManyBotFlowInputEnvelope>;
+  connect?: InputMaybe<Array<BotFlowVersionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BotFlowVersionCreateOrConnectWithoutBotFlowInput>>;
+  create?: InputMaybe<Array<BotFlowVersionCreateWithoutBotFlowInput>>;
+  createMany?: InputMaybe<BotFlowVersionCreateManyBotFlowInputEnvelope>;
 };
 
 export type BotFlowVersionCreateNestedOneWithoutConnectionsInput = {
-  connect?: Maybe<BotFlowVersionWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowVersionCreateOrConnectWithoutConnectionsInput>;
-  create?: Maybe<BotFlowVersionCreateWithoutConnectionsInput>;
+  connect?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowVersionCreateOrConnectWithoutConnectionsInput>;
+  create?: InputMaybe<BotFlowVersionCreateWithoutConnectionsInput>;
 };
 
 export type BotFlowVersionCreateNestedOneWithoutNodesInput = {
-  connect?: Maybe<BotFlowVersionWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowVersionCreateOrConnectWithoutNodesInput>;
-  create?: Maybe<BotFlowVersionCreateWithoutNodesInput>;
+  connect?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowVersionCreateOrConnectWithoutNodesInput>;
+  create?: InputMaybe<BotFlowVersionCreateWithoutNodesInput>;
 };
 
 export type BotFlowVersionCreateOrConnectWithoutBotFlowInput = {
@@ -548,142 +543,142 @@ export type BotFlowVersionCreateOrConnectWithoutNodesInput = {
 };
 
 export type BotFlowVersionCreateWithoutBotFlowInput = {
-  connections?: Maybe<ConnectionCreateNestedManyWithoutFlowInput>;
-  nodes?: Maybe<FlowNodeCreateNestedManyWithoutFlowInput>;
-  version?: Maybe<Scalars["Int"]>;
+  connections?: InputMaybe<ConnectionCreateNestedManyWithoutFlowInput>;
+  nodes?: InputMaybe<FlowNodeCreateNestedManyWithoutFlowInput>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionCreateWithoutConnectionsInput = {
   botFlow: BotFlowCreateNestedOneWithoutVersionsInput;
-  nodes?: Maybe<FlowNodeCreateNestedManyWithoutFlowInput>;
-  version?: Maybe<Scalars["Int"]>;
+  nodes?: InputMaybe<FlowNodeCreateNestedManyWithoutFlowInput>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionCreateWithoutNodesInput = {
   botFlow: BotFlowCreateNestedOneWithoutVersionsInput;
-  connections?: Maybe<ConnectionCreateNestedManyWithoutFlowInput>;
-  version?: Maybe<Scalars["Int"]>;
+  connections?: InputMaybe<ConnectionCreateNestedManyWithoutFlowInput>;
+  version?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionGroupBy = {
-  __typename?: "BotFlowVersionGroupBy";
+  __typename?: 'BotFlowVersionGroupBy';
   _avg?: Maybe<BotFlowVersionAvgAggregate>;
   _count?: Maybe<BotFlowVersionCountAggregate>;
   _max?: Maybe<BotFlowVersionMaxAggregate>;
   _min?: Maybe<BotFlowVersionMinAggregate>;
   _sum?: Maybe<BotFlowVersionSumAggregate>;
-  botFlowId: Scalars["Int"];
-  id: Scalars["Int"];
-  version: Scalars["Int"];
+  botFlowId: Scalars['Int'];
+  id: Scalars['Int'];
+  version: Scalars['Int'];
 };
 
 export type BotFlowVersionListRelationFilter = {
-  every?: Maybe<BotFlowVersionWhereInput>;
-  none?: Maybe<BotFlowVersionWhereInput>;
-  some?: Maybe<BotFlowVersionWhereInput>;
+  every?: InputMaybe<BotFlowVersionWhereInput>;
+  none?: InputMaybe<BotFlowVersionWhereInput>;
+  some?: InputMaybe<BotFlowVersionWhereInput>;
 };
 
 export type BotFlowVersionMaxAggregate = {
-  __typename?: "BotFlowVersionMaxAggregate";
-  botFlowId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  version?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowVersionMaxAggregate';
+  botFlowId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  version?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionMaxOrderByAggregateInput = {
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionMinAggregate = {
-  __typename?: "BotFlowVersionMinAggregate";
-  botFlowId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  version?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowVersionMinAggregate';
+  botFlowId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  version?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionMinOrderByAggregateInput = {
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionOrderByRelationAggregateInput = {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionOrderByWithAggregationInput = {
-  _avg?: Maybe<BotFlowVersionAvgOrderByAggregateInput>;
-  _count?: Maybe<BotFlowVersionCountOrderByAggregateInput>;
-  _max?: Maybe<BotFlowVersionMaxOrderByAggregateInput>;
-  _min?: Maybe<BotFlowVersionMinOrderByAggregateInput>;
-  _sum?: Maybe<BotFlowVersionSumOrderByAggregateInput>;
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  _avg?: InputMaybe<BotFlowVersionAvgOrderByAggregateInput>;
+  _count?: InputMaybe<BotFlowVersionCountOrderByAggregateInput>;
+  _max?: InputMaybe<BotFlowVersionMaxOrderByAggregateInput>;
+  _min?: InputMaybe<BotFlowVersionMinOrderByAggregateInput>;
+  _sum?: InputMaybe<BotFlowVersionSumOrderByAggregateInput>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionOrderByWithRelationInput = {
-  botFlow?: Maybe<BotFlowOrderByWithRelationInput>;
-  botFlowId?: Maybe<SortOrder>;
-  connections?: Maybe<ConnectionOrderByRelationAggregateInput>;
-  id?: Maybe<SortOrder>;
-  nodes?: Maybe<FlowNodeOrderByRelationAggregateInput>;
-  version?: Maybe<SortOrder>;
+  botFlow?: InputMaybe<BotFlowOrderByWithRelationInput>;
+  botFlowId?: InputMaybe<SortOrder>;
+  connections?: InputMaybe<ConnectionOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  nodes?: InputMaybe<FlowNodeOrderByRelationAggregateInput>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionRelationFilter = {
-  is?: Maybe<BotFlowVersionWhereInput>;
-  isNot?: Maybe<BotFlowVersionWhereInput>;
+  is?: InputMaybe<BotFlowVersionWhereInput>;
+  isNot?: InputMaybe<BotFlowVersionWhereInput>;
 };
 
 export enum BotFlowVersionScalarFieldEnum {
-  BotFlowId = "botFlowId",
-  Id = "id",
-  Version = "version",
+  BotFlowId = 'botFlowId',
+  Id = 'id',
+  Version = 'version'
 }
 
 export type BotFlowVersionScalarWhereInput = {
-  AND?: Maybe<Array<BotFlowVersionScalarWhereInput>>;
-  NOT?: Maybe<Array<BotFlowVersionScalarWhereInput>>;
-  OR?: Maybe<Array<BotFlowVersionScalarWhereInput>>;
-  botFlowId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  version?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<BotFlowVersionScalarWhereInput>>;
+  NOT?: InputMaybe<Array<BotFlowVersionScalarWhereInput>>;
+  OR?: InputMaybe<Array<BotFlowVersionScalarWhereInput>>;
+  botFlowId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  version?: InputMaybe<IntFilter>;
 };
 
 export type BotFlowVersionScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
-  botFlowId?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  version?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<BotFlowVersionScalarWhereWithAggregatesInput>>;
+  botFlowId?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  version?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type BotFlowVersionSumAggregate = {
-  __typename?: "BotFlowVersionSumAggregate";
-  botFlowId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  version?: Maybe<Scalars["Int"]>;
+  __typename?: 'BotFlowVersionSumAggregate';
+  botFlowId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  version?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowVersionSumOrderByAggregateInput = {
-  botFlowId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  version?: Maybe<SortOrder>;
+  botFlowId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  version?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowVersionUpdateInput = {
-  botFlow?: Maybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
-  connections?: Maybe<ConnectionUpdateManyWithoutFlowInput>;
-  nodes?: Maybe<FlowNodeUpdateManyWithoutFlowInput>;
-  version?: Maybe<IntFieldUpdateOperationsInput>;
+  botFlow?: InputMaybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
+  connections?: InputMaybe<ConnectionUpdateManyWithoutFlowInput>;
+  nodes?: InputMaybe<FlowNodeUpdateManyWithoutFlowInput>;
+  version?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowVersionUpdateManyMutationInput = {
-  version?: Maybe<IntFieldUpdateOperationsInput>;
+  version?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowVersionUpdateManyWithWhereWithoutBotFlowInput = {
@@ -692,37 +687,33 @@ export type BotFlowVersionUpdateManyWithWhereWithoutBotFlowInput = {
 };
 
 export type BotFlowVersionUpdateManyWithoutBotFlowInput = {
-  connect?: Maybe<Array<BotFlowVersionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<
-    Array<BotFlowVersionCreateOrConnectWithoutBotFlowInput>
-  >;
-  create?: Maybe<Array<BotFlowVersionCreateWithoutBotFlowInput>>;
-  createMany?: Maybe<BotFlowVersionCreateManyBotFlowInputEnvelope>;
-  delete?: Maybe<Array<BotFlowVersionWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<BotFlowVersionScalarWhereInput>>;
-  disconnect?: Maybe<Array<BotFlowVersionWhereUniqueInput>>;
-  set?: Maybe<Array<BotFlowVersionWhereUniqueInput>>;
-  update?: Maybe<Array<BotFlowVersionUpdateWithWhereUniqueWithoutBotFlowInput>>;
-  updateMany?: Maybe<
-    Array<BotFlowVersionUpdateManyWithWhereWithoutBotFlowInput>
-  >;
-  upsert?: Maybe<Array<BotFlowVersionUpsertWithWhereUniqueWithoutBotFlowInput>>;
+  connect?: InputMaybe<Array<BotFlowVersionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BotFlowVersionCreateOrConnectWithoutBotFlowInput>>;
+  create?: InputMaybe<Array<BotFlowVersionCreateWithoutBotFlowInput>>;
+  createMany?: InputMaybe<BotFlowVersionCreateManyBotFlowInputEnvelope>;
+  delete?: InputMaybe<Array<BotFlowVersionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<BotFlowVersionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<BotFlowVersionWhereUniqueInput>>;
+  set?: InputMaybe<Array<BotFlowVersionWhereUniqueInput>>;
+  update?: InputMaybe<Array<BotFlowVersionUpdateWithWhereUniqueWithoutBotFlowInput>>;
+  updateMany?: InputMaybe<Array<BotFlowVersionUpdateManyWithWhereWithoutBotFlowInput>>;
+  upsert?: InputMaybe<Array<BotFlowVersionUpsertWithWhereUniqueWithoutBotFlowInput>>;
 };
 
 export type BotFlowVersionUpdateOneRequiredWithoutConnectionsInput = {
-  connect?: Maybe<BotFlowVersionWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowVersionCreateOrConnectWithoutConnectionsInput>;
-  create?: Maybe<BotFlowVersionCreateWithoutConnectionsInput>;
-  update?: Maybe<BotFlowVersionUpdateWithoutConnectionsInput>;
-  upsert?: Maybe<BotFlowVersionUpsertWithoutConnectionsInput>;
+  connect?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowVersionCreateOrConnectWithoutConnectionsInput>;
+  create?: InputMaybe<BotFlowVersionCreateWithoutConnectionsInput>;
+  update?: InputMaybe<BotFlowVersionUpdateWithoutConnectionsInput>;
+  upsert?: InputMaybe<BotFlowVersionUpsertWithoutConnectionsInput>;
 };
 
 export type BotFlowVersionUpdateOneRequiredWithoutNodesInput = {
-  connect?: Maybe<BotFlowVersionWhereUniqueInput>;
-  connectOrCreate?: Maybe<BotFlowVersionCreateOrConnectWithoutNodesInput>;
-  create?: Maybe<BotFlowVersionCreateWithoutNodesInput>;
-  update?: Maybe<BotFlowVersionUpdateWithoutNodesInput>;
-  upsert?: Maybe<BotFlowVersionUpsertWithoutNodesInput>;
+  connect?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BotFlowVersionCreateOrConnectWithoutNodesInput>;
+  create?: InputMaybe<BotFlowVersionCreateWithoutNodesInput>;
+  update?: InputMaybe<BotFlowVersionUpdateWithoutNodesInput>;
+  upsert?: InputMaybe<BotFlowVersionUpsertWithoutNodesInput>;
 };
 
 export type BotFlowVersionUpdateWithWhereUniqueWithoutBotFlowInput = {
@@ -731,21 +722,21 @@ export type BotFlowVersionUpdateWithWhereUniqueWithoutBotFlowInput = {
 };
 
 export type BotFlowVersionUpdateWithoutBotFlowInput = {
-  connections?: Maybe<ConnectionUpdateManyWithoutFlowInput>;
-  nodes?: Maybe<FlowNodeUpdateManyWithoutFlowInput>;
-  version?: Maybe<IntFieldUpdateOperationsInput>;
+  connections?: InputMaybe<ConnectionUpdateManyWithoutFlowInput>;
+  nodes?: InputMaybe<FlowNodeUpdateManyWithoutFlowInput>;
+  version?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowVersionUpdateWithoutConnectionsInput = {
-  botFlow?: Maybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
-  nodes?: Maybe<FlowNodeUpdateManyWithoutFlowInput>;
-  version?: Maybe<IntFieldUpdateOperationsInput>;
+  botFlow?: InputMaybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
+  nodes?: InputMaybe<FlowNodeUpdateManyWithoutFlowInput>;
+  version?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowVersionUpdateWithoutNodesInput = {
-  botFlow?: Maybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
-  connections?: Maybe<ConnectionUpdateManyWithoutFlowInput>;
-  version?: Maybe<IntFieldUpdateOperationsInput>;
+  botFlow?: InputMaybe<BotFlowUpdateOneRequiredWithoutVersionsInput>;
+  connections?: InputMaybe<ConnectionUpdateManyWithoutFlowInput>;
+  version?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowVersionUpsertWithWhereUniqueWithoutBotFlowInput = {
@@ -765,138 +756,138 @@ export type BotFlowVersionUpsertWithoutNodesInput = {
 };
 
 export type BotFlowVersionWhereInput = {
-  AND?: Maybe<Array<BotFlowVersionWhereInput>>;
-  NOT?: Maybe<Array<BotFlowVersionWhereInput>>;
-  OR?: Maybe<Array<BotFlowVersionWhereInput>>;
-  botFlow?: Maybe<BotFlowRelationFilter>;
-  botFlowId?: Maybe<IntFilter>;
-  connections?: Maybe<ConnectionListRelationFilter>;
-  id?: Maybe<IntFilter>;
-  nodes?: Maybe<FlowNodeListRelationFilter>;
-  version?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<BotFlowVersionWhereInput>>;
+  NOT?: InputMaybe<Array<BotFlowVersionWhereInput>>;
+  OR?: InputMaybe<Array<BotFlowVersionWhereInput>>;
+  botFlow?: InputMaybe<BotFlowRelationFilter>;
+  botFlowId?: InputMaybe<IntFilter>;
+  connections?: InputMaybe<ConnectionListRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  nodes?: InputMaybe<FlowNodeListRelationFilter>;
+  version?: InputMaybe<IntFilter>;
 };
 
 export type BotFlowVersionWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type BotFlowWhereInput = {
-  AND?: Maybe<Array<BotFlowWhereInput>>;
-  NOT?: Maybe<Array<BotFlowWhereInput>>;
-  OR?: Maybe<Array<BotFlowWhereInput>>;
-  description?: Maybe<StringFilter>;
-  id?: Maybe<IntFilter>;
-  name?: Maybe<StringFilter>;
-  nextVersionNumber?: Maybe<IntFilter>;
-  versions?: Maybe<BotFlowVersionListRelationFilter>;
+  AND?: InputMaybe<Array<BotFlowWhereInput>>;
+  NOT?: InputMaybe<Array<BotFlowWhereInput>>;
+  OR?: InputMaybe<Array<BotFlowWhereInput>>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  nextVersionNumber?: InputMaybe<IntFilter>;
+  versions?: InputMaybe<BotFlowVersionListRelationFilter>;
 };
 
 export type BotFlowWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type Connection = {
-  __typename?: "Connection";
-  botFlowVersionId: Scalars["Int"];
-  createdAt: Scalars["DateTime"];
+  __typename?: 'Connection';
+  botFlowVersionId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
   flow: BotFlowVersion;
-  from: Scalars["Int"];
+  from: Scalars['Int'];
   fromPort: Port;
-  id: Scalars["Int"];
-  to: Scalars["Int"];
+  id: Scalars['Int'];
+  to: Scalars['Int'];
   toPort: Port;
 };
 
 export type ConnectionAvgAggregate = {
-  __typename?: "ConnectionAvgAggregate";
-  botFlowVersionId?: Maybe<Scalars["Float"]>;
-  from?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
-  to?: Maybe<Scalars["Float"]>;
+  __typename?: 'ConnectionAvgAggregate';
+  botFlowVersionId?: Maybe<Scalars['Float']>;
+  from?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  to?: Maybe<Scalars['Float']>;
 };
 
 export type ConnectionAvgOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionCountAggregate = {
-  __typename?: "ConnectionCountAggregate";
-  _all: Scalars["Int"];
-  botFlowVersionId: Scalars["Int"];
-  createdAt: Scalars["Int"];
-  from: Scalars["Int"];
-  id: Scalars["Int"];
-  to: Scalars["Int"];
+  __typename?: 'ConnectionCountAggregate';
+  _all: Scalars['Int'];
+  botFlowVersionId: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  from: Scalars['Int'];
+  id: Scalars['Int'];
+  to: Scalars['Int'];
 };
 
 export type ConnectionCountOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  createdAt?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionCreateInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   flow: BotFlowVersionCreateNestedOneWithoutConnectionsInput;
   fromPort: PortCreateNestedOneWithoutOutConnectionsInput;
   toPort: PortCreateNestedOneWithoutInConnectionInput;
 };
 
 export type ConnectionCreateManyFlowInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  from: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  to: Scalars["Int"];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  from: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  to: Scalars['Int'];
 };
 
 export type ConnectionCreateManyFlowInputEnvelope = {
   data: Array<ConnectionCreateManyFlowInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ConnectionCreateManyFromPortInput = {
-  botFlowVersionId: Scalars["Int"];
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id?: Maybe<Scalars["Int"]>;
-  to: Scalars["Int"];
+  botFlowVersionId: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  to: Scalars['Int'];
 };
 
 export type ConnectionCreateManyFromPortInputEnvelope = {
   data: Array<ConnectionCreateManyFromPortInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ConnectionCreateManyInput = {
-  botFlowVersionId: Scalars["Int"];
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  from: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  to: Scalars["Int"];
+  botFlowVersionId: Scalars['Int'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  from: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  to: Scalars['Int'];
 };
 
 export type ConnectionCreateNestedManyWithoutFlowInput = {
-  connect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<ConnectionCreateOrConnectWithoutFlowInput>>;
-  create?: Maybe<Array<ConnectionCreateWithoutFlowInput>>;
-  createMany?: Maybe<ConnectionCreateManyFlowInputEnvelope>;
+  connect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ConnectionCreateOrConnectWithoutFlowInput>>;
+  create?: InputMaybe<Array<ConnectionCreateWithoutFlowInput>>;
+  createMany?: InputMaybe<ConnectionCreateManyFlowInputEnvelope>;
 };
 
 export type ConnectionCreateNestedManyWithoutFromPortInput = {
-  connect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<ConnectionCreateOrConnectWithoutFromPortInput>>;
-  create?: Maybe<Array<ConnectionCreateWithoutFromPortInput>>;
-  createMany?: Maybe<ConnectionCreateManyFromPortInputEnvelope>;
+  connect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ConnectionCreateOrConnectWithoutFromPortInput>>;
+  create?: InputMaybe<Array<ConnectionCreateWithoutFromPortInput>>;
+  createMany?: InputMaybe<ConnectionCreateManyFromPortInputEnvelope>;
 };
 
 export type ConnectionCreateNestedOneWithoutToPortInput = {
-  connect?: Maybe<ConnectionWhereUniqueInput>;
-  connectOrCreate?: Maybe<ConnectionCreateOrConnectWithoutToPortInput>;
-  create?: Maybe<ConnectionCreateWithoutToPortInput>;
+  connect?: InputMaybe<ConnectionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ConnectionCreateOrConnectWithoutToPortInput>;
+  create?: InputMaybe<ConnectionCreateWithoutToPortInput>;
 };
 
 export type ConnectionCreateOrConnectWithoutFlowInput = {
@@ -915,164 +906,164 @@ export type ConnectionCreateOrConnectWithoutToPortInput = {
 };
 
 export type ConnectionCreateWithoutFlowInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   fromPort: PortCreateNestedOneWithoutOutConnectionsInput;
   toPort: PortCreateNestedOneWithoutInConnectionInput;
 };
 
 export type ConnectionCreateWithoutFromPortInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   flow: BotFlowVersionCreateNestedOneWithoutConnectionsInput;
   toPort: PortCreateNestedOneWithoutInConnectionInput;
 };
 
 export type ConnectionCreateWithoutToPortInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   flow: BotFlowVersionCreateNestedOneWithoutConnectionsInput;
   fromPort: PortCreateNestedOneWithoutOutConnectionsInput;
 };
 
 export type ConnectionGroupBy = {
-  __typename?: "ConnectionGroupBy";
+  __typename?: 'ConnectionGroupBy';
   _avg?: Maybe<ConnectionAvgAggregate>;
   _count?: Maybe<ConnectionCountAggregate>;
   _max?: Maybe<ConnectionMaxAggregate>;
   _min?: Maybe<ConnectionMinAggregate>;
   _sum?: Maybe<ConnectionSumAggregate>;
-  botFlowVersionId: Scalars["Int"];
-  createdAt: Scalars["DateTime"];
-  from: Scalars["Int"];
-  id: Scalars["Int"];
-  to: Scalars["Int"];
+  botFlowVersionId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  from: Scalars['Int'];
+  id: Scalars['Int'];
+  to: Scalars['Int'];
 };
 
 export type ConnectionListRelationFilter = {
-  every?: Maybe<ConnectionWhereInput>;
-  none?: Maybe<ConnectionWhereInput>;
-  some?: Maybe<ConnectionWhereInput>;
+  every?: InputMaybe<ConnectionWhereInput>;
+  none?: InputMaybe<ConnectionWhereInput>;
+  some?: InputMaybe<ConnectionWhereInput>;
 };
 
 export type ConnectionMaxAggregate = {
-  __typename?: "ConnectionMaxAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  from?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  to?: Maybe<Scalars["Int"]>;
+  __typename?: 'ConnectionMaxAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  from?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  to?: Maybe<Scalars['Int']>;
 };
 
 export type ConnectionMaxOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  createdAt?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionMinAggregate = {
-  __typename?: "ConnectionMinAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  from?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  to?: Maybe<Scalars["Int"]>;
+  __typename?: 'ConnectionMinAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  from?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  to?: Maybe<Scalars['Int']>;
 };
 
 export type ConnectionMinOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  createdAt?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionOrderByRelationAggregateInput = {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionOrderByWithAggregationInput = {
-  _avg?: Maybe<ConnectionAvgOrderByAggregateInput>;
-  _count?: Maybe<ConnectionCountOrderByAggregateInput>;
-  _max?: Maybe<ConnectionMaxOrderByAggregateInput>;
-  _min?: Maybe<ConnectionMinOrderByAggregateInput>;
-  _sum?: Maybe<ConnectionSumOrderByAggregateInput>;
-  botFlowVersionId?: Maybe<SortOrder>;
-  createdAt?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  _avg?: InputMaybe<ConnectionAvgOrderByAggregateInput>;
+  _count?: InputMaybe<ConnectionCountOrderByAggregateInput>;
+  _max?: InputMaybe<ConnectionMaxOrderByAggregateInput>;
+  _min?: InputMaybe<ConnectionMinOrderByAggregateInput>;
+  _sum?: InputMaybe<ConnectionSumOrderByAggregateInput>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionOrderByWithRelationInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  createdAt?: Maybe<SortOrder>;
-  flow?: Maybe<BotFlowVersionOrderByWithRelationInput>;
-  from?: Maybe<SortOrder>;
-  fromPort?: Maybe<PortOrderByWithRelationInput>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
-  toPort?: Maybe<PortOrderByWithRelationInput>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  flow?: InputMaybe<BotFlowVersionOrderByWithRelationInput>;
+  from?: InputMaybe<SortOrder>;
+  fromPort?: InputMaybe<PortOrderByWithRelationInput>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
+  toPort?: InputMaybe<PortOrderByWithRelationInput>;
 };
 
 export type ConnectionRelationFilter = {
-  is?: Maybe<ConnectionWhereInput>;
-  isNot?: Maybe<ConnectionWhereInput>;
+  is?: InputMaybe<ConnectionWhereInput>;
+  isNot?: InputMaybe<ConnectionWhereInput>;
 };
 
 export enum ConnectionScalarFieldEnum {
-  BotFlowVersionId = "botFlowVersionId",
-  CreatedAt = "createdAt",
-  From = "from",
-  Id = "id",
-  To = "to",
+  BotFlowVersionId = 'botFlowVersionId',
+  CreatedAt = 'createdAt',
+  From = 'from',
+  Id = 'id',
+  To = 'to'
 }
 
 export type ConnectionScalarWhereInput = {
-  AND?: Maybe<Array<ConnectionScalarWhereInput>>;
-  NOT?: Maybe<Array<ConnectionScalarWhereInput>>;
-  OR?: Maybe<Array<ConnectionScalarWhereInput>>;
-  botFlowVersionId?: Maybe<IntFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  from?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  to?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<ConnectionScalarWhereInput>>;
+  NOT?: InputMaybe<Array<ConnectionScalarWhereInput>>;
+  OR?: InputMaybe<Array<ConnectionScalarWhereInput>>;
+  botFlowVersionId?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  from?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  to?: InputMaybe<IntFilter>;
 };
 
 export type ConnectionScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
-  botFlowVersionId?: Maybe<IntWithAggregatesFilter>;
-  createdAt?: Maybe<DateTimeWithAggregatesFilter>;
-  from?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  to?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<ConnectionScalarWhereWithAggregatesInput>>;
+  botFlowVersionId?: InputMaybe<IntWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  from?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  to?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type ConnectionSumAggregate = {
-  __typename?: "ConnectionSumAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  from?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  to?: Maybe<Scalars["Int"]>;
+  __typename?: 'ConnectionSumAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  from?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  to?: Maybe<Scalars['Int']>;
 };
 
 export type ConnectionSumOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  from?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  to?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  from?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  to?: InputMaybe<SortOrder>;
 };
 
 export type ConnectionUpdateInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
-  fromPort?: Maybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
-  toPort?: Maybe<PortUpdateOneRequiredWithoutInConnectionInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
+  fromPort?: InputMaybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
+  toPort?: InputMaybe<PortUpdateOneRequiredWithoutInConnectionInput>;
 };
 
 export type ConnectionUpdateManyMutationInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ConnectionUpdateManyWithWhereWithoutFlowInput = {
@@ -1086,41 +1077,41 @@ export type ConnectionUpdateManyWithWhereWithoutFromPortInput = {
 };
 
 export type ConnectionUpdateManyWithoutFlowInput = {
-  connect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<ConnectionCreateOrConnectWithoutFlowInput>>;
-  create?: Maybe<Array<ConnectionCreateWithoutFlowInput>>;
-  createMany?: Maybe<ConnectionCreateManyFlowInputEnvelope>;
-  delete?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<ConnectionScalarWhereInput>>;
-  disconnect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  set?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  update?: Maybe<Array<ConnectionUpdateWithWhereUniqueWithoutFlowInput>>;
-  updateMany?: Maybe<Array<ConnectionUpdateManyWithWhereWithoutFlowInput>>;
-  upsert?: Maybe<Array<ConnectionUpsertWithWhereUniqueWithoutFlowInput>>;
+  connect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ConnectionCreateOrConnectWithoutFlowInput>>;
+  create?: InputMaybe<Array<ConnectionCreateWithoutFlowInput>>;
+  createMany?: InputMaybe<ConnectionCreateManyFlowInputEnvelope>;
+  delete?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<ConnectionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  set?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  update?: InputMaybe<Array<ConnectionUpdateWithWhereUniqueWithoutFlowInput>>;
+  updateMany?: InputMaybe<Array<ConnectionUpdateManyWithWhereWithoutFlowInput>>;
+  upsert?: InputMaybe<Array<ConnectionUpsertWithWhereUniqueWithoutFlowInput>>;
 };
 
 export type ConnectionUpdateManyWithoutFromPortInput = {
-  connect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<ConnectionCreateOrConnectWithoutFromPortInput>>;
-  create?: Maybe<Array<ConnectionCreateWithoutFromPortInput>>;
-  createMany?: Maybe<ConnectionCreateManyFromPortInputEnvelope>;
-  delete?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<ConnectionScalarWhereInput>>;
-  disconnect?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  set?: Maybe<Array<ConnectionWhereUniqueInput>>;
-  update?: Maybe<Array<ConnectionUpdateWithWhereUniqueWithoutFromPortInput>>;
-  updateMany?: Maybe<Array<ConnectionUpdateManyWithWhereWithoutFromPortInput>>;
-  upsert?: Maybe<Array<ConnectionUpsertWithWhereUniqueWithoutFromPortInput>>;
+  connect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ConnectionCreateOrConnectWithoutFromPortInput>>;
+  create?: InputMaybe<Array<ConnectionCreateWithoutFromPortInput>>;
+  createMany?: InputMaybe<ConnectionCreateManyFromPortInputEnvelope>;
+  delete?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<ConnectionScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  set?: InputMaybe<Array<ConnectionWhereUniqueInput>>;
+  update?: InputMaybe<Array<ConnectionUpdateWithWhereUniqueWithoutFromPortInput>>;
+  updateMany?: InputMaybe<Array<ConnectionUpdateManyWithWhereWithoutFromPortInput>>;
+  upsert?: InputMaybe<Array<ConnectionUpsertWithWhereUniqueWithoutFromPortInput>>;
 };
 
 export type ConnectionUpdateOneWithoutToPortInput = {
-  connect?: Maybe<ConnectionWhereUniqueInput>;
-  connectOrCreate?: Maybe<ConnectionCreateOrConnectWithoutToPortInput>;
-  create?: Maybe<ConnectionCreateWithoutToPortInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<ConnectionUpdateWithoutToPortInput>;
-  upsert?: Maybe<ConnectionUpsertWithoutToPortInput>;
+  connect?: InputMaybe<ConnectionWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ConnectionCreateOrConnectWithoutToPortInput>;
+  create?: InputMaybe<ConnectionCreateWithoutToPortInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ConnectionUpdateWithoutToPortInput>;
+  upsert?: InputMaybe<ConnectionUpsertWithoutToPortInput>;
 };
 
 export type ConnectionUpdateWithWhereUniqueWithoutFlowInput = {
@@ -1134,21 +1125,21 @@ export type ConnectionUpdateWithWhereUniqueWithoutFromPortInput = {
 };
 
 export type ConnectionUpdateWithoutFlowInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  fromPort?: Maybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
-  toPort?: Maybe<PortUpdateOneRequiredWithoutInConnectionInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  fromPort?: InputMaybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
+  toPort?: InputMaybe<PortUpdateOneRequiredWithoutInConnectionInput>;
 };
 
 export type ConnectionUpdateWithoutFromPortInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
-  toPort?: Maybe<PortUpdateOneRequiredWithoutInConnectionInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
+  toPort?: InputMaybe<PortUpdateOneRequiredWithoutInConnectionInput>;
 };
 
 export type ConnectionUpdateWithoutToPortInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
-  fromPort?: Maybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutConnectionsInput>;
+  fromPort?: InputMaybe<PortUpdateOneRequiredWithoutOutConnectionsInput>;
 };
 
 export type ConnectionUpsertWithWhereUniqueWithoutFlowInput = {
@@ -1169,238 +1160,245 @@ export type ConnectionUpsertWithoutToPortInput = {
 };
 
 export type ConnectionWhereInput = {
-  AND?: Maybe<Array<ConnectionWhereInput>>;
-  NOT?: Maybe<Array<ConnectionWhereInput>>;
-  OR?: Maybe<Array<ConnectionWhereInput>>;
-  botFlowVersionId?: Maybe<IntFilter>;
-  createdAt?: Maybe<DateTimeFilter>;
-  flow?: Maybe<BotFlowVersionRelationFilter>;
-  from?: Maybe<IntFilter>;
-  fromPort?: Maybe<PortRelationFilter>;
-  id?: Maybe<IntFilter>;
-  to?: Maybe<IntFilter>;
-  toPort?: Maybe<PortRelationFilter>;
+  AND?: InputMaybe<Array<ConnectionWhereInput>>;
+  NOT?: InputMaybe<Array<ConnectionWhereInput>>;
+  OR?: InputMaybe<Array<ConnectionWhereInput>>;
+  botFlowVersionId?: InputMaybe<IntFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  flow?: InputMaybe<BotFlowVersionRelationFilter>;
+  from?: InputMaybe<IntFilter>;
+  fromPort?: InputMaybe<PortRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  to?: InputMaybe<IntFilter>;
+  toPort?: InputMaybe<PortRelationFilter>;
 };
 
 export type ConnectionWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
-  to?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  to?: InputMaybe<Scalars['Int']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
-  set?: Maybe<Scalars["DateTime"]>;
+  set?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type DateTimeFilter = {
-  equals?: Maybe<Scalars["DateTime"]>;
-  gt?: Maybe<Scalars["DateTime"]>;
-  gte?: Maybe<Scalars["DateTime"]>;
-  in?: Maybe<Array<Scalars["DateTime"]>>;
-  lt?: Maybe<Scalars["DateTime"]>;
-  lte?: Maybe<Scalars["DateTime"]>;
-  not?: Maybe<NestedDateTimeFilter>;
-  notIn?: Maybe<Array<Scalars["DateTime"]>>;
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
 export type DateTimeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedDateTimeFilter>;
-  _min?: Maybe<NestedDateTimeFilter>;
-  equals?: Maybe<Scalars["DateTime"]>;
-  gt?: Maybe<Scalars["DateTime"]>;
-  gte?: Maybe<Scalars["DateTime"]>;
-  in?: Maybe<Array<Scalars["DateTime"]>>;
-  lt?: Maybe<Scalars["DateTime"]>;
-  lte?: Maybe<Scalars["DateTime"]>;
-  not?: Maybe<NestedDateTimeWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["DateTime"]>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedDateTimeFilter>;
+  _min?: InputMaybe<NestedDateTimeFilter>;
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
 export type EnumNodeTypeFieldUpdateOperationsInput = {
-  set?: Maybe<NodeType>;
+  set?: InputMaybe<NodeType>;
 };
 
 export type EnumNodeTypeFilter = {
-  equals?: Maybe<NodeType>;
-  in?: Maybe<Array<NodeType>>;
-  not?: Maybe<NestedEnumNodeTypeFilter>;
-  notIn?: Maybe<Array<NodeType>>;
+  equals?: InputMaybe<NodeType>;
+  in?: InputMaybe<Array<NodeType>>;
+  not?: InputMaybe<NestedEnumNodeTypeFilter>;
+  notIn?: InputMaybe<Array<NodeType>>;
 };
 
 export type EnumNodeTypeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedEnumNodeTypeFilter>;
-  _min?: Maybe<NestedEnumNodeTypeFilter>;
-  equals?: Maybe<NodeType>;
-  in?: Maybe<Array<NodeType>>;
-  not?: Maybe<NestedEnumNodeTypeWithAggregatesFilter>;
-  notIn?: Maybe<Array<NodeType>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumNodeTypeFilter>;
+  _min?: InputMaybe<NestedEnumNodeTypeFilter>;
+  equals?: InputMaybe<NodeType>;
+  in?: InputMaybe<Array<NodeType>>;
+  not?: InputMaybe<NestedEnumNodeTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<NodeType>>;
 };
 
 export type EnumSwitchDisplayTypeFieldUpdateOperationsInput = {
-  set?: Maybe<SwitchDisplayType>;
+  set?: InputMaybe<SwitchDisplayType>;
 };
 
 export type EnumSwitchDisplayTypeFilter = {
-  equals?: Maybe<SwitchDisplayType>;
-  in?: Maybe<Array<SwitchDisplayType>>;
-  not?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  notIn?: Maybe<Array<SwitchDisplayType>>;
+  equals?: InputMaybe<SwitchDisplayType>;
+  in?: InputMaybe<Array<SwitchDisplayType>>;
+  not?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  notIn?: InputMaybe<Array<SwitchDisplayType>>;
 };
 
 export type EnumSwitchDisplayTypeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  _min?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  equals?: Maybe<SwitchDisplayType>;
-  in?: Maybe<Array<SwitchDisplayType>>;
-  not?: Maybe<NestedEnumSwitchDisplayTypeWithAggregatesFilter>;
-  notIn?: Maybe<Array<SwitchDisplayType>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  _min?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  equals?: InputMaybe<SwitchDisplayType>;
+  in?: InputMaybe<Array<SwitchDisplayType>>;
+  not?: InputMaybe<NestedEnumSwitchDisplayTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<SwitchDisplayType>>;
 };
 
 export type FlowNode = {
-  __typename?: "FlowNode";
+  __typename?: 'FlowNode';
   NodeProps: NodeProps;
   _count?: Maybe<FlowNodeCount>;
-  botFlowVersionId: Scalars["Int"];
+  botFlowVersionId: Scalars['Int'];
   flow: BotFlowVersion;
-  id: Scalars["Int"];
+  head: Scalars['Int'];
+  height: Scalars['Int'];
+  id: Scalars['Int'];
   info: NodeInfo;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
+  isSub: Scalars['Boolean'];
+  lane: Scalars['Int'];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
   ports: Array<Port>;
+  pos: Pos;
+  positionNumber: Scalars['Int'];
   templateNode?: Maybe<TemplateNode>;
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt: Scalars["DateTime"];
+  templateNodeId?: Maybe<Scalars['Int']>;
+  updatedAt: Scalars['DateTime'];
+  visible: Scalars['Boolean'];
+  width: Scalars['Int'];
 };
 
+
 export type FlowNodePortsArgs = {
-  cursor?: Maybe<PortWhereUniqueInput>;
-  distinct?: Maybe<Array<PortScalarFieldEnum>>;
-  orderBy?: Maybe<Array<PortOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<PortWhereInput>;
+  cursor?: InputMaybe<PortWhereUniqueInput>;
+  distinct?: InputMaybe<Array<PortScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<PortOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PortWhereInput>;
 };
 
 export type FlowNodeAvgAggregate = {
-  __typename?: "FlowNodeAvgAggregate";
-  botFlowVersionId?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
-  nodeInfoId?: Maybe<Scalars["Float"]>;
-  nodePropsId?: Maybe<Scalars["Float"]>;
-  templateNodeId?: Maybe<Scalars["Float"]>;
+  __typename?: 'FlowNodeAvgAggregate';
+  botFlowVersionId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  nodeInfoId?: Maybe<Scalars['Float']>;
+  nodePropsId?: Maybe<Scalars['Float']>;
+  templateNodeId?: Maybe<Scalars['Float']>;
 };
 
 export type FlowNodeAvgOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeCount = {
-  __typename?: "FlowNodeCount";
-  ports: Scalars["Int"];
+  __typename?: 'FlowNodeCount';
+  ports: Scalars['Int'];
 };
 
 export type FlowNodeCountAggregate = {
-  __typename?: "FlowNodeCountAggregate";
-  _all: Scalars["Int"];
-  botFlowVersionId: Scalars["Int"];
-  id: Scalars["Int"];
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  templateNodeId: Scalars["Int"];
-  updatedAt: Scalars["Int"];
+  __typename?: 'FlowNodeCountAggregate';
+  _all: Scalars['Int'];
+  botFlowVersionId: Scalars['Int'];
+  id: Scalars['Int'];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  templateNodeId: Scalars['Int'];
+  updatedAt: Scalars['Int'];
 };
 
 export type FlowNodeCountOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
-  updatedAt?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeCreateInput = {
   NodeProps: NodePropsCreateNestedOneWithoutFlowNodeInput;
   flow: BotFlowVersionCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutFlowNodeInput;
-  ports?: Maybe<PortCreateNestedManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  ports?: InputMaybe<PortCreateNestedManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateManyFlowInput = {
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  templateNodeId?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateManyFlowInputEnvelope = {
   data: Array<FlowNodeCreateManyFlowInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type FlowNodeCreateManyInput = {
-  botFlowVersionId: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  botFlowVersionId: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  templateNodeId?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateManyTemplateNodeInput = {
-  botFlowVersionId: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  botFlowVersionId: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateManyTemplateNodeInputEnvelope = {
   data: Array<FlowNodeCreateManyTemplateNodeInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type FlowNodeCreateNestedManyWithoutFlowInput = {
-  connect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<FlowNodeCreateOrConnectWithoutFlowInput>>;
-  create?: Maybe<Array<FlowNodeCreateWithoutFlowInput>>;
-  createMany?: Maybe<FlowNodeCreateManyFlowInputEnvelope>;
+  connect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<FlowNodeCreateOrConnectWithoutFlowInput>>;
+  create?: InputMaybe<Array<FlowNodeCreateWithoutFlowInput>>;
+  createMany?: InputMaybe<FlowNodeCreateManyFlowInputEnvelope>;
 };
 
 export type FlowNodeCreateNestedManyWithoutTemplateNodeInput = {
-  connect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<
-    Array<FlowNodeCreateOrConnectWithoutTemplateNodeInput>
-  >;
-  create?: Maybe<Array<FlowNodeCreateWithoutTemplateNodeInput>>;
-  createMany?: Maybe<FlowNodeCreateManyTemplateNodeInputEnvelope>;
+  connect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<FlowNodeCreateOrConnectWithoutTemplateNodeInput>>;
+  create?: InputMaybe<Array<FlowNodeCreateWithoutTemplateNodeInput>>;
+  createMany?: InputMaybe<FlowNodeCreateManyTemplateNodeInputEnvelope>;
 };
 
 export type FlowNodeCreateNestedOneWithoutInfoInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutInfoInput>;
-  create?: Maybe<FlowNodeCreateWithoutInfoInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutInfoInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutInfoInput>;
 };
 
 export type FlowNodeCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<FlowNodeCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutNodePropsInput>;
 };
 
 export type FlowNodeCreateNestedOneWithoutPortsInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutPortsInput>;
-  create?: Maybe<FlowNodeCreateWithoutPortsInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutPortsInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutPortsInput>;
 };
 
 export type FlowNodeCreateOrConnectWithoutFlowInput = {
@@ -1431,200 +1429,200 @@ export type FlowNodeCreateOrConnectWithoutTemplateNodeInput = {
 export type FlowNodeCreateWithoutFlowInput = {
   NodeProps: NodePropsCreateNestedOneWithoutFlowNodeInput;
   info: NodeInfoCreateNestedOneWithoutFlowNodeInput;
-  ports?: Maybe<PortCreateNestedManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  ports?: InputMaybe<PortCreateNestedManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateWithoutInfoInput = {
   NodeProps: NodePropsCreateNestedOneWithoutFlowNodeInput;
   flow: BotFlowVersionCreateNestedOneWithoutNodesInput;
-  ports?: Maybe<PortCreateNestedManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  ports?: InputMaybe<PortCreateNestedManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateWithoutNodePropsInput = {
   flow: BotFlowVersionCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutFlowNodeInput;
-  ports?: Maybe<PortCreateNestedManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  ports?: InputMaybe<PortCreateNestedManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateWithoutPortsInput = {
   NodeProps: NodePropsCreateNestedOneWithoutFlowNodeInput;
   flow: BotFlowVersionCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutFlowNodeInput;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeCreateWithoutTemplateNodeInput = {
   NodeProps: NodePropsCreateNestedOneWithoutFlowNodeInput;
   flow: BotFlowVersionCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutFlowNodeInput;
-  ports?: Maybe<PortCreateNestedManyWithoutNodeInput>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  ports?: InputMaybe<PortCreateNestedManyWithoutNodeInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeGroupBy = {
-  __typename?: "FlowNodeGroupBy";
+  __typename?: 'FlowNodeGroupBy';
   _avg?: Maybe<FlowNodeAvgAggregate>;
   _count?: Maybe<FlowNodeCountAggregate>;
   _max?: Maybe<FlowNodeMaxAggregate>;
   _min?: Maybe<FlowNodeMinAggregate>;
   _sum?: Maybe<FlowNodeSumAggregate>;
-  botFlowVersionId: Scalars["Int"];
-  id: Scalars["Int"];
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt: Scalars["DateTime"];
+  botFlowVersionId: Scalars['Int'];
+  id: Scalars['Int'];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  templateNodeId?: Maybe<Scalars['Int']>;
+  updatedAt: Scalars['DateTime'];
 };
 
 export type FlowNodeListRelationFilter = {
-  every?: Maybe<FlowNodeWhereInput>;
-  none?: Maybe<FlowNodeWhereInput>;
-  some?: Maybe<FlowNodeWhereInput>;
+  every?: InputMaybe<FlowNodeWhereInput>;
+  none?: InputMaybe<FlowNodeWhereInput>;
+  some?: InputMaybe<FlowNodeWhereInput>;
 };
 
 export type FlowNodeMaxAggregate = {
-  __typename?: "FlowNodeMaxAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'FlowNodeMaxAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  templateNodeId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeMaxOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
-  updatedAt?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeMinAggregate = {
-  __typename?: "FlowNodeMinAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  templateNodeId?: Maybe<Scalars["Int"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'FlowNodeMinAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  templateNodeId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type FlowNodeMinOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
-  updatedAt?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeOrderByRelationAggregateInput = {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeOrderByWithAggregationInput = {
-  _avg?: Maybe<FlowNodeAvgOrderByAggregateInput>;
-  _count?: Maybe<FlowNodeCountOrderByAggregateInput>;
-  _max?: Maybe<FlowNodeMaxOrderByAggregateInput>;
-  _min?: Maybe<FlowNodeMinOrderByAggregateInput>;
-  _sum?: Maybe<FlowNodeSumOrderByAggregateInput>;
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
-  updatedAt?: Maybe<SortOrder>;
+  _avg?: InputMaybe<FlowNodeAvgOrderByAggregateInput>;
+  _count?: InputMaybe<FlowNodeCountOrderByAggregateInput>;
+  _max?: InputMaybe<FlowNodeMaxOrderByAggregateInput>;
+  _min?: InputMaybe<FlowNodeMinOrderByAggregateInput>;
+  _sum?: InputMaybe<FlowNodeSumOrderByAggregateInput>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeOrderByWithRelationInput = {
-  NodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  botFlowVersionId?: Maybe<SortOrder>;
-  flow?: Maybe<BotFlowVersionOrderByWithRelationInput>;
-  id?: Maybe<SortOrder>;
-  info?: Maybe<NodeInfoOrderByWithRelationInput>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  ports?: Maybe<PortOrderByRelationAggregateInput>;
-  templateNode?: Maybe<TemplateNodeOrderByWithRelationInput>;
-  templateNodeId?: Maybe<SortOrder>;
-  updatedAt?: Maybe<SortOrder>;
+  NodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  flow?: InputMaybe<BotFlowVersionOrderByWithRelationInput>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<NodeInfoOrderByWithRelationInput>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  ports?: InputMaybe<PortOrderByRelationAggregateInput>;
+  templateNode?: InputMaybe<TemplateNodeOrderByWithRelationInput>;
+  templateNodeId?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeRelationFilter = {
-  is?: Maybe<FlowNodeWhereInput>;
-  isNot?: Maybe<FlowNodeWhereInput>;
+  is?: InputMaybe<FlowNodeWhereInput>;
+  isNot?: InputMaybe<FlowNodeWhereInput>;
 };
 
 export enum FlowNodeScalarFieldEnum {
-  BotFlowVersionId = "botFlowVersionId",
-  Id = "id",
-  NodeInfoId = "nodeInfoId",
-  NodePropsId = "nodePropsId",
-  TemplateNodeId = "templateNodeId",
-  UpdatedAt = "updatedAt",
+  BotFlowVersionId = 'botFlowVersionId',
+  Id = 'id',
+  NodeInfoId = 'nodeInfoId',
+  NodePropsId = 'nodePropsId',
+  TemplateNodeId = 'templateNodeId',
+  UpdatedAt = 'updatedAt'
 }
 
 export type FlowNodeScalarWhereInput = {
-  AND?: Maybe<Array<FlowNodeScalarWhereInput>>;
-  NOT?: Maybe<Array<FlowNodeScalarWhereInput>>;
-  OR?: Maybe<Array<FlowNodeScalarWhereInput>>;
-  botFlowVersionId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  nodeInfoId?: Maybe<IntFilter>;
-  nodePropsId?: Maybe<IntFilter>;
-  templateNodeId?: Maybe<IntNullableFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: InputMaybe<Array<FlowNodeScalarWhereInput>>;
+  NOT?: InputMaybe<Array<FlowNodeScalarWhereInput>>;
+  OR?: InputMaybe<Array<FlowNodeScalarWhereInput>>;
+  botFlowVersionId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  nodeInfoId?: InputMaybe<IntFilter>;
+  nodePropsId?: InputMaybe<IntFilter>;
+  templateNodeId?: InputMaybe<IntNullableFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type FlowNodeScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
-  botFlowVersionId?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  nodeInfoId?: Maybe<IntWithAggregatesFilter>;
-  nodePropsId?: Maybe<IntWithAggregatesFilter>;
-  templateNodeId?: Maybe<IntNullableWithAggregatesFilter>;
-  updatedAt?: Maybe<DateTimeWithAggregatesFilter>;
+  AND?: InputMaybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<FlowNodeScalarWhereWithAggregatesInput>>;
+  botFlowVersionId?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  nodeInfoId?: InputMaybe<IntWithAggregatesFilter>;
+  nodePropsId?: InputMaybe<IntWithAggregatesFilter>;
+  templateNodeId?: InputMaybe<IntNullableWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
 };
 
 export type FlowNodeSumAggregate = {
-  __typename?: "FlowNodeSumAggregate";
-  botFlowVersionId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  templateNodeId?: Maybe<Scalars["Int"]>;
+  __typename?: 'FlowNodeSumAggregate';
+  botFlowVersionId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  templateNodeId?: Maybe<Scalars['Int']>;
 };
 
 export type FlowNodeSumOrderByAggregateInput = {
-  botFlowVersionId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  templateNodeId?: Maybe<SortOrder>;
+  botFlowVersionId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  templateNodeId?: InputMaybe<SortOrder>;
 };
 
 export type FlowNodeUpdateInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
-  ports?: Maybe<PortUpdateManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
+  ports?: InputMaybe<PortUpdateManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateManyMutationInput = {
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateManyWithWhereWithoutFlowInput = {
@@ -1638,63 +1636,59 @@ export type FlowNodeUpdateManyWithWhereWithoutTemplateNodeInput = {
 };
 
 export type FlowNodeUpdateManyWithoutFlowInput = {
-  connect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<FlowNodeCreateOrConnectWithoutFlowInput>>;
-  create?: Maybe<Array<FlowNodeCreateWithoutFlowInput>>;
-  createMany?: Maybe<FlowNodeCreateManyFlowInputEnvelope>;
-  delete?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<FlowNodeScalarWhereInput>>;
-  disconnect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  set?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  update?: Maybe<Array<FlowNodeUpdateWithWhereUniqueWithoutFlowInput>>;
-  updateMany?: Maybe<Array<FlowNodeUpdateManyWithWhereWithoutFlowInput>>;
-  upsert?: Maybe<Array<FlowNodeUpsertWithWhereUniqueWithoutFlowInput>>;
+  connect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<FlowNodeCreateOrConnectWithoutFlowInput>>;
+  create?: InputMaybe<Array<FlowNodeCreateWithoutFlowInput>>;
+  createMany?: InputMaybe<FlowNodeCreateManyFlowInputEnvelope>;
+  delete?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<FlowNodeScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  set?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  update?: InputMaybe<Array<FlowNodeUpdateWithWhereUniqueWithoutFlowInput>>;
+  updateMany?: InputMaybe<Array<FlowNodeUpdateManyWithWhereWithoutFlowInput>>;
+  upsert?: InputMaybe<Array<FlowNodeUpsertWithWhereUniqueWithoutFlowInput>>;
 };
 
 export type FlowNodeUpdateManyWithoutTemplateNodeInput = {
-  connect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<
-    Array<FlowNodeCreateOrConnectWithoutTemplateNodeInput>
-  >;
-  create?: Maybe<Array<FlowNodeCreateWithoutTemplateNodeInput>>;
-  createMany?: Maybe<FlowNodeCreateManyTemplateNodeInputEnvelope>;
-  delete?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<FlowNodeScalarWhereInput>>;
-  disconnect?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  set?: Maybe<Array<FlowNodeWhereUniqueInput>>;
-  update?: Maybe<Array<FlowNodeUpdateWithWhereUniqueWithoutTemplateNodeInput>>;
-  updateMany?: Maybe<
-    Array<FlowNodeUpdateManyWithWhereWithoutTemplateNodeInput>
-  >;
-  upsert?: Maybe<Array<FlowNodeUpsertWithWhereUniqueWithoutTemplateNodeInput>>;
+  connect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<FlowNodeCreateOrConnectWithoutTemplateNodeInput>>;
+  create?: InputMaybe<Array<FlowNodeCreateWithoutTemplateNodeInput>>;
+  createMany?: InputMaybe<FlowNodeCreateManyTemplateNodeInputEnvelope>;
+  delete?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<FlowNodeScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  set?: InputMaybe<Array<FlowNodeWhereUniqueInput>>;
+  update?: InputMaybe<Array<FlowNodeUpdateWithWhereUniqueWithoutTemplateNodeInput>>;
+  updateMany?: InputMaybe<Array<FlowNodeUpdateManyWithWhereWithoutTemplateNodeInput>>;
+  upsert?: InputMaybe<Array<FlowNodeUpsertWithWhereUniqueWithoutTemplateNodeInput>>;
 };
 
 export type FlowNodeUpdateOneRequiredWithoutPortsInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutPortsInput>;
-  create?: Maybe<FlowNodeCreateWithoutPortsInput>;
-  update?: Maybe<FlowNodeUpdateWithoutPortsInput>;
-  upsert?: Maybe<FlowNodeUpsertWithoutPortsInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutPortsInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutPortsInput>;
+  update?: InputMaybe<FlowNodeUpdateWithoutPortsInput>;
+  upsert?: InputMaybe<FlowNodeUpsertWithoutPortsInput>;
 };
 
 export type FlowNodeUpdateOneWithoutInfoInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutInfoInput>;
-  create?: Maybe<FlowNodeCreateWithoutInfoInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<FlowNodeUpdateWithoutInfoInput>;
-  upsert?: Maybe<FlowNodeUpsertWithoutInfoInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutInfoInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutInfoInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<FlowNodeUpdateWithoutInfoInput>;
+  upsert?: InputMaybe<FlowNodeUpsertWithoutInfoInput>;
 };
 
 export type FlowNodeUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<FlowNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<FlowNodeCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<FlowNodeCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<FlowNodeUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<FlowNodeUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<FlowNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<FlowNodeCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<FlowNodeCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<FlowNodeUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<FlowNodeUpsertWithoutNodePropsInput>;
 };
 
 export type FlowNodeUpdateWithWhereUniqueWithoutFlowInput = {
@@ -1708,43 +1702,43 @@ export type FlowNodeUpdateWithWhereUniqueWithoutTemplateNodeInput = {
 };
 
 export type FlowNodeUpdateWithoutFlowInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
-  ports?: Maybe<PortUpdateManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
+  ports?: InputMaybe<PortUpdateManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateWithoutInfoInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
-  ports?: Maybe<PortUpdateManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
+  ports?: InputMaybe<PortUpdateManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateWithoutNodePropsInput = {
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
-  ports?: Maybe<PortUpdateManyWithoutNodeInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
+  ports?: InputMaybe<PortUpdateManyWithoutNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateWithoutPortsInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutFlowNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpdateWithoutTemplateNodeInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
-  flow?: Maybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
-  ports?: Maybe<PortUpdateManyWithoutNodeInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutFlowNodeInput>;
+  flow?: InputMaybe<BotFlowVersionUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutFlowNodeInput>;
+  ports?: InputMaybe<PortUpdateManyWithoutNodeInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type FlowNodeUpsertWithWhereUniqueWithoutFlowInput = {
@@ -1775,92 +1769,92 @@ export type FlowNodeUpsertWithoutPortsInput = {
 };
 
 export type FlowNodeWhereInput = {
-  AND?: Maybe<Array<FlowNodeWhereInput>>;
-  NOT?: Maybe<Array<FlowNodeWhereInput>>;
-  NodeProps?: Maybe<NodePropsRelationFilter>;
-  OR?: Maybe<Array<FlowNodeWhereInput>>;
-  botFlowVersionId?: Maybe<IntFilter>;
-  flow?: Maybe<BotFlowVersionRelationFilter>;
-  id?: Maybe<IntFilter>;
-  info?: Maybe<NodeInfoRelationFilter>;
-  nodeInfoId?: Maybe<IntFilter>;
-  nodePropsId?: Maybe<IntFilter>;
-  ports?: Maybe<PortListRelationFilter>;
-  templateNode?: Maybe<TemplateNodeRelationFilter>;
-  templateNodeId?: Maybe<IntNullableFilter>;
-  updatedAt?: Maybe<DateTimeFilter>;
+  AND?: InputMaybe<Array<FlowNodeWhereInput>>;
+  NOT?: InputMaybe<Array<FlowNodeWhereInput>>;
+  NodeProps?: InputMaybe<NodePropsRelationFilter>;
+  OR?: InputMaybe<Array<FlowNodeWhereInput>>;
+  botFlowVersionId?: InputMaybe<IntFilter>;
+  flow?: InputMaybe<BotFlowVersionRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  info?: InputMaybe<NodeInfoRelationFilter>;
+  nodeInfoId?: InputMaybe<IntFilter>;
+  nodePropsId?: InputMaybe<IntFilter>;
+  ports?: InputMaybe<PortListRelationFilter>;
+  templateNode?: InputMaybe<TemplateNodeRelationFilter>;
+  templateNodeId?: InputMaybe<IntNullableFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
 export type FlowNodeWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId?: InputMaybe<Scalars['Int']>;
+  nodePropsId?: InputMaybe<Scalars['Int']>;
 };
 
 export type IntFieldUpdateOperationsInput = {
-  decrement?: Maybe<Scalars["Int"]>;
-  divide?: Maybe<Scalars["Int"]>;
-  increment?: Maybe<Scalars["Int"]>;
-  multiply?: Maybe<Scalars["Int"]>;
-  set?: Maybe<Scalars["Int"]>;
+  decrement?: InputMaybe<Scalars['Int']>;
+  divide?: InputMaybe<Scalars['Int']>;
+  increment?: InputMaybe<Scalars['Int']>;
+  multiply?: InputMaybe<Scalars['Int']>;
+  set?: InputMaybe<Scalars['Int']>;
 };
 
 export type IntFilter = {
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type IntNullableFilter = {
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntNullableFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type IntNullableWithAggregatesFilter = {
-  _avg?: Maybe<NestedFloatNullableFilter>;
-  _count?: Maybe<NestedIntNullableFilter>;
-  _max?: Maybe<NestedIntNullableFilter>;
-  _min?: Maybe<NestedIntNullableFilter>;
-  _sum?: Maybe<NestedIntNullableFilter>;
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntNullableWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  _avg?: InputMaybe<NestedFloatNullableFilter>;
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedIntNullableFilter>;
+  _min?: InputMaybe<NestedIntNullableFilter>;
+  _sum?: InputMaybe<NestedIntNullableFilter>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type IntWithAggregatesFilter = {
-  _avg?: Maybe<NestedFloatFilter>;
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedIntFilter>;
-  _min?: Maybe<NestedIntFilter>;
-  _sum?: Maybe<NestedIntFilter>;
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedIntFilter>;
+  _min?: InputMaybe<NestedIntFilter>;
+  _sum?: InputMaybe<NestedIntFilter>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   createBotFlow: BotFlow;
   createBotFlowVersion: BotFlowVersion;
   createConnection: Connection;
@@ -1996,518 +1990,633 @@ export type Mutation = {
   upsertTemplateNodesGroup: TemplateNodesGroup;
 };
 
+
 export type MutationCreateBotFlowArgs = {
   data: BotFlowCreateInput;
 };
+
 
 export type MutationCreateBotFlowVersionArgs = {
   data: BotFlowVersionCreateInput;
 };
 
+
 export type MutationCreateConnectionArgs = {
   data: ConnectionCreateInput;
 };
+
 
 export type MutationCreateFlowNodeArgs = {
   data: FlowNodeCreateInput;
 };
 
+
 export type MutationCreateManyBotFlowArgs = {
   data: Array<BotFlowCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyBotFlowVersionArgs = {
   data: Array<BotFlowVersionCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyConnectionArgs = {
   data: Array<ConnectionCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyFlowNodeArgs = {
   data: Array<FlowNodeCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeAudioPropsArgs = {
   data: Array<NodeAudioPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeCountdownPropsArgs = {
   data: Array<NodeCountdownPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeFilePropsArgs = {
   data: Array<NodeFilePropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeImagePropsArgs = {
   data: Array<NodeImagePropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeInfoArgs = {
   data: Array<NodeInfoCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeLinkPropsArgs = {
   data: Array<NodeLinkPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodePropsArgs = {
   data: Array<NodePropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeSwitchOptionPropsArgs = {
   data: Array<NodeSwitchOptionPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeSwitchPropsArgs = {
   data: Array<NodeSwitchPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeTextPropsArgs = {
   data: Array<NodeTextPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeVideoPropsArgs = {
   data: Array<NodeVideoPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyNodeWaitPropsArgs = {
   data: Array<NodeWaitPropsCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyPortArgs = {
   data: Array<PortCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyTemplateNodeArgs = {
   data: Array<TemplateNodeCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateManyTemplateNodesGroupArgs = {
   data: Array<TemplateNodesGroupCreateManyInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
+
 
 export type MutationCreateNodeAudioPropsArgs = {
   data: NodeAudioPropsCreateInput;
 };
 
+
 export type MutationCreateNodeCountdownPropsArgs = {
   data: NodeCountdownPropsCreateInput;
 };
+
 
 export type MutationCreateNodeFilePropsArgs = {
   data: NodeFilePropsCreateInput;
 };
 
+
 export type MutationCreateNodeImagePropsArgs = {
   data: NodeImagePropsCreateInput;
 };
+
 
 export type MutationCreateNodeInfoArgs = {
   data: NodeInfoCreateInput;
 };
 
+
 export type MutationCreateNodeLinkPropsArgs = {
   data: NodeLinkPropsCreateInput;
 };
+
 
 export type MutationCreateNodePropsArgs = {
   data: NodePropsCreateInput;
 };
 
+
 export type MutationCreateNodeSwitchOptionPropsArgs = {
   data: NodeSwitchOptionPropsCreateInput;
 };
+
 
 export type MutationCreateNodeSwitchPropsArgs = {
   data: NodeSwitchPropsCreateInput;
 };
 
+
 export type MutationCreateNodeTextPropsArgs = {
   data: NodeTextPropsCreateInput;
 };
+
 
 export type MutationCreateNodeVideoPropsArgs = {
   data: NodeVideoPropsCreateInput;
 };
 
+
 export type MutationCreateNodeWaitPropsArgs = {
   data: NodeWaitPropsCreateInput;
 };
+
 
 export type MutationCreatePortArgs = {
   data: PortCreateInput;
 };
 
+
 export type MutationCreateTemplateNodeArgs = {
   data: TemplateNodeCreateInput;
 };
+
 
 export type MutationCreateTemplateNodesGroupArgs = {
   data: TemplateNodesGroupCreateInput;
 };
 
+
 export type MutationDeleteBotFlowArgs = {
   where: BotFlowWhereUniqueInput;
 };
+
 
 export type MutationDeleteBotFlowVersionArgs = {
   where: BotFlowVersionWhereUniqueInput;
 };
 
+
 export type MutationDeleteConnectionArgs = {
   where: ConnectionWhereUniqueInput;
 };
+
 
 export type MutationDeleteFlowNodeArgs = {
   where: FlowNodeWhereUniqueInput;
 };
 
+
 export type MutationDeleteManyBotFlowArgs = {
-  where?: Maybe<BotFlowWhereInput>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type MutationDeleteManyBotFlowVersionArgs = {
-  where?: Maybe<BotFlowVersionWhereInput>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
+
 
 export type MutationDeleteManyConnectionArgs = {
-  where?: Maybe<ConnectionWhereInput>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type MutationDeleteManyFlowNodeArgs = {
-  where?: Maybe<FlowNodeWhereInput>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeAudioPropsArgs = {
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeCountdownPropsArgs = {
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeFilePropsArgs = {
-  where?: Maybe<NodeFilePropsWhereInput>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeImagePropsArgs = {
-  where?: Maybe<NodeImagePropsWhereInput>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeInfoArgs = {
-  where?: Maybe<NodeInfoWhereInput>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeLinkPropsArgs = {
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodePropsArgs = {
-  where?: Maybe<NodePropsWhereInput>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeSwitchOptionPropsArgs = {
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeSwitchPropsArgs = {
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeTextPropsArgs = {
-  where?: Maybe<NodeTextPropsWhereInput>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeVideoPropsArgs = {
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyNodeWaitPropsArgs = {
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type MutationDeleteManyPortArgs = {
-  where?: Maybe<PortWhereInput>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type MutationDeleteManyTemplateNodeArgs = {
-  where?: Maybe<TemplateNodeWhereInput>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
 
+
 export type MutationDeleteManyTemplateNodesGroupArgs = {
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
+
 
 export type MutationDeleteNodeAudioPropsArgs = {
   where: NodeAudioPropsWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeCountdownPropsArgs = {
   where: NodeCountdownPropsWhereUniqueInput;
 };
+
 
 export type MutationDeleteNodeFilePropsArgs = {
   where: NodeFilePropsWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeImagePropsArgs = {
   where: NodeImagePropsWhereUniqueInput;
 };
+
 
 export type MutationDeleteNodeInfoArgs = {
   where: NodeInfoWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeLinkPropsArgs = {
   where: NodeLinkPropsWhereUniqueInput;
 };
+
 
 export type MutationDeleteNodePropsArgs = {
   where: NodePropsWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeSwitchOptionPropsArgs = {
   where: NodeSwitchOptionPropsWhereUniqueInput;
 };
+
 
 export type MutationDeleteNodeSwitchPropsArgs = {
   where: NodeSwitchPropsWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeTextPropsArgs = {
   where: NodeTextPropsWhereUniqueInput;
 };
+
 
 export type MutationDeleteNodeVideoPropsArgs = {
   where: NodeVideoPropsWhereUniqueInput;
 };
 
+
 export type MutationDeleteNodeWaitPropsArgs = {
   where: NodeWaitPropsWhereUniqueInput;
 };
+
 
 export type MutationDeletePortArgs = {
   where: PortWhereUniqueInput;
 };
 
+
 export type MutationDeleteTemplateNodeArgs = {
   where: TemplateNodeWhereUniqueInput;
 };
 
+
 export type MutationDeleteTemplateNodesGroupArgs = {
   where: TemplateNodesGroupWhereUniqueInput;
 };
+
 
 export type MutationUpdateBotFlowArgs = {
   data: BotFlowUpdateInput;
   where: BotFlowWhereUniqueInput;
 };
 
+
 export type MutationUpdateBotFlowVersionArgs = {
   data: BotFlowVersionUpdateInput;
   where: BotFlowVersionWhereUniqueInput;
 };
+
 
 export type MutationUpdateConnectionArgs = {
   data: ConnectionUpdateInput;
   where: ConnectionWhereUniqueInput;
 };
 
+
 export type MutationUpdateFlowNodeArgs = {
   data: FlowNodeUpdateInput;
   where: FlowNodeWhereUniqueInput;
 };
 
+
 export type MutationUpdateManyBotFlowArgs = {
   data: BotFlowUpdateManyMutationInput;
-  where?: Maybe<BotFlowWhereInput>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type MutationUpdateManyBotFlowVersionArgs = {
   data: BotFlowVersionUpdateManyMutationInput;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
+
 
 export type MutationUpdateManyConnectionArgs = {
   data: ConnectionUpdateManyMutationInput;
-  where?: Maybe<ConnectionWhereInput>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type MutationUpdateManyFlowNodeArgs = {
   data: FlowNodeUpdateManyMutationInput;
-  where?: Maybe<FlowNodeWhereInput>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeAudioPropsArgs = {
   data: NodeAudioPropsUpdateManyMutationInput;
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeCountdownPropsArgs = {
   data: NodeCountdownPropsUpdateManyMutationInput;
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeFilePropsArgs = {
   data: NodeFilePropsUpdateManyMutationInput;
-  where?: Maybe<NodeFilePropsWhereInput>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeImagePropsArgs = {
   data: NodeImagePropsUpdateManyMutationInput;
-  where?: Maybe<NodeImagePropsWhereInput>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeInfoArgs = {
   data: NodeInfoUpdateManyMutationInput;
-  where?: Maybe<NodeInfoWhereInput>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeLinkPropsArgs = {
   data: NodeLinkPropsUpdateManyMutationInput;
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodePropsArgs = {
   data: NodePropsUpdateManyMutationInput;
-  where?: Maybe<NodePropsWhereInput>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeSwitchOptionPropsArgs = {
   data: NodeSwitchOptionPropsUpdateManyMutationInput;
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeSwitchPropsArgs = {
   data: NodeSwitchPropsUpdateManyMutationInput;
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeTextPropsArgs = {
   data: NodeTextPropsUpdateManyMutationInput;
-  where?: Maybe<NodeTextPropsWhereInput>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeVideoPropsArgs = {
   data: NodeVideoPropsUpdateManyMutationInput;
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyNodeWaitPropsArgs = {
   data: NodeWaitPropsUpdateManyMutationInput;
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type MutationUpdateManyPortArgs = {
   data: PortUpdateManyMutationInput;
-  where?: Maybe<PortWhereInput>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type MutationUpdateManyTemplateNodeArgs = {
   data: TemplateNodeUpdateManyMutationInput;
-  where?: Maybe<TemplateNodeWhereInput>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
+
 
 export type MutationUpdateManyTemplateNodesGroupArgs = {
   data: TemplateNodesGroupUpdateManyMutationInput;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
+
 
 export type MutationUpdateNodeAudioPropsArgs = {
   data: NodeAudioPropsUpdateInput;
   where: NodeAudioPropsWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeCountdownPropsArgs = {
   data: NodeCountdownPropsUpdateInput;
   where: NodeCountdownPropsWhereUniqueInput;
 };
+
 
 export type MutationUpdateNodeFilePropsArgs = {
   data: NodeFilePropsUpdateInput;
   where: NodeFilePropsWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeImagePropsArgs = {
   data: NodeImagePropsUpdateInput;
   where: NodeImagePropsWhereUniqueInput;
 };
+
 
 export type MutationUpdateNodeInfoArgs = {
   data: NodeInfoUpdateInput;
   where: NodeInfoWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeLinkPropsArgs = {
   data: NodeLinkPropsUpdateInput;
   where: NodeLinkPropsWhereUniqueInput;
 };
+
 
 export type MutationUpdateNodePropsArgs = {
   data: NodePropsUpdateInput;
   where: NodePropsWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeSwitchOptionPropsArgs = {
   data: NodeSwitchOptionPropsUpdateInput;
   where: NodeSwitchOptionPropsWhereUniqueInput;
 };
+
 
 export type MutationUpdateNodeSwitchPropsArgs = {
   data: NodeSwitchPropsUpdateInput;
   where: NodeSwitchPropsWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeTextPropsArgs = {
   data: NodeTextPropsUpdateInput;
   where: NodeTextPropsWhereUniqueInput;
 };
+
 
 export type MutationUpdateNodeVideoPropsArgs = {
   data: NodeVideoPropsUpdateInput;
   where: NodeVideoPropsWhereUniqueInput;
 };
 
+
 export type MutationUpdateNodeWaitPropsArgs = {
   data: NodeWaitPropsUpdateInput;
   where: NodeWaitPropsWhereUniqueInput;
 };
+
 
 export type MutationUpdatePortArgs = {
   data: PortUpdateInput;
   where: PortWhereUniqueInput;
 };
 
+
 export type MutationUpdateTemplateNodeArgs = {
   data: TemplateNodeUpdateInput;
   where: TemplateNodeWhereUniqueInput;
 };
 
+
 export type MutationUpdateTemplateNodesGroupArgs = {
   data: TemplateNodesGroupUpdateInput;
   where: TemplateNodesGroupWhereUniqueInput;
 };
+
 
 export type MutationUpsertBotFlowArgs = {
   create: BotFlowCreateInput;
@@ -2515,11 +2624,13 @@ export type MutationUpsertBotFlowArgs = {
   where: BotFlowWhereUniqueInput;
 };
 
+
 export type MutationUpsertBotFlowVersionArgs = {
   create: BotFlowVersionCreateInput;
   update: BotFlowVersionUpdateInput;
   where: BotFlowVersionWhereUniqueInput;
 };
+
 
 export type MutationUpsertConnectionArgs = {
   create: ConnectionCreateInput;
@@ -2527,11 +2638,13 @@ export type MutationUpsertConnectionArgs = {
   where: ConnectionWhereUniqueInput;
 };
 
+
 export type MutationUpsertFlowNodeArgs = {
   create: FlowNodeCreateInput;
   update: FlowNodeUpdateInput;
   where: FlowNodeWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodeAudioPropsArgs = {
   create: NodeAudioPropsCreateInput;
@@ -2539,11 +2652,13 @@ export type MutationUpsertNodeAudioPropsArgs = {
   where: NodeAudioPropsWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeCountdownPropsArgs = {
   create: NodeCountdownPropsCreateInput;
   update: NodeCountdownPropsUpdateInput;
   where: NodeCountdownPropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodeFilePropsArgs = {
   create: NodeFilePropsCreateInput;
@@ -2551,11 +2666,13 @@ export type MutationUpsertNodeFilePropsArgs = {
   where: NodeFilePropsWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeImagePropsArgs = {
   create: NodeImagePropsCreateInput;
   update: NodeImagePropsUpdateInput;
   where: NodeImagePropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodeInfoArgs = {
   create: NodeInfoCreateInput;
@@ -2563,11 +2680,13 @@ export type MutationUpsertNodeInfoArgs = {
   where: NodeInfoWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeLinkPropsArgs = {
   create: NodeLinkPropsCreateInput;
   update: NodeLinkPropsUpdateInput;
   where: NodeLinkPropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodePropsArgs = {
   create: NodePropsCreateInput;
@@ -2575,11 +2694,13 @@ export type MutationUpsertNodePropsArgs = {
   where: NodePropsWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeSwitchOptionPropsArgs = {
   create: NodeSwitchOptionPropsCreateInput;
   update: NodeSwitchOptionPropsUpdateInput;
   where: NodeSwitchOptionPropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodeSwitchPropsArgs = {
   create: NodeSwitchPropsCreateInput;
@@ -2587,11 +2708,13 @@ export type MutationUpsertNodeSwitchPropsArgs = {
   where: NodeSwitchPropsWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeTextPropsArgs = {
   create: NodeTextPropsCreateInput;
   update: NodeTextPropsUpdateInput;
   where: NodeTextPropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertNodeVideoPropsArgs = {
   create: NodeVideoPropsCreateInput;
@@ -2599,11 +2722,13 @@ export type MutationUpsertNodeVideoPropsArgs = {
   where: NodeVideoPropsWhereUniqueInput;
 };
 
+
 export type MutationUpsertNodeWaitPropsArgs = {
   create: NodeWaitPropsCreateInput;
   update: NodeWaitPropsUpdateInput;
   where: NodeWaitPropsWhereUniqueInput;
 };
+
 
 export type MutationUpsertPortArgs = {
   create: PortCreateInput;
@@ -2611,11 +2736,13 @@ export type MutationUpsertPortArgs = {
   where: PortWhereUniqueInput;
 };
 
+
 export type MutationUpsertTemplateNodeArgs = {
   create: TemplateNodeCreateInput;
   update: TemplateNodeUpdateInput;
   where: TemplateNodeWhereUniqueInput;
 };
+
 
 export type MutationUpsertTemplateNodesGroupArgs = {
   create: TemplateNodesGroupCreateInput;
@@ -2624,226 +2751,226 @@ export type MutationUpsertTemplateNodesGroupArgs = {
 };
 
 export type NestedBoolFilter = {
-  equals?: Maybe<Scalars["Boolean"]>;
-  not?: Maybe<NestedBoolFilter>;
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolFilter>;
 };
 
 export type NestedBoolWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedBoolFilter>;
-  _min?: Maybe<NestedBoolFilter>;
-  equals?: Maybe<Scalars["Boolean"]>;
-  not?: Maybe<NestedBoolWithAggregatesFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedBoolFilter>;
+  _min?: InputMaybe<NestedBoolFilter>;
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolWithAggregatesFilter>;
 };
 
 export type NestedDateTimeFilter = {
-  equals?: Maybe<Scalars["DateTime"]>;
-  gt?: Maybe<Scalars["DateTime"]>;
-  gte?: Maybe<Scalars["DateTime"]>;
-  in?: Maybe<Array<Scalars["DateTime"]>>;
-  lt?: Maybe<Scalars["DateTime"]>;
-  lte?: Maybe<Scalars["DateTime"]>;
-  not?: Maybe<NestedDateTimeFilter>;
-  notIn?: Maybe<Array<Scalars["DateTime"]>>;
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
 export type NestedDateTimeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedDateTimeFilter>;
-  _min?: Maybe<NestedDateTimeFilter>;
-  equals?: Maybe<Scalars["DateTime"]>;
-  gt?: Maybe<Scalars["DateTime"]>;
-  gte?: Maybe<Scalars["DateTime"]>;
-  in?: Maybe<Array<Scalars["DateTime"]>>;
-  lt?: Maybe<Scalars["DateTime"]>;
-  lte?: Maybe<Scalars["DateTime"]>;
-  not?: Maybe<NestedDateTimeWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["DateTime"]>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedDateTimeFilter>;
+  _min?: InputMaybe<NestedDateTimeFilter>;
+  equals?: InputMaybe<Scalars['DateTime']>;
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  in?: InputMaybe<Array<Scalars['DateTime']>>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+  not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
 export type NestedEnumNodeTypeFilter = {
-  equals?: Maybe<NodeType>;
-  in?: Maybe<Array<NodeType>>;
-  not?: Maybe<NestedEnumNodeTypeFilter>;
-  notIn?: Maybe<Array<NodeType>>;
+  equals?: InputMaybe<NodeType>;
+  in?: InputMaybe<Array<NodeType>>;
+  not?: InputMaybe<NestedEnumNodeTypeFilter>;
+  notIn?: InputMaybe<Array<NodeType>>;
 };
 
 export type NestedEnumNodeTypeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedEnumNodeTypeFilter>;
-  _min?: Maybe<NestedEnumNodeTypeFilter>;
-  equals?: Maybe<NodeType>;
-  in?: Maybe<Array<NodeType>>;
-  not?: Maybe<NestedEnumNodeTypeWithAggregatesFilter>;
-  notIn?: Maybe<Array<NodeType>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumNodeTypeFilter>;
+  _min?: InputMaybe<NestedEnumNodeTypeFilter>;
+  equals?: InputMaybe<NodeType>;
+  in?: InputMaybe<Array<NodeType>>;
+  not?: InputMaybe<NestedEnumNodeTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<NodeType>>;
 };
 
 export type NestedEnumSwitchDisplayTypeFilter = {
-  equals?: Maybe<SwitchDisplayType>;
-  in?: Maybe<Array<SwitchDisplayType>>;
-  not?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  notIn?: Maybe<Array<SwitchDisplayType>>;
+  equals?: InputMaybe<SwitchDisplayType>;
+  in?: InputMaybe<Array<SwitchDisplayType>>;
+  not?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  notIn?: InputMaybe<Array<SwitchDisplayType>>;
 };
 
 export type NestedEnumSwitchDisplayTypeWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  _min?: Maybe<NestedEnumSwitchDisplayTypeFilter>;
-  equals?: Maybe<SwitchDisplayType>;
-  in?: Maybe<Array<SwitchDisplayType>>;
-  not?: Maybe<NestedEnumSwitchDisplayTypeWithAggregatesFilter>;
-  notIn?: Maybe<Array<SwitchDisplayType>>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  _min?: InputMaybe<NestedEnumSwitchDisplayTypeFilter>;
+  equals?: InputMaybe<SwitchDisplayType>;
+  in?: InputMaybe<Array<SwitchDisplayType>>;
+  not?: InputMaybe<NestedEnumSwitchDisplayTypeWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<SwitchDisplayType>>;
 };
 
 export type NestedFloatFilter = {
-  equals?: Maybe<Scalars["Float"]>;
-  gt?: Maybe<Scalars["Float"]>;
-  gte?: Maybe<Scalars["Float"]>;
-  in?: Maybe<Array<Scalars["Float"]>>;
-  lt?: Maybe<Scalars["Float"]>;
-  lte?: Maybe<Scalars["Float"]>;
-  not?: Maybe<NestedFloatFilter>;
-  notIn?: Maybe<Array<Scalars["Float"]>>;
+  equals?: InputMaybe<Scalars['Float']>;
+  gt?: InputMaybe<Scalars['Float']>;
+  gte?: InputMaybe<Scalars['Float']>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
+  lt?: InputMaybe<Scalars['Float']>;
+  lte?: InputMaybe<Scalars['Float']>;
+  not?: InputMaybe<NestedFloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 export type NestedFloatNullableFilter = {
-  equals?: Maybe<Scalars["Float"]>;
-  gt?: Maybe<Scalars["Float"]>;
-  gte?: Maybe<Scalars["Float"]>;
-  in?: Maybe<Array<Scalars["Float"]>>;
-  lt?: Maybe<Scalars["Float"]>;
-  lte?: Maybe<Scalars["Float"]>;
-  not?: Maybe<NestedFloatNullableFilter>;
-  notIn?: Maybe<Array<Scalars["Float"]>>;
+  equals?: InputMaybe<Scalars['Float']>;
+  gt?: InputMaybe<Scalars['Float']>;
+  gte?: InputMaybe<Scalars['Float']>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
+  lt?: InputMaybe<Scalars['Float']>;
+  lte?: InputMaybe<Scalars['Float']>;
+  not?: InputMaybe<NestedFloatNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 export type NestedIntFilter = {
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type NestedIntNullableFilter = {
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntNullableFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type NestedIntNullableWithAggregatesFilter = {
-  _avg?: Maybe<NestedFloatNullableFilter>;
-  _count?: Maybe<NestedIntNullableFilter>;
-  _max?: Maybe<NestedIntNullableFilter>;
-  _min?: Maybe<NestedIntNullableFilter>;
-  _sum?: Maybe<NestedIntNullableFilter>;
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntNullableWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  _avg?: InputMaybe<NestedFloatNullableFilter>;
+  _count?: InputMaybe<NestedIntNullableFilter>;
+  _max?: InputMaybe<NestedIntNullableFilter>;
+  _min?: InputMaybe<NestedIntNullableFilter>;
+  _sum?: InputMaybe<NestedIntNullableFilter>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type NestedIntWithAggregatesFilter = {
-  _avg?: Maybe<NestedFloatFilter>;
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedIntFilter>;
-  _min?: Maybe<NestedIntFilter>;
-  _sum?: Maybe<NestedIntFilter>;
-  equals?: Maybe<Scalars["Int"]>;
-  gt?: Maybe<Scalars["Int"]>;
-  gte?: Maybe<Scalars["Int"]>;
-  in?: Maybe<Array<Scalars["Int"]>>;
-  lt?: Maybe<Scalars["Int"]>;
-  lte?: Maybe<Scalars["Int"]>;
-  not?: Maybe<NestedIntWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["Int"]>>;
+  _avg?: InputMaybe<NestedFloatFilter>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedIntFilter>;
+  _min?: InputMaybe<NestedIntFilter>;
+  _sum?: InputMaybe<NestedIntFilter>;
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export type NestedStringFilter = {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  not?: Maybe<NestedStringFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
 };
 
 export type NestedStringWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedStringFilter>;
-  _min?: Maybe<NestedStringFilter>;
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  not?: Maybe<NestedStringWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedStringFilter>;
+  _min?: InputMaybe<NestedStringFilter>;
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  not?: InputMaybe<NestedStringWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
 };
 
 export type NodeAudioProps = {
-  __typename?: "NodeAudioProps";
-  id: Scalars["Int"];
+  __typename?: 'NodeAudioProps';
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeAudioPropsAvgAggregate = {
-  __typename?: "NodeAudioPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeAudioPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeAudioPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsCountAggregate = {
-  __typename?: "NodeAudioPropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
+  __typename?: 'NodeAudioPropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
 };
 
 export type NodeAudioPropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsCreateInput = {
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeAudioPropsInput>;
-  src: Scalars["String"];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeAudioPropsInput>;
+  src: Scalars['String'];
 };
 
 export type NodeAudioPropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
 };
 
 export type NodeAudioPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeAudioPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeAudioPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeAudioPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeAudioPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeAudioPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeAudioPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeAudioPropsCreateOrConnectWithoutNodePropsInput = {
@@ -2852,106 +2979,106 @@ export type NodeAudioPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeAudioPropsCreateWithoutNodePropsInput = {
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeAudioPropsGroupBy = {
-  __typename?: "NodeAudioPropsGroupBy";
+  __typename?: 'NodeAudioPropsGroupBy';
   _avg?: Maybe<NodeAudioPropsAvgAggregate>;
   _count?: Maybe<NodeAudioPropsCountAggregate>;
   _max?: Maybe<NodeAudioPropsMaxAggregate>;
   _min?: Maybe<NodeAudioPropsMinAggregate>;
   _sum?: Maybe<NodeAudioPropsSumAggregate>;
-  id: Scalars["Int"];
-  src: Scalars["String"];
+  id: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeAudioPropsMaxAggregate = {
-  __typename?: "NodeAudioPropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeAudioPropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeAudioPropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsMinAggregate = {
-  __typename?: "NodeAudioPropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeAudioPropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeAudioPropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeAudioPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeAudioPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeAudioPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeAudioPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeAudioPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeAudioPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeAudioPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeAudioPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeAudioPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeAudioPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsRelationFilter = {
-  is?: Maybe<NodeAudioPropsWhereInput>;
-  isNot?: Maybe<NodeAudioPropsWhereInput>;
+  is?: InputMaybe<NodeAudioPropsWhereInput>;
+  isNot?: InputMaybe<NodeAudioPropsWhereInput>;
 };
 
 export enum NodeAudioPropsScalarFieldEnum {
-  Id = "id",
-  Src = "src",
+  Id = 'id',
+  Src = 'src'
 }
 
 export type NodeAudioPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeAudioPropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeAudioPropsSumAggregate = {
-  __typename?: "NodeAudioPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeAudioPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeAudioPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeAudioPropsUpdateInput = {
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeAudioPropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeAudioPropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeAudioPropsUpdateManyMutationInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeAudioPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeAudioPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeAudioPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeAudioPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeAudioPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeAudioPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeAudioPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeAudioPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeAudioPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeAudioPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeAudioPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeAudioPropsUpdateWithoutNodePropsInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeAudioPropsUpsertWithoutNodePropsInput = {
@@ -2960,62 +3087,62 @@ export type NodeAudioPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeAudioPropsWhereInput = {
-  AND?: Maybe<Array<NodeAudioPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeAudioPropsWhereInput>>;
-  OR?: Maybe<Array<NodeAudioPropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeAudioPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeAudioPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeAudioPropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
 };
 
 export type NodeAudioPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeCountdownProps = {
-  __typename?: "NodeCountdownProps";
-  duration: Scalars["Int"];
-  id: Scalars["Int"];
+  __typename?: 'NodeCountdownProps';
+  duration: Scalars['Int'];
+  id: Scalars['Int'];
   nodeProps: NodeProps;
 };
 
 export type NodeCountdownPropsAvgAggregate = {
-  __typename?: "NodeCountdownPropsAvgAggregate";
-  duration?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeCountdownPropsAvgAggregate';
+  duration?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeCountdownPropsAvgOrderByAggregateInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsCountAggregate = {
-  __typename?: "NodeCountdownPropsCountAggregate";
-  _all: Scalars["Int"];
-  duration: Scalars["Int"];
-  id: Scalars["Int"];
+  __typename?: 'NodeCountdownPropsCountAggregate';
+  _all: Scalars['Int'];
+  duration: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 export type NodeCountdownPropsCountOrderByAggregateInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsCreateInput = {
-  duration: Scalars["Int"];
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeCountdownPropsInput>;
+  duration: Scalars['Int'];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeCountdownPropsInput>;
 };
 
 export type NodeCountdownPropsCreateManyInput = {
-  duration: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
+  duration: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeCountdownPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeCountdownPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeCountdownPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeCountdownPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeCountdownPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeCountdownPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeCountdownPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeCountdownPropsCreateOrConnectWithoutNodePropsInput = {
@@ -3024,108 +3151,108 @@ export type NodeCountdownPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeCountdownPropsCreateWithoutNodePropsInput = {
-  duration: Scalars["Int"];
+  duration: Scalars['Int'];
 };
 
 export type NodeCountdownPropsGroupBy = {
-  __typename?: "NodeCountdownPropsGroupBy";
+  __typename?: 'NodeCountdownPropsGroupBy';
   _avg?: Maybe<NodeCountdownPropsAvgAggregate>;
   _count?: Maybe<NodeCountdownPropsCountAggregate>;
   _max?: Maybe<NodeCountdownPropsMaxAggregate>;
   _min?: Maybe<NodeCountdownPropsMinAggregate>;
   _sum?: Maybe<NodeCountdownPropsSumAggregate>;
-  duration: Scalars["Int"];
-  id: Scalars["Int"];
+  duration: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 export type NodeCountdownPropsMaxAggregate = {
-  __typename?: "NodeCountdownPropsMaxAggregate";
-  duration?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeCountdownPropsMaxAggregate';
+  duration?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeCountdownPropsMaxOrderByAggregateInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsMinAggregate = {
-  __typename?: "NodeCountdownPropsMinAggregate";
-  duration?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeCountdownPropsMinAggregate';
+  duration?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeCountdownPropsMinOrderByAggregateInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeCountdownPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeCountdownPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeCountdownPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeCountdownPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeCountdownPropsSumOrderByAggregateInput>;
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeCountdownPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeCountdownPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeCountdownPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeCountdownPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeCountdownPropsSumOrderByAggregateInput>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsOrderByWithRelationInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
 };
 
 export type NodeCountdownPropsRelationFilter = {
-  is?: Maybe<NodeCountdownPropsWhereInput>;
-  isNot?: Maybe<NodeCountdownPropsWhereInput>;
+  is?: InputMaybe<NodeCountdownPropsWhereInput>;
+  isNot?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
 
 export enum NodeCountdownPropsScalarFieldEnum {
-  Duration = "duration",
-  Id = "id",
+  Duration = 'duration',
+  Id = 'id'
 }
 
 export type NodeCountdownPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
-  duration?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeCountdownPropsScalarWhereWithAggregatesInput>>;
+  duration?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type NodeCountdownPropsSumAggregate = {
-  __typename?: "NodeCountdownPropsSumAggregate";
-  duration?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeCountdownPropsSumAggregate';
+  duration?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeCountdownPropsSumOrderByAggregateInput = {
-  duration?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  duration?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeCountdownPropsUpdateInput = {
-  duration?: Maybe<IntFieldUpdateOperationsInput>;
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeCountdownPropsInput>;
+  duration?: InputMaybe<IntFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeCountdownPropsInput>;
 };
 
 export type NodeCountdownPropsUpdateManyMutationInput = {
-  duration?: Maybe<IntFieldUpdateOperationsInput>;
+  duration?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type NodeCountdownPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeCountdownPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeCountdownPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeCountdownPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeCountdownPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeCountdownPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeCountdownPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeCountdownPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeCountdownPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeCountdownPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeCountdownPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeCountdownPropsUpdateWithoutNodePropsInput = {
-  duration?: Maybe<IntFieldUpdateOperationsInput>;
+  duration?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type NodeCountdownPropsUpsertWithoutNodePropsInput = {
@@ -3134,65 +3261,65 @@ export type NodeCountdownPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeCountdownPropsWhereInput = {
-  AND?: Maybe<Array<NodeCountdownPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeCountdownPropsWhereInput>>;
-  OR?: Maybe<Array<NodeCountdownPropsWhereInput>>;
-  duration?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
+  AND?: InputMaybe<Array<NodeCountdownPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeCountdownPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeCountdownPropsWhereInput>>;
+  duration?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
 };
 
 export type NodeCountdownPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeFileProps = {
-  __typename?: "NodeFileProps";
-  id: Scalars["Int"];
-  info: Scalars["String"];
+  __typename?: 'NodeFileProps';
+  id: Scalars['Int'];
+  info: Scalars['String'];
   nodeProps: NodeProps;
-  url: Scalars["String"];
+  url: Scalars['String'];
 };
 
 export type NodeFilePropsAvgAggregate = {
-  __typename?: "NodeFilePropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeFilePropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeFilePropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsCountAggregate = {
-  __typename?: "NodeFilePropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  info: Scalars["Int"];
-  url: Scalars["Int"];
+  __typename?: 'NodeFilePropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  info: Scalars['Int'];
+  url: Scalars['Int'];
 };
 
 export type NodeFilePropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  info?: Maybe<SortOrder>;
-  url?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<SortOrder>;
+  url?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsCreateInput = {
-  info: Scalars["String"];
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeFilePropsInput>;
-  url: Scalars["String"];
+  info: Scalars['String'];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeFilePropsInput>;
+  url: Scalars['String'];
 };
 
 export type NodeFilePropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  info: Scalars["String"];
-  url: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  info: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type NodeFilePropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeFilePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeFilePropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeFilePropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeFilePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeFilePropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeFilePropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeFilePropsCreateOrConnectWithoutNodePropsInput = {
@@ -3201,119 +3328,119 @@ export type NodeFilePropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeFilePropsCreateWithoutNodePropsInput = {
-  info: Scalars["String"];
-  url: Scalars["String"];
+  info: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type NodeFilePropsGroupBy = {
-  __typename?: "NodeFilePropsGroupBy";
+  __typename?: 'NodeFilePropsGroupBy';
   _avg?: Maybe<NodeFilePropsAvgAggregate>;
   _count?: Maybe<NodeFilePropsCountAggregate>;
   _max?: Maybe<NodeFilePropsMaxAggregate>;
   _min?: Maybe<NodeFilePropsMinAggregate>;
   _sum?: Maybe<NodeFilePropsSumAggregate>;
-  id: Scalars["Int"];
-  info: Scalars["String"];
-  url: Scalars["String"];
+  id: Scalars['Int'];
+  info: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type NodeFilePropsMaxAggregate = {
-  __typename?: "NodeFilePropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  info?: Maybe<Scalars["String"]>;
-  url?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeFilePropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  info?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type NodeFilePropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  info?: Maybe<SortOrder>;
-  url?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<SortOrder>;
+  url?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsMinAggregate = {
-  __typename?: "NodeFilePropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  info?: Maybe<Scalars["String"]>;
-  url?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeFilePropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  info?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type NodeFilePropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  info?: Maybe<SortOrder>;
-  url?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<SortOrder>;
+  url?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeFilePropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeFilePropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeFilePropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeFilePropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeFilePropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  info?: Maybe<SortOrder>;
-  url?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeFilePropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeFilePropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeFilePropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeFilePropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeFilePropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<SortOrder>;
+  url?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  info?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  url?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  url?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsRelationFilter = {
-  is?: Maybe<NodeFilePropsWhereInput>;
-  isNot?: Maybe<NodeFilePropsWhereInput>;
+  is?: InputMaybe<NodeFilePropsWhereInput>;
+  isNot?: InputMaybe<NodeFilePropsWhereInput>;
 };
 
 export enum NodeFilePropsScalarFieldEnum {
-  Id = "id",
-  Info = "info",
-  Url = "url",
+  Id = 'id',
+  Info = 'info',
+  Url = 'url'
 }
 
 export type NodeFilePropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  info?: Maybe<StringWithAggregatesFilter>;
-  url?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeFilePropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  info?: InputMaybe<StringWithAggregatesFilter>;
+  url?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeFilePropsSumAggregate = {
-  __typename?: "NodeFilePropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeFilePropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeFilePropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeFilePropsUpdateInput = {
-  info?: Maybe<StringFieldUpdateOperationsInput>;
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeFilePropsInput>;
-  url?: Maybe<StringFieldUpdateOperationsInput>;
+  info?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeFilePropsInput>;
+  url?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeFilePropsUpdateManyMutationInput = {
-  info?: Maybe<StringFieldUpdateOperationsInput>;
-  url?: Maybe<StringFieldUpdateOperationsInput>;
+  info?: InputMaybe<StringFieldUpdateOperationsInput>;
+  url?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeFilePropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeFilePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeFilePropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeFilePropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeFilePropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeFilePropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeFilePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeFilePropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeFilePropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeFilePropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeFilePropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeFilePropsUpdateWithoutNodePropsInput = {
-  info?: Maybe<StringFieldUpdateOperationsInput>;
-  url?: Maybe<StringFieldUpdateOperationsInput>;
+  info?: InputMaybe<StringFieldUpdateOperationsInput>;
+  url?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeFilePropsUpsertWithoutNodePropsInput = {
@@ -3322,61 +3449,61 @@ export type NodeFilePropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeFilePropsWhereInput = {
-  AND?: Maybe<Array<NodeFilePropsWhereInput>>;
-  NOT?: Maybe<Array<NodeFilePropsWhereInput>>;
-  OR?: Maybe<Array<NodeFilePropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  info?: Maybe<StringFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  url?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeFilePropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeFilePropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeFilePropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  info?: InputMaybe<StringFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  url?: InputMaybe<StringFilter>;
 };
 
 export type NodeFilePropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeImageProps = {
-  __typename?: "NodeImageProps";
-  id: Scalars["Int"];
+  __typename?: 'NodeImageProps';
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeImagePropsAvgAggregate = {
-  __typename?: "NodeImagePropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeImagePropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeImagePropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsCountAggregate = {
-  __typename?: "NodeImagePropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
+  __typename?: 'NodeImagePropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
 };
 
 export type NodeImagePropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsCreateInput = {
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeImagePropsInput>;
-  src: Scalars["String"];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeImagePropsInput>;
+  src: Scalars['String'];
 };
 
 export type NodeImagePropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
 };
 
 export type NodeImagePropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeImagePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeImagePropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeImagePropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeImagePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeImagePropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeImagePropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeImagePropsCreateOrConnectWithoutNodePropsInput = {
@@ -3385,106 +3512,106 @@ export type NodeImagePropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeImagePropsCreateWithoutNodePropsInput = {
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeImagePropsGroupBy = {
-  __typename?: "NodeImagePropsGroupBy";
+  __typename?: 'NodeImagePropsGroupBy';
   _avg?: Maybe<NodeImagePropsAvgAggregate>;
   _count?: Maybe<NodeImagePropsCountAggregate>;
   _max?: Maybe<NodeImagePropsMaxAggregate>;
   _min?: Maybe<NodeImagePropsMinAggregate>;
   _sum?: Maybe<NodeImagePropsSumAggregate>;
-  id: Scalars["Int"];
-  src: Scalars["String"];
+  id: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeImagePropsMaxAggregate = {
-  __typename?: "NodeImagePropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeImagePropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeImagePropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsMinAggregate = {
-  __typename?: "NodeImagePropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeImagePropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeImagePropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeImagePropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeImagePropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeImagePropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeImagePropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeImagePropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeImagePropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeImagePropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeImagePropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeImagePropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeImagePropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsRelationFilter = {
-  is?: Maybe<NodeImagePropsWhereInput>;
-  isNot?: Maybe<NodeImagePropsWhereInput>;
+  is?: InputMaybe<NodeImagePropsWhereInput>;
+  isNot?: InputMaybe<NodeImagePropsWhereInput>;
 };
 
 export enum NodeImagePropsScalarFieldEnum {
-  Id = "id",
-  Src = "src",
+  Id = 'id',
+  Src = 'src'
 }
 
 export type NodeImagePropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeImagePropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeImagePropsSumAggregate = {
-  __typename?: "NodeImagePropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeImagePropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeImagePropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeImagePropsUpdateInput = {
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeImagePropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeImagePropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeImagePropsUpdateManyMutationInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeImagePropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeImagePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeImagePropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeImagePropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeImagePropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeImagePropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeImagePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeImagePropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeImagePropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeImagePropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeImagePropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeImagePropsUpdateWithoutNodePropsInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeImagePropsUpsertWithoutNodePropsInput = {
@@ -3493,78 +3620,78 @@ export type NodeImagePropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeImagePropsWhereInput = {
-  AND?: Maybe<Array<NodeImagePropsWhereInput>>;
-  NOT?: Maybe<Array<NodeImagePropsWhereInput>>;
-  OR?: Maybe<Array<NodeImagePropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeImagePropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeImagePropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeImagePropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
 };
 
 export type NodeImagePropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeInfo = {
-  __typename?: "NodeInfo";
+  __typename?: 'NodeInfo';
   FlowNode?: Maybe<FlowNode>;
   TemplateNode?: Maybe<TemplateNode>;
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type NodeInfoAvgAggregate = {
-  __typename?: "NodeInfoAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeInfoAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeInfoAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoCountAggregate = {
-  __typename?: "NodeInfoCountAggregate";
-  _all: Scalars["Int"];
-  description: Scalars["Int"];
-  iconLink: Scalars["Int"];
-  id: Scalars["Int"];
-  name: Scalars["Int"];
+  __typename?: 'NodeInfoCountAggregate';
+  _all: Scalars['Int'];
+  description: Scalars['Int'];
+  iconLink: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
 };
 
 export type NodeInfoCountOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  iconLink?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  iconLink?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoCreateInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedOneWithoutInfoInput>;
-  TemplateNode?: Maybe<TemplateNodeCreateNestedOneWithoutInfoInput>;
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  name: Scalars["String"];
+  FlowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutInfoInput>;
+  TemplateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutInfoInput>;
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type NodeInfoCreateManyInput = {
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  id?: Maybe<Scalars["Int"]>;
-  name: Scalars["String"];
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
 };
 
 export type NodeInfoCreateNestedOneWithoutFlowNodeInput = {
-  connect?: Maybe<NodeInfoWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeInfoCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<NodeInfoCreateWithoutFlowNodeInput>;
+  connect?: InputMaybe<NodeInfoWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeInfoCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<NodeInfoCreateWithoutFlowNodeInput>;
 };
 
 export type NodeInfoCreateNestedOneWithoutTemplateNodeInput = {
-  connect?: Maybe<NodeInfoWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeInfoCreateOrConnectWithoutTemplateNodeInput>;
-  create?: Maybe<NodeInfoCreateWithoutTemplateNodeInput>;
+  connect?: InputMaybe<NodeInfoWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeInfoCreateOrConnectWithoutTemplateNodeInput>;
+  create?: InputMaybe<NodeInfoCreateWithoutTemplateNodeInput>;
 };
 
 export type NodeInfoCreateOrConnectWithoutFlowNodeInput = {
@@ -3578,156 +3705,156 @@ export type NodeInfoCreateOrConnectWithoutTemplateNodeInput = {
 };
 
 export type NodeInfoCreateWithoutFlowNodeInput = {
-  TemplateNode?: Maybe<TemplateNodeCreateNestedOneWithoutInfoInput>;
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  name: Scalars["String"];
+  TemplateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutInfoInput>;
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type NodeInfoCreateWithoutTemplateNodeInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedOneWithoutInfoInput>;
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  name: Scalars["String"];
+  FlowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutInfoInput>;
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type NodeInfoGroupBy = {
-  __typename?: "NodeInfoGroupBy";
+  __typename?: 'NodeInfoGroupBy';
   _avg?: Maybe<NodeInfoAvgAggregate>;
   _count?: Maybe<NodeInfoCountAggregate>;
   _max?: Maybe<NodeInfoMaxAggregate>;
   _min?: Maybe<NodeInfoMinAggregate>;
   _sum?: Maybe<NodeInfoSumAggregate>;
-  description: Scalars["String"];
-  iconLink: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
+  description: Scalars['String'];
+  iconLink: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type NodeInfoMaxAggregate = {
-  __typename?: "NodeInfoMaxAggregate";
-  description?: Maybe<Scalars["String"]>;
-  iconLink?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeInfoMaxAggregate';
+  description?: Maybe<Scalars['String']>;
+  iconLink?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type NodeInfoMaxOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  iconLink?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  iconLink?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoMinAggregate = {
-  __typename?: "NodeInfoMinAggregate";
-  description?: Maybe<Scalars["String"]>;
-  iconLink?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeInfoMinAggregate';
+  description?: Maybe<Scalars['String']>;
+  iconLink?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type NodeInfoMinOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  iconLink?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  iconLink?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeInfoAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeInfoCountOrderByAggregateInput>;
-  _max?: Maybe<NodeInfoMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeInfoMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeInfoSumOrderByAggregateInput>;
-  description?: Maybe<SortOrder>;
-  iconLink?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeInfoAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeInfoCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeInfoMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeInfoMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeInfoSumOrderByAggregateInput>;
+  description?: InputMaybe<SortOrder>;
+  iconLink?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoOrderByWithRelationInput = {
-  FlowNode?: Maybe<FlowNodeOrderByWithRelationInput>;
-  TemplateNode?: Maybe<TemplateNodeOrderByWithRelationInput>;
-  description?: Maybe<SortOrder>;
-  iconLink?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  FlowNode?: InputMaybe<FlowNodeOrderByWithRelationInput>;
+  TemplateNode?: InputMaybe<TemplateNodeOrderByWithRelationInput>;
+  description?: InputMaybe<SortOrder>;
+  iconLink?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoRelationFilter = {
-  is?: Maybe<NodeInfoWhereInput>;
-  isNot?: Maybe<NodeInfoWhereInput>;
+  is?: InputMaybe<NodeInfoWhereInput>;
+  isNot?: InputMaybe<NodeInfoWhereInput>;
 };
 
 export enum NodeInfoScalarFieldEnum {
-  Description = "description",
-  IconLink = "iconLink",
-  Id = "id",
-  Name = "name",
+  Description = 'description',
+  IconLink = 'iconLink',
+  Id = 'id',
+  Name = 'name'
 }
 
 export type NodeInfoScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
-  description?: Maybe<StringWithAggregatesFilter>;
-  iconLink?: Maybe<StringWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  name?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeInfoScalarWhereWithAggregatesInput>>;
+  description?: InputMaybe<StringWithAggregatesFilter>;
+  iconLink?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeInfoSumAggregate = {
-  __typename?: "NodeInfoSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeInfoSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeInfoSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeInfoUpdateInput = {
-  FlowNode?: Maybe<FlowNodeUpdateOneWithoutInfoInput>;
-  TemplateNode?: Maybe<TemplateNodeUpdateOneWithoutInfoInput>;
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  iconLink?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateOneWithoutInfoInput>;
+  TemplateNode?: InputMaybe<TemplateNodeUpdateOneWithoutInfoInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  iconLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeInfoUpdateManyMutationInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  iconLink?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  iconLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeInfoUpdateOneRequiredWithoutFlowNodeInput = {
-  connect?: Maybe<NodeInfoWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeInfoCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<NodeInfoCreateWithoutFlowNodeInput>;
-  update?: Maybe<NodeInfoUpdateWithoutFlowNodeInput>;
-  upsert?: Maybe<NodeInfoUpsertWithoutFlowNodeInput>;
+  connect?: InputMaybe<NodeInfoWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeInfoCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<NodeInfoCreateWithoutFlowNodeInput>;
+  update?: InputMaybe<NodeInfoUpdateWithoutFlowNodeInput>;
+  upsert?: InputMaybe<NodeInfoUpsertWithoutFlowNodeInput>;
 };
 
 export type NodeInfoUpdateOneRequiredWithoutTemplateNodeInput = {
-  connect?: Maybe<NodeInfoWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeInfoCreateOrConnectWithoutTemplateNodeInput>;
-  create?: Maybe<NodeInfoCreateWithoutTemplateNodeInput>;
-  update?: Maybe<NodeInfoUpdateWithoutTemplateNodeInput>;
-  upsert?: Maybe<NodeInfoUpsertWithoutTemplateNodeInput>;
+  connect?: InputMaybe<NodeInfoWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeInfoCreateOrConnectWithoutTemplateNodeInput>;
+  create?: InputMaybe<NodeInfoCreateWithoutTemplateNodeInput>;
+  update?: InputMaybe<NodeInfoUpdateWithoutTemplateNodeInput>;
+  upsert?: InputMaybe<NodeInfoUpsertWithoutTemplateNodeInput>;
 };
 
 export type NodeInfoUpdateWithoutFlowNodeInput = {
-  TemplateNode?: Maybe<TemplateNodeUpdateOneWithoutInfoInput>;
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  iconLink?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  TemplateNode?: InputMaybe<TemplateNodeUpdateOneWithoutInfoInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  iconLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeInfoUpdateWithoutTemplateNodeInput = {
-  FlowNode?: Maybe<FlowNodeUpdateOneWithoutInfoInput>;
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  iconLink?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateOneWithoutInfoInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  iconLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeInfoUpsertWithoutFlowNodeInput = {
@@ -3741,68 +3868,68 @@ export type NodeInfoUpsertWithoutTemplateNodeInput = {
 };
 
 export type NodeInfoWhereInput = {
-  AND?: Maybe<Array<NodeInfoWhereInput>>;
-  FlowNode?: Maybe<FlowNodeRelationFilter>;
-  NOT?: Maybe<Array<NodeInfoWhereInput>>;
-  OR?: Maybe<Array<NodeInfoWhereInput>>;
-  TemplateNode?: Maybe<TemplateNodeRelationFilter>;
-  description?: Maybe<StringFilter>;
-  iconLink?: Maybe<StringFilter>;
-  id?: Maybe<IntFilter>;
-  name?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeInfoWhereInput>>;
+  FlowNode?: InputMaybe<FlowNodeRelationFilter>;
+  NOT?: InputMaybe<Array<NodeInfoWhereInput>>;
+  OR?: InputMaybe<Array<NodeInfoWhereInput>>;
+  TemplateNode?: InputMaybe<TemplateNodeRelationFilter>;
+  description?: InputMaybe<StringFilter>;
+  iconLink?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
 };
 
 export type NodeInfoWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeLinkProps = {
-  __typename?: "NodeLinkProps";
-  id: Scalars["Int"];
+  __typename?: 'NodeLinkProps';
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
-  text: Scalars["String"];
+  src: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeLinkPropsAvgAggregate = {
-  __typename?: "NodeLinkPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeLinkPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeLinkPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsCountAggregate = {
-  __typename?: "NodeLinkPropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
-  text: Scalars["Int"];
+  __typename?: 'NodeLinkPropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
+  text: Scalars['Int'];
 };
 
 export type NodeLinkPropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsCreateInput = {
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeLinkPropsInput>;
-  src: Scalars["String"];
-  text: Scalars["String"];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeLinkPropsInput>;
+  src: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeLinkPropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
-  text: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeLinkPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeLinkPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeLinkPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeLinkPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeLinkPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeLinkPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeLinkPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeLinkPropsCreateOrConnectWithoutNodePropsInput = {
@@ -3811,119 +3938,119 @@ export type NodeLinkPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeLinkPropsCreateWithoutNodePropsInput = {
-  src: Scalars["String"];
-  text: Scalars["String"];
+  src: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeLinkPropsGroupBy = {
-  __typename?: "NodeLinkPropsGroupBy";
+  __typename?: 'NodeLinkPropsGroupBy';
   _avg?: Maybe<NodeLinkPropsAvgAggregate>;
   _count?: Maybe<NodeLinkPropsCountAggregate>;
   _max?: Maybe<NodeLinkPropsMaxAggregate>;
   _min?: Maybe<NodeLinkPropsMinAggregate>;
   _sum?: Maybe<NodeLinkPropsSumAggregate>;
-  id: Scalars["Int"];
-  src: Scalars["String"];
-  text: Scalars["String"];
+  id: Scalars['Int'];
+  src: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeLinkPropsMaxAggregate = {
-  __typename?: "NodeLinkPropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
-  text?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeLinkPropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type NodeLinkPropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsMinAggregate = {
-  __typename?: "NodeLinkPropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
-  text?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeLinkPropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type NodeLinkPropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeLinkPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeLinkPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeLinkPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeLinkPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeLinkPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeLinkPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeLinkPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeLinkPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeLinkPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeLinkPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsRelationFilter = {
-  is?: Maybe<NodeLinkPropsWhereInput>;
-  isNot?: Maybe<NodeLinkPropsWhereInput>;
+  is?: InputMaybe<NodeLinkPropsWhereInput>;
+  isNot?: InputMaybe<NodeLinkPropsWhereInput>;
 };
 
 export enum NodeLinkPropsScalarFieldEnum {
-  Id = "id",
-  Src = "src",
-  Text = "text",
+  Id = 'id',
+  Src = 'src',
+  Text = 'text'
 }
 
 export type NodeLinkPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
-  text?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeLinkPropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
+  text?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeLinkPropsSumAggregate = {
-  __typename?: "NodeLinkPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeLinkPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeLinkPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeLinkPropsUpdateInput = {
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeLinkPropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeLinkPropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeLinkPropsUpdateManyMutationInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeLinkPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeLinkPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeLinkPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeLinkPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeLinkPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeLinkPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeLinkPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeLinkPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeLinkPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeLinkPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeLinkPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeLinkPropsUpdateWithoutNodePropsInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeLinkPropsUpsertWithoutNodePropsInput = {
@@ -3932,21 +4059,21 @@ export type NodeLinkPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeLinkPropsWhereInput = {
-  AND?: Maybe<Array<NodeLinkPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeLinkPropsWhereInput>>;
-  OR?: Maybe<Array<NodeLinkPropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
-  text?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeLinkPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeLinkPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeLinkPropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
+  text?: InputMaybe<StringFilter>;
 };
 
 export type NodeLinkPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeProps = {
-  __typename?: "NodeProps";
+  __typename?: 'NodeProps';
   NodeAudioProps?: Maybe<NodeAudioProps>;
   NodeCountdownProps?: Maybe<NodeCountdownProps>;
   NodeFileProps?: Maybe<NodeFileProps>;
@@ -3957,129 +4084,129 @@ export type NodeProps = {
   NodeTextProps?: Maybe<NodeTextProps>;
   NodeVideoProps?: Maybe<NodeVideoProps>;
   NodeWaitProps?: Maybe<NodeWaitProps>;
-  createdAt: Scalars["DateTime"];
+  createdAt: Scalars['DateTime'];
   flowNode?: Maybe<FlowNode>;
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   templateNode?: Maybe<TemplateNode>;
   type: NodeType;
 };
 
 export type NodePropsAvgAggregate = {
-  __typename?: "NodePropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodePropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodePropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsCountAggregate = {
-  __typename?: "NodePropsCountAggregate";
-  _all: Scalars["Int"];
-  createdAt: Scalars["Int"];
-  id: Scalars["Int"];
-  type: Scalars["Int"];
+  __typename?: 'NodePropsCountAggregate';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  id: Scalars['Int'];
+  type: Scalars['Int'];
 };
 
 export type NodePropsCountOrderByAggregateInput = {
-  createdAt?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  type?: Maybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsCreateInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateManyInput = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id?: Maybe<Scalars["Int"]>;
-  type?: Maybe<NodeType>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateNestedOneWithoutFlowNodeInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<NodePropsCreateWithoutFlowNodeInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<NodePropsCreateWithoutFlowNodeInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeAudioPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeAudioPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeAudioPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeAudioPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeAudioPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeCountdownPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeCountdownPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeCountdownPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeCountdownPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeCountdownPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeFilePropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeFilePropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeFilePropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeFilePropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeFilePropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeImagePropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeImagePropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeImagePropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeImagePropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeImagePropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeLinkPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeLinkPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeLinkPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeLinkPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeLinkPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeSwitchOptionPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeSwitchOptionPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeSwitchOptionPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeSwitchOptionPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeSwitchOptionPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeSwitchPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeSwitchPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeSwitchPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeSwitchPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeSwitchPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeTextPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeTextPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeTextPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeTextPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeTextPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeVideoPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeVideoPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeVideoPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeVideoPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeVideoPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutNodeWaitPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeWaitPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeWaitPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeWaitPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeWaitPropsInput>;
 };
 
 export type NodePropsCreateNestedOneWithoutTemplateNodeInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutTemplateNodeInput>;
-  create?: Maybe<NodePropsCreateWithoutTemplateNodeInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutTemplateNodeInput>;
+  create?: InputMaybe<NodePropsCreateWithoutTemplateNodeInput>;
 };
 
 export type NodePropsCreateOrConnectWithoutFlowNodeInput = {
@@ -4143,601 +4270,601 @@ export type NodePropsCreateOrConnectWithoutTemplateNodeInput = {
 };
 
 export type NodePropsCreateWithoutFlowNodeInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeAudioPropsInput = {
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeCountdownPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeFilePropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeImagePropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeLinkPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeSwitchOptionPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeSwitchPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeTextPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeVideoPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutNodeWaitPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsCreateWithoutTemplateNodeInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  flowNode?: Maybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
-  type?: Maybe<NodeType>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsCreateNestedOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsCreateNestedOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsCreateNestedOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  flowNode?: InputMaybe<FlowNodeCreateNestedOneWithoutNodePropsInput>;
+  type?: InputMaybe<NodeType>;
 };
 
 export type NodePropsGroupBy = {
-  __typename?: "NodePropsGroupBy";
+  __typename?: 'NodePropsGroupBy';
   _avg?: Maybe<NodePropsAvgAggregate>;
   _count?: Maybe<NodePropsCountAggregate>;
   _max?: Maybe<NodePropsMaxAggregate>;
   _min?: Maybe<NodePropsMinAggregate>;
   _sum?: Maybe<NodePropsSumAggregate>;
-  createdAt: Scalars["DateTime"];
-  id: Scalars["Int"];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
   type: NodeType;
 };
 
 export type NodePropsMaxAggregate = {
-  __typename?: "NodePropsMaxAggregate";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodePropsMaxAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
   type?: Maybe<NodeType>;
 };
 
 export type NodePropsMaxOrderByAggregateInput = {
-  createdAt?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  type?: Maybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsMinAggregate = {
-  __typename?: "NodePropsMinAggregate";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodePropsMinAggregate';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Int']>;
   type?: Maybe<NodeType>;
 };
 
 export type NodePropsMinOrderByAggregateInput = {
-  createdAt?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  type?: Maybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodePropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodePropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodePropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodePropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodePropsSumOrderByAggregateInput>;
-  createdAt?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  type?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodePropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodePropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodePropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodePropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodePropsSumOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsOrderByWithRelationInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsOrderByWithRelationInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsOrderByWithRelationInput>;
-  NodeFileProps?: Maybe<NodeFilePropsOrderByWithRelationInput>;
-  NodeImageProps?: Maybe<NodeImagePropsOrderByWithRelationInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsOrderByWithRelationInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsOrderByWithRelationInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsOrderByWithRelationInput>;
-  NodeTextProps?: Maybe<NodeTextPropsOrderByWithRelationInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsOrderByWithRelationInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsOrderByWithRelationInput>;
-  createdAt?: Maybe<SortOrder>;
-  flowNode?: Maybe<FlowNodeOrderByWithRelationInput>;
-  id?: Maybe<SortOrder>;
-  templateNode?: Maybe<TemplateNodeOrderByWithRelationInput>;
-  type?: Maybe<SortOrder>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsOrderByWithRelationInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsOrderByWithRelationInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsOrderByWithRelationInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsOrderByWithRelationInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsOrderByWithRelationInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsOrderByWithRelationInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsOrderByWithRelationInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsOrderByWithRelationInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsOrderByWithRelationInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsOrderByWithRelationInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  flowNode?: InputMaybe<FlowNodeOrderByWithRelationInput>;
+  id?: InputMaybe<SortOrder>;
+  templateNode?: InputMaybe<TemplateNodeOrderByWithRelationInput>;
+  type?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsRelationFilter = {
-  is?: Maybe<NodePropsWhereInput>;
-  isNot?: Maybe<NodePropsWhereInput>;
+  is?: InputMaybe<NodePropsWhereInput>;
+  isNot?: InputMaybe<NodePropsWhereInput>;
 };
 
 export enum NodePropsScalarFieldEnum {
-  CreatedAt = "createdAt",
-  Id = "id",
-  Type = "type",
+  CreatedAt = 'createdAt',
+  Id = 'id',
+  Type = 'type'
 }
 
 export type NodePropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
-  createdAt?: Maybe<DateTimeWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  type?: Maybe<EnumNodeTypeWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodePropsScalarWhereWithAggregatesInput>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  type?: InputMaybe<EnumNodeTypeWithAggregatesFilter>;
 };
 
 export type NodePropsSumAggregate = {
-  __typename?: "NodePropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodePropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodePropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodePropsUpdateInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateManyMutationInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutFlowNodeInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<NodePropsCreateWithoutFlowNodeInput>;
-  update?: Maybe<NodePropsUpdateWithoutFlowNodeInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutFlowNodeInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<NodePropsCreateWithoutFlowNodeInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutFlowNodeInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutFlowNodeInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeAudioPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeAudioPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeAudioPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeAudioPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeAudioPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeAudioPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeAudioPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeAudioPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeAudioPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeCountdownPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeCountdownPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeCountdownPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeCountdownPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeCountdownPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeCountdownPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeCountdownPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeCountdownPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeCountdownPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeFilePropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeFilePropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeFilePropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeFilePropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeFilePropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeFilePropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeFilePropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeFilePropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeFilePropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeImagePropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeImagePropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeImagePropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeImagePropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeImagePropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeImagePropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeImagePropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeImagePropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeImagePropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeLinkPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeLinkPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeLinkPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeLinkPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeLinkPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeLinkPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeLinkPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeLinkPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeLinkPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeSwitchOptionPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeSwitchOptionPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeSwitchOptionPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeSwitchOptionPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeSwitchOptionPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeSwitchOptionPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeSwitchOptionPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeSwitchOptionPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeSwitchOptionPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeSwitchPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeSwitchPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeSwitchPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeSwitchPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeSwitchPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeSwitchPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeSwitchPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeSwitchPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeSwitchPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeTextPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeTextPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeTextPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeTextPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeTextPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeTextPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeTextPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeTextPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeTextPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeVideoPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeVideoPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeVideoPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeVideoPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeVideoPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeVideoPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeVideoPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeVideoPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeVideoPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutNodeWaitPropsInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutNodeWaitPropsInput>;
-  create?: Maybe<NodePropsCreateWithoutNodeWaitPropsInput>;
-  update?: Maybe<NodePropsUpdateWithoutNodeWaitPropsInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutNodeWaitPropsInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutNodeWaitPropsInput>;
+  create?: InputMaybe<NodePropsCreateWithoutNodeWaitPropsInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutNodeWaitPropsInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutNodeWaitPropsInput>;
 };
 
 export type NodePropsUpdateOneRequiredWithoutTemplateNodeInput = {
-  connect?: Maybe<NodePropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodePropsCreateOrConnectWithoutTemplateNodeInput>;
-  create?: Maybe<NodePropsCreateWithoutTemplateNodeInput>;
-  update?: Maybe<NodePropsUpdateWithoutTemplateNodeInput>;
-  upsert?: Maybe<NodePropsUpsertWithoutTemplateNodeInput>;
+  connect?: InputMaybe<NodePropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodePropsCreateOrConnectWithoutTemplateNodeInput>;
+  create?: InputMaybe<NodePropsCreateWithoutTemplateNodeInput>;
+  update?: InputMaybe<NodePropsUpdateWithoutTemplateNodeInput>;
+  upsert?: InputMaybe<NodePropsUpsertWithoutTemplateNodeInput>;
 };
 
 export type NodePropsUpdateWithoutFlowNodeInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeAudioPropsInput = {
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeCountdownPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeFilePropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeImagePropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeLinkPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeSwitchOptionPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeSwitchPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeTextPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeVideoPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutNodeWaitPropsInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  templateNode?: Maybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  templateNode?: InputMaybe<TemplateNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpdateWithoutTemplateNodeInput = {
-  NodeAudioProps?: Maybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
-  NodeFileProps?: Maybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
-  NodeImageProps?: Maybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
-  NodeLinkProps?: Maybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
-  NodeTextProps?: Maybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
-  NodeVideoProps?: Maybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
-  NodeWaitProps?: Maybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  flowNode?: Maybe<FlowNodeUpdateOneWithoutNodePropsInput>;
-  type?: Maybe<EnumNodeTypeFieldUpdateOperationsInput>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsUpdateOneWithoutNodePropsInput>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsUpdateOneWithoutNodePropsInput>;
+  NodeFileProps?: InputMaybe<NodeFilePropsUpdateOneWithoutNodePropsInput>;
+  NodeImageProps?: InputMaybe<NodeImagePropsUpdateOneWithoutNodePropsInput>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsUpdateOneWithoutNodePropsInput>;
+  NodeTextProps?: InputMaybe<NodeTextPropsUpdateOneWithoutNodePropsInput>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsUpdateOneWithoutNodePropsInput>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsUpdateOneWithoutNodePropsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  flowNode?: InputMaybe<FlowNodeUpdateOneWithoutNodePropsInput>;
+  type?: InputMaybe<EnumNodeTypeFieldUpdateOperationsInput>;
 };
 
 export type NodePropsUpsertWithoutFlowNodeInput = {
@@ -4801,77 +4928,77 @@ export type NodePropsUpsertWithoutTemplateNodeInput = {
 };
 
 export type NodePropsWhereInput = {
-  AND?: Maybe<Array<NodePropsWhereInput>>;
-  NOT?: Maybe<Array<NodePropsWhereInput>>;
-  NodeAudioProps?: Maybe<NodeAudioPropsRelationFilter>;
-  NodeCountdownProps?: Maybe<NodeCountdownPropsRelationFilter>;
-  NodeFileProps?: Maybe<NodeFilePropsRelationFilter>;
-  NodeImageProps?: Maybe<NodeImagePropsRelationFilter>;
-  NodeLinkProps?: Maybe<NodeLinkPropsRelationFilter>;
-  NodeSwitchOptionProps?: Maybe<NodeSwitchOptionPropsRelationFilter>;
-  NodeSwitchProps?: Maybe<NodeSwitchPropsRelationFilter>;
-  NodeTextProps?: Maybe<NodeTextPropsRelationFilter>;
-  NodeVideoProps?: Maybe<NodeVideoPropsRelationFilter>;
-  NodeWaitProps?: Maybe<NodeWaitPropsRelationFilter>;
-  OR?: Maybe<Array<NodePropsWhereInput>>;
-  createdAt?: Maybe<DateTimeFilter>;
-  flowNode?: Maybe<FlowNodeRelationFilter>;
-  id?: Maybe<IntFilter>;
-  templateNode?: Maybe<TemplateNodeRelationFilter>;
-  type?: Maybe<EnumNodeTypeFilter>;
+  AND?: InputMaybe<Array<NodePropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodePropsWhereInput>>;
+  NodeAudioProps?: InputMaybe<NodeAudioPropsRelationFilter>;
+  NodeCountdownProps?: InputMaybe<NodeCountdownPropsRelationFilter>;
+  NodeFileProps?: InputMaybe<NodeFilePropsRelationFilter>;
+  NodeImageProps?: InputMaybe<NodeImagePropsRelationFilter>;
+  NodeLinkProps?: InputMaybe<NodeLinkPropsRelationFilter>;
+  NodeSwitchOptionProps?: InputMaybe<NodeSwitchOptionPropsRelationFilter>;
+  NodeSwitchProps?: InputMaybe<NodeSwitchPropsRelationFilter>;
+  NodeTextProps?: InputMaybe<NodeTextPropsRelationFilter>;
+  NodeVideoProps?: InputMaybe<NodeVideoPropsRelationFilter>;
+  NodeWaitProps?: InputMaybe<NodeWaitPropsRelationFilter>;
+  OR?: InputMaybe<Array<NodePropsWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  flowNode?: InputMaybe<FlowNodeRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  templateNode?: InputMaybe<TemplateNodeRelationFilter>;
+  type?: InputMaybe<EnumNodeTypeFilter>;
 };
 
 export type NodePropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeSwitchOptionProps = {
-  __typename?: "NodeSwitchOptionProps";
-  id: Scalars["Int"];
-  imageLink: Scalars["String"];
+  __typename?: 'NodeSwitchOptionProps';
+  id: Scalars['Int'];
+  imageLink: Scalars['String'];
   nodeProps: NodeProps;
-  text: Scalars["String"];
+  text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsAvgAggregate = {
-  __typename?: "NodeSwitchOptionPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeSwitchOptionPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeSwitchOptionPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsCountAggregate = {
-  __typename?: "NodeSwitchOptionPropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  imageLink: Scalars["Int"];
-  text: Scalars["Int"];
+  __typename?: 'NodeSwitchOptionPropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  imageLink: Scalars['Int'];
+  text: Scalars['Int'];
 };
 
 export type NodeSwitchOptionPropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  imageLink?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageLink?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsCreateInput = {
-  imageLink: Scalars["String"];
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeSwitchOptionPropsInput>;
-  text: Scalars["String"];
+  imageLink: Scalars['String'];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeSwitchOptionPropsInput>;
+  text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  imageLink: Scalars["String"];
-  text: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  imageLink: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeSwitchOptionPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeSwitchOptionPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeSwitchOptionPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeSwitchOptionPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput = {
@@ -4880,119 +5007,119 @@ export type NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeSwitchOptionPropsCreateWithoutNodePropsInput = {
-  imageLink: Scalars["String"];
-  text: Scalars["String"];
+  imageLink: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsGroupBy = {
-  __typename?: "NodeSwitchOptionPropsGroupBy";
+  __typename?: 'NodeSwitchOptionPropsGroupBy';
   _avg?: Maybe<NodeSwitchOptionPropsAvgAggregate>;
   _count?: Maybe<NodeSwitchOptionPropsCountAggregate>;
   _max?: Maybe<NodeSwitchOptionPropsMaxAggregate>;
   _min?: Maybe<NodeSwitchOptionPropsMinAggregate>;
   _sum?: Maybe<NodeSwitchOptionPropsSumAggregate>;
-  id: Scalars["Int"];
-  imageLink: Scalars["String"];
-  text: Scalars["String"];
+  id: Scalars['Int'];
+  imageLink: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type NodeSwitchOptionPropsMaxAggregate = {
-  __typename?: "NodeSwitchOptionPropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  imageLink?: Maybe<Scalars["String"]>;
-  text?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeSwitchOptionPropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  imageLink?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type NodeSwitchOptionPropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  imageLink?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageLink?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsMinAggregate = {
-  __typename?: "NodeSwitchOptionPropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  imageLink?: Maybe<Scalars["String"]>;
-  text?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeSwitchOptionPropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  imageLink?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type NodeSwitchOptionPropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  imageLink?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageLink?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeSwitchOptionPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeSwitchOptionPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeSwitchOptionPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeSwitchOptionPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeSwitchOptionPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  imageLink?: Maybe<SortOrder>;
-  text?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeSwitchOptionPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeSwitchOptionPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeSwitchOptionPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeSwitchOptionPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeSwitchOptionPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  imageLink?: InputMaybe<SortOrder>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  imageLink?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  text?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  imageLink?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  text?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsRelationFilter = {
-  is?: Maybe<NodeSwitchOptionPropsWhereInput>;
-  isNot?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  is?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
+  isNot?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
 
 export enum NodeSwitchOptionPropsScalarFieldEnum {
-  Id = "id",
-  ImageLink = "imageLink",
-  Text = "text",
+  Id = 'id',
+  ImageLink = 'imageLink',
+  Text = 'text'
 }
 
 export type NodeSwitchOptionPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  imageLink?: Maybe<StringWithAggregatesFilter>;
-  text?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  imageLink?: InputMaybe<StringWithAggregatesFilter>;
+  text?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeSwitchOptionPropsSumAggregate = {
-  __typename?: "NodeSwitchOptionPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeSwitchOptionPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeSwitchOptionPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchOptionPropsUpdateInput = {
-  imageLink?: Maybe<StringFieldUpdateOperationsInput>;
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeSwitchOptionPropsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  imageLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeSwitchOptionPropsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchOptionPropsUpdateManyMutationInput = {
-  imageLink?: Maybe<StringFieldUpdateOperationsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  imageLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchOptionPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeSwitchOptionPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeSwitchOptionPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeSwitchOptionPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeSwitchOptionPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeSwitchOptionPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeSwitchOptionPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeSwitchOptionPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeSwitchOptionPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeSwitchOptionPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeSwitchOptionPropsUpdateWithoutNodePropsInput = {
-  imageLink?: Maybe<StringFieldUpdateOperationsInput>;
-  text?: Maybe<StringFieldUpdateOperationsInput>;
+  imageLink?: InputMaybe<StringFieldUpdateOperationsInput>;
+  text?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchOptionPropsUpsertWithoutNodePropsInput = {
@@ -5001,66 +5128,66 @@ export type NodeSwitchOptionPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeSwitchOptionPropsWhereInput = {
-  AND?: Maybe<Array<NodeSwitchOptionPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeSwitchOptionPropsWhereInput>>;
-  OR?: Maybe<Array<NodeSwitchOptionPropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  imageLink?: Maybe<StringFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  text?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeSwitchOptionPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeSwitchOptionPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeSwitchOptionPropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  imageLink?: InputMaybe<StringFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  text?: InputMaybe<StringFilter>;
 };
 
 export type NodeSwitchOptionPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeSwitchProps = {
-  __typename?: "NodeSwitchProps";
+  __typename?: 'NodeSwitchProps';
   SwitchDisplayType: SwitchDisplayType;
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  withImage: Scalars["Boolean"];
+  withImage: Scalars['Boolean'];
 };
 
 export type NodeSwitchPropsAvgAggregate = {
-  __typename?: "NodeSwitchPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeSwitchPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeSwitchPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsCountAggregate = {
-  __typename?: "NodeSwitchPropsCountAggregate";
-  SwitchDisplayType: Scalars["Int"];
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  withImage: Scalars["Int"];
+  __typename?: 'NodeSwitchPropsCountAggregate';
+  SwitchDisplayType: Scalars['Int'];
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  withImage: Scalars['Int'];
 };
 
 export type NodeSwitchPropsCountOrderByAggregateInput = {
-  SwitchDisplayType?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  withImage?: Maybe<SortOrder>;
+  SwitchDisplayType?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  withImage?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsCreateInput = {
   SwitchDisplayType: SwitchDisplayType;
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeSwitchPropsInput>;
-  withImage?: Maybe<Scalars["Boolean"]>;
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeSwitchPropsInput>;
+  withImage?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type NodeSwitchPropsCreateManyInput = {
   SwitchDisplayType: SwitchDisplayType;
-  id?: Maybe<Scalars["Int"]>;
-  withImage?: Maybe<Scalars["Boolean"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  withImage?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type NodeSwitchPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeSwitchPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeSwitchPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeSwitchPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeSwitchPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeSwitchPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeSwitchPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeSwitchPropsCreateOrConnectWithoutNodePropsInput = {
@@ -5070,118 +5197,118 @@ export type NodeSwitchPropsCreateOrConnectWithoutNodePropsInput = {
 
 export type NodeSwitchPropsCreateWithoutNodePropsInput = {
   SwitchDisplayType: SwitchDisplayType;
-  withImage?: Maybe<Scalars["Boolean"]>;
+  withImage?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type NodeSwitchPropsGroupBy = {
-  __typename?: "NodeSwitchPropsGroupBy";
+  __typename?: 'NodeSwitchPropsGroupBy';
   SwitchDisplayType: SwitchDisplayType;
   _avg?: Maybe<NodeSwitchPropsAvgAggregate>;
   _count?: Maybe<NodeSwitchPropsCountAggregate>;
   _max?: Maybe<NodeSwitchPropsMaxAggregate>;
   _min?: Maybe<NodeSwitchPropsMinAggregate>;
   _sum?: Maybe<NodeSwitchPropsSumAggregate>;
-  id: Scalars["Int"];
-  withImage: Scalars["Boolean"];
+  id: Scalars['Int'];
+  withImage: Scalars['Boolean'];
 };
 
 export type NodeSwitchPropsMaxAggregate = {
-  __typename?: "NodeSwitchPropsMaxAggregate";
+  __typename?: 'NodeSwitchPropsMaxAggregate';
   SwitchDisplayType?: Maybe<SwitchDisplayType>;
-  id?: Maybe<Scalars["Int"]>;
-  withImage?: Maybe<Scalars["Boolean"]>;
+  id?: Maybe<Scalars['Int']>;
+  withImage?: Maybe<Scalars['Boolean']>;
 };
 
 export type NodeSwitchPropsMaxOrderByAggregateInput = {
-  SwitchDisplayType?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  withImage?: Maybe<SortOrder>;
+  SwitchDisplayType?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  withImage?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsMinAggregate = {
-  __typename?: "NodeSwitchPropsMinAggregate";
+  __typename?: 'NodeSwitchPropsMinAggregate';
   SwitchDisplayType?: Maybe<SwitchDisplayType>;
-  id?: Maybe<Scalars["Int"]>;
-  withImage?: Maybe<Scalars["Boolean"]>;
+  id?: Maybe<Scalars['Int']>;
+  withImage?: Maybe<Scalars['Boolean']>;
 };
 
 export type NodeSwitchPropsMinOrderByAggregateInput = {
-  SwitchDisplayType?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  withImage?: Maybe<SortOrder>;
+  SwitchDisplayType?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  withImage?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsOrderByWithAggregationInput = {
-  SwitchDisplayType?: Maybe<SortOrder>;
-  _avg?: Maybe<NodeSwitchPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeSwitchPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeSwitchPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeSwitchPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeSwitchPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  withImage?: Maybe<SortOrder>;
+  SwitchDisplayType?: InputMaybe<SortOrder>;
+  _avg?: InputMaybe<NodeSwitchPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeSwitchPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeSwitchPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeSwitchPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeSwitchPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  withImage?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsOrderByWithRelationInput = {
-  SwitchDisplayType?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  withImage?: Maybe<SortOrder>;
+  SwitchDisplayType?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  withImage?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsRelationFilter = {
-  is?: Maybe<NodeSwitchPropsWhereInput>;
-  isNot?: Maybe<NodeSwitchPropsWhereInput>;
+  is?: InputMaybe<NodeSwitchPropsWhereInput>;
+  isNot?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
 
 export enum NodeSwitchPropsScalarFieldEnum {
-  SwitchDisplayType = "SwitchDisplayType",
-  Id = "id",
-  WithImage = "withImage",
+  SwitchDisplayType = 'SwitchDisplayType',
+  Id = 'id',
+  WithImage = 'withImage'
 }
 
 export type NodeSwitchPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
-  SwitchDisplayType?: Maybe<EnumSwitchDisplayTypeWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  withImage?: Maybe<BoolWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeSwitchPropsScalarWhereWithAggregatesInput>>;
+  SwitchDisplayType?: InputMaybe<EnumSwitchDisplayTypeWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  withImage?: InputMaybe<BoolWithAggregatesFilter>;
 };
 
 export type NodeSwitchPropsSumAggregate = {
-  __typename?: "NodeSwitchPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeSwitchPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeSwitchPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeSwitchPropsUpdateInput = {
-  SwitchDisplayType?: Maybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeSwitchPropsInput>;
-  withImage?: Maybe<BoolFieldUpdateOperationsInput>;
+  SwitchDisplayType?: InputMaybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeSwitchPropsInput>;
+  withImage?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchPropsUpdateManyMutationInput = {
-  SwitchDisplayType?: Maybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
-  withImage?: Maybe<BoolFieldUpdateOperationsInput>;
+  SwitchDisplayType?: InputMaybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
+  withImage?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeSwitchPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeSwitchPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeSwitchPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeSwitchPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeSwitchPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeSwitchPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeSwitchPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeSwitchPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeSwitchPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeSwitchPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeSwitchPropsUpdateWithoutNodePropsInput = {
-  SwitchDisplayType?: Maybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
-  withImage?: Maybe<BoolFieldUpdateOperationsInput>;
+  SwitchDisplayType?: InputMaybe<EnumSwitchDisplayTypeFieldUpdateOperationsInput>;
+  withImage?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
 export type NodeSwitchPropsUpsertWithoutNodePropsInput = {
@@ -5190,61 +5317,61 @@ export type NodeSwitchPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeSwitchPropsWhereInput = {
-  AND?: Maybe<Array<NodeSwitchPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeSwitchPropsWhereInput>>;
-  OR?: Maybe<Array<NodeSwitchPropsWhereInput>>;
-  SwitchDisplayType?: Maybe<EnumSwitchDisplayTypeFilter>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  withImage?: Maybe<BoolFilter>;
+  AND?: InputMaybe<Array<NodeSwitchPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeSwitchPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeSwitchPropsWhereInput>>;
+  SwitchDisplayType?: InputMaybe<EnumSwitchDisplayTypeFilter>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  withImage?: InputMaybe<BoolFilter>;
 };
 
 export type NodeSwitchPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeTextProps = {
-  __typename?: "NodeTextProps";
-  id: Scalars["Int"];
+  __typename?: 'NodeTextProps';
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeTextPropsAvgAggregate = {
-  __typename?: "NodeTextPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeTextPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeTextPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsCountAggregate = {
-  __typename?: "NodeTextPropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
+  __typename?: 'NodeTextPropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
 };
 
 export type NodeTextPropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsCreateInput = {
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeTextPropsInput>;
-  src: Scalars["String"];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeTextPropsInput>;
+  src: Scalars['String'];
 };
 
 export type NodeTextPropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
 };
 
 export type NodeTextPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeTextPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeTextPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeTextPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeTextPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeTextPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeTextPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeTextPropsCreateOrConnectWithoutNodePropsInput = {
@@ -5253,106 +5380,106 @@ export type NodeTextPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeTextPropsCreateWithoutNodePropsInput = {
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeTextPropsGroupBy = {
-  __typename?: "NodeTextPropsGroupBy";
+  __typename?: 'NodeTextPropsGroupBy';
   _avg?: Maybe<NodeTextPropsAvgAggregate>;
   _count?: Maybe<NodeTextPropsCountAggregate>;
   _max?: Maybe<NodeTextPropsMaxAggregate>;
   _min?: Maybe<NodeTextPropsMinAggregate>;
   _sum?: Maybe<NodeTextPropsSumAggregate>;
-  id: Scalars["Int"];
-  src: Scalars["String"];
+  id: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeTextPropsMaxAggregate = {
-  __typename?: "NodeTextPropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeTextPropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeTextPropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsMinAggregate = {
-  __typename?: "NodeTextPropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeTextPropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeTextPropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeTextPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeTextPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeTextPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeTextPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeTextPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeTextPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeTextPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeTextPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeTextPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeTextPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsRelationFilter = {
-  is?: Maybe<NodeTextPropsWhereInput>;
-  isNot?: Maybe<NodeTextPropsWhereInput>;
+  is?: InputMaybe<NodeTextPropsWhereInput>;
+  isNot?: InputMaybe<NodeTextPropsWhereInput>;
 };
 
 export enum NodeTextPropsScalarFieldEnum {
-  Id = "id",
-  Src = "src",
+  Id = 'id',
+  Src = 'src'
 }
 
 export type NodeTextPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeTextPropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeTextPropsSumAggregate = {
-  __typename?: "NodeTextPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeTextPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeTextPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeTextPropsUpdateInput = {
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeTextPropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeTextPropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeTextPropsUpdateManyMutationInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeTextPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeTextPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeTextPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeTextPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeTextPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeTextPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeTextPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeTextPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeTextPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeTextPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeTextPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeTextPropsUpdateWithoutNodePropsInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeTextPropsUpsertWithoutNodePropsInput = {
@@ -5361,76 +5488,76 @@ export type NodeTextPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeTextPropsWhereInput = {
-  AND?: Maybe<Array<NodeTextPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeTextPropsWhereInput>>;
-  OR?: Maybe<Array<NodeTextPropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeTextPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeTextPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeTextPropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
 };
 
 export type NodeTextPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export enum NodeType {
-  Audio = "Audio",
-  Countdown = "Countdown",
-  Delay = "Delay",
-  Empty = "Empty",
-  File = "File",
-  HttpRequest = "HttpRequest",
-  Image = "Image",
-  Link = "Link",
-  SetTypingIndicator = "SetTypingIndicator",
-  Switch = "Switch",
-  SwitchOption = "SwitchOption",
-  Text = "Text",
-  Video = "Video",
+  Audio = 'Audio',
+  Countdown = 'Countdown',
+  Delay = 'Delay',
+  Empty = 'Empty',
+  File = 'File',
+  HttpRequest = 'HttpRequest',
+  Image = 'Image',
+  Link = 'Link',
+  SetTypingIndicator = 'SetTypingIndicator',
+  Switch = 'Switch',
+  SwitchOption = 'SwitchOption',
+  Text = 'Text',
+  Video = 'Video'
 }
 
 export type NodeVideoProps = {
-  __typename?: "NodeVideoProps";
-  id: Scalars["Int"];
+  __typename?: 'NodeVideoProps';
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeVideoPropsAvgAggregate = {
-  __typename?: "NodeVideoPropsAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeVideoPropsAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeVideoPropsAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsCountAggregate = {
-  __typename?: "NodeVideoPropsCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
+  __typename?: 'NodeVideoPropsCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
 };
 
 export type NodeVideoPropsCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsCreateInput = {
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeVideoPropsInput>;
-  src: Scalars["String"];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeVideoPropsInput>;
+  src: Scalars['String'];
 };
 
 export type NodeVideoPropsCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
 };
 
 export type NodeVideoPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeVideoPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeVideoPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeVideoPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeVideoPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeVideoPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeVideoPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeVideoPropsCreateOrConnectWithoutNodePropsInput = {
@@ -5439,106 +5566,106 @@ export type NodeVideoPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeVideoPropsCreateWithoutNodePropsInput = {
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeVideoPropsGroupBy = {
-  __typename?: "NodeVideoPropsGroupBy";
+  __typename?: 'NodeVideoPropsGroupBy';
   _avg?: Maybe<NodeVideoPropsAvgAggregate>;
   _count?: Maybe<NodeVideoPropsCountAggregate>;
   _max?: Maybe<NodeVideoPropsMaxAggregate>;
   _min?: Maybe<NodeVideoPropsMinAggregate>;
   _sum?: Maybe<NodeVideoPropsSumAggregate>;
-  id: Scalars["Int"];
-  src: Scalars["String"];
+  id: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeVideoPropsMaxAggregate = {
-  __typename?: "NodeVideoPropsMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeVideoPropsMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeVideoPropsMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsMinAggregate = {
-  __typename?: "NodeVideoPropsMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeVideoPropsMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeVideoPropsMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeVideoPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeVideoPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeVideoPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeVideoPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeVideoPropsSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeVideoPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeVideoPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeVideoPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeVideoPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeVideoPropsSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsOrderByWithRelationInput = {
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsRelationFilter = {
-  is?: Maybe<NodeVideoPropsWhereInput>;
-  isNot?: Maybe<NodeVideoPropsWhereInput>;
+  is?: InputMaybe<NodeVideoPropsWhereInput>;
+  isNot?: InputMaybe<NodeVideoPropsWhereInput>;
 };
 
 export enum NodeVideoPropsScalarFieldEnum {
-  Id = "id",
-  Src = "src",
+  Id = 'id',
+  Src = 'src'
 }
 
 export type NodeVideoPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeVideoPropsScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeVideoPropsSumAggregate = {
-  __typename?: "NodeVideoPropsSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeVideoPropsSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeVideoPropsSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeVideoPropsUpdateInput = {
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeVideoPropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeVideoPropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeVideoPropsUpdateManyMutationInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeVideoPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeVideoPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeVideoPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeVideoPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeVideoPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeVideoPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeVideoPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeVideoPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeVideoPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeVideoPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeVideoPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeVideoPropsUpdateWithoutNodePropsInput = {
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeVideoPropsUpsertWithoutNodePropsInput = {
@@ -5547,67 +5674,67 @@ export type NodeVideoPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeVideoPropsWhereInput = {
-  AND?: Maybe<Array<NodeVideoPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeVideoPropsWhereInput>>;
-  OR?: Maybe<Array<NodeVideoPropsWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeVideoPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeVideoPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeVideoPropsWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
 };
 
 export type NodeVideoPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type NodeWaitProps = {
-  __typename?: "NodeWaitProps";
-  delay: Scalars["Int"];
-  id: Scalars["Int"];
+  __typename?: 'NodeWaitProps';
+  delay: Scalars['Int'];
+  id: Scalars['Int'];
   nodeProps: NodeProps;
-  src: Scalars["String"];
+  src: Scalars['String'];
 };
 
 export type NodeWaitPropsAvgAggregate = {
-  __typename?: "NodeWaitPropsAvgAggregate";
-  delay?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'NodeWaitPropsAvgAggregate';
+  delay?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type NodeWaitPropsAvgOrderByAggregateInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsCountAggregate = {
-  __typename?: "NodeWaitPropsCountAggregate";
-  _all: Scalars["Int"];
-  delay: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["Int"];
+  __typename?: 'NodeWaitPropsCountAggregate';
+  _all: Scalars['Int'];
+  delay: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['Int'];
 };
 
 export type NodeWaitPropsCountOrderByAggregateInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsCreateInput = {
-  delay: Scalars["Int"];
-  nodeProps?: Maybe<NodePropsCreateNestedOneWithoutNodeWaitPropsInput>;
-  src: Scalars["String"];
+  delay: Scalars['Int'];
+  nodeProps?: InputMaybe<NodePropsCreateNestedOneWithoutNodeWaitPropsInput>;
+  src: Scalars['String'];
 };
 
 export type NodeWaitPropsCreateManyInput = {
-  delay: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  src: Scalars["String"];
+  delay: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  src: Scalars['String'];
 };
 
 export type NodeWaitPropsCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeWaitPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeWaitPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeWaitPropsCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeWaitPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeWaitPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeWaitPropsCreateWithoutNodePropsInput>;
 };
 
 export type NodeWaitPropsCreateOrConnectWithoutNodePropsInput = {
@@ -5616,121 +5743,121 @@ export type NodeWaitPropsCreateOrConnectWithoutNodePropsInput = {
 };
 
 export type NodeWaitPropsCreateWithoutNodePropsInput = {
-  delay: Scalars["Int"];
-  src: Scalars["String"];
+  delay: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeWaitPropsGroupBy = {
-  __typename?: "NodeWaitPropsGroupBy";
+  __typename?: 'NodeWaitPropsGroupBy';
   _avg?: Maybe<NodeWaitPropsAvgAggregate>;
   _count?: Maybe<NodeWaitPropsCountAggregate>;
   _max?: Maybe<NodeWaitPropsMaxAggregate>;
   _min?: Maybe<NodeWaitPropsMinAggregate>;
   _sum?: Maybe<NodeWaitPropsSumAggregate>;
-  delay: Scalars["Int"];
-  id: Scalars["Int"];
-  src: Scalars["String"];
+  delay: Scalars['Int'];
+  id: Scalars['Int'];
+  src: Scalars['String'];
 };
 
 export type NodeWaitPropsMaxAggregate = {
-  __typename?: "NodeWaitPropsMaxAggregate";
-  delay?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeWaitPropsMaxAggregate';
+  delay?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeWaitPropsMaxOrderByAggregateInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsMinAggregate = {
-  __typename?: "NodeWaitPropsMinAggregate";
-  delay?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  src?: Maybe<Scalars["String"]>;
+  __typename?: 'NodeWaitPropsMinAggregate';
+  delay?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  src?: Maybe<Scalars['String']>;
 };
 
 export type NodeWaitPropsMinOrderByAggregateInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsOrderByWithAggregationInput = {
-  _avg?: Maybe<NodeWaitPropsAvgOrderByAggregateInput>;
-  _count?: Maybe<NodeWaitPropsCountOrderByAggregateInput>;
-  _max?: Maybe<NodeWaitPropsMaxOrderByAggregateInput>;
-  _min?: Maybe<NodeWaitPropsMinOrderByAggregateInput>;
-  _sum?: Maybe<NodeWaitPropsSumOrderByAggregateInput>;
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  src?: Maybe<SortOrder>;
+  _avg?: InputMaybe<NodeWaitPropsAvgOrderByAggregateInput>;
+  _count?: InputMaybe<NodeWaitPropsCountOrderByAggregateInput>;
+  _max?: InputMaybe<NodeWaitPropsMaxOrderByAggregateInput>;
+  _min?: InputMaybe<NodeWaitPropsMinOrderByAggregateInput>;
+  _sum?: InputMaybe<NodeWaitPropsSumOrderByAggregateInput>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsOrderByWithRelationInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  nodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  src?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  src?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsRelationFilter = {
-  is?: Maybe<NodeWaitPropsWhereInput>;
-  isNot?: Maybe<NodeWaitPropsWhereInput>;
+  is?: InputMaybe<NodeWaitPropsWhereInput>;
+  isNot?: InputMaybe<NodeWaitPropsWhereInput>;
 };
 
 export enum NodeWaitPropsScalarFieldEnum {
-  Delay = "delay",
-  Id = "id",
-  Src = "src",
+  Delay = 'delay',
+  Id = 'id',
+  Src = 'src'
 }
 
 export type NodeWaitPropsScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
-  delay?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  src?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<NodeWaitPropsScalarWhereWithAggregatesInput>>;
+  delay?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  src?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type NodeWaitPropsSumAggregate = {
-  __typename?: "NodeWaitPropsSumAggregate";
-  delay?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'NodeWaitPropsSumAggregate';
+  delay?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type NodeWaitPropsSumOrderByAggregateInput = {
-  delay?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
+  delay?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type NodeWaitPropsUpdateInput = {
-  delay?: Maybe<IntFieldUpdateOperationsInput>;
-  nodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutNodeWaitPropsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  delay?: InputMaybe<IntFieldUpdateOperationsInput>;
+  nodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutNodeWaitPropsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeWaitPropsUpdateManyMutationInput = {
-  delay?: Maybe<IntFieldUpdateOperationsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  delay?: InputMaybe<IntFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeWaitPropsUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<NodeWaitPropsWhereUniqueInput>;
-  connectOrCreate?: Maybe<NodeWaitPropsCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<NodeWaitPropsCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<NodeWaitPropsUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<NodeWaitPropsUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<NodeWaitPropsWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<NodeWaitPropsCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<NodeWaitPropsCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<NodeWaitPropsUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<NodeWaitPropsUpsertWithoutNodePropsInput>;
 };
 
 export type NodeWaitPropsUpdateWithoutNodePropsInput = {
-  delay?: Maybe<IntFieldUpdateOperationsInput>;
-  src?: Maybe<StringFieldUpdateOperationsInput>;
+  delay?: InputMaybe<IntFieldUpdateOperationsInput>;
+  src?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type NodeWaitPropsUpsertWithoutNodePropsInput = {
@@ -5739,111 +5866,113 @@ export type NodeWaitPropsUpsertWithoutNodePropsInput = {
 };
 
 export type NodeWaitPropsWhereInput = {
-  AND?: Maybe<Array<NodeWaitPropsWhereInput>>;
-  NOT?: Maybe<Array<NodeWaitPropsWhereInput>>;
-  OR?: Maybe<Array<NodeWaitPropsWhereInput>>;
-  delay?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  nodeProps?: Maybe<NodePropsRelationFilter>;
-  src?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<NodeWaitPropsWhereInput>>;
+  NOT?: InputMaybe<Array<NodeWaitPropsWhereInput>>;
+  OR?: InputMaybe<Array<NodeWaitPropsWhereInput>>;
+  delay?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  nodeProps?: InputMaybe<NodePropsRelationFilter>;
+  src?: InputMaybe<StringFilter>;
 };
 
 export type NodeWaitPropsWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 export type Port = {
-  __typename?: "Port";
+  __typename?: 'Port';
   _count?: Maybe<PortCount>;
-  flowNodeId: Scalars["Int"];
-  id: Scalars["Int"];
+  flowNodeId: Scalars['Int'];
+  id: Scalars['Int'];
   inConnection?: Maybe<Connection>;
-  index: Scalars["Int"];
+  index: Scalars['Int'];
   node: FlowNode;
   outConnections: Array<Connection>;
+  pos: Pos;
 };
 
+
 export type PortOutConnectionsArgs = {
-  cursor?: Maybe<ConnectionWhereUniqueInput>;
-  distinct?: Maybe<Array<ConnectionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  cursor?: InputMaybe<ConnectionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ConnectionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
 
 export type PortAvgAggregate = {
-  __typename?: "PortAvgAggregate";
-  flowNodeId?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Float"]>;
-  index?: Maybe<Scalars["Float"]>;
+  __typename?: 'PortAvgAggregate';
+  flowNodeId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  index?: Maybe<Scalars['Float']>;
 };
 
 export type PortAvgOrderByAggregateInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortCount = {
-  __typename?: "PortCount";
-  outConnections: Scalars["Int"];
+  __typename?: 'PortCount';
+  outConnections: Scalars['Int'];
 };
 
 export type PortCountAggregate = {
-  __typename?: "PortCountAggregate";
-  _all: Scalars["Int"];
-  flowNodeId: Scalars["Int"];
-  id: Scalars["Int"];
-  index: Scalars["Int"];
+  __typename?: 'PortCountAggregate';
+  _all: Scalars['Int'];
+  flowNodeId: Scalars['Int'];
+  id: Scalars['Int'];
+  index: Scalars['Int'];
 };
 
 export type PortCountOrderByAggregateInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortCreateInput = {
-  inConnection?: Maybe<ConnectionCreateNestedOneWithoutToPortInput>;
-  index: Scalars["Int"];
+  inConnection?: InputMaybe<ConnectionCreateNestedOneWithoutToPortInput>;
+  index: Scalars['Int'];
   node: FlowNodeCreateNestedOneWithoutPortsInput;
-  outConnections?: Maybe<ConnectionCreateNestedManyWithoutFromPortInput>;
+  outConnections?: InputMaybe<ConnectionCreateNestedManyWithoutFromPortInput>;
 };
 
 export type PortCreateManyInput = {
-  flowNodeId: Scalars["Int"];
-  id?: Maybe<Scalars["Int"]>;
-  index: Scalars["Int"];
+  flowNodeId: Scalars['Int'];
+  id?: InputMaybe<Scalars['Int']>;
+  index: Scalars['Int'];
 };
 
 export type PortCreateManyNodeInput = {
-  id?: Maybe<Scalars["Int"]>;
-  index: Scalars["Int"];
+  id?: InputMaybe<Scalars['Int']>;
+  index: Scalars['Int'];
 };
 
 export type PortCreateManyNodeInputEnvelope = {
   data: Array<PortCreateManyNodeInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type PortCreateNestedManyWithoutNodeInput = {
-  connect?: Maybe<Array<PortWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<PortCreateOrConnectWithoutNodeInput>>;
-  create?: Maybe<Array<PortCreateWithoutNodeInput>>;
-  createMany?: Maybe<PortCreateManyNodeInputEnvelope>;
+  connect?: InputMaybe<Array<PortWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<PortCreateOrConnectWithoutNodeInput>>;
+  create?: InputMaybe<Array<PortCreateWithoutNodeInput>>;
+  createMany?: InputMaybe<PortCreateManyNodeInputEnvelope>;
 };
 
 export type PortCreateNestedOneWithoutInConnectionInput = {
-  connect?: Maybe<PortWhereUniqueInput>;
-  connectOrCreate?: Maybe<PortCreateOrConnectWithoutInConnectionInput>;
-  create?: Maybe<PortCreateWithoutInConnectionInput>;
+  connect?: InputMaybe<PortWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<PortCreateOrConnectWithoutInConnectionInput>;
+  create?: InputMaybe<PortCreateWithoutInConnectionInput>;
 };
 
 export type PortCreateNestedOneWithoutOutConnectionsInput = {
-  connect?: Maybe<PortWhereUniqueInput>;
-  connectOrCreate?: Maybe<PortCreateOrConnectWithoutOutConnectionsInput>;
-  create?: Maybe<PortCreateWithoutOutConnectionsInput>;
+  connect?: InputMaybe<PortWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<PortCreateOrConnectWithoutOutConnectionsInput>;
+  create?: InputMaybe<PortCreateWithoutOutConnectionsInput>;
 };
 
 export type PortCreateOrConnectWithoutInConnectionInput = {
@@ -5862,142 +5991,142 @@ export type PortCreateOrConnectWithoutOutConnectionsInput = {
 };
 
 export type PortCreateWithoutInConnectionInput = {
-  index: Scalars["Int"];
+  index: Scalars['Int'];
   node: FlowNodeCreateNestedOneWithoutPortsInput;
-  outConnections?: Maybe<ConnectionCreateNestedManyWithoutFromPortInput>;
+  outConnections?: InputMaybe<ConnectionCreateNestedManyWithoutFromPortInput>;
 };
 
 export type PortCreateWithoutNodeInput = {
-  inConnection?: Maybe<ConnectionCreateNestedOneWithoutToPortInput>;
-  index: Scalars["Int"];
-  outConnections?: Maybe<ConnectionCreateNestedManyWithoutFromPortInput>;
+  inConnection?: InputMaybe<ConnectionCreateNestedOneWithoutToPortInput>;
+  index: Scalars['Int'];
+  outConnections?: InputMaybe<ConnectionCreateNestedManyWithoutFromPortInput>;
 };
 
 export type PortCreateWithoutOutConnectionsInput = {
-  inConnection?: Maybe<ConnectionCreateNestedOneWithoutToPortInput>;
-  index: Scalars["Int"];
+  inConnection?: InputMaybe<ConnectionCreateNestedOneWithoutToPortInput>;
+  index: Scalars['Int'];
   node: FlowNodeCreateNestedOneWithoutPortsInput;
 };
 
 export type PortGroupBy = {
-  __typename?: "PortGroupBy";
+  __typename?: 'PortGroupBy';
   _avg?: Maybe<PortAvgAggregate>;
   _count?: Maybe<PortCountAggregate>;
   _max?: Maybe<PortMaxAggregate>;
   _min?: Maybe<PortMinAggregate>;
   _sum?: Maybe<PortSumAggregate>;
-  flowNodeId: Scalars["Int"];
-  id: Scalars["Int"];
-  index: Scalars["Int"];
+  flowNodeId: Scalars['Int'];
+  id: Scalars['Int'];
+  index: Scalars['Int'];
 };
 
 export type PortListRelationFilter = {
-  every?: Maybe<PortWhereInput>;
-  none?: Maybe<PortWhereInput>;
-  some?: Maybe<PortWhereInput>;
+  every?: InputMaybe<PortWhereInput>;
+  none?: InputMaybe<PortWhereInput>;
+  some?: InputMaybe<PortWhereInput>;
 };
 
 export type PortMaxAggregate = {
-  __typename?: "PortMaxAggregate";
-  flowNodeId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  index?: Maybe<Scalars["Int"]>;
+  __typename?: 'PortMaxAggregate';
+  flowNodeId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
 };
 
 export type PortMaxOrderByAggregateInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortMinAggregate = {
-  __typename?: "PortMinAggregate";
-  flowNodeId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  index?: Maybe<Scalars["Int"]>;
+  __typename?: 'PortMinAggregate';
+  flowNodeId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
 };
 
 export type PortMinOrderByAggregateInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortOrderByRelationAggregateInput = {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type PortOrderByWithAggregationInput = {
-  _avg?: Maybe<PortAvgOrderByAggregateInput>;
-  _count?: Maybe<PortCountOrderByAggregateInput>;
-  _max?: Maybe<PortMaxOrderByAggregateInput>;
-  _min?: Maybe<PortMinOrderByAggregateInput>;
-  _sum?: Maybe<PortSumOrderByAggregateInput>;
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  _avg?: InputMaybe<PortAvgOrderByAggregateInput>;
+  _count?: InputMaybe<PortCountOrderByAggregateInput>;
+  _max?: InputMaybe<PortMaxOrderByAggregateInput>;
+  _min?: InputMaybe<PortMinOrderByAggregateInput>;
+  _sum?: InputMaybe<PortSumOrderByAggregateInput>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortOrderByWithRelationInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  inConnection?: Maybe<ConnectionOrderByWithRelationInput>;
-  index?: Maybe<SortOrder>;
-  node?: Maybe<FlowNodeOrderByWithRelationInput>;
-  outConnections?: Maybe<ConnectionOrderByRelationAggregateInput>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  inConnection?: InputMaybe<ConnectionOrderByWithRelationInput>;
+  index?: InputMaybe<SortOrder>;
+  node?: InputMaybe<FlowNodeOrderByWithRelationInput>;
+  outConnections?: InputMaybe<ConnectionOrderByRelationAggregateInput>;
 };
 
 export type PortRelationFilter = {
-  is?: Maybe<PortWhereInput>;
-  isNot?: Maybe<PortWhereInput>;
+  is?: InputMaybe<PortWhereInput>;
+  isNot?: InputMaybe<PortWhereInput>;
 };
 
 export enum PortScalarFieldEnum {
-  FlowNodeId = "flowNodeId",
-  Id = "id",
-  Index = "index",
+  FlowNodeId = 'flowNodeId',
+  Id = 'id',
+  Index = 'index'
 }
 
 export type PortScalarWhereInput = {
-  AND?: Maybe<Array<PortScalarWhereInput>>;
-  NOT?: Maybe<Array<PortScalarWhereInput>>;
-  OR?: Maybe<Array<PortScalarWhereInput>>;
-  flowNodeId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  index?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<PortScalarWhereInput>>;
+  NOT?: InputMaybe<Array<PortScalarWhereInput>>;
+  OR?: InputMaybe<Array<PortScalarWhereInput>>;
+  flowNodeId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  index?: InputMaybe<IntFilter>;
 };
 
 export type PortScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<PortScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<PortScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<PortScalarWhereWithAggregatesInput>>;
-  flowNodeId?: Maybe<IntWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  index?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<PortScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<PortScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<PortScalarWhereWithAggregatesInput>>;
+  flowNodeId?: InputMaybe<IntWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  index?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type PortSumAggregate = {
-  __typename?: "PortSumAggregate";
-  flowNodeId?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["Int"]>;
-  index?: Maybe<Scalars["Int"]>;
+  __typename?: 'PortSumAggregate';
+  flowNodeId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  index?: Maybe<Scalars['Int']>;
 };
 
 export type PortSumOrderByAggregateInput = {
-  flowNodeId?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  index?: Maybe<SortOrder>;
+  flowNodeId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
 };
 
 export type PortUpdateInput = {
-  inConnection?: Maybe<ConnectionUpdateOneWithoutToPortInput>;
-  index?: Maybe<IntFieldUpdateOperationsInput>;
-  node?: Maybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
-  outConnections?: Maybe<ConnectionUpdateManyWithoutFromPortInput>;
+  inConnection?: InputMaybe<ConnectionUpdateOneWithoutToPortInput>;
+  index?: InputMaybe<IntFieldUpdateOperationsInput>;
+  node?: InputMaybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
+  outConnections?: InputMaybe<ConnectionUpdateManyWithoutFromPortInput>;
 };
 
 export type PortUpdateManyMutationInput = {
-  index?: Maybe<IntFieldUpdateOperationsInput>;
+  index?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type PortUpdateManyWithWhereWithoutNodeInput = {
@@ -6006,33 +6135,33 @@ export type PortUpdateManyWithWhereWithoutNodeInput = {
 };
 
 export type PortUpdateManyWithoutNodeInput = {
-  connect?: Maybe<Array<PortWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<PortCreateOrConnectWithoutNodeInput>>;
-  create?: Maybe<Array<PortCreateWithoutNodeInput>>;
-  createMany?: Maybe<PortCreateManyNodeInputEnvelope>;
-  delete?: Maybe<Array<PortWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<PortScalarWhereInput>>;
-  disconnect?: Maybe<Array<PortWhereUniqueInput>>;
-  set?: Maybe<Array<PortWhereUniqueInput>>;
-  update?: Maybe<Array<PortUpdateWithWhereUniqueWithoutNodeInput>>;
-  updateMany?: Maybe<Array<PortUpdateManyWithWhereWithoutNodeInput>>;
-  upsert?: Maybe<Array<PortUpsertWithWhereUniqueWithoutNodeInput>>;
+  connect?: InputMaybe<Array<PortWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<PortCreateOrConnectWithoutNodeInput>>;
+  create?: InputMaybe<Array<PortCreateWithoutNodeInput>>;
+  createMany?: InputMaybe<PortCreateManyNodeInputEnvelope>;
+  delete?: InputMaybe<Array<PortWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<PortScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<PortWhereUniqueInput>>;
+  set?: InputMaybe<Array<PortWhereUniqueInput>>;
+  update?: InputMaybe<Array<PortUpdateWithWhereUniqueWithoutNodeInput>>;
+  updateMany?: InputMaybe<Array<PortUpdateManyWithWhereWithoutNodeInput>>;
+  upsert?: InputMaybe<Array<PortUpsertWithWhereUniqueWithoutNodeInput>>;
 };
 
 export type PortUpdateOneRequiredWithoutInConnectionInput = {
-  connect?: Maybe<PortWhereUniqueInput>;
-  connectOrCreate?: Maybe<PortCreateOrConnectWithoutInConnectionInput>;
-  create?: Maybe<PortCreateWithoutInConnectionInput>;
-  update?: Maybe<PortUpdateWithoutInConnectionInput>;
-  upsert?: Maybe<PortUpsertWithoutInConnectionInput>;
+  connect?: InputMaybe<PortWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<PortCreateOrConnectWithoutInConnectionInput>;
+  create?: InputMaybe<PortCreateWithoutInConnectionInput>;
+  update?: InputMaybe<PortUpdateWithoutInConnectionInput>;
+  upsert?: InputMaybe<PortUpsertWithoutInConnectionInput>;
 };
 
 export type PortUpdateOneRequiredWithoutOutConnectionsInput = {
-  connect?: Maybe<PortWhereUniqueInput>;
-  connectOrCreate?: Maybe<PortCreateOrConnectWithoutOutConnectionsInput>;
-  create?: Maybe<PortCreateWithoutOutConnectionsInput>;
-  update?: Maybe<PortUpdateWithoutOutConnectionsInput>;
-  upsert?: Maybe<PortUpsertWithoutOutConnectionsInput>;
+  connect?: InputMaybe<PortWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<PortCreateOrConnectWithoutOutConnectionsInput>;
+  create?: InputMaybe<PortCreateWithoutOutConnectionsInput>;
+  update?: InputMaybe<PortUpdateWithoutOutConnectionsInput>;
+  upsert?: InputMaybe<PortUpsertWithoutOutConnectionsInput>;
 };
 
 export type PortUpdateWithWhereUniqueWithoutNodeInput = {
@@ -6041,21 +6170,21 @@ export type PortUpdateWithWhereUniqueWithoutNodeInput = {
 };
 
 export type PortUpdateWithoutInConnectionInput = {
-  index?: Maybe<IntFieldUpdateOperationsInput>;
-  node?: Maybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
-  outConnections?: Maybe<ConnectionUpdateManyWithoutFromPortInput>;
+  index?: InputMaybe<IntFieldUpdateOperationsInput>;
+  node?: InputMaybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
+  outConnections?: InputMaybe<ConnectionUpdateManyWithoutFromPortInput>;
 };
 
 export type PortUpdateWithoutNodeInput = {
-  inConnection?: Maybe<ConnectionUpdateOneWithoutToPortInput>;
-  index?: Maybe<IntFieldUpdateOperationsInput>;
-  outConnections?: Maybe<ConnectionUpdateManyWithoutFromPortInput>;
+  inConnection?: InputMaybe<ConnectionUpdateOneWithoutToPortInput>;
+  index?: InputMaybe<IntFieldUpdateOperationsInput>;
+  outConnections?: InputMaybe<ConnectionUpdateManyWithoutFromPortInput>;
 };
 
 export type PortUpdateWithoutOutConnectionsInput = {
-  inConnection?: Maybe<ConnectionUpdateOneWithoutToPortInput>;
-  index?: Maybe<IntFieldUpdateOperationsInput>;
-  node?: Maybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
+  inConnection?: InputMaybe<ConnectionUpdateOneWithoutToPortInput>;
+  index?: InputMaybe<IntFieldUpdateOperationsInput>;
+  node?: InputMaybe<FlowNodeUpdateOneRequiredWithoutPortsInput>;
 };
 
 export type PortUpsertWithWhereUniqueWithoutNodeInput = {
@@ -6075,23 +6204,29 @@ export type PortUpsertWithoutOutConnectionsInput = {
 };
 
 export type PortWhereInput = {
-  AND?: Maybe<Array<PortWhereInput>>;
-  NOT?: Maybe<Array<PortWhereInput>>;
-  OR?: Maybe<Array<PortWhereInput>>;
-  flowNodeId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  inConnection?: Maybe<ConnectionRelationFilter>;
-  index?: Maybe<IntFilter>;
-  node?: Maybe<FlowNodeRelationFilter>;
-  outConnections?: Maybe<ConnectionListRelationFilter>;
+  AND?: InputMaybe<Array<PortWhereInput>>;
+  NOT?: InputMaybe<Array<PortWhereInput>>;
+  OR?: InputMaybe<Array<PortWhereInput>>;
+  flowNodeId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  inConnection?: InputMaybe<ConnectionRelationFilter>;
+  index?: InputMaybe<IntFilter>;
+  node?: InputMaybe<FlowNodeRelationFilter>;
+  outConnections?: InputMaybe<ConnectionListRelationFilter>;
 };
 
 export type PortWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+export type Pos = {
+  __typename?: 'Pos';
+  x: Scalars['Int'];
+  y: Scalars['Int'];
 };
 
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   aggregateBotFlow: AggregateBotFlow;
   aggregateBotFlowVersion: AggregateBotFlowVersion;
   aggregateConnection: AggregateConnection;
@@ -6179,6 +6314,7 @@ export type Query = {
   groupByPort: Array<PortGroupBy>;
   groupByTemplateNode: Array<TemplateNodeGroupBy>;
   groupByTemplateNodesGroup: Array<TemplateNodesGroupGroupBy>;
+  isLoggedIn: Scalars['Boolean'];
   nodeInfo?: Maybe<NodeInfo>;
   nodeInfos: Array<NodeInfo>;
   port?: Maybe<Port>;
@@ -6189,914 +6325,1010 @@ export type Query = {
   templateNodesGroups: Array<TemplateNodesGroup>;
 };
 
+
 export type QueryAggregateBotFlowArgs = {
-  cursor?: Maybe<BotFlowWhereUniqueInput>;
-  orderBy?: Maybe<Array<BotFlowOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowWhereInput>;
+  cursor?: InputMaybe<BotFlowWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<BotFlowOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type QueryAggregateBotFlowVersionArgs = {
-  cursor?: Maybe<BotFlowVersionWhereUniqueInput>;
-  orderBy?: Maybe<Array<BotFlowVersionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  cursor?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<BotFlowVersionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
+
 
 export type QueryAggregateConnectionArgs = {
-  cursor?: Maybe<ConnectionWhereUniqueInput>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  cursor?: InputMaybe<ConnectionWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type QueryAggregateFlowNodeArgs = {
-  cursor?: Maybe<FlowNodeWhereUniqueInput>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  cursor?: InputMaybe<FlowNodeWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type QueryAggregateNodeAudioPropsArgs = {
-  cursor?: Maybe<NodeAudioPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  cursor?: InputMaybe<NodeAudioPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeCountdownPropsArgs = {
-  cursor?: Maybe<NodeCountdownPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  cursor?: InputMaybe<NodeCountdownPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeFilePropsArgs = {
-  cursor?: Maybe<NodeFilePropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeFilePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeFilePropsWhereInput>;
+  cursor?: InputMaybe<NodeFilePropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeFilePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeImagePropsArgs = {
-  cursor?: Maybe<NodeImagePropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeImagePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeImagePropsWhereInput>;
+  cursor?: InputMaybe<NodeImagePropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeImagePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeInfoArgs = {
-  cursor?: Maybe<NodeInfoWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeInfoOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeInfoWhereInput>;
+  cursor?: InputMaybe<NodeInfoWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeInfoOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type QueryAggregateNodeLinkPropsArgs = {
-  cursor?: Maybe<NodeLinkPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  cursor?: InputMaybe<NodeLinkPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodePropsArgs = {
-  cursor?: Maybe<NodePropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodePropsWhereInput>;
+  cursor?: InputMaybe<NodePropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeSwitchOptionPropsArgs = {
-  cursor?: Maybe<NodeSwitchOptionPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchOptionPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeSwitchPropsArgs = {
-  cursor?: Maybe<NodeSwitchPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeTextPropsArgs = {
-  cursor?: Maybe<NodeTextPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeTextPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeTextPropsWhereInput>;
+  cursor?: InputMaybe<NodeTextPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeTextPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeVideoPropsArgs = {
-  cursor?: Maybe<NodeVideoPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  cursor?: InputMaybe<NodeVideoPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
+
 
 export type QueryAggregateNodeWaitPropsArgs = {
-  cursor?: Maybe<NodeWaitPropsWhereUniqueInput>;
-  orderBy?: Maybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  cursor?: InputMaybe<NodeWaitPropsWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type QueryAggregatePortArgs = {
-  cursor?: Maybe<PortWhereUniqueInput>;
-  orderBy?: Maybe<Array<PortOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<PortWhereInput>;
+  cursor?: InputMaybe<PortWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<PortOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type QueryAggregateTemplateNodeArgs = {
-  cursor?: Maybe<TemplateNodeWhereUniqueInput>;
-  orderBy?: Maybe<Array<TemplateNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  cursor?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
 
+
 export type QueryAggregateTemplateNodesGroupArgs = {
-  cursor?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  orderBy?: Maybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  cursor?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
+
 
 export type QueryBotFlowArgs = {
   where: BotFlowWhereUniqueInput;
 };
 
+
 export type QueryBotFlowVersionArgs = {
   where: BotFlowVersionWhereUniqueInput;
 };
 
+
 export type QueryBotFlowVersionsArgs = {
-  cursor?: Maybe<BotFlowVersionWhereUniqueInput>;
-  distinct?: Maybe<Array<BotFlowVersionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<BotFlowVersionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  cursor?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<BotFlowVersionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<BotFlowVersionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
 
+
 export type QueryBotFlowsArgs = {
-  cursor?: Maybe<BotFlowWhereUniqueInput>;
-  distinct?: Maybe<Array<BotFlowScalarFieldEnum>>;
-  orderBy?: Maybe<Array<BotFlowOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowWhereInput>;
+  cursor?: InputMaybe<BotFlowWhereUniqueInput>;
+  distinct?: InputMaybe<Array<BotFlowScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<BotFlowOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type QueryConnectionArgs = {
   where: ConnectionWhereUniqueInput;
 };
 
+
 export type QueryConnectionsArgs = {
-  cursor?: Maybe<ConnectionWhereUniqueInput>;
-  distinct?: Maybe<Array<ConnectionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  cursor?: InputMaybe<ConnectionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ConnectionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type QueryFindFirstBotFlowArgs = {
-  cursor?: Maybe<BotFlowWhereUniqueInput>;
-  distinct?: Maybe<Array<BotFlowScalarFieldEnum>>;
-  orderBy?: Maybe<Array<BotFlowOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowWhereInput>;
+  cursor?: InputMaybe<BotFlowWhereUniqueInput>;
+  distinct?: InputMaybe<Array<BotFlowScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<BotFlowOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type QueryFindFirstBotFlowVersionArgs = {
-  cursor?: Maybe<BotFlowVersionWhereUniqueInput>;
-  distinct?: Maybe<Array<BotFlowVersionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<BotFlowVersionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  cursor?: InputMaybe<BotFlowVersionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<BotFlowVersionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<BotFlowVersionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
+
 
 export type QueryFindFirstConnectionArgs = {
-  cursor?: Maybe<ConnectionWhereUniqueInput>;
-  distinct?: Maybe<Array<ConnectionScalarFieldEnum>>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  cursor?: InputMaybe<ConnectionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ConnectionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type QueryFindFirstFlowNodeArgs = {
-  cursor?: Maybe<FlowNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<FlowNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  cursor?: InputMaybe<FlowNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FlowNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type QueryFindFirstNodeAudioPropsArgs = {
-  cursor?: Maybe<NodeAudioPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeAudioPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  cursor?: InputMaybe<NodeAudioPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeAudioPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeCountdownPropsArgs = {
-  cursor?: Maybe<NodeCountdownPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeCountdownPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  cursor?: InputMaybe<NodeCountdownPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeCountdownPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeFilePropsArgs = {
-  cursor?: Maybe<NodeFilePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeFilePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeFilePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeFilePropsWhereInput>;
+  cursor?: InputMaybe<NodeFilePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeFilePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeFilePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeImagePropsArgs = {
-  cursor?: Maybe<NodeImagePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeImagePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeImagePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeImagePropsWhereInput>;
+  cursor?: InputMaybe<NodeImagePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeImagePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeImagePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeInfoArgs = {
-  cursor?: Maybe<NodeInfoWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeInfoScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeInfoOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeInfoWhereInput>;
+  cursor?: InputMaybe<NodeInfoWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeInfoScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeInfoOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type QueryFindFirstNodeLinkPropsArgs = {
-  cursor?: Maybe<NodeLinkPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeLinkPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  cursor?: InputMaybe<NodeLinkPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeLinkPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodePropsArgs = {
-  cursor?: Maybe<NodePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodePropsWhereInput>;
+  cursor?: InputMaybe<NodePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeSwitchOptionPropsArgs = {
-  cursor?: Maybe<NodeSwitchOptionPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeSwitchOptionPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchOptionPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeSwitchOptionPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeSwitchPropsArgs = {
-  cursor?: Maybe<NodeSwitchPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeSwitchPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeSwitchPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeTextPropsArgs = {
-  cursor?: Maybe<NodeTextPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeTextPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeTextPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeTextPropsWhereInput>;
+  cursor?: InputMaybe<NodeTextPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeTextPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeTextPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeVideoPropsArgs = {
-  cursor?: Maybe<NodeVideoPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeVideoPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  cursor?: InputMaybe<NodeVideoPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeVideoPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
+
 
 export type QueryFindFirstNodeWaitPropsArgs = {
-  cursor?: Maybe<NodeWaitPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeWaitPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  cursor?: InputMaybe<NodeWaitPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeWaitPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type QueryFindFirstPortArgs = {
-  cursor?: Maybe<PortWhereUniqueInput>;
-  distinct?: Maybe<Array<PortScalarFieldEnum>>;
-  orderBy?: Maybe<Array<PortOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<PortWhereInput>;
+  cursor?: InputMaybe<PortWhereUniqueInput>;
+  distinct?: InputMaybe<Array<PortScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<PortOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type QueryFindFirstTemplateNodeArgs = {
-  cursor?: Maybe<TemplateNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<TemplateNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<TemplateNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  cursor?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
+
 
 export type QueryFindFirstTemplateNodesGroupArgs = {
-  cursor?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  distinct?: Maybe<Array<TemplateNodesGroupScalarFieldEnum>>;
-  orderBy?: Maybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  cursor?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodesGroupScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
+
 
 export type QueryFindManyNodeAudioPropsArgs = {
-  cursor?: Maybe<NodeAudioPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeAudioPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  cursor?: InputMaybe<NodeAudioPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeAudioPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeAudioPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeCountdownPropsArgs = {
-  cursor?: Maybe<NodeCountdownPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeCountdownPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  cursor?: InputMaybe<NodeCountdownPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeCountdownPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeCountdownPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeFilePropsArgs = {
-  cursor?: Maybe<NodeFilePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeFilePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeFilePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeFilePropsWhereInput>;
+  cursor?: InputMaybe<NodeFilePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeFilePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeFilePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeImagePropsArgs = {
-  cursor?: Maybe<NodeImagePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeImagePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeImagePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeImagePropsWhereInput>;
+  cursor?: InputMaybe<NodeImagePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeImagePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeImagePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeLinkPropsArgs = {
-  cursor?: Maybe<NodeLinkPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeLinkPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  cursor?: InputMaybe<NodeLinkPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeLinkPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeLinkPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodePropsArgs = {
-  cursor?: Maybe<NodePropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodePropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodePropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodePropsWhereInput>;
+  cursor?: InputMaybe<NodePropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodePropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodePropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeSwitchOptionPropsArgs = {
-  cursor?: Maybe<NodeSwitchOptionPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeSwitchOptionPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchOptionPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeSwitchOptionPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeSwitchOptionPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeSwitchPropsArgs = {
-  cursor?: Maybe<NodeSwitchPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeSwitchPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  cursor?: InputMaybe<NodeSwitchPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeSwitchPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeSwitchPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeTextPropsArgs = {
-  cursor?: Maybe<NodeTextPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeTextPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeTextPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeTextPropsWhereInput>;
+  cursor?: InputMaybe<NodeTextPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeTextPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeTextPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type QueryFindManyNodeVideoPropsArgs = {
-  cursor?: Maybe<NodeVideoPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeVideoPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  cursor?: InputMaybe<NodeVideoPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeVideoPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeVideoPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
 
+
 export type QueryFindManyNodeWaitPropsArgs = {
-  cursor?: Maybe<NodeWaitPropsWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeWaitPropsScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  cursor?: InputMaybe<NodeWaitPropsWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeWaitPropsScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeWaitPropsOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type QueryFindUniqueNodeAudioPropsArgs = {
   where: NodeAudioPropsWhereUniqueInput;
 };
 
+
 export type QueryFindUniqueNodeCountdownPropsArgs = {
   where: NodeCountdownPropsWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueNodeFilePropsArgs = {
   where: NodeFilePropsWhereUniqueInput;
 };
 
+
 export type QueryFindUniqueNodeImagePropsArgs = {
   where: NodeImagePropsWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueNodeLinkPropsArgs = {
   where: NodeLinkPropsWhereUniqueInput;
 };
 
+
 export type QueryFindUniqueNodePropsArgs = {
   where: NodePropsWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueNodeSwitchOptionPropsArgs = {
   where: NodeSwitchOptionPropsWhereUniqueInput;
 };
 
+
 export type QueryFindUniqueNodeSwitchPropsArgs = {
   where: NodeSwitchPropsWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueNodeTextPropsArgs = {
   where: NodeTextPropsWhereUniqueInput;
 };
 
+
 export type QueryFindUniqueNodeVideoPropsArgs = {
   where: NodeVideoPropsWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueNodeWaitPropsArgs = {
   where: NodeWaitPropsWhereUniqueInput;
 };
 
+
 export type QueryFlowNodeArgs = {
   where: FlowNodeWhereUniqueInput;
 };
 
+
 export type QueryFlowNodesArgs = {
-  cursor?: Maybe<FlowNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<FlowNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  cursor?: InputMaybe<FlowNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FlowNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type QueryGroupByBotFlowArgs = {
   by: Array<BotFlowScalarFieldEnum>;
-  having?: Maybe<BotFlowScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<BotFlowOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowWhereInput>;
+  having?: InputMaybe<BotFlowScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<BotFlowOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowWhereInput>;
 };
+
 
 export type QueryGroupByBotFlowVersionArgs = {
   by: Array<BotFlowVersionScalarFieldEnum>;
-  having?: Maybe<BotFlowVersionScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<BotFlowVersionOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<BotFlowVersionWhereInput>;
+  having?: InputMaybe<BotFlowVersionScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<BotFlowVersionOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BotFlowVersionWhereInput>;
 };
+
 
 export type QueryGroupByConnectionArgs = {
   by: Array<ConnectionScalarFieldEnum>;
-  having?: Maybe<ConnectionScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<ConnectionOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<ConnectionWhereInput>;
+  having?: InputMaybe<ConnectionScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<ConnectionOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ConnectionWhereInput>;
 };
+
 
 export type QueryGroupByFlowNodeArgs = {
   by: Array<FlowNodeScalarFieldEnum>;
-  having?: Maybe<FlowNodeScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  having?: InputMaybe<FlowNodeScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
+
 
 export type QueryGroupByNodeAudioPropsArgs = {
   by: Array<NodeAudioPropsScalarFieldEnum>;
-  having?: Maybe<NodeAudioPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeAudioPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeAudioPropsWhereInput>;
+  having?: InputMaybe<NodeAudioPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeAudioPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeAudioPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeCountdownPropsArgs = {
   by: Array<NodeCountdownPropsScalarFieldEnum>;
-  having?: Maybe<NodeCountdownPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeCountdownPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeCountdownPropsWhereInput>;
+  having?: InputMaybe<NodeCountdownPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeCountdownPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeCountdownPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeFilePropsArgs = {
   by: Array<NodeFilePropsScalarFieldEnum>;
-  having?: Maybe<NodeFilePropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeFilePropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeFilePropsWhereInput>;
+  having?: InputMaybe<NodeFilePropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeFilePropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeFilePropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeImagePropsArgs = {
   by: Array<NodeImagePropsScalarFieldEnum>;
-  having?: Maybe<NodeImagePropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeImagePropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeImagePropsWhereInput>;
+  having?: InputMaybe<NodeImagePropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeImagePropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeImagePropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeInfoArgs = {
   by: Array<NodeInfoScalarFieldEnum>;
-  having?: Maybe<NodeInfoScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeInfoOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeInfoWhereInput>;
+  having?: InputMaybe<NodeInfoScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeInfoOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type QueryGroupByNodeLinkPropsArgs = {
   by: Array<NodeLinkPropsScalarFieldEnum>;
-  having?: Maybe<NodeLinkPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeLinkPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeLinkPropsWhereInput>;
+  having?: InputMaybe<NodeLinkPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeLinkPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeLinkPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodePropsArgs = {
   by: Array<NodePropsScalarFieldEnum>;
-  having?: Maybe<NodePropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodePropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodePropsWhereInput>;
+  having?: InputMaybe<NodePropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodePropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodePropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeSwitchOptionPropsArgs = {
   by: Array<NodeSwitchOptionPropsScalarFieldEnum>;
-  having?: Maybe<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeSwitchOptionPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchOptionPropsWhereInput>;
+  having?: InputMaybe<NodeSwitchOptionPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeSwitchOptionPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchOptionPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeSwitchPropsArgs = {
   by: Array<NodeSwitchPropsScalarFieldEnum>;
-  having?: Maybe<NodeSwitchPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeSwitchPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeSwitchPropsWhereInput>;
+  having?: InputMaybe<NodeSwitchPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeSwitchPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeSwitchPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeTextPropsArgs = {
   by: Array<NodeTextPropsScalarFieldEnum>;
-  having?: Maybe<NodeTextPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeTextPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeTextPropsWhereInput>;
+  having?: InputMaybe<NodeTextPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeTextPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeTextPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeVideoPropsArgs = {
   by: Array<NodeVideoPropsScalarFieldEnum>;
-  having?: Maybe<NodeVideoPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeVideoPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeVideoPropsWhereInput>;
+  having?: InputMaybe<NodeVideoPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeVideoPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeVideoPropsWhereInput>;
 };
+
 
 export type QueryGroupByNodeWaitPropsArgs = {
   by: Array<NodeWaitPropsScalarFieldEnum>;
-  having?: Maybe<NodeWaitPropsScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<NodeWaitPropsOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeWaitPropsWhereInput>;
+  having?: InputMaybe<NodeWaitPropsScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<NodeWaitPropsOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeWaitPropsWhereInput>;
 };
+
 
 export type QueryGroupByPortArgs = {
   by: Array<PortScalarFieldEnum>;
-  having?: Maybe<PortScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<PortOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<PortWhereInput>;
+  having?: InputMaybe<PortScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<PortOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type QueryGroupByTemplateNodeArgs = {
   by: Array<TemplateNodeScalarFieldEnum>;
-  having?: Maybe<TemplateNodeScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<TemplateNodeOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  having?: InputMaybe<TemplateNodeScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
+
 
 export type QueryGroupByTemplateNodesGroupArgs = {
   by: Array<TemplateNodesGroupScalarFieldEnum>;
-  having?: Maybe<TemplateNodesGroupScalarWhereWithAggregatesInput>;
-  orderBy?: Maybe<Array<TemplateNodesGroupOrderByWithAggregationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  having?: InputMaybe<TemplateNodesGroupScalarWhereWithAggregatesInput>;
+  orderBy?: InputMaybe<Array<TemplateNodesGroupOrderByWithAggregationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
+
 
 export type QueryNodeInfoArgs = {
   where: NodeInfoWhereUniqueInput;
 };
 
+
 export type QueryNodeInfosArgs = {
-  cursor?: Maybe<NodeInfoWhereUniqueInput>;
-  distinct?: Maybe<Array<NodeInfoScalarFieldEnum>>;
-  orderBy?: Maybe<Array<NodeInfoOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<NodeInfoWhereInput>;
+  cursor?: InputMaybe<NodeInfoWhereUniqueInput>;
+  distinct?: InputMaybe<Array<NodeInfoScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<NodeInfoOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<NodeInfoWhereInput>;
 };
+
 
 export type QueryPortArgs = {
   where: PortWhereUniqueInput;
 };
 
+
 export type QueryPortsArgs = {
-  cursor?: Maybe<PortWhereUniqueInput>;
-  distinct?: Maybe<Array<PortScalarFieldEnum>>;
-  orderBy?: Maybe<Array<PortOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<PortWhereInput>;
+  cursor?: InputMaybe<PortWhereUniqueInput>;
+  distinct?: InputMaybe<Array<PortScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<PortOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<PortWhereInput>;
 };
+
 
 export type QueryTemplateNodeArgs = {
   where: TemplateNodeWhereUniqueInput;
 };
 
+
 export type QueryTemplateNodesArgs = {
-  cursor?: Maybe<TemplateNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<TemplateNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<TemplateNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  cursor?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
+
 
 export type QueryTemplateNodesGroupArgs = {
   where: TemplateNodesGroupWhereUniqueInput;
 };
 
+
 export type QueryTemplateNodesGroupsArgs = {
-  cursor?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  distinct?: Maybe<Array<TemplateNodesGroupScalarFieldEnum>>;
-  orderBy?: Maybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  cursor?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodesGroupScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TemplateNodesGroupOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
 
 export enum QueryMode {
-  Default = "default",
-  Insensitive = "insensitive",
+  Default = 'default',
+  Insensitive = 'insensitive'
 }
 
 export enum SortOrder {
-  Asc = "asc",
-  Desc = "desc",
+  Asc = 'asc',
+  Desc = 'desc'
 }
 
 export type StringFieldUpdateOperationsInput = {
-  set?: Maybe<Scalars["String"]>;
+  set?: InputMaybe<Scalars['String']>;
 };
 
 export type StringFilter = {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  mode?: Maybe<QueryMode>;
-  not?: Maybe<NestedStringFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
 };
 
 export type StringWithAggregatesFilter = {
-  _count?: Maybe<NestedIntFilter>;
-  _max?: Maybe<NestedStringFilter>;
-  _min?: Maybe<NestedStringFilter>;
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  mode?: Maybe<QueryMode>;
-  not?: Maybe<NestedStringWithAggregatesFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedStringFilter>;
+  _min?: InputMaybe<NestedStringFilter>;
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<NestedStringWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
 };
 
 export enum SwitchDisplayType {
-  Carousel = "Carousel",
-  List = "List",
-  Select = "Select",
+  Carousel = 'Carousel',
+  List = 'List',
+  Select = 'Select'
 }
 
 export type TemplateNode = {
-  __typename?: "TemplateNode";
+  __typename?: 'TemplateNode';
   FlowNode: Array<FlowNode>;
   NodeProps: NodeProps;
   _count?: Maybe<TemplateNodeCount>;
   group: TemplateNodesGroup;
-  id: Scalars["Int"];
+  id: Scalars['Int'];
   info: NodeInfo;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  order: Scalars["Int"];
-  templateNodesGroupId: Scalars["Int"];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  order: Scalars['Int'];
+  templateNodesGroupId: Scalars['Int'];
 };
 
+
 export type TemplateNodeFlowNodeArgs = {
-  cursor?: Maybe<FlowNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<FlowNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<FlowNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<FlowNodeWhereInput>;
+  cursor?: InputMaybe<FlowNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FlowNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FlowNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FlowNodeWhereInput>;
 };
 
 export type TemplateNodeAvgAggregate = {
-  __typename?: "TemplateNodeAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
-  nodeInfoId?: Maybe<Scalars["Float"]>;
-  nodePropsId?: Maybe<Scalars["Float"]>;
-  order?: Maybe<Scalars["Float"]>;
-  templateNodesGroupId?: Maybe<Scalars["Float"]>;
+  __typename?: 'TemplateNodeAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+  nodeInfoId?: Maybe<Scalars['Float']>;
+  nodePropsId?: Maybe<Scalars['Float']>;
+  order?: Maybe<Scalars['Float']>;
+  templateNodesGroupId?: Maybe<Scalars['Float']>;
 };
 
 export type TemplateNodeAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeCount = {
-  __typename?: "TemplateNodeCount";
-  FlowNode: Scalars["Int"];
+  __typename?: 'TemplateNodeCount';
+  FlowNode: Scalars['Int'];
 };
 
 export type TemplateNodeCountAggregate = {
-  __typename?: "TemplateNodeCountAggregate";
-  _all: Scalars["Int"];
-  id: Scalars["Int"];
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  order: Scalars["Int"];
-  templateNodesGroupId: Scalars["Int"];
+  __typename?: 'TemplateNodeCountAggregate';
+  _all: Scalars['Int'];
+  id: Scalars['Int'];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  order: Scalars['Int'];
+  templateNodesGroupId: Scalars['Int'];
 };
 
 export type TemplateNodeCountOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeCreateInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
+  FlowNode?: InputMaybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
   NodeProps: NodePropsCreateNestedOneWithoutTemplateNodeInput;
   group: TemplateNodesGroupCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutTemplateNodeInput;
-  order: Scalars["Int"];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeCreateManyGroupInput = {
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  order: Scalars["Int"];
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeCreateManyGroupInputEnvelope = {
   data: Array<TemplateNodeCreateManyGroupInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type TemplateNodeCreateManyInput = {
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  order: Scalars["Int"];
-  templateNodesGroupId: Scalars["Int"];
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  order: Scalars['Int'];
+  templateNodesGroupId: Scalars['Int'];
 };
 
 export type TemplateNodeCreateNestedManyWithoutGroupInput = {
-  connect?: Maybe<Array<TemplateNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<TemplateNodeCreateOrConnectWithoutGroupInput>>;
-  create?: Maybe<Array<TemplateNodeCreateWithoutGroupInput>>;
-  createMany?: Maybe<TemplateNodeCreateManyGroupInputEnvelope>;
+  connect?: InputMaybe<Array<TemplateNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TemplateNodeCreateOrConnectWithoutGroupInput>>;
+  create?: InputMaybe<Array<TemplateNodeCreateWithoutGroupInput>>;
+  createMany?: InputMaybe<TemplateNodeCreateManyGroupInputEnvelope>;
 };
 
 export type TemplateNodeCreateNestedOneWithoutFlowNodeInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<TemplateNodeCreateWithoutFlowNodeInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutFlowNodeInput>;
 };
 
 export type TemplateNodeCreateNestedOneWithoutInfoInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutInfoInput>;
-  create?: Maybe<TemplateNodeCreateWithoutInfoInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutInfoInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutInfoInput>;
 };
 
 export type TemplateNodeCreateNestedOneWithoutNodePropsInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<TemplateNodeCreateWithoutNodePropsInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutNodePropsInput>;
 };
 
 export type TemplateNodeCreateOrConnectWithoutFlowNodeInput = {
@@ -7123,175 +7355,175 @@ export type TemplateNodeCreateWithoutFlowNodeInput = {
   NodeProps: NodePropsCreateNestedOneWithoutTemplateNodeInput;
   group: TemplateNodesGroupCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutTemplateNodeInput;
-  order: Scalars["Int"];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeCreateWithoutGroupInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
+  FlowNode?: InputMaybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
   NodeProps: NodePropsCreateNestedOneWithoutTemplateNodeInput;
   info: NodeInfoCreateNestedOneWithoutTemplateNodeInput;
-  order: Scalars["Int"];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeCreateWithoutInfoInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
+  FlowNode?: InputMaybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
   NodeProps: NodePropsCreateNestedOneWithoutTemplateNodeInput;
   group: TemplateNodesGroupCreateNestedOneWithoutNodesInput;
-  order: Scalars["Int"];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeCreateWithoutNodePropsInput = {
-  FlowNode?: Maybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
+  FlowNode?: InputMaybe<FlowNodeCreateNestedManyWithoutTemplateNodeInput>;
   group: TemplateNodesGroupCreateNestedOneWithoutNodesInput;
   info: NodeInfoCreateNestedOneWithoutTemplateNodeInput;
-  order: Scalars["Int"];
+  order: Scalars['Int'];
 };
 
 export type TemplateNodeGroupBy = {
-  __typename?: "TemplateNodeGroupBy";
+  __typename?: 'TemplateNodeGroupBy';
   _avg?: Maybe<TemplateNodeAvgAggregate>;
   _count?: Maybe<TemplateNodeCountAggregate>;
   _max?: Maybe<TemplateNodeMaxAggregate>;
   _min?: Maybe<TemplateNodeMinAggregate>;
   _sum?: Maybe<TemplateNodeSumAggregate>;
-  id: Scalars["Int"];
-  nodeInfoId: Scalars["Int"];
-  nodePropsId: Scalars["Int"];
-  order: Scalars["Int"];
-  templateNodesGroupId: Scalars["Int"];
+  id: Scalars['Int'];
+  nodeInfoId: Scalars['Int'];
+  nodePropsId: Scalars['Int'];
+  order: Scalars['Int'];
+  templateNodesGroupId: Scalars['Int'];
 };
 
 export type TemplateNodeListRelationFilter = {
-  every?: Maybe<TemplateNodeWhereInput>;
-  none?: Maybe<TemplateNodeWhereInput>;
-  some?: Maybe<TemplateNodeWhereInput>;
+  every?: InputMaybe<TemplateNodeWhereInput>;
+  none?: InputMaybe<TemplateNodeWhereInput>;
+  some?: InputMaybe<TemplateNodeWhereInput>;
 };
 
 export type TemplateNodeMaxAggregate = {
-  __typename?: "TemplateNodeMaxAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  order?: Maybe<Scalars["Int"]>;
-  templateNodesGroupId?: Maybe<Scalars["Int"]>;
+  __typename?: 'TemplateNodeMaxAggregate';
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  order?: Maybe<Scalars['Int']>;
+  templateNodesGroupId?: Maybe<Scalars['Int']>;
 };
 
 export type TemplateNodeMaxOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeMinAggregate = {
-  __typename?: "TemplateNodeMinAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  order?: Maybe<Scalars["Int"]>;
-  templateNodesGroupId?: Maybe<Scalars["Int"]>;
+  __typename?: 'TemplateNodeMinAggregate';
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  order?: Maybe<Scalars['Int']>;
+  templateNodesGroupId?: Maybe<Scalars['Int']>;
 };
 
 export type TemplateNodeMinOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeOrderByRelationAggregateInput = {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeOrderByWithAggregationInput = {
-  _avg?: Maybe<TemplateNodeAvgOrderByAggregateInput>;
-  _count?: Maybe<TemplateNodeCountOrderByAggregateInput>;
-  _max?: Maybe<TemplateNodeMaxOrderByAggregateInput>;
-  _min?: Maybe<TemplateNodeMinOrderByAggregateInput>;
-  _sum?: Maybe<TemplateNodeSumOrderByAggregateInput>;
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  _avg?: InputMaybe<TemplateNodeAvgOrderByAggregateInput>;
+  _count?: InputMaybe<TemplateNodeCountOrderByAggregateInput>;
+  _max?: InputMaybe<TemplateNodeMaxOrderByAggregateInput>;
+  _min?: InputMaybe<TemplateNodeMinOrderByAggregateInput>;
+  _sum?: InputMaybe<TemplateNodeSumOrderByAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeOrderByWithRelationInput = {
-  FlowNode?: Maybe<FlowNodeOrderByRelationAggregateInput>;
-  NodeProps?: Maybe<NodePropsOrderByWithRelationInput>;
-  group?: Maybe<TemplateNodesGroupOrderByWithRelationInput>;
-  id?: Maybe<SortOrder>;
-  info?: Maybe<NodeInfoOrderByWithRelationInput>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  FlowNode?: InputMaybe<FlowNodeOrderByRelationAggregateInput>;
+  NodeProps?: InputMaybe<NodePropsOrderByWithRelationInput>;
+  group?: InputMaybe<TemplateNodesGroupOrderByWithRelationInput>;
+  id?: InputMaybe<SortOrder>;
+  info?: InputMaybe<NodeInfoOrderByWithRelationInput>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeRelationFilter = {
-  is?: Maybe<TemplateNodeWhereInput>;
-  isNot?: Maybe<TemplateNodeWhereInput>;
+  is?: InputMaybe<TemplateNodeWhereInput>;
+  isNot?: InputMaybe<TemplateNodeWhereInput>;
 };
 
 export enum TemplateNodeScalarFieldEnum {
-  Id = "id",
-  NodeInfoId = "nodeInfoId",
-  NodePropsId = "nodePropsId",
-  Order = "order",
-  TemplateNodesGroupId = "templateNodesGroupId",
+  Id = 'id',
+  NodeInfoId = 'nodeInfoId',
+  NodePropsId = 'nodePropsId',
+  Order = 'order',
+  TemplateNodesGroupId = 'templateNodesGroupId'
 }
 
 export type TemplateNodeScalarWhereInput = {
-  AND?: Maybe<Array<TemplateNodeScalarWhereInput>>;
-  NOT?: Maybe<Array<TemplateNodeScalarWhereInput>>;
-  OR?: Maybe<Array<TemplateNodeScalarWhereInput>>;
-  id?: Maybe<IntFilter>;
-  nodeInfoId?: Maybe<IntFilter>;
-  nodePropsId?: Maybe<IntFilter>;
-  order?: Maybe<IntFilter>;
-  templateNodesGroupId?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<TemplateNodeScalarWhereInput>>;
+  NOT?: InputMaybe<Array<TemplateNodeScalarWhereInput>>;
+  OR?: InputMaybe<Array<TemplateNodeScalarWhereInput>>;
+  id?: InputMaybe<IntFilter>;
+  nodeInfoId?: InputMaybe<IntFilter>;
+  nodePropsId?: InputMaybe<IntFilter>;
+  order?: InputMaybe<IntFilter>;
+  templateNodesGroupId?: InputMaybe<IntFilter>;
 };
 
 export type TemplateNodeScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  nodeInfoId?: Maybe<IntWithAggregatesFilter>;
-  nodePropsId?: Maybe<IntWithAggregatesFilter>;
-  order?: Maybe<IntWithAggregatesFilter>;
-  templateNodesGroupId?: Maybe<IntWithAggregatesFilter>;
+  AND?: InputMaybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<TemplateNodeScalarWhereWithAggregatesInput>>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  nodeInfoId?: InputMaybe<IntWithAggregatesFilter>;
+  nodePropsId?: InputMaybe<IntWithAggregatesFilter>;
+  order?: InputMaybe<IntWithAggregatesFilter>;
+  templateNodesGroupId?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type TemplateNodeSumAggregate = {
-  __typename?: "TemplateNodeSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  order?: Maybe<Scalars["Int"]>;
-  templateNodesGroupId?: Maybe<Scalars["Int"]>;
+  __typename?: 'TemplateNodeSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+  nodeInfoId?: Maybe<Scalars['Int']>;
+  nodePropsId?: Maybe<Scalars['Int']>;
+  order?: Maybe<Scalars['Int']>;
+  templateNodesGroupId?: Maybe<Scalars['Int']>;
 };
 
 export type TemplateNodeSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
-  nodeInfoId?: Maybe<SortOrder>;
-  nodePropsId?: Maybe<SortOrder>;
-  order?: Maybe<SortOrder>;
-  templateNodesGroupId?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  nodeInfoId?: InputMaybe<SortOrder>;
+  nodePropsId?: InputMaybe<SortOrder>;
+  order?: InputMaybe<SortOrder>;
+  templateNodesGroupId?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodeUpdateInput = {
-  FlowNode?: Maybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
-  group?: Maybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
+  group?: InputMaybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpdateManyMutationInput = {
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpdateManyWithWhereWithoutGroupInput = {
@@ -7300,47 +7532,47 @@ export type TemplateNodeUpdateManyWithWhereWithoutGroupInput = {
 };
 
 export type TemplateNodeUpdateManyWithoutGroupInput = {
-  connect?: Maybe<Array<TemplateNodeWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<TemplateNodeCreateOrConnectWithoutGroupInput>>;
-  create?: Maybe<Array<TemplateNodeCreateWithoutGroupInput>>;
-  createMany?: Maybe<TemplateNodeCreateManyGroupInputEnvelope>;
-  delete?: Maybe<Array<TemplateNodeWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<TemplateNodeScalarWhereInput>>;
-  disconnect?: Maybe<Array<TemplateNodeWhereUniqueInput>>;
-  set?: Maybe<Array<TemplateNodeWhereUniqueInput>>;
-  update?: Maybe<Array<TemplateNodeUpdateWithWhereUniqueWithoutGroupInput>>;
-  updateMany?: Maybe<Array<TemplateNodeUpdateManyWithWhereWithoutGroupInput>>;
-  upsert?: Maybe<Array<TemplateNodeUpsertWithWhereUniqueWithoutGroupInput>>;
+  connect?: InputMaybe<Array<TemplateNodeWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<TemplateNodeCreateOrConnectWithoutGroupInput>>;
+  create?: InputMaybe<Array<TemplateNodeCreateWithoutGroupInput>>;
+  createMany?: InputMaybe<TemplateNodeCreateManyGroupInputEnvelope>;
+  delete?: InputMaybe<Array<TemplateNodeWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<TemplateNodeScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<TemplateNodeWhereUniqueInput>>;
+  set?: InputMaybe<Array<TemplateNodeWhereUniqueInput>>;
+  update?: InputMaybe<Array<TemplateNodeUpdateWithWhereUniqueWithoutGroupInput>>;
+  updateMany?: InputMaybe<Array<TemplateNodeUpdateManyWithWhereWithoutGroupInput>>;
+  upsert?: InputMaybe<Array<TemplateNodeUpsertWithWhereUniqueWithoutGroupInput>>;
 };
 
 export type TemplateNodeUpdateOneWithoutFlowNodeInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutFlowNodeInput>;
-  create?: Maybe<TemplateNodeCreateWithoutFlowNodeInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<TemplateNodeUpdateWithoutFlowNodeInput>;
-  upsert?: Maybe<TemplateNodeUpsertWithoutFlowNodeInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutFlowNodeInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutFlowNodeInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<TemplateNodeUpdateWithoutFlowNodeInput>;
+  upsert?: InputMaybe<TemplateNodeUpsertWithoutFlowNodeInput>;
 };
 
 export type TemplateNodeUpdateOneWithoutInfoInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutInfoInput>;
-  create?: Maybe<TemplateNodeCreateWithoutInfoInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<TemplateNodeUpdateWithoutInfoInput>;
-  upsert?: Maybe<TemplateNodeUpsertWithoutInfoInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutInfoInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutInfoInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<TemplateNodeUpdateWithoutInfoInput>;
+  upsert?: InputMaybe<TemplateNodeUpsertWithoutInfoInput>;
 };
 
 export type TemplateNodeUpdateOneWithoutNodePropsInput = {
-  connect?: Maybe<TemplateNodeWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodeCreateOrConnectWithoutNodePropsInput>;
-  create?: Maybe<TemplateNodeCreateWithoutNodePropsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<TemplateNodeUpdateWithoutNodePropsInput>;
-  upsert?: Maybe<TemplateNodeUpsertWithoutNodePropsInput>;
+  connect?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodeCreateOrConnectWithoutNodePropsInput>;
+  create?: InputMaybe<TemplateNodeCreateWithoutNodePropsInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<TemplateNodeUpdateWithoutNodePropsInput>;
+  upsert?: InputMaybe<TemplateNodeUpsertWithoutNodePropsInput>;
 };
 
 export type TemplateNodeUpdateWithWhereUniqueWithoutGroupInput = {
@@ -7349,31 +7581,31 @@ export type TemplateNodeUpdateWithWhereUniqueWithoutGroupInput = {
 };
 
 export type TemplateNodeUpdateWithoutFlowNodeInput = {
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
-  group?: Maybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
+  group?: InputMaybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpdateWithoutGroupInput = {
-  FlowNode?: Maybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpdateWithoutInfoInput = {
-  FlowNode?: Maybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
-  NodeProps?: Maybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
-  group?: Maybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
+  NodeProps?: InputMaybe<NodePropsUpdateOneRequiredWithoutTemplateNodeInput>;
+  group?: InputMaybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpdateWithoutNodePropsInput = {
-  FlowNode?: Maybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
-  group?: Maybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
-  info?: Maybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
-  order?: Maybe<IntFieldUpdateOperationsInput>;
+  FlowNode?: InputMaybe<FlowNodeUpdateManyWithoutTemplateNodeInput>;
+  group?: InputMaybe<TemplateNodesGroupUpdateOneRequiredWithoutNodesInput>;
+  info?: InputMaybe<NodeInfoUpdateOneRequiredWithoutTemplateNodeInput>;
+  order?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodeUpsertWithWhereUniqueWithoutGroupInput = {
@@ -7398,89 +7630,90 @@ export type TemplateNodeUpsertWithoutNodePropsInput = {
 };
 
 export type TemplateNodeWhereInput = {
-  AND?: Maybe<Array<TemplateNodeWhereInput>>;
-  FlowNode?: Maybe<FlowNodeListRelationFilter>;
-  NOT?: Maybe<Array<TemplateNodeWhereInput>>;
-  NodeProps?: Maybe<NodePropsRelationFilter>;
-  OR?: Maybe<Array<TemplateNodeWhereInput>>;
-  group?: Maybe<TemplateNodesGroupRelationFilter>;
-  id?: Maybe<IntFilter>;
-  info?: Maybe<NodeInfoRelationFilter>;
-  nodeInfoId?: Maybe<IntFilter>;
-  nodePropsId?: Maybe<IntFilter>;
-  order?: Maybe<IntFilter>;
-  templateNodesGroupId?: Maybe<IntFilter>;
+  AND?: InputMaybe<Array<TemplateNodeWhereInput>>;
+  FlowNode?: InputMaybe<FlowNodeListRelationFilter>;
+  NOT?: InputMaybe<Array<TemplateNodeWhereInput>>;
+  NodeProps?: InputMaybe<NodePropsRelationFilter>;
+  OR?: InputMaybe<Array<TemplateNodeWhereInput>>;
+  group?: InputMaybe<TemplateNodesGroupRelationFilter>;
+  id?: InputMaybe<IntFilter>;
+  info?: InputMaybe<NodeInfoRelationFilter>;
+  nodeInfoId?: InputMaybe<IntFilter>;
+  nodePropsId?: InputMaybe<IntFilter>;
+  order?: InputMaybe<IntFilter>;
+  templateNodesGroupId?: InputMaybe<IntFilter>;
 };
 
 export type TemplateNodeWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
-  nodeInfoId?: Maybe<Scalars["Int"]>;
-  nodePropsId?: Maybe<Scalars["Int"]>;
-  order?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
+  nodeInfoId?: InputMaybe<Scalars['Int']>;
+  nodePropsId?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<Scalars['Int']>;
 };
 
 export type TemplateNodesGroup = {
-  __typename?: "TemplateNodesGroup";
+  __typename?: 'TemplateNodesGroup';
   _count?: Maybe<TemplateNodesGroupCount>;
-  description: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
   nodes: Array<TemplateNode>;
 };
 
+
 export type TemplateNodesGroupNodesArgs = {
-  cursor?: Maybe<TemplateNodeWhereUniqueInput>;
-  distinct?: Maybe<Array<TemplateNodeScalarFieldEnum>>;
-  orderBy?: Maybe<Array<TemplateNodeOrderByWithRelationInput>>;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  cursor?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodeScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 };
 
 export type TemplateNodesGroupAvgAggregate = {
-  __typename?: "TemplateNodesGroupAvgAggregate";
-  id?: Maybe<Scalars["Float"]>;
+  __typename?: 'TemplateNodesGroupAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
 };
 
 export type TemplateNodesGroupAvgOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupCount = {
-  __typename?: "TemplateNodesGroupCount";
-  nodes: Scalars["Int"];
+  __typename?: 'TemplateNodesGroupCount';
+  nodes: Scalars['Int'];
 };
 
 export type TemplateNodesGroupCountAggregate = {
-  __typename?: "TemplateNodesGroupCountAggregate";
-  _all: Scalars["Int"];
-  description: Scalars["Int"];
-  id: Scalars["Int"];
-  name: Scalars["Int"];
+  __typename?: 'TemplateNodesGroupCountAggregate';
+  _all: Scalars['Int'];
+  description: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
 };
 
 export type TemplateNodesGroupCountOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupCreateInput = {
-  description: Scalars["String"];
-  name: Scalars["String"];
-  nodes?: Maybe<TemplateNodeCreateNestedManyWithoutGroupInput>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  nodes?: InputMaybe<TemplateNodeCreateNestedManyWithoutGroupInput>;
 };
 
 export type TemplateNodesGroupCreateManyInput = {
-  description: Scalars["String"];
-  id?: Maybe<Scalars["Int"]>;
-  name: Scalars["String"];
+  description: Scalars['String'];
+  id?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
 };
 
 export type TemplateNodesGroupCreateNestedOneWithoutNodesInput = {
-  connect?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodesGroupCreateOrConnectWithoutNodesInput>;
-  create?: Maybe<TemplateNodesGroupCreateWithoutNodesInput>;
+  connect?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodesGroupCreateOrConnectWithoutNodesInput>;
+  create?: InputMaybe<TemplateNodesGroupCreateWithoutNodesInput>;
 };
 
 export type TemplateNodesGroupCreateOrConnectWithoutNodesInput = {
@@ -7489,117 +7722,117 @@ export type TemplateNodesGroupCreateOrConnectWithoutNodesInput = {
 };
 
 export type TemplateNodesGroupCreateWithoutNodesInput = {
-  description: Scalars["String"];
-  name: Scalars["String"];
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type TemplateNodesGroupGroupBy = {
-  __typename?: "TemplateNodesGroupGroupBy";
+  __typename?: 'TemplateNodesGroupGroupBy';
   _avg?: Maybe<TemplateNodesGroupAvgAggregate>;
   _count?: Maybe<TemplateNodesGroupCountAggregate>;
   _max?: Maybe<TemplateNodesGroupMaxAggregate>;
   _min?: Maybe<TemplateNodesGroupMinAggregate>;
   _sum?: Maybe<TemplateNodesGroupSumAggregate>;
-  description: Scalars["String"];
-  id: Scalars["Int"];
-  name: Scalars["String"];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type TemplateNodesGroupMaxAggregate = {
-  __typename?: "TemplateNodesGroupMaxAggregate";
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
+  __typename?: 'TemplateNodesGroupMaxAggregate';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type TemplateNodesGroupMaxOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupMinAggregate = {
-  __typename?: "TemplateNodesGroupMinAggregate";
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Int"]>;
-  name?: Maybe<Scalars["String"]>;
+  __typename?: 'TemplateNodesGroupMinAggregate';
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type TemplateNodesGroupMinOrderByAggregateInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupOrderByWithAggregationInput = {
-  _avg?: Maybe<TemplateNodesGroupAvgOrderByAggregateInput>;
-  _count?: Maybe<TemplateNodesGroupCountOrderByAggregateInput>;
-  _max?: Maybe<TemplateNodesGroupMaxOrderByAggregateInput>;
-  _min?: Maybe<TemplateNodesGroupMinOrderByAggregateInput>;
-  _sum?: Maybe<TemplateNodesGroupSumOrderByAggregateInput>;
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
+  _avg?: InputMaybe<TemplateNodesGroupAvgOrderByAggregateInput>;
+  _count?: InputMaybe<TemplateNodesGroupCountOrderByAggregateInput>;
+  _max?: InputMaybe<TemplateNodesGroupMaxOrderByAggregateInput>;
+  _min?: InputMaybe<TemplateNodesGroupMinOrderByAggregateInput>;
+  _sum?: InputMaybe<TemplateNodesGroupSumOrderByAggregateInput>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupOrderByWithRelationInput = {
-  description?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  nodes?: Maybe<TemplateNodeOrderByRelationAggregateInput>;
+  description?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  nodes?: InputMaybe<TemplateNodeOrderByRelationAggregateInput>;
 };
 
 export type TemplateNodesGroupRelationFilter = {
-  is?: Maybe<TemplateNodesGroupWhereInput>;
-  isNot?: Maybe<TemplateNodesGroupWhereInput>;
+  is?: InputMaybe<TemplateNodesGroupWhereInput>;
+  isNot?: InputMaybe<TemplateNodesGroupWhereInput>;
 };
 
 export enum TemplateNodesGroupScalarFieldEnum {
-  Description = "description",
-  Id = "id",
-  Name = "name",
+  Description = 'description',
+  Id = 'id',
+  Name = 'name'
 }
 
 export type TemplateNodesGroupScalarWhereWithAggregatesInput = {
-  AND?: Maybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
-  NOT?: Maybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
-  OR?: Maybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
-  description?: Maybe<StringWithAggregatesFilter>;
-  id?: Maybe<IntWithAggregatesFilter>;
-  name?: Maybe<StringWithAggregatesFilter>;
+  AND?: InputMaybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
+  NOT?: InputMaybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
+  OR?: InputMaybe<Array<TemplateNodesGroupScalarWhereWithAggregatesInput>>;
+  description?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<IntWithAggregatesFilter>;
+  name?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type TemplateNodesGroupSumAggregate = {
-  __typename?: "TemplateNodesGroupSumAggregate";
-  id?: Maybe<Scalars["Int"]>;
+  __typename?: 'TemplateNodesGroupSumAggregate';
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type TemplateNodesGroupSumOrderByAggregateInput = {
-  id?: Maybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
 };
 
 export type TemplateNodesGroupUpdateInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
-  nodes?: Maybe<TemplateNodeUpdateManyWithoutGroupInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
+  nodes?: InputMaybe<TemplateNodeUpdateManyWithoutGroupInput>;
 };
 
 export type TemplateNodesGroupUpdateManyMutationInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodesGroupUpdateOneRequiredWithoutNodesInput = {
-  connect?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  connectOrCreate?: Maybe<TemplateNodesGroupCreateOrConnectWithoutNodesInput>;
-  create?: Maybe<TemplateNodesGroupCreateWithoutNodesInput>;
-  update?: Maybe<TemplateNodesGroupUpdateWithoutNodesInput>;
-  upsert?: Maybe<TemplateNodesGroupUpsertWithoutNodesInput>;
+  connect?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<TemplateNodesGroupCreateOrConnectWithoutNodesInput>;
+  create?: InputMaybe<TemplateNodesGroupCreateWithoutNodesInput>;
+  update?: InputMaybe<TemplateNodesGroupUpdateWithoutNodesInput>;
+  upsert?: InputMaybe<TemplateNodesGroupUpsertWithoutNodesInput>;
 };
 
 export type TemplateNodesGroupUpdateWithoutNodesInput = {
-  description?: Maybe<StringFieldUpdateOperationsInput>;
-  name?: Maybe<StringFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type TemplateNodesGroupUpsertWithoutNodesInput = {
@@ -7608,503 +7841,258 @@ export type TemplateNodesGroupUpsertWithoutNodesInput = {
 };
 
 export type TemplateNodesGroupWhereInput = {
-  AND?: Maybe<Array<TemplateNodesGroupWhereInput>>;
-  NOT?: Maybe<Array<TemplateNodesGroupWhereInput>>;
-  OR?: Maybe<Array<TemplateNodesGroupWhereInput>>;
-  description?: Maybe<StringFilter>;
-  id?: Maybe<IntFilter>;
-  name?: Maybe<StringFilter>;
-  nodes?: Maybe<TemplateNodeListRelationFilter>;
+  AND?: InputMaybe<Array<TemplateNodesGroupWhereInput>>;
+  NOT?: InputMaybe<Array<TemplateNodesGroupWhereInput>>;
+  OR?: InputMaybe<Array<TemplateNodesGroupWhereInput>>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodes?: InputMaybe<TemplateNodeListRelationFilter>;
 };
 
 export type TemplateNodesGroupWhereUniqueInput = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
-export type NodeInfoFragment = {
-  __typename?: "NodeInfo";
-  name: string;
-  description: string;
-  iconLink: string;
-};
+export type NodeInfoFragment = { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string };
 
-export type NodeSwitchPropsFragment = {
-  __typename?: "NodeSwitchProps";
-  SwitchDisplayType: SwitchDisplayType;
-};
+export type NodeSwitchPropsFragment = { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType };
 
-export type NodeFilePropsFragment = {
-  __typename?: "NodeFileProps";
-  info: string;
-  url: string;
-};
+export type NodeFilePropsFragment = { __typename?: 'NodeFileProps', info: string, url: string };
 
-export type NodeSwitchOptionPropsFragment = {
-  __typename?: "NodeSwitchOptionProps";
-  imageLink: string;
-  text: string;
-};
+export type NodeSwitchOptionPropsFragment = { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string };
 
-export type NodeLinkPropsFragment = {
-  __typename?: "NodeLinkProps";
-  src: string;
-  text: string;
-};
+export type NodeLinkPropsFragment = { __typename?: 'NodeLinkProps', src: string, text: string };
 
-export type NodeAudioPropsFragment = {
-  __typename?: "NodeAudioProps";
-  src: string;
-};
+export type NodeAudioPropsFragment = { __typename?: 'NodeAudioProps', src: string };
 
-export type NodeImagePropsFragment = {
-  __typename?: "NodeImageProps";
-  src: string;
-};
+export type NodeImagePropsFragment = { __typename?: 'NodeImageProps', src: string };
 
-export type NodeTextPropsFragment = {
-  __typename?: "NodeTextProps";
-  src: string;
-};
+export type NodeTextPropsFragment = { __typename?: 'NodeTextProps', src: string };
 
-export type NodeVideoPropsFragment = {
-  __typename?: "NodeVideoProps";
-  src: string;
-};
+export type NodeVideoPropsFragment = { __typename?: 'NodeVideoProps', src: string };
 
-export type NodeWaitPropsFragment = {
-  __typename?: "NodeWaitProps";
-  src: string;
-  delay: number;
-};
+export type NodeWaitPropsFragment = { __typename?: 'NodeWaitProps', src: string, delay: number };
 
-export type NodeCountdownPropsFragment = {
-  __typename?: "NodeCountdownProps";
-  duration: number;
-};
+export type NodeCountdownPropsFragment = { __typename?: 'NodeCountdownProps', duration: number };
 
-export type NodePropsFragment = {
-  __typename?: "NodeProps";
-  NodeFileProps?:
-    | { __typename?: "NodeFileProps"; info: string; url: string }
-    | null
-    | undefined;
-  NodeLinkProps?:
-    | { __typename?: "NodeLinkProps"; src: string; text: string }
-    | null
-    | undefined;
-  NodeSwitchOptionProps?:
-    | { __typename?: "NodeSwitchOptionProps"; imageLink: string; text: string }
-    | null
-    | undefined;
-  NodeImageProps?:
-    | { __typename?: "NodeImageProps"; src: string }
-    | null
-    | undefined;
-  NodeAudioProps?:
-    | { __typename?: "NodeAudioProps"; src: string }
-    | null
-    | undefined;
-  NodeCountdownProps?:
-    | { __typename?: "NodeCountdownProps"; duration: number }
-    | null
-    | undefined;
-  NodeSwitchProps?:
-    | { __typename?: "NodeSwitchProps"; SwitchDisplayType: SwitchDisplayType }
-    | null
-    | undefined;
-  NodeVideoProps?:
-    | { __typename?: "NodeVideoProps"; src: string }
-    | null
-    | undefined;
-  NodeTextProps?:
-    | { __typename?: "NodeTextProps"; src: string }
-    | null
-    | undefined;
-  NodeWaitProps?:
-    | { __typename?: "NodeWaitProps"; src: string; delay: number }
-    | null
-    | undefined;
-};
+export type NodePropsFragment = { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined };
 
-export type TemplateNodeFragment = {
-  __typename?: "TemplateNode";
-  id: number;
-  order: number;
-  group: { __typename?: "TemplateNodesGroup"; id: number };
-  info: {
-    __typename?: "NodeInfo";
-    name: string;
-    description: string;
-    iconLink: string;
-  };
-  NodeProps: {
-    __typename?: "NodeProps";
-    type: NodeType;
-    NodeFileProps?:
-      | { __typename?: "NodeFileProps"; info: string; url: string }
-      | null
-      | undefined;
-    NodeLinkProps?:
-      | { __typename?: "NodeLinkProps"; src: string; text: string }
-      | null
-      | undefined;
-    NodeSwitchOptionProps?:
-      | {
-          __typename?: "NodeSwitchOptionProps";
-          imageLink: string;
-          text: string;
-        }
-      | null
-      | undefined;
-    NodeImageProps?:
-      | { __typename?: "NodeImageProps"; src: string }
-      | null
-      | undefined;
-    NodeAudioProps?:
-      | { __typename?: "NodeAudioProps"; src: string }
-      | null
-      | undefined;
-    NodeCountdownProps?:
-      | { __typename?: "NodeCountdownProps"; duration: number }
-      | null
-      | undefined;
-    NodeSwitchProps?:
-      | { __typename?: "NodeSwitchProps"; SwitchDisplayType: SwitchDisplayType }
-      | null
-      | undefined;
-    NodeVideoProps?:
-      | { __typename?: "NodeVideoProps"; src: string }
-      | null
-      | undefined;
-    NodeTextProps?:
-      | { __typename?: "NodeTextProps"; src: string }
-      | null
-      | undefined;
-    NodeWaitProps?:
-      | { __typename?: "NodeWaitProps"; src: string; delay: number }
-      | null
-      | undefined;
-  };
-};
+export type TemplateNodeFragment = { __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, NodeProps: { __typename?: 'NodeProps', type: NodeType, id: number, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined } };
 
 export type TemplateNodesQueryVariables = Exact<{
-  cursor?: Maybe<TemplateNodeWhereUniqueInput>;
-  distinct?: Maybe<
-    Array<TemplateNodeScalarFieldEnum> | TemplateNodeScalarFieldEnum
-  >;
-  orderBy?: Maybe<
-    | Array<TemplateNodeOrderByWithRelationInput>
-    | TemplateNodeOrderByWithRelationInput
-  >;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodeWhereInput>;
+  cursor?: InputMaybe<TemplateNodeWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodeScalarFieldEnum> | TemplateNodeScalarFieldEnum>;
+  orderBy?: InputMaybe<Array<TemplateNodeOrderByWithRelationInput> | TemplateNodeOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodeWhereInput>;
 }>;
 
-export type TemplateNodesQuery = {
-  __typename?: "Query";
-  templateNodes: Array<{
-    __typename?: "TemplateNode";
-    id: number;
-    order: number;
-    group: { __typename?: "TemplateNodesGroup"; id: number };
-    info: {
-      __typename?: "NodeInfo";
-      name: string;
-      description: string;
-      iconLink: string;
-    };
-    NodeProps: {
-      __typename?: "NodeProps";
-      type: NodeType;
-      NodeFileProps?:
-        | { __typename?: "NodeFileProps"; info: string; url: string }
-        | null
-        | undefined;
-      NodeLinkProps?:
-        | { __typename?: "NodeLinkProps"; src: string; text: string }
-        | null
-        | undefined;
-      NodeSwitchOptionProps?:
-        | {
-            __typename?: "NodeSwitchOptionProps";
-            imageLink: string;
-            text: string;
-          }
-        | null
-        | undefined;
-      NodeImageProps?:
-        | { __typename?: "NodeImageProps"; src: string }
-        | null
-        | undefined;
-      NodeAudioProps?:
-        | { __typename?: "NodeAudioProps"; src: string }
-        | null
-        | undefined;
-      NodeCountdownProps?:
-        | { __typename?: "NodeCountdownProps"; duration: number }
-        | null
-        | undefined;
-      NodeSwitchProps?:
-        | {
-            __typename?: "NodeSwitchProps";
-            SwitchDisplayType: SwitchDisplayType;
-          }
-        | null
-        | undefined;
-      NodeVideoProps?:
-        | { __typename?: "NodeVideoProps"; src: string }
-        | null
-        | undefined;
-      NodeTextProps?:
-        | { __typename?: "NodeTextProps"; src: string }
-        | null
-        | undefined;
-      NodeWaitProps?:
-        | { __typename?: "NodeWaitProps"; src: string; delay: number }
-        | null
-        | undefined;
-    };
-  }>;
-};
+
+export type TemplateNodesQuery = { __typename?: 'Query', templateNodes: Array<{ __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, NodeProps: { __typename?: 'NodeProps', type: NodeType, id: number, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined } }> };
 
 export type TemplateNodesMutationVariables = Exact<{
   input: TemplateNodeCreateInput;
 }>;
 
-export type TemplateNodesMutation = {
-  __typename?: "Mutation";
-  createTemplateNode: { __typename?: "TemplateNode"; id: number };
-};
+
+export type TemplateNodesMutation = { __typename?: 'Mutation', createTemplateNode: { __typename?: 'TemplateNode', id: number } };
 
 export type TemplateNodesUpdateMutationVariables = Exact<{
   data: TemplateNodeUpdateInput;
   where: TemplateNodeWhereUniqueInput;
 }>;
 
-export type TemplateNodesUpdateMutation = {
-  __typename?: "Mutation";
-  updateTemplateNode?:
-    | { __typename?: "TemplateNode"; id: number }
-    | null
-    | undefined;
-};
+
+export type TemplateNodesUpdateMutation = { __typename?: 'Mutation', updateTemplateNode?: { __typename?: 'TemplateNode', id: number } | null | undefined };
 
 export type TemplateNodesDeleteMutationVariables = Exact<{
   where: TemplateNodeWhereUniqueInput;
 }>;
 
-export type TemplateNodesDeleteMutation = {
-  __typename?: "Mutation";
-  deleteTemplateNode?:
-    | { __typename?: "TemplateNode"; id: number }
-    | null
-    | undefined;
-};
+
+export type TemplateNodesDeleteMutation = { __typename?: 'Mutation', deleteTemplateNode?: { __typename?: 'TemplateNode', id: number } | null | undefined };
 
 export type TemplateNodesGroupsQueryVariables = Exact<{
-  cursor?: Maybe<TemplateNodesGroupWhereUniqueInput>;
-  distinct?: Maybe<
-    Array<TemplateNodesGroupScalarFieldEnum> | TemplateNodesGroupScalarFieldEnum
-  >;
-  orderBy?: Maybe<
-    | Array<TemplateNodesGroupOrderByWithRelationInput>
-    | TemplateNodesGroupOrderByWithRelationInput
-  >;
-  skip?: Maybe<Scalars["Int"]>;
-  take?: Maybe<Scalars["Int"]>;
-  where?: Maybe<TemplateNodesGroupWhereInput>;
+  cursor?: InputMaybe<TemplateNodesGroupWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TemplateNodesGroupScalarFieldEnum> | TemplateNodesGroupScalarFieldEnum>;
+  orderBy?: InputMaybe<Array<TemplateNodesGroupOrderByWithRelationInput> | TemplateNodesGroupOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TemplateNodesGroupWhereInput>;
 }>;
 
-export type TemplateNodesGroupsQuery = {
-  __typename?: "Query";
-  templateNodesGroups: Array<{
-    __typename?: "TemplateNodesGroup";
-    id: number;
-    name: string;
-    description: string;
-  }>;
-};
+
+export type TemplateNodesGroupsQuery = { __typename?: 'Query', templateNodesGroups: Array<{ __typename?: 'TemplateNodesGroup', id: number, name: string, description: string }> };
 
 export type TemplateNodesGroupsMutationVariables = Exact<{
   data: TemplateNodesGroupCreateInput;
 }>;
 
-export type TemplateNodesGroupsMutation = {
-  __typename?: "Mutation";
-  createTemplateNodesGroup: { __typename?: "TemplateNodesGroup"; id: number };
-};
+
+export type TemplateNodesGroupsMutation = { __typename?: 'Mutation', createTemplateNodesGroup: { __typename?: 'TemplateNodesGroup', id: number } };
 
 export type TemplateNodesGroupsUpdateMutationVariables = Exact<{
   data: TemplateNodesGroupUpdateInput;
   where: TemplateNodesGroupWhereUniqueInput;
 }>;
 
-export type TemplateNodesGroupsUpdateMutation = {
-  __typename?: "Mutation";
-  updateTemplateNodesGroup?:
-    | { __typename?: "TemplateNodesGroup"; id: number }
-    | null
-    | undefined;
-};
+
+export type TemplateNodesGroupsUpdateMutation = { __typename?: 'Mutation', updateTemplateNodesGroup?: { __typename?: 'TemplateNodesGroup', id: number } | null | undefined };
 
 export type TemplateNodesGroupsDeleteMutationVariables = Exact<{
   where: TemplateNodesGroupWhereUniqueInput;
 }>;
 
-export type TemplateNodesGroupsDeleteMutation = {
-  __typename?: "Mutation";
-  deleteTemplateNodesGroup?:
-    | { __typename?: "TemplateNodesGroup"; id: number }
-    | null
-    | undefined;
-};
+
+export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', deleteTemplateNodesGroup?: { __typename?: 'TemplateNodesGroup', id: number } | null | undefined };
+
+export type BotFlowQueryVariables = Exact<{
+  where: BotFlowWhereUniqueInput;
+}>;
+
+
+export type BotFlowQuery = { __typename?: 'Query', botFlow?: { __typename?: 'BotFlow', id: number, name: string, description: string, versions: Array<{ __typename?: 'BotFlowVersion', id: number, version: number, nodes: Array<{ __typename?: 'FlowNode', id: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, ports: Array<{ __typename?: 'Port', id: number, index: number, flowNodeId: number }>, pos: { __typename?: 'Pos', x: number, y: number } }>, connections: Array<{ __typename?: 'Connection', id: number, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> }> } | null | undefined };
 
 export const NodeInfoFragmentDoc = gql`
-  fragment nodeInfo on NodeInfo {
-    name
-    description
-    iconLink
-  }
-`;
+    fragment nodeInfo on NodeInfo {
+  id
+  name
+  description
+  iconLink
+}
+    `;
 export const NodeFilePropsFragmentDoc = gql`
-  fragment NodeFileProps on NodeFileProps {
-    info
-    url
-  }
-`;
+    fragment NodeFileProps on NodeFileProps {
+  info
+  url
+}
+    `;
 export const NodeLinkPropsFragmentDoc = gql`
-  fragment NodeLinkProps on NodeLinkProps {
-    src
-    text
-  }
-`;
+    fragment NodeLinkProps on NodeLinkProps {
+  src
+  text
+}
+    `;
 export const NodeSwitchOptionPropsFragmentDoc = gql`
-  fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
-    imageLink
-    text
-  }
-`;
+    fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
+  imageLink
+  text
+}
+    `;
 export const NodeImagePropsFragmentDoc = gql`
-  fragment NodeImageProps on NodeImageProps {
-    src
-  }
-`;
+    fragment NodeImageProps on NodeImageProps {
+  src
+}
+    `;
 export const NodeAudioPropsFragmentDoc = gql`
-  fragment NodeAudioProps on NodeAudioProps {
-    src
-  }
-`;
+    fragment NodeAudioProps on NodeAudioProps {
+  src
+}
+    `;
 export const NodeCountdownPropsFragmentDoc = gql`
-  fragment NodeCountdownProps on NodeCountdownProps {
-    duration
-  }
-`;
+    fragment NodeCountdownProps on NodeCountdownProps {
+  duration
+}
+    `;
 export const NodeSwitchPropsFragmentDoc = gql`
-  fragment NodeSwitchProps on NodeSwitchProps {
-    SwitchDisplayType
-  }
-`;
+    fragment NodeSwitchProps on NodeSwitchProps {
+  SwitchDisplayType
+}
+    `;
 export const NodeVideoPropsFragmentDoc = gql`
-  fragment NodeVideoProps on NodeVideoProps {
-    src
-  }
-`;
+    fragment NodeVideoProps on NodeVideoProps {
+  src
+}
+    `;
 export const NodeTextPropsFragmentDoc = gql`
-  fragment NodeTextProps on NodeTextProps {
-    src
-  }
-`;
+    fragment NodeTextProps on NodeTextProps {
+  src
+}
+    `;
 export const NodeWaitPropsFragmentDoc = gql`
-  fragment NodeWaitProps on NodeWaitProps {
-    src
-    delay
-  }
-`;
+    fragment NodeWaitProps on NodeWaitProps {
+  src
+  delay
+}
+    `;
 export const NodePropsFragmentDoc = gql`
-  fragment nodeProps on NodeProps {
-    NodeFileProps {
-      ...NodeFileProps
-    }
-    NodeLinkProps {
-      ...NodeLinkProps
-    }
-    NodeSwitchOptionProps {
-      ...NodeSwitchOptionProps
-    }
-    NodeImageProps {
-      ...NodeImageProps
-    }
-    NodeAudioProps {
-      ...NodeAudioProps
-    }
-    NodeCountdownProps {
-      ...NodeCountdownProps
-    }
-    NodeSwitchProps {
-      ...NodeSwitchProps
-    }
-    NodeVideoProps {
-      ...NodeVideoProps
-    }
-    NodeTextProps {
-      ...NodeTextProps
-    }
-    NodeWaitProps {
-      ...NodeWaitProps
-    }
+    fragment nodeProps on NodeProps {
+  id
+  type
+  NodeFileProps {
+    ...NodeFileProps
   }
-  ${NodeFilePropsFragmentDoc}
-  ${NodeLinkPropsFragmentDoc}
-  ${NodeSwitchOptionPropsFragmentDoc}
-  ${NodeImagePropsFragmentDoc}
-  ${NodeAudioPropsFragmentDoc}
-  ${NodeCountdownPropsFragmentDoc}
-  ${NodeSwitchPropsFragmentDoc}
-  ${NodeVideoPropsFragmentDoc}
-  ${NodeTextPropsFragmentDoc}
-  ${NodeWaitPropsFragmentDoc}
-`;
+  NodeLinkProps {
+    ...NodeLinkProps
+  }
+  NodeSwitchOptionProps {
+    ...NodeSwitchOptionProps
+  }
+  NodeImageProps {
+    ...NodeImageProps
+  }
+  NodeAudioProps {
+    ...NodeAudioProps
+  }
+  NodeCountdownProps {
+    ...NodeCountdownProps
+  }
+  NodeSwitchProps {
+    ...NodeSwitchProps
+  }
+  NodeVideoProps {
+    ...NodeVideoProps
+  }
+  NodeTextProps {
+    ...NodeTextProps
+  }
+  NodeWaitProps {
+    ...NodeWaitProps
+  }
+}
+    ${NodeFilePropsFragmentDoc}
+${NodeLinkPropsFragmentDoc}
+${NodeSwitchOptionPropsFragmentDoc}
+${NodeImagePropsFragmentDoc}
+${NodeAudioPropsFragmentDoc}
+${NodeCountdownPropsFragmentDoc}
+${NodeSwitchPropsFragmentDoc}
+${NodeVideoPropsFragmentDoc}
+${NodeTextPropsFragmentDoc}
+${NodeWaitPropsFragmentDoc}`;
 export const TemplateNodeFragmentDoc = gql`
-  fragment templateNode on TemplateNode {
+    fragment templateNode on TemplateNode {
+  id
+  order
+  group {
     id
-    order
-    group {
-      id
-    }
-    info {
-      ...nodeInfo
-    }
-    NodeProps {
-      type
-      ...nodeProps
-    }
   }
-  ${NodeInfoFragmentDoc}
-  ${NodePropsFragmentDoc}
-`;
+  info {
+    ...nodeInfo
+  }
+  NodeProps {
+    type
+    ...nodeProps
+  }
+}
+    ${NodeInfoFragmentDoc}
+${NodePropsFragmentDoc}`;
 export const TemplateNodesDocument = gql`
-  query templateNodes(
-    $cursor: TemplateNodeWhereUniqueInput
-    $distinct: [TemplateNodeScalarFieldEnum!]
-    $orderBy: [TemplateNodeOrderByWithRelationInput!]
-    $skip: Int
-    $take: Int
-    $where: TemplateNodeWhereInput
+    query templateNodes($cursor: TemplateNodeWhereUniqueInput, $distinct: [TemplateNodeScalarFieldEnum!], $orderBy: [TemplateNodeOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodeWhereInput) {
+  templateNodes(
+    cursor: $cursor
+    where: $where
+    take: $take
+    skip: $skip
+    orderBy: $orderBy
+    distinct: $distinct
   ) {
-    templateNodes(
-      cursor: $cursor
-      where: $where
-      take: $take
-      skip: $skip
-      orderBy: $orderBy
-      distinct: $distinct
-    ) {
-      ...templateNode
-    }
+    ...templateNode
   }
-  ${TemplateNodeFragmentDoc}
-`;
+}
+    ${TemplateNodeFragmentDoc}`;
 
 /**
  * __useTemplateNodesQuery__
@@ -8127,53 +8115,25 @@ export const TemplateNodesDocument = gql`
  *   },
  * });
  */
-export function useTemplateNodesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TemplateNodesQuery,
-    TemplateNodesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(
-    TemplateNodesDocument,
-    options
-  );
-}
-
-export function useTemplateNodesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TemplateNodesQuery,
-    TemplateNodesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(
-    TemplateNodesDocument,
-    options
-  );
-}
-
-export type TemplateNodesQueryHookResult = ReturnType<
-  typeof useTemplateNodesQuery
->;
-export type TemplateNodesLazyQueryHookResult = ReturnType<
-  typeof useTemplateNodesLazyQuery
->;
-export type TemplateNodesQueryResult = Apollo.QueryResult<
-  TemplateNodesQuery,
-  TemplateNodesQueryVariables
->;
+export function useTemplateNodesQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
+      }
+export function useTemplateNodesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
+        }
+export type TemplateNodesQueryHookResult = ReturnType<typeof useTemplateNodesQuery>;
+export type TemplateNodesLazyQueryHookResult = ReturnType<typeof useTemplateNodesLazyQuery>;
+export type TemplateNodesQueryResult = Apollo.QueryResult<TemplateNodesQuery, TemplateNodesQueryVariables>;
 export const TemplateNodesMutationDocument = gql`
-  mutation templateNodesMutation($input: TemplateNodeCreateInput!) {
-    createTemplateNode(data: $input) {
-      id
-    }
+    mutation templateNodesMutation($input: TemplateNodeCreateInput!) {
+  createTemplateNode(data: $input) {
+    id
   }
-`;
-export type TemplateNodesMutationMutationFn = Apollo.MutationFunction<
-  TemplateNodesMutation,
-  TemplateNodesMutationVariables
->;
+}
+    `;
+export type TemplateNodesMutationMutationFn = Apollo.MutationFunction<TemplateNodesMutation, TemplateNodesMutationVariables>;
 
 /**
  * __useTemplateNodesMutation__
@@ -8192,42 +8152,21 @@ export type TemplateNodesMutationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesMutation,
-    TemplateNodesMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesMutation,
-    TemplateNodesMutationVariables
-  >(TemplateNodesMutationDocument, options);
-}
-
-export type TemplateNodesMutationHookResult = ReturnType<
-  typeof useTemplateNodesMutation
->;
-export type TemplateNodesMutationMutationResult =
-  Apollo.MutationResult<TemplateNodesMutation>;
-export type TemplateNodesMutationMutationOptions = Apollo.BaseMutationOptions<
-  TemplateNodesMutation,
-  TemplateNodesMutationVariables
->;
+export function useTemplateNodesMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesMutation, TemplateNodesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesMutation, TemplateNodesMutationVariables>(TemplateNodesMutationDocument, options);
+      }
+export type TemplateNodesMutationHookResult = ReturnType<typeof useTemplateNodesMutation>;
+export type TemplateNodesMutationMutationResult = Apollo.MutationResult<TemplateNodesMutation>;
+export type TemplateNodesMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesMutation, TemplateNodesMutationVariables>;
 export const TemplateNodesUpdateDocument = gql`
-  mutation templateNodesUpdate(
-    $data: TemplateNodeUpdateInput!
-    $where: TemplateNodeWhereUniqueInput!
-  ) {
-    updateTemplateNode(data: $data, where: $where) {
-      id
-    }
+    mutation templateNodesUpdate($data: TemplateNodeUpdateInput!, $where: TemplateNodeWhereUniqueInput!) {
+  updateTemplateNode(data: $data, where: $where) {
+    id
   }
-`;
-export type TemplateNodesUpdateMutationFn = Apollo.MutationFunction<
-  TemplateNodesUpdateMutation,
-  TemplateNodesUpdateMutationVariables
->;
+}
+    `;
+export type TemplateNodesUpdateMutationFn = Apollo.MutationFunction<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
 
 /**
  * __useTemplateNodesUpdateMutation__
@@ -8247,39 +8186,21 @@ export type TemplateNodesUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesUpdateMutation,
-    TemplateNodesUpdateMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesUpdateMutation,
-    TemplateNodesUpdateMutationVariables
-  >(TemplateNodesUpdateDocument, options);
-}
-
-export type TemplateNodesUpdateMutationHookResult = ReturnType<
-  typeof useTemplateNodesUpdateMutation
->;
-export type TemplateNodesUpdateMutationResult =
-  Apollo.MutationResult<TemplateNodesUpdateMutation>;
-export type TemplateNodesUpdateMutationOptions = Apollo.BaseMutationOptions<
-  TemplateNodesUpdateMutation,
-  TemplateNodesUpdateMutationVariables
->;
+export function useTemplateNodesUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>(TemplateNodesUpdateDocument, options);
+      }
+export type TemplateNodesUpdateMutationHookResult = ReturnType<typeof useTemplateNodesUpdateMutation>;
+export type TemplateNodesUpdateMutationResult = Apollo.MutationResult<TemplateNodesUpdateMutation>;
+export type TemplateNodesUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
 export const TemplateNodesDeleteDocument = gql`
-  mutation templateNodesDelete($where: TemplateNodeWhereUniqueInput!) {
-    deleteTemplateNode(where: $where) {
-      id
-    }
+    mutation templateNodesDelete($where: TemplateNodeWhereUniqueInput!) {
+  deleteTemplateNode(where: $where) {
+    id
   }
-`;
-export type TemplateNodesDeleteMutationFn = Apollo.MutationFunction<
-  TemplateNodesDeleteMutation,
-  TemplateNodesDeleteMutationVariables
->;
+}
+    `;
+export type TemplateNodesDeleteMutationFn = Apollo.MutationFunction<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
 
 /**
  * __useTemplateNodesDeleteMutation__
@@ -8298,51 +8219,29 @@ export type TemplateNodesDeleteMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesDeleteMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesDeleteMutation,
-    TemplateNodesDeleteMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesDeleteMutation,
-    TemplateNodesDeleteMutationVariables
-  >(TemplateNodesDeleteDocument, options);
-}
-
-export type TemplateNodesDeleteMutationHookResult = ReturnType<
-  typeof useTemplateNodesDeleteMutation
->;
-export type TemplateNodesDeleteMutationResult =
-  Apollo.MutationResult<TemplateNodesDeleteMutation>;
-export type TemplateNodesDeleteMutationOptions = Apollo.BaseMutationOptions<
-  TemplateNodesDeleteMutation,
-  TemplateNodesDeleteMutationVariables
->;
+export function useTemplateNodesDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>(TemplateNodesDeleteDocument, options);
+      }
+export type TemplateNodesDeleteMutationHookResult = ReturnType<typeof useTemplateNodesDeleteMutation>;
+export type TemplateNodesDeleteMutationResult = Apollo.MutationResult<TemplateNodesDeleteMutation>;
+export type TemplateNodesDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
 export const TemplateNodesGroupsDocument = gql`
-  query templateNodesGroups(
-    $cursor: TemplateNodesGroupWhereUniqueInput
-    $distinct: [TemplateNodesGroupScalarFieldEnum!]
-    $orderBy: [TemplateNodesGroupOrderByWithRelationInput!]
-    $skip: Int
-    $take: Int
-    $where: TemplateNodesGroupWhereInput
+    query templateNodesGroups($cursor: TemplateNodesGroupWhereUniqueInput, $distinct: [TemplateNodesGroupScalarFieldEnum!], $orderBy: [TemplateNodesGroupOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodesGroupWhereInput) {
+  templateNodesGroups(
+    cursor: $cursor
+    distinct: $distinct
+    orderBy: $orderBy
+    skip: $skip
+    where: $where
+    take: $take
   ) {
-    templateNodesGroups(
-      cursor: $cursor
-      distinct: $distinct
-      orderBy: $orderBy
-      skip: $skip
-      where: $where
-      take: $take
-    ) {
-      id
-      name
-      description
-    }
+    id
+    name
+    description
   }
-`;
+}
+    `;
 
 /**
  * __useTemplateNodesGroupsQuery__
@@ -8365,53 +8264,25 @@ export const TemplateNodesGroupsDocument = gql`
  *   },
  * });
  */
-export function useTemplateNodesGroupsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TemplateNodesGroupsQuery,
-    TemplateNodesGroupsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    TemplateNodesGroupsQuery,
-    TemplateNodesGroupsQueryVariables
-  >(TemplateNodesGroupsDocument, options);
-}
-
-export function useTemplateNodesGroupsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TemplateNodesGroupsQuery,
-    TemplateNodesGroupsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    TemplateNodesGroupsQuery,
-    TemplateNodesGroupsQueryVariables
-  >(TemplateNodesGroupsDocument, options);
-}
-
-export type TemplateNodesGroupsQueryHookResult = ReturnType<
-  typeof useTemplateNodesGroupsQuery
->;
-export type TemplateNodesGroupsLazyQueryHookResult = ReturnType<
-  typeof useTemplateNodesGroupsLazyQuery
->;
-export type TemplateNodesGroupsQueryResult = Apollo.QueryResult<
-  TemplateNodesGroupsQuery,
-  TemplateNodesGroupsQueryVariables
->;
+export function useTemplateNodesGroupsQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
+      }
+export function useTemplateNodesGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
+        }
+export type TemplateNodesGroupsQueryHookResult = ReturnType<typeof useTemplateNodesGroupsQuery>;
+export type TemplateNodesGroupsLazyQueryHookResult = ReturnType<typeof useTemplateNodesGroupsLazyQuery>;
+export type TemplateNodesGroupsQueryResult = Apollo.QueryResult<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>;
 export const TemplateNodesGroupsMutationDocument = gql`
-  mutation templateNodesGroupsMutation($data: TemplateNodesGroupCreateInput!) {
-    createTemplateNodesGroup(data: $data) {
-      id
-    }
+    mutation templateNodesGroupsMutation($data: TemplateNodesGroupCreateInput!) {
+  createTemplateNodesGroup(data: $data) {
+    id
   }
-`;
-export type TemplateNodesGroupsMutationMutationFn = Apollo.MutationFunction<
-  TemplateNodesGroupsMutation,
-  TemplateNodesGroupsMutationVariables
->;
+}
+    `;
+export type TemplateNodesGroupsMutationMutationFn = Apollo.MutationFunction<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
 
 /**
  * __useTemplateNodesGroupsMutation__
@@ -8430,43 +8301,21 @@ export type TemplateNodesGroupsMutationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesGroupsMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesGroupsMutation,
-    TemplateNodesGroupsMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesGroupsMutation,
-    TemplateNodesGroupsMutationVariables
-  >(TemplateNodesGroupsMutationDocument, options);
-}
-
-export type TemplateNodesGroupsMutationHookResult = ReturnType<
-  typeof useTemplateNodesGroupsMutation
->;
-export type TemplateNodesGroupsMutationMutationResult =
-  Apollo.MutationResult<TemplateNodesGroupsMutation>;
-export type TemplateNodesGroupsMutationMutationOptions =
-  Apollo.BaseMutationOptions<
-    TemplateNodesGroupsMutation,
-    TemplateNodesGroupsMutationVariables
-  >;
+export function useTemplateNodesGroupsMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>(TemplateNodesGroupsMutationDocument, options);
+      }
+export type TemplateNodesGroupsMutationHookResult = ReturnType<typeof useTemplateNodesGroupsMutation>;
+export type TemplateNodesGroupsMutationMutationResult = Apollo.MutationResult<TemplateNodesGroupsMutation>;
+export type TemplateNodesGroupsMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
 export const TemplateNodesGroupsUpdateDocument = gql`
-  mutation templateNodesGroupsUpdate(
-    $data: TemplateNodesGroupUpdateInput!
-    $where: TemplateNodesGroupWhereUniqueInput!
-  ) {
-    updateTemplateNodesGroup(data: $data, where: $where) {
-      id
-    }
+    mutation templateNodesGroupsUpdate($data: TemplateNodesGroupUpdateInput!, $where: TemplateNodesGroupWhereUniqueInput!) {
+  updateTemplateNodesGroup(data: $data, where: $where) {
+    id
   }
-`;
-export type TemplateNodesGroupsUpdateMutationFn = Apollo.MutationFunction<
-  TemplateNodesGroupsUpdateMutation,
-  TemplateNodesGroupsUpdateMutationVariables
->;
+}
+    `;
+export type TemplateNodesGroupsUpdateMutationFn = Apollo.MutationFunction<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
 
 /**
  * __useTemplateNodesGroupsUpdateMutation__
@@ -8486,42 +8335,21 @@ export type TemplateNodesGroupsUpdateMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesGroupsUpdateMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesGroupsUpdateMutation,
-    TemplateNodesGroupsUpdateMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesGroupsUpdateMutation,
-    TemplateNodesGroupsUpdateMutationVariables
-  >(TemplateNodesGroupsUpdateDocument, options);
-}
-
-export type TemplateNodesGroupsUpdateMutationHookResult = ReturnType<
-  typeof useTemplateNodesGroupsUpdateMutation
->;
-export type TemplateNodesGroupsUpdateMutationResult =
-  Apollo.MutationResult<TemplateNodesGroupsUpdateMutation>;
-export type TemplateNodesGroupsUpdateMutationOptions =
-  Apollo.BaseMutationOptions<
-    TemplateNodesGroupsUpdateMutation,
-    TemplateNodesGroupsUpdateMutationVariables
-  >;
+export function useTemplateNodesGroupsUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>(TemplateNodesGroupsUpdateDocument, options);
+      }
+export type TemplateNodesGroupsUpdateMutationHookResult = ReturnType<typeof useTemplateNodesGroupsUpdateMutation>;
+export type TemplateNodesGroupsUpdateMutationResult = Apollo.MutationResult<TemplateNodesGroupsUpdateMutation>;
+export type TemplateNodesGroupsUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
 export const TemplateNodesGroupsDeleteDocument = gql`
-  mutation templateNodesGroupsDelete(
-    $where: TemplateNodesGroupWhereUniqueInput!
-  ) {
-    deleteTemplateNodesGroup(where: $where) {
-      id
-    }
+    mutation templateNodesGroupsDelete($where: TemplateNodesGroupWhereUniqueInput!) {
+  deleteTemplateNodesGroup(where: $where) {
+    id
   }
-`;
-export type TemplateNodesGroupsDeleteMutationFn = Apollo.MutationFunction<
-  TemplateNodesGroupsDeleteMutation,
-  TemplateNodesGroupsDeleteMutationVariables
->;
+}
+    `;
+export type TemplateNodesGroupsDeleteMutationFn = Apollo.MutationFunction<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
 
 /**
  * __useTemplateNodesGroupsDeleteMutation__
@@ -8540,26 +8368,79 @@ export type TemplateNodesGroupsDeleteMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useTemplateNodesGroupsDeleteMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    TemplateNodesGroupsDeleteMutation,
-    TemplateNodesGroupsDeleteMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    TemplateNodesGroupsDeleteMutation,
-    TemplateNodesGroupsDeleteMutationVariables
-  >(TemplateNodesGroupsDeleteDocument, options);
+export function useTemplateNodesGroupsDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>(TemplateNodesGroupsDeleteDocument, options);
+      }
+export type TemplateNodesGroupsDeleteMutationHookResult = ReturnType<typeof useTemplateNodesGroupsDeleteMutation>;
+export type TemplateNodesGroupsDeleteMutationResult = Apollo.MutationResult<TemplateNodesGroupsDeleteMutation>;
+export type TemplateNodesGroupsDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
+export const BotFlowDocument = gql`
+    query botFlow($where: BotFlowWhereUniqueInput!) {
+  botFlow(where: $where) {
+    id
+    name
+    description
+    versions {
+      id
+      version
+      nodes {
+        id
+        NodeProps {
+          ...nodeProps
+        }
+        info {
+          ...nodeInfo
+        }
+        ports {
+          id
+          index
+          flowNodeId
+        }
+        pos @client {
+          x
+          y
+        }
+      }
+      connections {
+        id
+        fromPort {
+          id
+        }
+        toPort {
+          id
+        }
+      }
+    }
+  }
 }
+    ${NodePropsFragmentDoc}
+${NodeInfoFragmentDoc}`;
 
-export type TemplateNodesGroupsDeleteMutationHookResult = ReturnType<
-  typeof useTemplateNodesGroupsDeleteMutation
->;
-export type TemplateNodesGroupsDeleteMutationResult =
-  Apollo.MutationResult<TemplateNodesGroupsDeleteMutation>;
-export type TemplateNodesGroupsDeleteMutationOptions =
-  Apollo.BaseMutationOptions<
-    TemplateNodesGroupsDeleteMutation,
-    TemplateNodesGroupsDeleteMutationVariables
-  >;
+/**
+ * __useBotFlowQuery__
+ *
+ * To run a query within a React component, call `useBotFlowQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBotFlowQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBotFlowQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useBotFlowQuery(baseOptions: Apollo.QueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
+      }
+export function useBotFlowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
+        }
+export type BotFlowQueryHookResult = ReturnType<typeof useBotFlowQuery>;
+export type BotFlowLazyQueryHookResult = ReturnType<typeof useBotFlowLazyQuery>;
+export type BotFlowQueryResult = Apollo.QueryResult<BotFlowQuery, BotFlowQueryVariables>;

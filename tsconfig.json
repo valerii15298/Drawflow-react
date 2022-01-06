@@ -11,7 +11,7 @@
     //    "skipLibCheck": false,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-//    "strict": true,
+    //    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -21,6 +21,9 @@
     "jsx": "react-jsxdev",
     "skipLibCheck": true
   },
+  "files": [
+    "src/global.d.ts"
+  ],
   "include": [
     "./src"
   ]
