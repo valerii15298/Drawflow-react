@@ -1,71 +1,16 @@
 import { useRef } from "react";
-import styled from "styled-components";
 import { dragTemplate, setStateAction } from "../redux/actions";
 import { getFileUrl } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { ThreeDots } from "../svg";
 import { mainWindow } from "../types";
 import { formType } from "./NodeSettings/TemplateNodeSettings";
-
-export const TapMoreButton = styled.button`
-  position: absolute;
-  right: 0.2em;
-  top: 0.2em;
-  display: grid;
-  place-items: center;
-  padding: 8px 8px 4px 4px;
-  border: 0;
-  background: 0;
-
-  svg {
-    /* stroke: red; */
-
-    circle {
-      fill: black;
-    }
-  }
-
-  :hover {
-    background-color: #d8d8d8;
-    cursor: pointer;
-    border-radius: 0.2em;
-  }
-`;
-
-export const NodeDiv = styled.div`
-  /* width: min-content; */
-  position: relative;
-  padding: 1em 0.3em 0.3em;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-
-  text-align: center;
-  background-color: white;
-  box-shadow: 0 4px 30px rgb(22 33 74 / 25%);
-  border-radius: 5px;
-  //max-width: 100%;
-
-  :hover {
-    box-shadow: 0 4px 30px rgb(22 33 74 / 15%);
-    background-color: #f8f8f8;
-  }
-`;
-
-const NodeImg = styled.img`
-  max-height: 70%;
-  max-width: 70%;
-  margin-bottom: 0.2em;
-  margin-top: 0.2em;
-  //align-self: flex-start;
-`;
-
-const NodeTitleSpan = styled.div`
-  //word-break: break-word;
-  //hyphens: auto;
-`;
+import {
+  NodeDiv,
+  NodeImg,
+  NodeTitleSpan,
+  TapMoreButton,
+} from "./StyledComponents";
 
 export const NodeTemplate = (props: formType) => {
   const { id, order } = props;

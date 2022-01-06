@@ -1,13 +1,10 @@
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
-import tilePng from "../assets/tile.png";
 import {
   addNewNode,
   canvasShapeUpdated,
   insertCopiedNode,
   setStateAction,
 } from "../redux/actions";
-import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { postFlowVersion } from "../redux/api";
 import { actions } from "../redux/drawflowSlice";
 import {
@@ -16,6 +13,7 @@ import {
   useLocalStorage,
 } from "../redux/hooks";
 import { useActiveFlow } from "../redux/selectors";
+import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { toggleAvailablePortToConnectThunk } from "../redux/thunks/toggleAvailablePortToConnectThunk";
 import { canvasShape, LocalStorageKey } from "../types";
 import { ConnectionList } from "./ConnectionList";
@@ -23,22 +21,12 @@ import DrawflowZoomArea from "./DrawflowZoomArea";
 import { NewPath } from "./NewPath";
 
 import { NodeList } from "./NodeList";
-
-const ParentDrawflow = styled.div`
-  position: relative;
-  height: 100vh;
-  //height: 100%;
-  overflow: hidden;
-  background-image: url(${tilePng});
-  background-repeat: repeat;
-  background-size: 30px 30px;
-`;
-
-const InnerDrawflow = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-`;
+import {
+  BackgroundDiv,
+  CommitFlowButton,
+  InnerDrawflow,
+  ParentDrawflow,
+} from "./StyledComponents";
 
 const updateTransform = (
   el: HTMLElement,
@@ -54,18 +42,6 @@ const updateTransform = (
     .map(Number) || [0, 0];
   el.style.transform = `translate(${x + dx}px, ${y + dy}px) scale(${scale})`;
 };
-
-const BackgroundDiv = styled.div`
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: -1;
-`;
 
 const useBackground = () => {
   const dispatch = useAppDispatch();
@@ -94,20 +70,6 @@ const useBackground = () => {
   }, []);
 };
 
-const CommitFlowButton = styled.button`
-  padding: 5px 10px;
-  font-style: italic;
-  font-size: 16px;
-  top: 10px;
-  position: absolute;
-  cursor: pointer;
-  z-index: 50;
-  border: 1px solid #e8e8ef;
-  border-radius: 5px;
-  color: #fff;
-  background-color: #217ce8;
-  left: 10px;
-`;
 export const Drawflow = () => {
   // console.log("Render Drawflow");
   // return null;

@@ -1,42 +1,17 @@
 import { useEffect, useRef } from "react";
-import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
-import { portType } from "../types";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import styled, { css } from "styled-components";
-import { Block } from "./NodeComponents";
-import { nodeStyle, subnodeStyle } from "../styles";
-import { Ports } from "./Ports";
 import {
   useDrag,
   useNode,
   useNodeIsSelected,
   useNodePos,
 } from "../redux/selectors";
-
-const BlockStyled = styled.div<{
-  isSub: boolean;
-  selected: boolean;
-}>`
-  display: inline-block;
-  position: absolute;
-  padding: 0 0.7em;
-  width: 200px;
-  min-height: 60px;
-  background-color: white;
-  border-radius: 0.2em;
-  z-index: 1;
-  cursor: move;
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      //box-shadow: 0 2px 15px 2px #cacaca;
-      box-shadow: 0 2px 20px 2px #4ea9ff;
-      z-index: 2;
-    `};
-`;
+import { portType } from "../types";
+import { Block } from "./NodeComponents";
+import { Ports } from "./Ports";
+import { BlockStyled } from "./StyledComponents";
 
 const DrawflowNodeBlock = ({ id }: { id: number }) => {
   // console.log(`Render node id: ${id}`);
@@ -59,7 +34,11 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     if (ref.current) {
       const { offsetHeight, offsetWidth } = ref.current;
       dispatch(
-        actions.nodeSize({ height: offsetHeight, width: offsetWidth, id })
+        actions.nodeSize({
+          height: offsetHeight,
+          width: offsetWidth,
+          id,
+        })
       );
       // dispatch(actions.align());
       // console.log(`align node ${id}`);
@@ -78,7 +57,10 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
         return {
           nodeId: id,
-          pos: { x, y },
+          pos: {
+            x,
+            y,
+          },
           portId: portId + 1,
           type,
         };
@@ -119,8 +101,18 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       onMouseDown={(e) => {
         e.stopPropagation();
         const { clientX, clientY } = e;
-        dispatch(actions.select({ type: "node", selectId: id }));
-        dispatch(actions.setMouseBlockDragPos({ clientX, clientY }));
+        dispatch(
+          actions.select({
+            type: "node",
+            selectId: id,
+          })
+        );
+        dispatch(
+          actions.setMouseBlockDragPos({
+            clientX,
+            clientY,
+          })
+        );
       }}
       onContextMenu={() => {
         // TODO show delete button

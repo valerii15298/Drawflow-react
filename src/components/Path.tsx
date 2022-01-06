@@ -1,32 +1,7 @@
-import styled, { css } from "styled-components";
 import { actions } from "../redux/drawflowSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { usePathIsSelected } from "../redux/selectors";
-
-const Svg = styled.svg`
-  position: absolute;
-  overflow: visible;
-`;
-
-const StyledPath = styled.path<{
-  selected: boolean;
-}>`
-  :hover {
-    stroke-width: 6px;
-    stroke: purple;
-    cursor: pointer;
-  }
-
-  fill: none;
-  stroke-width: 6px;
-  stroke: steelblue;
-  ${({ selected }) =>
-    selected &&
-    css`
-      stroke-width: 7px;
-      stroke: red;
-    `};
-`;
+import { StyledPath, Svg } from "./StyledComponents";
 
 type Props = {
   id?: number;
@@ -47,7 +22,12 @@ export const Path = (props: Props) => {
           if (id === undefined) return;
           e.stopPropagation();
           // if (editLock) return;
-          dispatch(actions.select({ type: "path", selectId: id }));
+          dispatch(
+            actions.select({
+              type: "path",
+              selectId: id,
+            })
+          );
         }}
       />
     </Svg>

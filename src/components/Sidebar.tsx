@@ -1,70 +1,20 @@
 import { useState } from "react";
-import styled, { css } from "styled-components";
 import { useTemplateNodesGroupsQuery } from "../generated/apollo";
 import { setStateAction, toggleSidebar } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Arrows, SearchIcon, SettingsIcon } from "../svg";
 import { sideWindow } from "../types";
+import {
+  ExpandDiv,
+  GroupItemDiv,
+  GroupsListDiv,
+  OpenGroupSettingButton,
+  SearchDiv,
+  SearchInput,
+  SearchSpan,
+  SidebarDiv,
+} from "./StyledComponents";
 import FilterList from "./TemplateNodesList";
-
-const SidebarDiv = styled.div`
-  width: 300px;
-  order: -2;
-  max-height: calc(100vh + 40px);
-`;
-
-const GroupsDiv = styled.div`
-  border-bottom: 1px solid #e8e8ef;
-  max-height: 50px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
-  text-align: center;
-  transition: all 0.5s ease;
-  justify-content: space-around;
-
-  :hover {
-    max-height: 500px;
-
-    div {
-      order: unset;
-    }
-  }
-`;
-
-const GroupDiv = styled.div<{ selected: boolean }>`
-  display: grid;
-  place-items: center;
-  font-family: Roboto, serif;
-  height: 48px;
-  padding: 1em;
-  text-align: center;
-  position: relative;
-
-  :hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      order: -1;
-
-      :after {
-        position: absolute;
-        display: block;
-        content: "";
-        width: 100%;
-        height: 4px;
-        background-color: #217ce8;
-        bottom: 0;
-      }
-    `};
-`;
 
 const GroupList = ({
   selectedGroup,
@@ -81,82 +31,28 @@ const GroupList = ({
   const groups = data.templateNodesGroups;
 
   return (
-    <GroupsDiv>
-      <GroupDiv
+    <GroupsListDiv>
+      <GroupItemDiv
         key={0}
         selected={-1 === selectedGroup}
         onClick={() => setSelectedGroup(-1)}
       >
         {"All"}
-      </GroupDiv>
+      </GroupItemDiv>
       {groups.map(({ id, name }) => {
         return (
-          <GroupDiv
+          <GroupItemDiv
             key={id}
             selected={id === selectedGroup}
             onClick={() => setSelectedGroup(id)}
           >
             {name}
-          </GroupDiv>
+          </GroupItemDiv>
         );
       })}
-    </GroupsDiv>
+    </GroupsListDiv>
   );
 };
-
-const SearchInput = styled.input`
-  display: block;
-  width: 75%;
-  height: 40px;
-  background-color: #fff;
-  border: 1px solid #e8e8ef;
-  box-shadow: 0 2px 8px rgb(34 34 87 / 5%);
-  border-radius: 5px;
-  text-indent: 35px;
-  font-size: 16px;
-  margin-right: 3px;
-`;
-
-const SearchDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  //margin-top: 10px;
-`;
-
-const SearchSpan = styled.span`
-  margin-left: auto;
-  margin-right: -25px;
-  display: inline-block;
-  z-index: 2;
-  height: 18px;
-  width: 18px;
-  background-color: white;
-  position: relative;
-
-  ::before,
-  ::after {
-    content: "";
-    background-color: white;
-    width: 5px;
-    height: 20px;
-    position: absolute;
-  }
-
-  ::before {
-    left: -5px;
-  }
-
-  ::after {
-    right: -5px;
-  }
-`;
-
-const OpenGroupSettingButton = styled.button`
-  border: none;
-  background-color: transparent;
-  padding: 0;
-`;
 
 const SearchBar = ({
   setSearchWord,
@@ -193,21 +89,6 @@ const SearchBar = ({
   );
 };
 
-const ExpandDiv = styled.div<{ opened: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  ${({ opened }) =>
-    opened &&
-    css`
-      transform: rotate(180deg);
-    `};
-`;
 export const ToggleSidebar = (props: any) => {
   const visible = useAppSelector((s) => s.sidebarVisible) ?? true;
   const dispatch = useAppDispatch();

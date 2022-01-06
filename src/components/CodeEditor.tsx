@@ -1,25 +1,7 @@
 import JSONEditor, { JSONEditorOptions } from "jsoneditor";
 import { useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
 import { useAppSelector } from "../redux/hooks";
-
-const CodeEditorDiv = styled.div<{ shift?: boolean }>`
-  flex: 1;
-  max-height: 100vh;
-  min-width: 480px;
-  height: 100%;
-  ${({ shift }) =>
-    shift &&
-    css`
-      div.ql-toolbar.ql-snow {
-        padding-left: 40px;
-      }
-
-      .jsoneditor-menu {
-        padding-left: 40px;
-      }
-    `}
-`;
+import { CodeEditorDiv } from "./StyledComponents";
 
 type CodeEditorProps = {
   values: any;

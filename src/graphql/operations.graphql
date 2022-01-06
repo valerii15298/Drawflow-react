@@ -213,6 +213,27 @@ fragment connectionsList on BotFlowVersion {
   }
 }
 
+fragment nodesList on BotFlowVersion {
+  nodes {
+    id
+    NodeProps {
+      ...nodeProps
+    }
+    info {
+      ...nodeInfo
+    }
+    ports {
+      id
+      index
+      flowNodeId
+    }
+    pos @client {
+      x
+      y
+    }
+  }
+}
+
 query botFlow($where: BotFlowWhereUniqueInput!) {
   botFlow(where: $where) {
     id
@@ -221,33 +242,8 @@ query botFlow($where: BotFlowWhereUniqueInput!) {
     versions {
       id
       version
-      nodes {
-        id
-        NodeProps {
-          ...nodeProps
-        }
-        info {
-          ...nodeInfo
-        }
-        ports {
-          id
-          index
-          flowNodeId
-        }
-        pos @client {
-          x
-          y
-        }
-      }
-      connections {
-        id
-        fromPort {
-          id
-        }
-        toPort {
-          id
-        }
-      }
+      ...nodesList
+      ...connectionsList
     }
   }
 }

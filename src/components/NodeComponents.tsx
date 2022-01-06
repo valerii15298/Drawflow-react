@@ -1,17 +1,11 @@
 // import { useState } from "react";
 // import { Grabme, More } from "../svg"
 
-import styled from "styled-components";
 import { setStateAction } from "../redux/actions";
-import { block, mainWindow, pureNode } from "../types";
-import { ThreeDots } from "../svg";
-import { TapMoreButton } from "./NodeTemplate";
 import { useAppDispatch } from "../redux/hooks";
-
-const BlockDiv = styled.div`
-  max-height: 100%;
-  overflow: hidden;
-`;
+import { ThreeDots } from "../svg";
+import { mainWindow, pureNode } from "../types";
+import { BlockDiv, TapMoreButton } from "./StyledComponents";
 
 export const Block = (props: pureNode) => {
   // console.log(props);

@@ -1,6 +1,5 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import styled from "styled-components";
 import {
   useTemplateNodesGroupsDeleteMutation,
   useTemplateNodesGroupsMutation,
@@ -11,74 +10,18 @@ import { setStateAction } from "../redux/actions";
 import { useAppDispatch } from "../redux/hooks";
 import { Close } from "../svg";
 import { sideWindow } from "../types";
-import { CloseButton } from "./FlowInfoSettings";
-import { Button } from "./StyledComponents";
-
-const ControlButtonsDiv = styled.div``;
-
-const GroupsDiv = styled.div`
-  padding: 0 10px 10px;
-  position: relative;
-  border: 1px solid #e8e8ef;
-  flex: 0 0 300px;
-  overflow-y: auto;
-  max-height: 100%;
-`;
-const GroupDiv = styled.div`
-  margin-bottom: 15px;
-  padding: 5px;
-  border-bottom: 2px solid lightgray;
-`;
-const GroupIdSpan = styled.span`
-  color: blue;
-
-  ::before {
-    margin-left: 8px;
-    content: " ID.";
-  }
-`;
-
-const AddNewGroupButton = styled(Button)`
-  text-align: center;
-`;
-const ButtonDeleteGroup = styled(Button)`
-  margin-left: 5px;
-`;
-const ButtonSaveGroup = styled(Button)`
-  margin-left: 5px;
-`;
-
-const DivGroup1 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  margin-bottom: 8px;
-`;
-
-const GroupsSettingsH1 = styled.h2`
-  text-align: center;
-  border-bottom: 2px solid blue;
-  color: #217ce8;
-`;
-
-const GroupTitleInput = styled.input`
-  margin-right: 10px;
-  font-weight: bolder;
-  border: 1px solid #217ce8;
-  font-size: 0.9em;
-  border-radius: 5px;
-  padding: 3px;
-  margin-bottom: 5px;
-  width: 90%;
-`;
-const GroupDescriptionTextarea = styled.textarea`
-  border-radius: 5px;
-  border: 1px solid #217ce8;
-
-  /* flex: 1; */
-  width: 90%;
-  /* text-align: center; */
-`;
+import {
+  AddNewGroupButton,
+  ButtonDeleteGroup,
+  ButtonSaveGroup,
+  CloseButton,
+  ControlButtonsDiv,
+  DivGroup1,
+  GroupDiv,
+  GroupIdSpan,
+  GroupsDiv,
+  GroupsSettingsH1,
+} from "./StyledComponents";
 
 export const GroupsSettings = () => {
   // const originalGroups = useAppSelector((s) => s.groups);

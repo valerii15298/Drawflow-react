@@ -6,7 +6,6 @@
  */
 
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { setStateAction } from "../redux/actions";
 import { request, REQUEST_TYPE } from "../redux/api";
 import {
@@ -16,64 +15,13 @@ import {
 } from "../redux/hooks";
 import { Close } from "../svg";
 import { LocalStorageKey, sideWindow } from "../types";
-
-export const CloseButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  outline: none;
-  border: none;
-`;
-const FlowInfoSettingsSection = styled.section`
-  position: relative;
-  flex: 0 0 400px;
-  overflow-y: auto;
-  max-height: calc(100vh + 40px);
-  padding-top: 30px;
-  border: 1px solid #e8e8ef;
-`;
-
-const SettingsLabel = styled.label`
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const BackgroundImages = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-top: 10px;
-  padding: 10px;
-
-  button {
-    background: none;
-    border: none;
-    outline: none;
-  }
-
-  img {
-    height: 100px;
-    width: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-`;
-
-const BackgroundSettingsDiv = styled.div`
-  background: #e8e8ef;
-
-  label {
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-
-    input {
-      margin-top: 2px;
-    }
-  }
-`;
+import {
+  BackgroundImages,
+  BackgroundSettingsDiv,
+  CloseButton,
+  FlowInfoSettingsSection,
+  SettingsLabel,
+} from "./StyledComponents";
 
 export const FlowInfoSettings = () => {
   const flowInfo = useAppSelector((s) => s.flowInfo);

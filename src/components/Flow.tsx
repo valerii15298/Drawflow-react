@@ -2,8 +2,7 @@ import "jsoneditor/dist/jsoneditor.css";
 import { useEffect } from "react";
 
 import "react-toggle/style.css";
-import styled, { css } from "styled-components";
-import { Chat } from "../chat/Chat";
+import styled from "styled-components";
 import {
   fetchFlow,
   fetchGroups,
@@ -20,51 +19,12 @@ import { Header } from "./Header";
 import { NodeSettings } from "./NodeSettings/NodeSettings";
 import { TemplateNodeSettings } from "./NodeSettings/TemplateNodeSettings";
 import { Sidebar, ToggleSidebar } from "./Sidebar";
-
-const VersionsDiv = styled.div`
-  display: flex;
-  align-items: normal;
-  overflow-x: auto;
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #2986f5;
-  }
-
-  &::-webkit-scrollbar {
-    height: 5px;
-  }
-`;
-
-const FlowDiv = styled.div`
-  flex: 1;
-  order: -1;
-  width: 0;
-`;
-
-const Main = styled.main`
-  display: flex;
-  position: relative;
-`;
-
-const MainDiv = styled.div`
-  display: flex;
-  //width: 100vw;
-`;
+import { FlowDiv, Main, MainDiv } from "./StyledComponents";
 
 const AppCodeEditor = () => {
   const json = useAppSelector((s) => s);
   return <CodeEditor values={json} setValues={() => null} />;
 };
-
-const VersionButton = styled.button<{ selected: boolean }>`
-  white-space: nowrap;
-  //display: inline-block;
-  ${({ selected }) =>
-    selected &&
-    css`
-      font-weight: bold;
-    `}
-`;
 
 const MainFlow = () => {
   return (
