@@ -6,20 +6,6 @@ import {
 import { apolloClient } from "../../graphql";
 import { NodeSettingsContext, Settings } from "./Settings";
 
-const IS_LOGGED_IN = gql`
-  query FFF {
-    templateNodes {
-      id
-    }
-  }
-`;
-
-console.log(
-  apolloClient.readQuery({
-    query: IS_LOGGED_IN,
-  })
-);
-
 export type formType = TemplateNodesQuery["templateNodes"][number];
 
 export const TemplateNodeSettings = ({ id }: { id: number }) => {

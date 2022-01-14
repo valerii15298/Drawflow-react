@@ -188,7 +188,6 @@ export interface stateData {
   canvasDrag: boolean;
   config: {
     drag: boolean;
-    connectionsLabelEnable: boolean;
     canvasTranslate: pos;
     zoom: {
       value: number;
@@ -202,9 +201,6 @@ export interface stateData {
   newPathDirection: clientPos | null;
   ports: ports;
   connections: connections;
-  connectionsLabel: {
-    [propName: string]: string;
-  };
   select: select | null;
   editLock: boolean;
   mouseBlockDragPos: {

@@ -10,11 +10,11 @@ import {
 } from "@apollo/client";
 import { ReadFieldOptions } from "@apollo/client/cache";
 import { FC, useEffect } from "react";
-import { useBotFlowQuery } from "../generated/apollo";
-import { StrictTypedTypePolicies } from "../generated/apollo-helpers";
+import { Connection, useBotFlowQuery } from "../generated/apollo";
+import { TypedTypePolicies } from "../generated/apollo-helpers";
+import { useFragment } from "./apollo/useFragment";
 import introspectionQueryResultData from "./fragmentTypes";
 import { typeDefs } from "./local-schema";
-import localSchema from "./local-schema.graphql";
 
 type DeepReference<X> = X extends Record<string, any>
   ? X extends { id: string }
@@ -29,7 +29,7 @@ type DeepReference<X> = X extends Record<string, any>
 export interface ReadFieldFunction {
   <T, K extends keyof T = keyof T>(
     context: FieldFunctionOptions,
-    options: ReadFieldOptions
+    options: ReadFieldOptions & { fieldName: K }
   ): DeepReference<T[K]>;
 
   <T, K extends keyof T = keyof T>(
@@ -44,12 +44,50 @@ export const readField: ReadFieldFunction = (...args) => {
   return context.readField(...restArgs);
 };
 
-const typePolicies: StrictTypedTypePolicies = {
+const typePolicies: TypedTypePolicies = {
   Query: {
     fields: {
       isLoggedIn: {
-        read() {
+        read(_, ctx) {
+          // const isLoggedIn = readField<Query, "isLoggedIn">(ctx, {
+          //   fieldName: "isLoggedIn",
+          // });
           return false;
+        },
+      },
+      connCurva: {
+        read(_, ctx) {
+          const connId = ctx.args.id;
+          const conn = ctx.cache.readFragment({
+            id: `Connection:${connId}`,
+            fragment: gql`
+              fragment s on Connection {
+                toPort {
+                  id
+                }
+                fromPort {
+                  id
+                }
+              }
+            `,
+          });
+          // console.log({ conn });
+          console.log("connCurvaResolver executed!");
+          return { conn };
+        },
+      },
+    },
+  },
+  Connection: {
+    fields: {
+      curvature: {
+        read(_, ctx) {
+          const toPos = readField<Connection, "toPort">(ctx, "toPort").pos;
+          const fromPos = readField<Connection, "fromPort">(
+            ctx,
+            "fromPort"
+          ).pos;
+          return `${fromPos} - ${toPos}`;
         },
       },
     },
@@ -81,7 +119,7 @@ const typePolicies: StrictTypedTypePolicies = {
           { cache, field }
         ) {
           // cache.writeFragment({id: })
-          console.log(`Read pos on Node!!!!!!`);
+          // console.log(`Read pos on Node!!!!!!`);
           return v;
         },
       },
@@ -100,74 +138,102 @@ export const apolloClient = new ApolloClient({
   typeDefs: [typeDefs],
 });
 
-setInterval(() => {
-  console.log(cache.extract());
-}, 3000);
+const fragment = gql`
+  fragment test on Connection {
+    id
+    __typename
+    toPort {
+      id
+    }
+    fromPort {
+      id
+    }
+  }
+`;
 
-// apolloClient.writeQuery({
-//   query: gql`
-//     query WriteTestField {
-//       testField
-//     }
-//   `,
-//   data: {
-//     // Contains the data to write
-//     testField: "Hello, tttttt",
-//   },
-// });
-
-// apolloClient.writeQuery({
-//   query: gql`
-//     query WriteTestField {
-//       readTeacher {
-//         id
-//         name
-//       }
-//     }
-//   `,
-//   data: {
-//     // Contains the data to write
-//     testField: "Hello, tttttt",
-//     readTeacher: {
-//       id: 1,
-//       name: "some trrr",
-//     },
-//   },
-// });
+console.log(
+  cache.writeFragment({
+    id: `Connection:1`,
+    fragment: gql`
+      fragment test on Connection {
+        id
+        __typename
+        toPort {
+          id
+        }
+        fromPort {
+          id
+        }
+      }
+    `,
+    data: {
+      __typename: "Connection",
+      id: 1,
+      toPort: {
+        id: 1,
+      },
+      fromPort: {
+        id: 2,
+      },
+    },
+  })
+);
 
 const TestApp = () => {
-  const { data: d } = useQuery(gql`
+  const {
+    error,
+    loading,
+    data: d,
+  } = useQuery(gql`
     query ExampleQuery {
-      isLoggedIn @client
+      connCurva(id: 1)
     }
   `);
-  console.log({ d });
-  const { error, loading, data } = useBotFlowQuery({
-    variables: { where: { id: 1 } },
+
+  const y = useFragment({
+    id: `Connection:1`,
+    fragment,
   });
+  console.log({ y });
 
-  const connections = {};
-  const nodes = {};
-  const ports = {};
-
-  useEffect(() => {
-    return;
-  }, []);
   if (error) return <div>Error: {error}</div>;
   if (loading) return <div>Loading...{loading}</div>;
-  console.log({ data });
-  const v = data.botFlow.versions[0];
-  v.nodes.forEach((node) => {
-    node.ports.forEach((port) => {
-      ports[port.id] = port;
-    });
-    console.log({ pp: node.pos });
-  });
-  v.connections.forEach((c) => {
-    connections[c.id] = c;
-  });
 
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return (
+    <div>
+      <pre>{JSON.stringify(d, null, 2)}</pre>
+      <button
+        onClick={() => {
+          cache.updateFragment(
+            {
+              id: `Connection:1`,
+              fragment: gql`
+                fragment conn on Connection {
+                  toPort {
+                    id
+                  }
+                  fromPort {
+                    id
+                  }
+                }
+              `,
+            },
+            (prev) => {
+              return {
+                ...prev,
+                toPort: {
+                  ...prev.toPort,
+                  id: Math.floor(Math.random() * 100),
+                },
+              };
+            }
+          );
+        }}
+      >
+        Update connection
+      </button>
+    </div>
+  );
 };
 
 export default (({ children }) => {

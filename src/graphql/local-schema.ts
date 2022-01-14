@@ -23,5 +23,6 @@ export const typeDefs = gql`
 
   extend type Query {
     isLoggedIn: Boolean!
+    connCurva(id: Int!): String!
   }
 `;

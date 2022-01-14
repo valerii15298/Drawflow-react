@@ -6250,6 +6250,7 @@ export type Query = {
   botFlowVersion?: Maybe<BotFlowVersion>;
   botFlowVersions: Array<BotFlowVersion>;
   botFlows: Array<BotFlow>;
+  connCurva: Scalars['String'];
   connection?: Maybe<Connection>;
   connections: Array<Connection>;
   findFirstBotFlow?: Maybe<BotFlow>;
@@ -6524,6 +6525,11 @@ export type QueryBotFlowsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<BotFlowWhereInput>;
+};
+
+
+export type QueryConnCurvaArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -7948,6 +7954,10 @@ export type TemplateNodesGroupsDeleteMutationVariables = Exact<{
 
 export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', deleteTemplateNodesGroup?: { __typename?: 'TemplateNodesGroup', id: number } | null | undefined };
 
+export type ConnectionsListFragment = { __typename?: 'BotFlowVersion', connections: Array<{ __typename?: 'Connection', id: number, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> };
+
+export type NodesListFragment = { __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, ports: Array<{ __typename?: 'Port', id: number, index: number, flowNodeId: number }>, pos: { __typename?: 'Pos', x: number, y: number } }> };
+
 export type BotFlowQueryVariables = Exact<{
   where: BotFlowWhereUniqueInput;
 }>;
@@ -8079,6 +8089,42 @@ export const TemplateNodeFragmentDoc = gql`
 }
     ${NodeInfoFragmentDoc}
 ${NodePropsFragmentDoc}`;
+export const ConnectionsListFragmentDoc = gql`
+    fragment connectionsList on BotFlowVersion {
+  connections {
+    id
+    fromPort {
+      id
+    }
+    toPort {
+      id
+    }
+  }
+}
+    `;
+export const NodesListFragmentDoc = gql`
+    fragment nodesList on BotFlowVersion {
+  nodes {
+    id
+    NodeProps {
+      ...nodeProps
+    }
+    info {
+      ...nodeInfo
+    }
+    ports {
+      id
+      index
+      flowNodeId
+    }
+    pos @client {
+      x
+      y
+    }
+  }
+}
+    ${NodePropsFragmentDoc}
+${NodeInfoFragmentDoc}`;
 export const TemplateNodesDocument = gql`
     query templateNodes($cursor: TemplateNodeWhereUniqueInput, $distinct: [TemplateNodeScalarFieldEnum!], $orderBy: [TemplateNodeOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodeWhereInput) {
   templateNodes(
@@ -8384,38 +8430,13 @@ export const BotFlowDocument = gql`
     versions {
       id
       version
-      nodes {
-        id
-        NodeProps {
-          ...nodeProps
-        }
-        info {
-          ...nodeInfo
-        }
-        ports {
-          id
-          index
-          flowNodeId
-        }
-        pos @client {
-          x
-          y
-        }
-      }
-      connections {
-        id
-        fromPort {
-          id
-        }
-        toPort {
-          id
-        }
-      }
+      ...nodesList
+      ...connectionsList
     }
   }
 }
-    ${NodePropsFragmentDoc}
-${NodeInfoFragmentDoc}`;
+    ${NodesListFragmentDoc}
+${ConnectionsListFragmentDoc}`;
 
 /**
  * __useBotFlowQuery__

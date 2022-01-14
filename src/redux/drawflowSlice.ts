@@ -21,7 +21,6 @@ export const initialState: stateData = {
   canvasDrag: false,
   config: {
     drag: false,
-    connectionsLabelEnable: false,
     canvasTranslate: {
       x: 0,
       y: 0,
@@ -35,7 +34,6 @@ export const initialState: stateData = {
   },
   drawflow: {},
   connections: [],
-  connectionsLabel: {},
   ports: [],
   select: null,
   newPathDirection: null,
