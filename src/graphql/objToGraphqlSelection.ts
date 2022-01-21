@@ -2,11 +2,11 @@ import { StrictTypedTypePolicies } from "../generated/apollo-helpers";
 import { isArray } from "../types";
 import { keyFieldsByTypename } from "./typePolicies";
 
-export interface TypenameShape {
-  __typename: string;
-
-  [p: string]: TypenameShape | string;
-}
+// export interface TypenameShape {
+//   __typename: string;
+//
+//   [p: string]: TypenameShape | string;
+// }
 
 export const objToGraphqlSelection = (obj: Record<string, any>) => {
   let selection = "{ ";

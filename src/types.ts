@@ -253,7 +253,11 @@ type RecursiveNull<T> = {
 
 export type RecursiveFunc<T> = {
   [P in keyof T]: T[P] extends (infer U)[]
-    ? RecursiveFunc<U>[]
+    ? {
+        (): RecursiveFunc<U>[];
+        set: (arg: RecursivePartial<U>[]) => void;
+        target: T[P];
+      }
     : T[P] extends object
     ? {
         (): RecursiveFunc<T[P]>;
