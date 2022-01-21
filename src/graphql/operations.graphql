@@ -204,6 +204,9 @@ directive @export(as: String) on FIELD
 fragment connectionsList on BotFlowVersion {
   connections {
     id
+    curvature @client
+    #    visible @client
+    #    selected @client
     fromPort {
       id
     }
@@ -222,11 +225,26 @@ fragment nodesList on BotFlowVersion {
     info {
       ...nodeInfo
     }
+    flow {
+      id
+    }
     ports {
       id
       index
-      flowNodeId
+      node {
+        id
+      }
     }
+    #    firstSubnode @client {
+    #      id
+    #    }
+    #    children(portIndex: 3) @client {
+    #      id
+    #      info {
+    #        name
+    #      }
+    #    }
+    #    selected @client
     pos @client {
       x
       y

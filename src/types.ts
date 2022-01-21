@@ -11,6 +11,12 @@ export enum LocalStorageKey {
   backgroundImageUrl = "backgroundImageUrl",
 }
 
+export enum PORT {
+  in = 1,
+  out,
+  sub,
+}
+
 export enum portType {
   in = "in",
   out = "out",
@@ -32,9 +38,11 @@ export type port = {
 };
 
 export interface purePort {
+  // id: number
   nodeId: number;
-  portId: number;
-  type: portType;
+  portId: number; // TODO delete field
+  // index: number;
+  type: portType; // TODO delete field
 }
 
 export interface Port extends purePort {
@@ -82,6 +90,10 @@ export interface block {
 export const ObjectKeys = <O>(o: O) => {
   return Object.keys(o) as (keyof O)[];
 };
+
+export const isArray = Array.isArray as (
+  arg: unknown
+) => arg is unknown[] | readonly unknown[];
 
 // export const blockTypes = {
 //   active: "select",
@@ -166,9 +178,6 @@ export type connections = Array<connection>;
 export type data = {
   nodes: drawflow;
   connections: connections;
-  connectionsLabel?: {
-    [propName: string]: string;
-  };
 };
 
 export type select = {
@@ -241,6 +250,23 @@ type RecursiveNull<T> = {
     ? RecursivePartial<T[P]>
     : T[P] | null;
 };
+
+export type RecursiveFunc<T> = {
+  [P in keyof T]: T[P] extends (infer U)[]
+    ? RecursiveFunc<U>[]
+    : T[P] extends object
+    ? {
+        (): RecursiveFunc<T[P]>;
+        set: (arg: RecursivePartial<T[P]>) => void;
+        target: T[P];
+      }
+    : {
+        (): T[P];
+        set: (arg: T[P]) => void;
+        target: T[P];
+      };
+};
+
 export type flowInfo = RecursiveNull<flowInfoStrict>;
 
 export enum mainWindow {

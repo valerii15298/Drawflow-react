@@ -1,9 +1,21 @@
 
       export type PossibleTypesResultData = {
-  "possibleTypes": {}
+  "possibleTypes": {
+    "SelectEntity": [
+      "Connection",
+      "FlowNode",
+      "Port"
+    ]
+  }
 };
       const result: PossibleTypesResultData = {
-  "possibleTypes": {}
+  "possibleTypes": {
+    "SelectEntity": [
+      "Connection",
+      "FlowNode",
+      "Port"
+    ]
+  }
 };
       export default result;
     

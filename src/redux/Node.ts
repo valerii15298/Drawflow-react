@@ -18,8 +18,8 @@ export default class Node {
   public readonly nodeState: node;
   public readonly spacingX = 40;
   public readonly spacingY = 60;
-  private readonly state: stateData;
   public cache: { [key: string]: number } = {};
+  private readonly state: stateData;
 
   constructor(id: number, flow: Flow) {
     this.id = id;
@@ -36,9 +36,9 @@ export default class Node {
     return this.nodeState.lane;
   }
 
-  get port(): port {
-    return this.nodeState.port;
-  }
+  // get port(): port {
+  //   return this.nodeState.port;
+  // }
 
   get portInPos(): pos | undefined {
     return this.state.ports.find(
@@ -64,63 +64,6 @@ export default class Node {
       const { endId, endPort } = conn;
       return endId === this.id && endPort === 1;
     });
-  }
-
-  @memoize()
-  private get totalWidth() {
-    if (this.nodeState.visible === false) return 0;
-    return Math.max(
-      this.width + this.subnodesWidth,
-      this.leftWidth + this.rightWidth
-    );
-  }
-
-  @memoize()
-  private get childrenTotalWidth() {
-    const { out1 } = this;
-    if (!out1.length) return 0;
-
-    let totalWidth = 0;
-    out1.forEach((node) => {
-      totalWidth += node.totalWidth;
-    });
-    return totalWidth + this.spacingX * (out1.length - 1);
-  }
-
-  @memoize()
-  private get leftWidth(): number {
-    if (this.nodeState.visible === false) return 0;
-    const { out1, childrenTotalWidth } = this;
-    const selfLeftWidth = this.width / 2;
-    if (!out1.length) {
-      return selfLeftWidth;
-    }
-
-    const leftChildWidth = out1[0].leftWidth;
-    const rightChildWidth = out1[out1.length - 1].rightWidth;
-
-    const childrenRightWidth =
-      leftChildWidth +
-      (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
-    return Math.max(childrenRightWidth, selfLeftWidth);
-  }
-
-  @memoize()
-  private get rightWidth(): number {
-    if (this.nodeState.visible === false) return 0;
-    const { out1, childrenTotalWidth } = this;
-    const selfRightWidth = this.width / 2 + this.subnodesWidth;
-    if (!out1.length) {
-      return selfRightWidth;
-    }
-
-    const leftChildWidth = out1[0].leftWidth;
-    const rightChildWidth = out1[out1.length - 1].rightWidth;
-
-    const childrenRightWidth =
-      rightChildWidth +
-      (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
-    return Math.max(childrenRightWidth, selfRightWidth);
   }
 
   get all2Successors(): Array<Node> {
@@ -228,6 +171,63 @@ export default class Node {
 
   get pos() {
     return this.state.drawflow[this.id].pos;
+  }
+
+  @memoize()
+  private get totalWidth() {
+    if (this.nodeState.visible === false) return 0;
+    return Math.max(
+      this.width + this.subnodesWidth,
+      this.leftWidth + this.rightWidth
+    );
+  }
+
+  @memoize()
+  private get childrenTotalWidth() {
+    const { out1 } = this;
+    if (!out1.length) return 0;
+
+    let totalWidth = 0;
+    out1.forEach((node) => {
+      totalWidth += node.totalWidth;
+    });
+    return totalWidth + this.spacingX * (out1.length - 1);
+  }
+
+  @memoize()
+  private get leftWidth(): number {
+    if (this.nodeState.visible === false) return 0;
+    const { out1, childrenTotalWidth } = this;
+    const selfLeftWidth = this.width / 2;
+    if (!out1.length) {
+      return selfLeftWidth;
+    }
+
+    const leftChildWidth = out1[0].leftWidth;
+    const rightChildWidth = out1[out1.length - 1].rightWidth;
+
+    const childrenRightWidth =
+      leftChildWidth +
+      (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
+    return Math.max(childrenRightWidth, selfLeftWidth);
+  }
+
+  @memoize()
+  private get rightWidth(): number {
+    if (this.nodeState.visible === false) return 0;
+    const { out1, childrenTotalWidth } = this;
+    const selfRightWidth = this.width / 2 + this.subnodesWidth;
+    if (!out1.length) {
+      return selfRightWidth;
+    }
+
+    const leftChildWidth = out1[0].leftWidth;
+    const rightChildWidth = out1[out1.length - 1].rightWidth;
+
+    const childrenRightWidth =
+      rightChildWidth +
+      (childrenTotalWidth - leftChildWidth - rightChildWidth) / 2;
+    return Math.max(childrenRightWidth, selfRightWidth);
   }
 
   alignChildren() {

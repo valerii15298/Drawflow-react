@@ -1,6 +1,6 @@
 export const getNestedObjectField = (
   obj: Record<string, any>,
-  props: string[]
+  props: (string | number)[]
 ) => {
   for (const propName of props) {
     if (!(propName in obj)) {

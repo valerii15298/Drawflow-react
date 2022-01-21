@@ -212,15 +212,18 @@ export type BotFlowSumAggregateFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowVersionKeySpecifier = ('_count' | 'botFlow' | 'botFlowId' | 'connections' | 'id' | 'nodes' | 'version' | BotFlowVersionKeySpecifier)[];
+export type BotFlowVersionKeySpecifier = ('_count' | 'botFlow' | 'botFlowId' | 'canvasTranslate' | 'connections' | 'id' | 'nodes' | 'select' | 'version' | 'zoom' | BotFlowVersionKeySpecifier)[];
 export type BotFlowVersionFieldPolicy = {
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlow?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowId?: FieldPolicy<any> | FieldReadFunction<any>,
+	canvasTranslate?: FieldPolicy<any> | FieldReadFunction<any>,
 	connections?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
-	version?: FieldPolicy<any> | FieldReadFunction<any>
+	select?: FieldPolicy<any> | FieldReadFunction<any>,
+	version?: FieldPolicy<any> | FieldReadFunction<any>,
+	zoom?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BotFlowVersionAvgAggregateKeySpecifier = ('botFlowId' | 'id' | 'version' | BotFlowVersionAvgAggregateKeySpecifier)[];
 export type BotFlowVersionAvgAggregateFieldPolicy = {
@@ -269,16 +272,19 @@ export type BotFlowVersionSumAggregateFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ConnectionKeySpecifier = ('botFlowVersionId' | 'createdAt' | 'flow' | 'from' | 'fromPort' | 'id' | 'to' | 'toPort' | ConnectionKeySpecifier)[];
+export type ConnectionKeySpecifier = ('botFlowVersionId' | 'createdAt' | 'curvature' | 'flow' | 'from' | 'fromPort' | 'id' | 'selected' | 'to' | 'toPort' | 'visible' | ConnectionKeySpecifier)[];
 export type ConnectionFieldPolicy = {
 	botFlowVersionId?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	curvature?: FieldPolicy<any> | FieldReadFunction<any>,
 	flow?: FieldPolicy<any> | FieldReadFunction<any>,
 	from?: FieldPolicy<any> | FieldReadFunction<any>,
 	fromPort?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	selected?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>,
-	toPort?: FieldPolicy<any> | FieldReadFunction<any>
+	toPort?: FieldPolicy<any> | FieldReadFunction<any>,
+	visible?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ConnectionAvgAggregateKeySpecifier = ('botFlowVersionId' | 'from' | 'id' | 'to' | ConnectionAvgAggregateKeySpecifier)[];
 export type ConnectionAvgAggregateFieldPolicy = {
@@ -332,11 +338,14 @@ export type ConnectionSumAggregateFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlowNodeKeySpecifier = ('NodeProps' | '_count' | 'botFlowVersionId' | 'flow' | 'head' | 'height' | 'id' | 'info' | 'isSub' | 'lane' | 'nodeInfoId' | 'nodePropsId' | 'ports' | 'pos' | 'positionNumber' | 'templateNode' | 'templateNodeId' | 'updatedAt' | 'visible' | 'width' | FlowNodeKeySpecifier)[];
+export type FlowNodeKeySpecifier = ('NodeProps' | '_count' | 'botFlowVersionId' | 'children' | 'childrenVisible' | 'firstSubnode' | 'flow' | 'head' | 'height' | 'id' | 'info' | 'isSub' | 'lane' | 'nodeInfoId' | 'nodePropsId' | 'ports' | 'pos' | 'positionNumber' | 'prevNode' | 'selected' | 'subnodes' | 'subnodesVisible' | 'templateNode' | 'templateNodeId' | 'updatedAt' | 'visible' | 'width' | FlowNodeKeySpecifier)[];
 export type FlowNodeFieldPolicy = {
 	NodeProps?: FieldPolicy<any> | FieldReadFunction<any>,
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowVersionId?: FieldPolicy<any> | FieldReadFunction<any>,
+	children?: FieldPolicy<any> | FieldReadFunction<any>,
+	childrenVisible?: FieldPolicy<any> | FieldReadFunction<any>,
+	firstSubnode?: FieldPolicy<any> | FieldReadFunction<any>,
 	flow?: FieldPolicy<any> | FieldReadFunction<any>,
 	head?: FieldPolicy<any> | FieldReadFunction<any>,
 	height?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -349,6 +358,10 @@ export type FlowNodeFieldPolicy = {
 	ports?: FieldPolicy<any> | FieldReadFunction<any>,
 	pos?: FieldPolicy<any> | FieldReadFunction<any>,
 	positionNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	prevNode?: FieldPolicy<any> | FieldReadFunction<any>,
+	selected?: FieldPolicy<any> | FieldReadFunction<any>,
+	subnodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	subnodesVisible?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodeId?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1089,16 +1102,18 @@ export type NodeWaitPropsSumAggregateFieldPolicy = {
 	delay?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PortKeySpecifier = ('_count' | 'flowNodeId' | 'id' | 'inConnection' | 'index' | 'node' | 'outConnections' | 'pos' | PortKeySpecifier)[];
+export type PortKeySpecifier = ('_count' | 'flowNodeId' | 'id' | 'inConnection' | 'index' | 'isActive' | 'node' | 'outConnections' | 'pos' | 'selected' | PortKeySpecifier)[];
 export type PortFieldPolicy = {
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	flowNodeId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	inConnection?: FieldPolicy<any> | FieldReadFunction<any>,
 	index?: FieldPolicy<any> | FieldReadFunction<any>,
+	isActive?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>,
 	outConnections?: FieldPolicy<any> | FieldReadFunction<any>,
-	pos?: FieldPolicy<any> | FieldReadFunction<any>
+	pos?: FieldPolicy<any> | FieldReadFunction<any>,
+	selected?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PortAvgAggregateKeySpecifier = ('flowNodeId' | 'id' | 'index' | PortAvgAggregateKeySpecifier)[];
 export type PortAvgAggregateFieldPolicy = {
@@ -1151,7 +1166,7 @@ export type PosFieldPolicy = {
 	x?: FieldPolicy<any> | FieldReadFunction<any>,
 	y?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('aggregateBotFlow' | 'aggregateBotFlowVersion' | 'aggregateConnection' | 'aggregateFlowNode' | 'aggregateNodeAudioProps' | 'aggregateNodeCountdownProps' | 'aggregateNodeFileProps' | 'aggregateNodeImageProps' | 'aggregateNodeInfo' | 'aggregateNodeLinkProps' | 'aggregateNodeProps' | 'aggregateNodeSwitchOptionProps' | 'aggregateNodeSwitchProps' | 'aggregateNodeTextProps' | 'aggregateNodeVideoProps' | 'aggregateNodeWaitProps' | 'aggregatePort' | 'aggregateTemplateNode' | 'aggregateTemplateNodesGroup' | 'botFlow' | 'botFlowVersion' | 'botFlowVersions' | 'botFlows' | 'connCurva' | 'connection' | 'connections' | 'findFirstBotFlow' | 'findFirstBotFlowVersion' | 'findFirstConnection' | 'findFirstFlowNode' | 'findFirstNodeAudioProps' | 'findFirstNodeCountdownProps' | 'findFirstNodeFileProps' | 'findFirstNodeImageProps' | 'findFirstNodeInfo' | 'findFirstNodeLinkProps' | 'findFirstNodeProps' | 'findFirstNodeSwitchOptionProps' | 'findFirstNodeSwitchProps' | 'findFirstNodeTextProps' | 'findFirstNodeVideoProps' | 'findFirstNodeWaitProps' | 'findFirstPort' | 'findFirstTemplateNode' | 'findFirstTemplateNodesGroup' | 'findManyNodeAudioProps' | 'findManyNodeCountdownProps' | 'findManyNodeFileProps' | 'findManyNodeImageProps' | 'findManyNodeLinkProps' | 'findManyNodeProps' | 'findManyNodeSwitchOptionProps' | 'findManyNodeSwitchProps' | 'findManyNodeTextProps' | 'findManyNodeVideoProps' | 'findManyNodeWaitProps' | 'findUniqueNodeAudioProps' | 'findUniqueNodeCountdownProps' | 'findUniqueNodeFileProps' | 'findUniqueNodeImageProps' | 'findUniqueNodeLinkProps' | 'findUniqueNodeProps' | 'findUniqueNodeSwitchOptionProps' | 'findUniqueNodeSwitchProps' | 'findUniqueNodeTextProps' | 'findUniqueNodeVideoProps' | 'findUniqueNodeWaitProps' | 'flowNode' | 'flowNodes' | 'groupByBotFlow' | 'groupByBotFlowVersion' | 'groupByConnection' | 'groupByFlowNode' | 'groupByNodeAudioProps' | 'groupByNodeCountdownProps' | 'groupByNodeFileProps' | 'groupByNodeImageProps' | 'groupByNodeInfo' | 'groupByNodeLinkProps' | 'groupByNodeProps' | 'groupByNodeSwitchOptionProps' | 'groupByNodeSwitchProps' | 'groupByNodeTextProps' | 'groupByNodeVideoProps' | 'groupByNodeWaitProps' | 'groupByPort' | 'groupByTemplateNode' | 'groupByTemplateNodesGroup' | 'isLoggedIn' | 'nodeInfo' | 'nodeInfos' | 'port' | 'ports' | 'templateNode' | 'templateNodes' | 'templateNodesGroup' | 'templateNodesGroups' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('aggregateBotFlow' | 'aggregateBotFlowVersion' | 'aggregateConnection' | 'aggregateFlowNode' | 'aggregateNodeAudioProps' | 'aggregateNodeCountdownProps' | 'aggregateNodeFileProps' | 'aggregateNodeImageProps' | 'aggregateNodeInfo' | 'aggregateNodeLinkProps' | 'aggregateNodeProps' | 'aggregateNodeSwitchOptionProps' | 'aggregateNodeSwitchProps' | 'aggregateNodeTextProps' | 'aggregateNodeVideoProps' | 'aggregateNodeWaitProps' | 'aggregatePort' | 'aggregateTemplateNode' | 'aggregateTemplateNodesGroup' | 'botFlow' | 'botFlowVersion' | 'botFlowVersions' | 'botFlows' | 'canvas' | 'canvasDrag' | 'clientCurrentMousePos' | 'connection' | 'connections' | 'drag' | 'dragTemplate' | 'findFirstBotFlow' | 'findFirstBotFlowVersion' | 'findFirstConnection' | 'findFirstFlowNode' | 'findFirstNodeAudioProps' | 'findFirstNodeCountdownProps' | 'findFirstNodeFileProps' | 'findFirstNodeImageProps' | 'findFirstNodeInfo' | 'findFirstNodeLinkProps' | 'findFirstNodeProps' | 'findFirstNodeSwitchOptionProps' | 'findFirstNodeSwitchProps' | 'findFirstNodeTextProps' | 'findFirstNodeVideoProps' | 'findFirstNodeWaitProps' | 'findFirstPort' | 'findFirstTemplateNode' | 'findFirstTemplateNodesGroup' | 'findManyNodeAudioProps' | 'findManyNodeCountdownProps' | 'findManyNodeFileProps' | 'findManyNodeImageProps' | 'findManyNodeLinkProps' | 'findManyNodeProps' | 'findManyNodeSwitchOptionProps' | 'findManyNodeSwitchProps' | 'findManyNodeTextProps' | 'findManyNodeVideoProps' | 'findManyNodeWaitProps' | 'findUniqueNodeAudioProps' | 'findUniqueNodeCountdownProps' | 'findUniqueNodeFileProps' | 'findUniqueNodeImageProps' | 'findUniqueNodeLinkProps' | 'findUniqueNodeProps' | 'findUniqueNodeSwitchOptionProps' | 'findUniqueNodeSwitchProps' | 'findUniqueNodeTextProps' | 'findUniqueNodeVideoProps' | 'findUniqueNodeWaitProps' | 'flowNode' | 'flowNodes' | 'groupByBotFlow' | 'groupByBotFlowVersion' | 'groupByConnection' | 'groupByFlowNode' | 'groupByNodeAudioProps' | 'groupByNodeCountdownProps' | 'groupByNodeFileProps' | 'groupByNodeImageProps' | 'groupByNodeInfo' | 'groupByNodeLinkProps' | 'groupByNodeProps' | 'groupByNodeSwitchOptionProps' | 'groupByNodeSwitchProps' | 'groupByNodeTextProps' | 'groupByNodeVideoProps' | 'groupByNodeWaitProps' | 'groupByPort' | 'groupByTemplateNode' | 'groupByTemplateNodesGroup' | 'mouseBlockDragPos' | 'newPathDirection' | 'nodeInfo' | 'nodeInfos' | 'nodeToCopy' | 'port' | 'portToConnect' | 'ports' | 'precanvas' | 'sidebarVisible' | 'templateNode' | 'templateNodes' | 'templateNodesGroup' | 'templateNodesGroups' | 'version' | 'windowConfig' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	aggregateBotFlow?: FieldPolicy<any> | FieldReadFunction<any>,
 	aggregateBotFlowVersion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1176,9 +1191,13 @@ export type QueryFieldPolicy = {
 	botFlowVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowVersions?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlows?: FieldPolicy<any> | FieldReadFunction<any>,
-	connCurva?: FieldPolicy<any> | FieldReadFunction<any>,
+	canvas?: FieldPolicy<any> | FieldReadFunction<any>,
+	canvasDrag?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientCurrentMousePos?: FieldPolicy<any> | FieldReadFunction<any>,
 	connection?: FieldPolicy<any> | FieldReadFunction<any>,
 	connections?: FieldPolicy<any> | FieldReadFunction<any>,
+	drag?: FieldPolicy<any> | FieldReadFunction<any>,
+	dragTemplate?: FieldPolicy<any> | FieldReadFunction<any>,
 	findFirstBotFlow?: FieldPolicy<any> | FieldReadFunction<any>,
 	findFirstBotFlowVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	findFirstConnection?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1241,15 +1260,22 @@ export type QueryFieldPolicy = {
 	groupByPort?: FieldPolicy<any> | FieldReadFunction<any>,
 	groupByTemplateNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	groupByTemplateNodesGroup?: FieldPolicy<any> | FieldReadFunction<any>,
-	isLoggedIn?: FieldPolicy<any> | FieldReadFunction<any>,
+	mouseBlockDragPos?: FieldPolicy<any> | FieldReadFunction<any>,
+	newPathDirection?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodeInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodeInfos?: FieldPolicy<any> | FieldReadFunction<any>,
+	nodeToCopy?: FieldPolicy<any> | FieldReadFunction<any>,
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
+	portToConnect?: FieldPolicy<any> | FieldReadFunction<any>,
 	ports?: FieldPolicy<any> | FieldReadFunction<any>,
+	precanvas?: FieldPolicy<any> | FieldReadFunction<any>,
+	sidebarVisible?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodesGroup?: FieldPolicy<any> | FieldReadFunction<any>,
-	templateNodesGroups?: FieldPolicy<any> | FieldReadFunction<any>
+	templateNodesGroups?: FieldPolicy<any> | FieldReadFunction<any>,
+	version?: FieldPolicy<any> | FieldReadFunction<any>,
+	windowConfig?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TemplateNodeKeySpecifier = ('FlowNode' | 'NodeProps' | '_count' | 'group' | 'id' | 'info' | 'nodeInfoId' | 'nodePropsId' | 'order' | 'templateNodesGroupId' | TemplateNodeKeySpecifier)[];
 export type TemplateNodeFieldPolicy = {
@@ -1370,6 +1396,30 @@ export type TemplateNodesGroupMinAggregateFieldPolicy = {
 };
 export type TemplateNodesGroupSumAggregateKeySpecifier = ('id' | TemplateNodesGroupSumAggregateKeySpecifier)[];
 export type TemplateNodesGroupSumAggregateFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ZoomKeySpecifier = ('max' | 'min' | 'tick' | 'value' | ZoomKeySpecifier)[];
+export type ZoomFieldPolicy = {
+	max?: FieldPolicy<any> | FieldReadFunction<any>,
+	min?: FieldPolicy<any> | FieldReadFunction<any>,
+	tick?: FieldPolicy<any> | FieldReadFunction<any>,
+	value?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type backgroundKeySpecifier = ('blur' | 'imageUrl' | 'opacity' | backgroundKeySpecifier)[];
+export type backgroundFieldPolicy = {
+	blur?: FieldPolicy<any> | FieldReadFunction<any>,
+	imageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	opacity?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type canvasShapeKeySpecifier = ('height' | 'width' | 'x' | 'y' | canvasShapeKeySpecifier)[];
+export type canvasShapeFieldPolicy = {
+	height?: FieldPolicy<any> | FieldReadFunction<any>,
+	width?: FieldPolicy<any> | FieldReadFunction<any>,
+	x?: FieldPolicy<any> | FieldReadFunction<any>,
+	y?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type windowConfigKeySpecifier = ('id' | windowConfigKeySpecifier)[];
+export type windowConfigFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
@@ -2020,6 +2070,22 @@ export type StrictTypedTypePolicies = {
 	TemplateNodesGroupSumAggregate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TemplateNodesGroupSumAggregateKeySpecifier | (() => undefined | TemplateNodesGroupSumAggregateKeySpecifier),
 		fields?: TemplateNodesGroupSumAggregateFieldPolicy,
+	},
+	Zoom?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ZoomKeySpecifier | (() => undefined | ZoomKeySpecifier),
+		fields?: ZoomFieldPolicy,
+	},
+	background?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | backgroundKeySpecifier | (() => undefined | backgroundKeySpecifier),
+		fields?: backgroundFieldPolicy,
+	},
+	canvasShape?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | canvasShapeKeySpecifier | (() => undefined | canvasShapeKeySpecifier),
+		fields?: canvasShapeFieldPolicy,
+	},
+	windowConfig?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | windowConfigKeySpecifier | (() => undefined | windowConfigKeySpecifier),
+		fields?: windowConfigFieldPolicy,
 	}
 };
 export type TypedTypePolicies = StrictTypedTypePolicies & TypePolicies;
