@@ -11,6 +11,8 @@ import { isArray, RecursiveFunc } from "../types";
 import { cache } from "./index";
 import { objToGraphqlSelection } from "./objToGraphqlSelection";
 
+export const proxyTarget = Symbol("proxyTarget");
+
 export const wrap = <T>(
   ctx: FieldFunctionOptions,
   obj?: { id: any; __typename: string }
@@ -56,6 +58,9 @@ export const wrap = <T>(
               if (propName === Symbol.toPrimitive) {
                 return () => JSON.stringify(target);
               }
+              if (propName === proxyTarget) {
+                return target;
+              }
               throw new TypeError(`Invalid type ${propName.toString()}`);
             }
 
@@ -87,98 +92,123 @@ export const wrap = <T>(
         // if value is valid object(referencable object in apollo cache)
         // then pass to our initial function
         if (id) {
-          return wrapValue({
-            target: value,
+          return new Proxy(value, {
+            get(target, propName, receiver): any {
+              if (typeof propName === "symbol") {
+                // console.log({ propName });
+                if (propName === Symbol.toPrimitive) {
+                  return () => JSON.stringify(target);
+                }
+                if (propName === proxyTarget) {
+                  return target;
+                }
+                throw new TypeError(`Invalid type ${propName.toString()}`);
+              }
+
+              return wrapValue({
+                propName,
+                target,
+              });
+            },
           });
         }
 
         // if composed object
-        return wrapValue({
-          target: value,
-          parent: parent ?? (target as Reference),
-          propArr:
-            typeof index === "number"
-              ? [...propArr, propName, index]
-              : [...propArr, propName],
+        return new Proxy(value, {
+          get(t, p, receiver): any {
+            if (typeof p === "symbol") {
+              // console.log({ propName });
+              if (p === Symbol.toPrimitive) {
+                return () => JSON.stringify(t);
+              }
+              if (p === proxyTarget) {
+                return t;
+              }
+              throw new TypeError(`Invalid type ${p.toString()}`);
+            }
+
+            return wrapValue({
+              target: value,
+              propName: p,
+              parent: parent ?? (target as Reference),
+              propArr:
+                typeof index === "number"
+                  ? [...propArr, propName, index]
+                  : [...propArr, propName],
+            });
+          },
         });
       };
 
       return isArray(value) ? value.map(handleValue) : handleValue(value);
     };
-    func.target = target;
-    func.set = (value) => {
-      if (propName) {
-        propArr.push(propName);
-      }
-      const currentValue = propName ? ctx.readField(propName, target) : target;
-      if (typeof currentValue !== "object") {
-        return;
-      }
+    const handleSetValue = (value) => {
+      // // TODO or Cascade Create/Update/Delete
+      // const getNested = (
+      //   obj: Record<string, any>,
+      //   props: (string | number)[]
+      // ) => {
+      //   for (const propName of props) {
+      //     // if number then it is array so access item directly,
+      //     // otherwise it is property name on object so read it with readField
+      //     obj =
+      //       typeof propName === "number"
+      //         ? obj[propName]
+      //         : ctx.readField(propName, obj);
+      //     // TODO handle possibility if readField will require additional arguments
+      //     // to correctly read field: ????
+      //
+      //     // In this case we just need to know `__typename`s of value shape.
+      //     // That`s why we are reading the existing values to get the `__typename`s
+      //     // Possible way to handle: parse graphql schema, since we have reference object
+      //     // and typename we can find needed `__typename`
+      //
+      //     // We can find type of fields by __typename
+      //     // We need to find typename of target(if currentValue === target)
+      //     // then __typename is __typename of target otherwise find it by parent and propArr
+      //     // add to value `__typename`s
+      //
+      //     // TODO parse graphql schema, find `__typename`s
+      //
+      //     if (!obj) {
+      //       throw new TypeError(
+      //         `Cannot access nest property: ${propName}, of obj`
+      //       );
+      //     }
+      //   }
+      //   return obj;
+      // };
+      //
+      // const addTypename = (obj, value) => {
+      //   // obj and value must be the same shape
+      //   // this function can modify value by adding `__typename` field
+      //   const __typename = ctx.readField("__typename", obj) as
+      //     | string
+      //     | undefined;
+      //   if (__typename) {
+      //     value.__typename = __typename;
+      //   }
+
+      //   // TODO handle array possibility
+      //   for (const key in value) {
+      //     if (typeof value[key] === "object") {
+      //       const newObj = ctx.readField(key, obj);
+      //       if (typeof newObj !== "object") {
+      //         throw new TypeError("Corresponding obj must be typeof object");
+      //       }
+      //       addTypename(newObj, value[key]);
+      //     }
+      //   }
+      // };
+
+      // addTypename(parent ? getNested(parent, propArr) : currentValue, value);
+
       const __typename = ctx.readField(
         "__typename",
         parent ?? target
       ) as string;
 
-      const getNested = (
-        obj: Record<string, any>,
-        props: (string | number)[]
-      ) => {
-        for (const propName of props) {
-          // if number then it is array so access item directly,
-          // otherwise it is property name on object so read it with readField
-          obj =
-            typeof propName === "number"
-              ? obj[propName]
-              : ctx.readField(propName, obj);
-          // TODO handle possibility if readField will require additional arguments
-          // to correctly read field: ????
-
-          // In this case we just need to know `__typename`s of value shape.
-          // That`s why we are reading the existing values to get the `__typename`s
-          // Possible way to handle: parse graphql schema, since we have reference object
-          // and typename we can find needed `__typenames`
-
-          // We can find type of fields by __typename
-          // We need to find typename of target(if currentValue === target)
-          // then __typename is __typename of target otherwise find it by parent and propArr
-          // add to value `__typename`s
-
-          // TODO parse graphql schema, find `__typename`s
-
-          if (!obj) {
-            throw new TypeError(
-              `Cannot access nest property: ${propName}, of obj`
-            );
-          }
-        }
-        return obj;
-      };
-
-      const addTypenames = (obj, value) => {
-        // obj and value must be the same shape
-        // this function can modify value by adding `__typename` field
-        const __typename = ctx.readField("__typename", obj) as
-          | string
-          | undefined;
-        if (__typename) {
-          value.__typename = __typename;
-        }
-
-        // TODO handle array possibility
-        for (const key in value) {
-          if (typeof value[key] === "object") {
-            const newObj = ctx.readField(key, obj);
-            if (typeof newObj !== "object") {
-              throw new TypeError("Corresponding obj must be typeof object");
-            }
-            addTypenames(newObj, value[key]);
-          }
-        }
-      };
-
-      addTypenames(parent ? getNested(parent, propArr) : currentValue, value);
-
-      const id = cache.identify(parent ?? currentValue);
+      const id = cache.identify(parent ?? target);
 
       console.log({
         id,
@@ -187,23 +217,27 @@ export const wrap = <T>(
         parent,
       });
 
-      ctx.cache.updateFragment(
+      if (propName) {
+        propArr.push(propName);
+      }
+
+      let selection = objToGraphqlSelection(value);
+      if (!propArr.length) {
+        selection = selection.slice(1, -1);
+      }
+
+      const fragment = gql`fragment ${
+        "update_" + id.replaceAll(":", "_") + Date.now().toString()
+      } on ${__typename} {
+          ${propArr.filter((prop) => typeof prop === "string").join(" { ")}
+          ${selection}
+          ${propArr.length ? " } ".repeat(propArr.length - 1) : ""}
+      }`;
+
+      return ctx.cache.updateFragment(
         {
           id,
-          fragment: gql`fragment ${
-            "update_" + id.replaceAll(":", "_") + Date.now().toString()
-          } on ${__typename} {
-              ${
-                parent
-                  ? propArr
-                      .filter((prop) => typeof prop === "string")
-                      .join(" { ")
-                  : ""
-              }
-            ${objToGraphqlSelection(value)}
-              
-            ${parent ? " } ".repeat(propArr.length - 1) : ""}
-          }`,
+          fragment,
         },
         (data) => {
           data = JSON.parse(JSON.stringify(data));
@@ -220,6 +254,33 @@ export const wrap = <T>(
           return data;
         }
       );
+
+      // // TODO for Cascade Update/Create/Delete
+      // ctx.cache.updateFragment(
+      //   {
+      //     id,
+      //     fragment,
+      //   },
+      //   (data) => {
+      //     data = JSON.parse(JSON.stringify(data));
+      //     console.log({
+      //       data,
+      //       propArr,
+      //       info: "before merge",
+      //     });
+      //     const dataToUpdate = getNestedObjectField(data, propArr);
+      //     // dataToUpdate and value must be of the same shape,
+      //     // except that dataToUpdate might have additional ids(keyFields)
+      //     console.log(dataToUpdate, value);
+      //     lodash.merge(dataToUpdate, value);
+      //     return data;
+      //   }
+      // );
+    };
+
+    func.set = (setFunc) => {
+      const values = setFunc(func);
+      handleSetValue(values);
     };
     return func;
   };

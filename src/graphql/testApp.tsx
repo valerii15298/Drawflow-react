@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { useBotFlowQuery } from "../generated/apollo";
-import { cache } from "./index";
+import { cache, data as cacheData } from "./index";
 
 export const TestApp = () => {
   const { error, loading, data } = useBotFlowQuery({
@@ -41,6 +41,7 @@ export const TestApp = () => {
       //     };
       //   }
       // );
+
       // console.log({ y });
       const y = cache.writeFragment({
         id: `Connection:2`,
@@ -53,6 +54,16 @@ export const TestApp = () => {
           curvature: "I am here bro:)",
         },
       });
+
+      // const y = cache.readFragment({
+      //   id: `FlowNode:2`,
+      //   fragment: gql`
+      //     fragment test2qcm on FlowNode {
+      //       id
+      //     }
+      //   `,
+      // });
+
       console.log({ y });
     },
   });
@@ -73,6 +84,14 @@ export const TestApp = () => {
   return (
     <div>
       <pre>{JSON.stringify(data, null, 2)}</pre>
+      <button
+        onClick={() => {
+          //@ts-ignore
+          console.log(cacheData);
+        }}
+      >
+        Show cache
+      </button>
     </div>
   );
 };

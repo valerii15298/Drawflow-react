@@ -4,8 +4,7 @@ import {
   StrictTypedTypePolicies,
   TypedTypePolicies,
 } from "../generated/apollo-helpers";
-import { cache } from "./index";
-import { wrap } from "./wrap";
+import { proxyTarget, wrap } from "./wrap";
 
 export const typePolicies: TypedTypePolicies = {
   Connection: {
@@ -19,23 +18,28 @@ export const typePolicies: TypedTypePolicies = {
 
           const toPos = connection().toPort().pos();
           const fromPos = connection().fromPort().pos();
-          return `${fromPos} - ${JSON.stringify(toPos)}`;
+          return `${fromPos} - ${toPos}`;
         },
         merge(existing, incoming, ctx) {
-          // console.log("Merge Curvyy");
-          // console.log({
-          //   existing,
-          //   incoming,
-          // });
+          console.log("Merge Curvyy");
+          console.log({
+            existing,
+            incoming,
+          });
           const conn = wrap<Connection>(ctx, {
             id: 2,
             __typename: "Connection",
           });
           // console.log(conn().toPort().node().id);
-          conn().toPort().node().pos.set({
-            x: -1,
-          });
-
+          conn()
+            .toPort()
+            .node.set((n) => ({
+              id: n().id(),
+              pos: {
+                x: 5,
+                y: 8,
+              },
+            }));
           return "After merge";
         },
       },
@@ -69,10 +73,11 @@ export const typePolicies: TypedTypePolicies = {
       selected: {
         read(selected, ctx) {
           // console.log(selected);
-          const node = wrap<FlowNode>(ctx);
-          const id = node().id;
-          const select = node().flow().select();
-          return select.__typename === "FlowNode" && id === select.id;
+          return false;
+          // const node = wrap<FlowNode>(ctx);
+          // const id = node().id;
+          // const select = node().flow().select();
+          // return select.__typename === "FlowNode" && id === select.id;
         },
       },
       pos: {
@@ -96,14 +101,14 @@ export const typePolicies: TypedTypePolicies = {
           const { ports, flow } = node();
 
           const nodes = [];
-          flow().connections.forEach(({ fromPort, toPort }) => {
-            if (
-              fromPort().index === portIndex &&
-              ports.some((port) => fromPort().id === port.id)
-            ) {
-              nodes.push(toPort().node.target);
-            }
-          });
+          // flow().connections.forEach(({ fromPort, toPort }) => {
+          //   if (
+          //     fromPort().index === portIndex &&
+          //     ports.some((port) => fromPort().id === port.id)
+          //   ) {
+          //     nodes.push(toPort().node.target);
+          //   }
+          // });
 
           return nodes;
         },

@@ -256,18 +256,19 @@ export type RecursiveFunc<T> = {
     ? {
         (): RecursiveFunc<U>[];
         set: (arg: RecursivePartial<U>[]) => void;
-        target: T[P];
       }
     : T[P] extends object
     ? {
-        (): RecursiveFunc<T[P]>;
-        set: (arg: RecursivePartial<T[P]>) => void;
-        target: T[P];
+        (args?: any): RecursiveFunc<T[P]>;
+        set: (
+          setFunc: (
+            currentField: (args?: any) => RecursiveFunc<T[P]>
+          ) => RecursivePartial<T[P]>
+        ) => void;
       }
     : {
         (): T[P];
         set: (arg: T[P]) => void;
-        target: T[P];
       };
 };
 

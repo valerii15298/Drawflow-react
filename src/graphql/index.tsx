@@ -15,6 +15,9 @@ export const cache = new InMemoryCache({
   typePolicies,
 });
 
+//@ts-ignore
+export const { data } = cache;
+
 export const apolloClient = new ApolloClient({
   uri: "http://localhost:3000/graphql",
   cache,
