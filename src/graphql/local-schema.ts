@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 
+import generatedSchema from "./schema.graphql";
+
 export const typeDefs = gql`
   type Pos {
     x: Float!
@@ -87,3 +89,11 @@ export const typeDefs = gql`
     selected: Boolean!
   }
 `;
+
+console.log({
+  typeDefs,
+  generatedSchema,
+});
+const yy = typeDefs.definitions[0];
+if (yy.kind === "ObjectTypeDefinition") {
+}

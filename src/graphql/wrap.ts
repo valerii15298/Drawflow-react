@@ -138,6 +138,11 @@ export const wrap = <T>(
           // Possible way to handle: parse graphql schema, since we have reference object
           // and typename we can find needed `__typenames`
 
+          // We can find type of fields by __typename
+          // We need to find typename of target(if currentValue === target)
+          // then __typename is __typename of target otherwise find it by parent and propArr
+          // add to value `__typename`s
+
           // TODO parse graphql schema, find `__typename`s
 
           if (!obj) {
