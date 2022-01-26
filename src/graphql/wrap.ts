@@ -5,9 +5,8 @@ import {
   StoreObject,
 } from "@apollo/client";
 import { ReadFieldOptions } from "@apollo/client/cache";
-import lodash from "lodash";
-import { getNestedObjectField } from "../models/GetNestedObjectField";
-import { isArray, RecursiveFunc } from "../types";
+import { setNestedObjectField } from "../models/GetNestedObjectField";
+import { isArray, RecursiveFunc, setFunc } from "../types";
 import { cache } from "./index";
 import { objToGraphqlSelection } from "./objToGraphqlSelection";
 
@@ -15,22 +14,19 @@ export const proxyTarget = Symbol("proxyTarget");
 
 export const wrap = <T>(
   ctx: FieldFunctionOptions,
-  obj?: { id: any; __typename: string }
+  cacheId?: string | Reference
 ): {
   (): RecursiveFunc<T>;
-  set: (arg: T) => void;
-} => {
+} & setFunc<T> => {
   // Must provide obj arguments if invoked in merge function(Apollo type policies),
   // since in merge function there is no default current object context
+  if (!cacheId) {
+    // Trying to read default apollo ids
+    cacheId = ctx.readField("__typename") + ":" + ctx.readField("id");
+  }
 
-  // TODO change hardcoded string literal to dynamic id(in case if keyFields will be different)
-  // e. g. find id of current object in typePolicies
-  const ref = {
-    __ref: obj
-      ? ctx.cache.identify(obj)
-      : `${ctx.readField("__typename")}:${ctx.readField("id")}`,
-  };
-
+  const ref: Reference =
+    typeof cacheId === "string" ? { __ref: cacheId } : cacheId;
   // console.log({ ref });
 
   const wrapValue = (
@@ -50,40 +46,54 @@ export const wrap = <T>(
     const func = (
       options: Omit<ReadFieldOptions, "fieldName" | "from"> = {}
     ) => {
-      if (!propName) {
-        return new Proxy(target, {
-          get(target, propName, receiver): any {
-            if (typeof propName === "symbol") {
-              // console.log({ propName });
-              if (propName === Symbol.toPrimitive) {
-                return () => JSON.stringify(target);
+      const createProxy = (
+        t: Record<string, any>,
+        rest: { parent?: typeof parent; propArr?: typeof propArr } = {}
+      ) =>
+        new Proxy(JSON.parse(JSON.stringify(t)), {
+          get(t, prop): any {
+            if (typeof prop === "symbol") {
+              if (prop === Symbol.toPrimitive) {
+                return () => JSON.stringify(t);
               }
-              if (propName === proxyTarget) {
-                return target;
+              if (prop === proxyTarget) {
+                return t;
               }
-              throw new TypeError(`Invalid type ${propName.toString()}`);
+              throw new TypeError(`Invalid type ${prop.toString()}`);
             }
 
             return wrapValue({
-              propName,
-              target,
-              parent,
-              propArr,
+              propName: prop,
+              target: t,
+              ...rest,
             });
           },
         });
+
+      if (!propName) {
+        return createProxy(target, {
+          parent,
+          propArr,
+        });
       }
+
       const value = ctx.readField({
         ...options,
         fieldName: propName,
         from: target,
       });
+      if (value === undefined) {
+        console.log({
+          target,
+          propName,
+        });
+      }
 
-      if (typeof value !== "object") {
+      if (typeof value !== "object" || value === null) {
         return value;
       }
 
-      const handleValue = (value, index?: number) => {
+      const handleValue = (value: StoreObject | Reference, index?: number) => {
         // Returns id if typePolicy of `value` keyFields are not false and
         // `value` has all keyFields presented, e. g. if value can be referenced via {__ref: 'some id'}
         // if not(value is composed object) returns undefined
@@ -92,136 +102,37 @@ export const wrap = <T>(
         // if value is valid object(referencable object in apollo cache)
         // then pass to our initial function
         if (id) {
-          return new Proxy(value, {
-            get(target, propName, receiver): any {
-              if (typeof propName === "symbol") {
-                // console.log({ propName });
-                if (propName === Symbol.toPrimitive) {
-                  return () => JSON.stringify(target);
-                }
-                if (propName === proxyTarget) {
-                  return target;
-                }
-                throw new TypeError(`Invalid type ${propName.toString()}`);
-              }
-
-              return wrapValue({
-                propName,
-                target,
-              });
-            },
-          });
+          return createProxy(value);
         }
 
         // if composed object
-        return new Proxy(value, {
-          get(t, p, receiver): any {
-            if (typeof p === "symbol") {
-              // console.log({ propName });
-              if (p === Symbol.toPrimitive) {
-                return () => JSON.stringify(t);
-              }
-              if (p === proxyTarget) {
-                return t;
-              }
-              throw new TypeError(`Invalid type ${p.toString()}`);
-            }
-
-            return wrapValue({
-              target: value,
-              propName: p,
-              parent: parent ?? (target as Reference),
-              propArr:
-                typeof index === "number"
-                  ? [...propArr, propName, index]
-                  : [...propArr, propName],
-            });
-          },
+        return createProxy(value, {
+          parent: parent ?? (target as Reference),
+          propArr:
+            typeof index === "number"
+              ? [...propArr, propName, index]
+              : [...propArr, propName],
         });
       };
 
-      return isArray(value) ? value.map(handleValue) : handleValue(value);
+      return isArray(value)
+        ? //@ts-ignore
+          value.map((v) => handleValue(v))
+        : handleValue(value);
     };
-    const handleSetValue = (value) => {
-      // // TODO or Cascade Create/Update/Delete
-      // const getNested = (
-      //   obj: Record<string, any>,
-      //   props: (string | number)[]
-      // ) => {
-      //   for (const propName of props) {
-      //     // if number then it is array so access item directly,
-      //     // otherwise it is property name on object so read it with readField
-      //     obj =
-      //       typeof propName === "number"
-      //         ? obj[propName]
-      //         : ctx.readField(propName, obj);
-      //     // TODO handle possibility if readField will require additional arguments
-      //     // to correctly read field: ????
-      //
-      //     // In this case we just need to know `__typename`s of value shape.
-      //     // That`s why we are reading the existing values to get the `__typename`s
-      //     // Possible way to handle: parse graphql schema, since we have reference object
-      //     // and typename we can find needed `__typename`
-      //
-      //     // We can find type of fields by __typename
-      //     // We need to find typename of target(if currentValue === target)
-      //     // then __typename is __typename of target otherwise find it by parent and propArr
-      //     // add to value `__typename`s
-      //
-      //     // TODO parse graphql schema, find `__typename`s
-      //
-      //     if (!obj) {
-      //       throw new TypeError(
-      //         `Cannot access nest property: ${propName}, of obj`
-      //       );
-      //     }
-      //   }
-      //   return obj;
-      // };
-      //
-      // const addTypename = (obj, value) => {
-      //   // obj and value must be the same shape
-      //   // this function can modify value by adding `__typename` field
-      //   const __typename = ctx.readField("__typename", obj) as
-      //     | string
-      //     | undefined;
-      //   if (__typename) {
-      //     value.__typename = __typename;
-      //   }
-
-      //   // TODO handle array possibility
-      //   for (const key in value) {
-      //     if (typeof value[key] === "object") {
-      //       const newObj = ctx.readField(key, obj);
-      //       if (typeof newObj !== "object") {
-      //         throw new TypeError("Corresponding obj must be typeof object");
-      //       }
-      //       addTypename(newObj, value[key]);
-      //     }
-      //   }
-      // };
-
-      // addTypename(parent ? getNested(parent, propArr) : currentValue, value);
-
+    const handleSetValue = (val: any) => {
       const __typename = ctx.readField(
         "__typename",
         parent ?? target
       ) as string;
 
-      const id = cache.identify(parent ?? target);
-
-      console.log({
-        id,
-        __typename,
-        target,
-        parent,
-      });
+      const id = cache.identify(parent ?? target) as string;
 
       if (propName) {
         propArr.push(propName);
       }
 
-      let selection = objToGraphqlSelection(value);
+      let selection = typeof val === "object" ? objToGraphqlSelection(val) : "";
       if (!propArr.length) {
         selection = selection.slice(1, -1);
       }
@@ -233,6 +144,7 @@ export const wrap = <T>(
           ${selection}
           ${propArr.length ? " } ".repeat(propArr.length - 1) : ""}
       }`;
+      // console.log(fragment.loc?.source.body);
 
       return ctx.cache.updateFragment(
         {
@@ -240,61 +152,40 @@ export const wrap = <T>(
           fragment,
         },
         (data) => {
-          data = JSON.parse(JSON.stringify(data));
           console.log({
             data,
+            value: val,
             propArr,
-            info: "before merge",
           });
-          const dataToUpdate = getNestedObjectField(data, propArr);
-          // dataToUpdate and value must be of the same shape,
-          // except that dataToUpdate might have additional ids(keyFields)
-          console.log(dataToUpdate, value);
-          lodash.merge(dataToUpdate, value);
-          return data;
+          return setNestedObjectField(data, propArr, val);
         }
       );
-
-      // // TODO for Cascade Update/Create/Delete
-      // ctx.cache.updateFragment(
-      //   {
-      //     id,
-      //     fragment,
-      //   },
-      //   (data) => {
-      //     data = JSON.parse(JSON.stringify(data));
-      //     console.log({
-      //       data,
-      //       propArr,
-      //       info: "before merge",
-      //     });
-      //     const dataToUpdate = getNestedObjectField(data, propArr);
-      //     // dataToUpdate and value must be of the same shape,
-      //     // except that dataToUpdate might have additional ids(keyFields)
-      //     console.log(dataToUpdate, value);
-      //     lodash.merge(dataToUpdate, value);
-      //     return data;
-      //   }
-      // );
     };
 
-    func.set = (setFunc) => {
+    func.set = (setFunc: any) => {
       const values = setFunc(func);
       handleSetValue(values);
     };
     return func;
   };
 
-  //@ts-ignore
   return wrapValue({ target: ref });
 };
 
-export const unwrap = (value: any) => {
+export const unwrap = <T extends Record<string, any>>(
+  value: T
+): T extends (infer U)[]
+  ? U extends object
+    ? Reference[] | U[]
+    : U[]
+  : Reference | T => {
   if (Array.isArray(value)) {
+    //@ts-ignore
     return value.map(unwrap);
   }
   if (typeof value === "object") {
-    return value.target;
+    //@ts-ignore
+    return value[proxyTarget];
   }
   // and if it is a primitive, e. g. string, number, boolean, etc...
   // then return the same value

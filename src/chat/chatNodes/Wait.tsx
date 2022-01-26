@@ -5,7 +5,7 @@ import { IChatNodeData } from "../chat-types";
 import { mapChatNodeTypeToComponent } from "../MapChatNodeTypeToComponent";
 import { chatNodeType } from "./chatNodeType";
 
-const waitNumberOfMilliseconds = (ms) =>
+const waitNumberOfMilliseconds = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 interface Props extends IChatNodeData {

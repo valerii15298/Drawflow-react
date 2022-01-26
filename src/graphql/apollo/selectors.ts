@@ -1,1 +1,1 @@
-export const useConnCurva = (id) => {};
+export const useConnCurva = () => ({});

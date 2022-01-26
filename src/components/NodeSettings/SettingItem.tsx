@@ -30,6 +30,7 @@ export const SettingItem = ({ path }: { path: string[] }) => {
       console.log({
         key,
         value,
+        //@ts-ignore
         properValue: templateNode[key],
       });
     }

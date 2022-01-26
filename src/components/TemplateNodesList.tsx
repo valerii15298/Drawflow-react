@@ -17,7 +17,7 @@ const TemplateNodesList = (props: {
   });
   if (loading) return <>Loading...</>;
   if (error) return <>Error</>;
-  const list = data.templateNodes;
+  const list = data?.templateNodes ?? [];
   // console.log(list);
   // const dispatch = useAppDispatch();
   const { searchWord, selectedGroup } = props;

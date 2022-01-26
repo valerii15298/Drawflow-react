@@ -90,10 +90,7 @@ export const typeDefs = gql`
   }
 `;
 
-console.log({
-  typeDefs,
-  generatedSchema,
-});
-const yy = typeDefs.definitions[0];
-if (yy.kind === "ObjectTypeDefinition") {
-}
+// console.log({
+//   typeDefs,
+//   generatedSchema,
+// });

@@ -42,6 +42,7 @@ export const getNodeFromTemplate = (template: block) => {
     "icon_link_selected",
   ];
   propsToChange.forEach((key) => {
+    //@ts-ignore
     step.flow_node[`node_${key}`] = data[key];
   });
   step.flow_node.node_tooltip = data.nodes_tooltip;

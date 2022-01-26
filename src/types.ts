@@ -251,6 +251,18 @@ type RecursiveNull<T> = {
     : T[P] | null;
 };
 
+export type setFunc<T> = {
+  set: (
+    setFunc: (
+      currentField: (args?: any) => T
+    ) => T extends object ? RecursivePartial<T> : T
+  ) => void;
+};
+
+type a = undefined | number | string;
+type bbb = undefined extends a ? true : false;
+const hh: bbb = true;
+
 export type RecursiveFunc<T> = {
   [P in keyof T]: T[P] extends (infer U)[]
     ? {
@@ -268,7 +280,7 @@ export type RecursiveFunc<T> = {
       }
     : {
         (): T[P];
-        set: (arg: T[P]) => void;
+        set: (setFunc: (currentField: (args?: any) => T[P]) => T[P]) => void;
       };
 };
 

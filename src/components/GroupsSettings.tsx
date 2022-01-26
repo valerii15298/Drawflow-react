@@ -37,17 +37,19 @@ export const GroupsSettings = () => {
     refetchQueries,
   });
   const dispatch = useAppDispatch();
-  const [groups, setGroups] = useState(data.templateNodesGroups);
+  const [groups, setGroups] = useState(data?.templateNodesGroups ?? []);
   // console.log(groups);
   const setGroup = (
     id: number,
     info: { name?: string; description?: string }
   ) => {
     const group = groups.find((g) => g.id === id);
-    setGroups([
-      ...groups.filter((g) => g !== group),
-      { id, ...group, ...info },
-    ]);
+    if (!group) {
+      alert("Cannot set group!");
+      return;
+    }
+
+    setGroups([...groups.filter((g) => g !== group), { ...group, ...info }]);
   };
   if (loading) return <>Loading...</>;
   if (error) return <>Error</>;
@@ -160,21 +162,20 @@ export const GroupsSettings = () => {
               name: "New group",
               description: "Group description",
             };
-            addGroups({ variables: { data } }).then(
-              ({
-                data: {
-                  createTemplateNodesGroup: { id },
-                },
-              }) => {
-                setGroups((groups) => [
-                  ...groups,
-                  {
-                    ...data,
-                    id,
-                  },
-                ]);
+            addGroups({ variables: { data } }).then((response) => {
+              const id = response.data?.createTemplateNodesGroup.id;
+              if (typeof id !== "number") {
+                alert("Cannot add new group");
+                return;
               }
-            );
+              setGroups((groups) => [
+                ...groups,
+                {
+                  ...data,
+                  id,
+                },
+              ]);
+            });
           }}
         >
           Add new

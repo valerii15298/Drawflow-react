@@ -4,6 +4,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { useNodeIsSub, usePortIsActive } from "../redux/selectors";
 import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { port, portType, purePort } from "../types";
+import { MouseEvent } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
 
@@ -24,6 +25,7 @@ const portStyle = styled.div`
   background-color: white;
   position: absolute;
   border: 2px solid #cacaca;
+
   &:hover {
     background: #4ea9ff;
   }
@@ -75,14 +77,18 @@ const Port = (port: purePort) => {
   const isSub = useNodeIsSub(nodeId);
   const StyledPort = styledPorts[type][portId - 1];
 
-  const toggleSubnodes = (e) => {
+  const toggleSubnodes = (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
     e.preventDefault();
     dispatch(actions.toggleSubnodes({ id: nodeId }));
     dispatch(alignCurrentFlow());
     e.stopPropagation();
   };
 
-  const toggleChildren = (e) => {
+  const toggleChildren = (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ) => {
     e.preventDefault();
     dispatch(actions.toggleChildren({ id: nodeId }));
     dispatch(alignCurrentFlow());
@@ -94,10 +100,22 @@ const Port = (port: purePort) => {
       isSub={isSub}
       onMouseDown={(e) => {
         e.stopPropagation();
-        dispatch(actions.selectPort({ type, nodeId, portId }));
+        dispatch(
+          actions.selectPort({
+            type,
+            nodeId,
+            portId,
+          })
+        );
       }}
       onMouseUp={() => {
-        dispatch(actions.portMouseUp({ nodeId, portId, PortType: type }));
+        dispatch(
+          actions.portMouseUp({
+            nodeId,
+            portId,
+            PortType: type,
+          })
+        );
       }}
       onContextMenu={(e) => {
         if (type === "in") {
@@ -124,7 +142,14 @@ const Port = (port: purePort) => {
     2: "Right click to toggle subnodes",
   };
 
-  return <Tooltip title={toolTipMap[portId]}>{comp}</Tooltip>;
+  if (!(portId in toolTipMap)) {
+    throw new Error(`"portId" must be in ${toolTipMap}`);
+  }
+  return (
+    <Tooltip title={toolTipMap[portId as keyof typeof toolTipMap]}>
+      {comp}
+    </Tooltip>
+  );
 };
 
 export const Ports = (props: { type: portType; id: number; port: port }) => {

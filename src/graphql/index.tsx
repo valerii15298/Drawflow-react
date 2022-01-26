@@ -3,7 +3,15 @@ import {
   ApolloProvider,
   gql,
   InMemoryCache,
+  NormalizedCache,
+  ReadMergeModifyContext,
 } from "@apollo/client";
+import { EntityStore } from "@apollo/client/cache";
+import {
+  ReadFieldFunction,
+  ReadFieldOptions,
+} from "@apollo/client/cache/core/types/common";
+import { StoreValue } from "@apollo/client/utilities";
 import { FC } from "react";
 import introspectionQueryResultData from "./fragmentTypes";
 import { typeDefs } from "./local-schema";

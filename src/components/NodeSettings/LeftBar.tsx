@@ -115,6 +115,7 @@ export const LeftBar = (props: {
     type p2 = typeof p1[number];
     type keyType = `Node${p2}Props`;
     const NodePropsKey = `Node${type}Props` as keyType;
+    //@ts-ignore
     const NodePropsValue = info.NodeProps[NodePropsKey];
     const dataToInsert = JSON.parse(JSON.stringify(info));
     for (const key in dataToInsert) {
@@ -172,7 +173,8 @@ export const LeftBar = (props: {
         </LeftBarHeader>
         {type === "node" && <NodeJumpControls id={id} />}
         <ListSettingsDiv>
-          {Object.entries(values).map(([key, value]) => {
+          {Object.entries(values).map(([keyString, value]) => {
+            const key = keyString as keyof typeof values;
             if (typeof value !== "object" || value === null) {
               return <SettingItem key={key} path={[key]} />;
             }

@@ -6,7 +6,7 @@ import { actions, selectActiveDrawflow } from "../drawflowSlice";
 import { store } from "../store";
 
 const togglePortWorker = new TogglePortWorker();
-togglePortWorker.onmessage = (m) => {
+togglePortWorker.onmessage = (m: any) => {
   const { version } = store.getState();
   if (version === m.data.version) {
     store.dispatch(actions.setState({ portToConnect: m.data.portToConnect }));

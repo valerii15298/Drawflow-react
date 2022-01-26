@@ -244,7 +244,7 @@ fragment nodesList on BotFlowVersion {
     #        name
     #      }
     #    }
-    #    selected @client
+    selected @client
     pos @client {
       x
       y

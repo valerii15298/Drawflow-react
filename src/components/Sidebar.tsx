@@ -28,7 +28,7 @@ const GroupList = ({
   const { loading, error, data } = useTemplateNodesGroupsQuery();
   if (error) return <>Error!</>;
   if (loading) return <>Loading...</>;
-  const groups = data.templateNodesGroups;
+  const groups = data?.templateNodesGroups ?? [];
 
   return (
     <GroupsListDiv>

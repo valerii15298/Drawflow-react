@@ -7,7 +7,7 @@ const ChooseGroup = ({ field }: any) => {
   if (error) return <>Error</>;
   return (
     <select {...field}>
-      {data.templateNodesGroups.map(({ id, name }) => (
+      {data?.templateNodesGroups.map(({ id, name }) => (
         <option key={id} value={id}>
           {name} ID.{id}
         </option>

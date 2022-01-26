@@ -1,13 +1,16 @@
 import lodash from "lodash";
-import { Connection, FlowNode, Pos } from "../generated/apollo";
+import { noContext } from "optimism";
+import { Connection, FlowNode, NodeInfo, Pos } from "../generated/apollo";
 import {
   StrictTypedTypePolicies,
   TypedTypePolicies,
 } from "../generated/apollo-helpers";
-import { proxyTarget, wrap } from "./wrap";
+import { waitNumberOfMilliseconds } from "../tools/helpers";
+import { proxyTarget, unwrap, wrap } from "./wrap";
 
 export const typePolicies: TypedTypePolicies = {
   Connection: {
+    // keyFields: ["id"],
     fields: {
       curvature: {
         read(curvature, ctx) {
@@ -16,30 +19,40 @@ export const typePolicies: TypedTypePolicies = {
           }
           const connection = wrap<Connection>(ctx);
 
-          const toPos = connection().toPort().pos();
-          const fromPos = connection().fromPort().pos();
-          return `${fromPos} - ${toPos}`;
+          const { y: y1, x: x1 } = connection().toPort().pos();
+          const { y: y2, x: x2 } = connection().fromPort().pos();
+          const coordinates = [x1() - x2() + 1, y1() - y2() + 1];
+          // console.log({ coordinates });
+          return `${Math.hypot(...coordinates)}`;
         },
         merge(existing, incoming, ctx) {
-          console.log("Merge Curvyy");
-          console.log({
-            existing,
-            incoming,
-          });
-          const conn = wrap<Connection>(ctx, {
-            id: 2,
-            __typename: "Connection",
-          });
-          // console.log(conn().toPort().node().id);
-          conn()
-            .toPort()
-            .node.set((n) => ({
-              id: n().id(),
-              pos: {
-                x: 5,
-                y: 8,
-              },
-            }));
+          // console.log({
+          //   existing,
+          //   incoming,
+          // });
+
+          // const conn = wrap<Connection>(ctx, "Connection:2");
+          // conn()
+          //   .toPort()
+          //   .node()
+          //   .info()
+          //   .name.set((name) => name() + " Obraham");
+          //
+          // conn()
+          //   .toPort()
+          //   .node()
+          //   .pos.set((pos) => ({
+          //     x: 2,
+          //     y: 5,
+          //   }));
+          // waitNumberOfMilliseconds(2000).then(() => {
+          //   conn()
+          //     .toPort()
+          //     .node()
+          //     .pos()
+          //     .y.set((prevY) => prevY() + 1);
+          // });
+
           return "After merge";
         },
       },
@@ -72,16 +85,19 @@ export const typePolicies: TypedTypePolicies = {
     fields: {
       selected: {
         read(selected, ctx) {
-          // console.log(selected);
+          const node = wrap<FlowNode>(ctx);
+          const id = node().id();
+          const select = node!()!.flow!()!.select?.id;
+          console.log({ select: select?.id });
           return false;
-          // const node = wrap<FlowNode>(ctx);
-          // const id = node().id;
-          // const select = node().flow().select();
-          // return select.__typename === "FlowNode" && id === select.id;
+          // return select?.__typename === "FlowNode" && id === select?.id;
         },
       },
       pos: {
         read(existingPos = {}): Pos {
+          // if (existingPos?.x !== undefined && existingPos?.y !== undefined) {
+          //   return existingPos;
+          // }
           const pos = {
             x: 0,
             y: 0,
@@ -91,16 +107,19 @@ export const typePolicies: TypedTypePolicies = {
         },
         merge(pos, newPos) {
           // console.log("Merge Pos", pos, newPos);
-          return newPos;
+          return { ...pos, ...newPos };
         },
       },
       children: {
         read(_, ctx) {
           const node = wrap<FlowNode>(ctx);
-          const portIndex = ctx.args.portIndex as number;
+          const portIndex = ctx.args?.portIndex as number;
+          if (!portIndex) {
+            throw new TypeError("portIndex is not provided");
+          }
           const { ports, flow } = node();
 
-          const nodes = [];
+          const nodes: any[] = [];
           // flow().connections.forEach(({ fromPort, toPort }) => {
           //   if (
           //     fromPort().index === portIndex &&
@@ -139,10 +158,4 @@ export const typePolicies: TypedTypePolicies = {
       },
     },
   },
-};
-
-export const keyFieldsByTypename = (
-  typename: keyof StrictTypedTypePolicies
-) => {
-  return typePolicies[typename].keyFields ?? ["__typename", "id"];
 };

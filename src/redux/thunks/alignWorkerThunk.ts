@@ -6,7 +6,7 @@ import { store } from "../store";
 import AlignWorker from "../../web-workers/alignFlow?worker";
 
 const alignWorker = new AlignWorker();
-alignWorker.onmessage = (m) => {
+alignWorker.onmessage = (m: any) => {
   const { version } = store.getState();
   if (version === m.data.version) {
     store.dispatch(actions.setState({ drawflow: m.data.drawflow }));

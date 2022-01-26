@@ -38,7 +38,7 @@ const NodeSwitch = (props: Props) => {
 
   const options = flow.getNode(flowNodeId).out1;
 
-  const onChooseOption = (option) => {
+  const onChooseOption = (option: typeof options[number]) => {
     console.log(option);
     if (option.id !== undefined) {
       actions.appendMessageNode({

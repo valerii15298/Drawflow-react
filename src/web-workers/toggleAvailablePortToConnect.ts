@@ -12,7 +12,7 @@ onmessage = ({ data: { 0: state, 1: version } }) => {
   if (state.config.drag && state.select) {
     const s = state as stateData;
     const flow = new Flow(state);
-    flow.toggleAvailablePortToConnect(s.select.selectId);
+    flow.toggleAvailablePortToConnect(s.select!.selectId);
     const { portToConnect } = flow.state;
     // @ts-ignore
     postMessage({
