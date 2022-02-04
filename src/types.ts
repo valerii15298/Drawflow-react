@@ -1,3 +1,4 @@
+import { ReadFieldOptions } from "@apollo/client/cache";
 import { chatNodeType } from "./chat/chatNodes/chatNodeType";
 
 export enum Slices {
@@ -9,6 +10,11 @@ export enum LocalStorageKey {
   backgroundOpacity = "backgroundOpacity",
   backgroundBlur = "backgroundBlur",
   backgroundImageUrl = "backgroundImageUrl",
+}
+
+export enum Spacing {
+  x = 40,
+  y = 60,
 }
 
 export enum PORT {
@@ -259,28 +265,28 @@ export type setFunc<T> = {
   ) => void;
 };
 
-type a = undefined | number | string;
-type bbb = undefined extends a ? true : false;
-const hh: bbb = true;
-
-export type RecursiveFunc<T> = {
+export type RecursiveFunc<T extends Record<string, any>> = {
   [P in keyof T]: T[P] extends (infer U)[]
     ? {
-        (): RecursiveFunc<U>[];
+        (
+          options?: Omit<ReadFieldOptions, "fieldName" | "from">
+        ): RecursiveFunc<U>[];
         set: (arg: RecursivePartial<U>[]) => void;
       }
-    : T[P] extends object
+    : T[P] extends string | number | boolean | undefined | null
     ? {
-        (args?: any): RecursiveFunc<T[P]>;
+        (options?: Omit<ReadFieldOptions, "fieldName" | "from">): T[P];
+        set: (setFunc: (currentField: (args?: any) => T[P]) => T[P]) => void;
+      }
+    : {
+        (options?: Omit<ReadFieldOptions, "fieldName" | "from">): RecursiveFunc<
+          T[P]
+        >;
         set: (
           setFunc: (
             currentField: (args?: any) => RecursiveFunc<T[P]>
           ) => RecursivePartial<T[P]>
         ) => void;
-      }
-    : {
-        (): T[P];
-        set: (setFunc: (currentField: (args?: any) => T[P]) => T[P]) => void;
       };
 };
 

@@ -428,6 +428,7 @@ export type BotFlowVersion = {
   botFlowId: Scalars['Int'];
   canvasTranslate: Pos;
   connections: Array<Connection>;
+  heads: Array<FlowNode>;
   id: Scalars['Int'];
   nodes: Array<FlowNode>;
   select?: Maybe<SelectEntity>;
@@ -1255,35 +1256,53 @@ export type EnumSwitchDisplayTypeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<SwitchDisplayType>>;
 };
 
+export type FlowLine = {
+  __typename?: 'FlowLine';
+  flowLineNodes: Array<FlowNode>;
+  hasSubnodes?: Maybe<FlowNode>;
+};
+
 export type FlowNode = {
   __typename?: 'FlowNode';
   NodeProps: NodeProps;
   _count?: Maybe<FlowNodeCount>;
+  allSuccessors: Array<FlowNode>;
   botFlowVersionId: Scalars['Int'];
   children: Array<FlowNode>;
+  childrenTotalWidth: Scalars['Float'];
   childrenVisible: Scalars['Boolean'];
+  complexParentNode?: Maybe<FlowNode>;
   firstSubnode?: Maybe<FlowNode>;
   flow: BotFlowVersion;
+  flowLine?: Maybe<FlowLine>;
   head: Scalars['Int'];
-  height: Scalars['Int'];
+  height: Scalars['Float'];
   id: Scalars['Int'];
   info: NodeInfo;
   isSub: Scalars['Boolean'];
   lane: Scalars['Int'];
+  leftWidth: Scalars['Float'];
   nodeInfoId: Scalars['Int'];
   nodePropsId: Scalars['Int'];
+  out1: Array<FlowNode>;
+  outConnections: Array<Connection>;
+  parent?: Maybe<FlowNode>;
+  parentConnection?: Maybe<Connection>;
   ports: Array<Port>;
   pos: Pos;
   positionNumber: Scalars['Int'];
-  prevNode?: Maybe<FlowNode>;
+  prevDirectNodes: Array<FlowNode>;
+  rightWidth: Scalars['Float'];
   selected: Scalars['Boolean'];
   subnodes: Array<FlowNode>;
   subnodesVisible: Scalars['Boolean'];
+  subnodesWidth: Scalars['Float'];
   templateNode?: Maybe<TemplateNode>;
   templateNodeId?: Maybe<Scalars['Int']>;
+  totalWidth: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   visible: Scalars['Int'];
-  width: Scalars['Int'];
+  width: Scalars['Float'];
 };
 
 
@@ -8012,14 +8031,14 @@ export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', delet
 
 export type ConnectionsListFragment = { __typename?: 'BotFlowVersion', connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> };
 
-export type NodesListFragment = { __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, selected: boolean, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number } }>, pos: { __typename?: 'Pos', x: number, y: number } }> };
+export type NodesListFragment = { __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, children: Array<{ __typename?: 'FlowNode', id: number, info: { __typename?: 'NodeInfo', name: string } }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }> };
 
 export type BotFlowQueryVariables = Exact<{
   where: BotFlowWhereUniqueInput;
 }>;
 
 
-export type BotFlowQuery = { __typename?: 'Query', botFlow?: { __typename?: 'BotFlow', id: number, name: string, description: string, versions: Array<{ __typename?: 'BotFlowVersion', id: number, version: number, nodes: Array<{ __typename?: 'FlowNode', id: number, selected: boolean, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number } }>, pos: { __typename?: 'Pos', x: number, y: number } }>, connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> }> } | null | undefined };
+export type BotFlowQuery = { __typename?: 'Query', botFlow?: { __typename?: 'BotFlow', id: number, name: string, description: string, versions: Array<{ __typename?: 'BotFlowVersion', id: number, version: number, heads: Array<{ __typename?: 'FlowNode', id: number }>, nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, children: Array<{ __typename?: 'FlowNode', id: number, info: { __typename?: 'NodeInfo', name: string } }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }>, connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> }> } | null | undefined };
 
 export const NodeInfoFragmentDoc = gql`
     fragment nodeInfo on NodeInfo {
@@ -8178,12 +8197,59 @@ export const NodesListFragmentDoc = gql`
       node {
         id
       }
+      outConnections {
+        id
+      }
+      inConnection {
+        id
+      }
+    }
+    isSub @client
+    parentConnection @client {
+      id
+    }
+    parent @client {
+      id
+    }
+    allSuccessors @client {
+      id
+    }
+    outConnections @client {
+      id
+    }
+    prevDirectNodes @client {
+      id
+    }
+    subnodesWidth @client
+    complexParentNode @client {
+      id
+    }
+    rightWidth @client
+    leftWidth @client
+    totalWidth @client
+    childrenTotalWidth @client
+    firstSubnode @client {
+      id
+    }
+    subnodes @client {
+      id
+    }
+    children(portIndex: 2) @client {
+      id
+      info {
+        name
+      }
+    }
+    out1 @client {
+      id
     }
     selected @client
     pos @client {
       x
       y
     }
+    height @client
+    width @client
   }
 }
     ${NodePropsFragmentDoc}
@@ -8493,6 +8559,9 @@ export const BotFlowDocument = gql`
     versions {
       id
       version
+      heads @client {
+        id
+      }
       ...nodesList
       ...connectionsList
     }

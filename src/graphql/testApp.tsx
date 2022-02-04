@@ -1,6 +1,9 @@
 import { gql } from "@apollo/client";
-import { useBotFlowQuery } from "../generated/apollo";
+import { BotFlowVersion, FlowNode, useBotFlowQuery } from "../generated/apollo";
+import { alignBotFlowVersion } from "./apollo/alignBotFlowVersion";
+import { alignNodeChildren } from "./apollo/alignNodeChildren";
 import { cache, data as cacheData } from "./index";
+import { wrap } from "./wrap";
 
 export const TestApp = () => {
   const { error, loading, data } = useBotFlowQuery({
@@ -8,6 +11,12 @@ export const TestApp = () => {
     onCompleted() {
       console.log("On completed");
     },
+  });
+
+  console.log({
+    error,
+    loading,
+    data,
   });
 
   if (error) return <div>Error: {error}</div>;
@@ -41,6 +50,17 @@ export const TestApp = () => {
         }}
       >
         Merge curvature
+      </button>
+
+      <button
+        onClick={() => {
+          const node = wrap<FlowNode>(cache, "FlowNode:1")();
+          alignNodeChildren(node);
+          const flow = wrap<BotFlowVersion>(cache, "BotFlowVersion:1")();
+          alignBotFlowVersion(flow);
+        }}
+      >
+        Align
       </button>
     </div>
   );

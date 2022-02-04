@@ -234,21 +234,60 @@ fragment nodesList on BotFlowVersion {
       node {
         id
       }
+      outConnections {
+        id
+      }
+      inConnection {
+        id
+      }
     }
-    #    firstSubnode @client {
-    #      id
-    #    }
-    #    children(portIndex: 3) @client {
-    #      id
-    #      info {
-    #        name
-    #      }
-    #    }
+    isSub @client
+    parentConnection @client {
+      id
+    }
+    parent @client {
+      id
+    }
+    allSuccessors @client {
+      id
+    }
+    outConnections @client {
+      id
+    }
+    prevDirectNodes @client {
+      id
+    }
+    subnodesWidth @client
+    complexParentNode @client {
+      id
+    }
+    rightWidth @client
+    leftWidth @client
+    totalWidth @client
+    childrenTotalWidth @client
+    firstSubnode @client {
+      id
+    }
+    subnodes @client {
+      id
+    }
+    children(portIndex: 2) @client {
+      id
+      info {
+        name
+      }
+    }
+    out1 @client {
+      id
+    }
+
     selected @client
     pos @client {
       x
       y
     }
+    height @client
+    width @client
   }
 }
 
@@ -260,6 +299,9 @@ query botFlow($where: BotFlowWhereUniqueInput!) {
     versions {
       id
       version
+      heads @client {
+        id
+      }
       ...nodesList
       ...connectionsList
     }

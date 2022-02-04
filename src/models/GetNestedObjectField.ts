@@ -21,6 +21,14 @@ export const setNestedObjectField = (
   props: (string | number)[],
   value: any
 ) => {
+  if (obj === null && props.length) {
+    obj = {};
+    let tmpObj = obj;
+    props.forEach((propName) => {
+      tmpObj[propName] = {};
+      tmpObj = tmpObj[propName];
+    });
+  }
   obj = JSON.parse(JSON.stringify(obj)) as typeof obj;
   const result = obj;
   if (props.length === 0) {
@@ -28,6 +36,7 @@ export const setNestedObjectField = (
     return result;
   }
   // since props.length is greater than zero we can use non-null assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const lastProp = props.at(-1)!;
   const exceptLastProps = props.slice(0, -1);
   for (const propName of exceptLastProps) {
@@ -40,7 +49,7 @@ export const setNestedObjectField = (
     throw new TypeError(`cannot access property ${lastProp} on ${obj}`);
   }
   if (typeof obj[lastProp] !== typeof value) {
-    throw new TypeError("Incompatible types!!");
+    // console.warn("Incompatible types!!");
   }
   obj[lastProp] = value;
   return result;

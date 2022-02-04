@@ -212,13 +212,14 @@ export type BotFlowSumAggregateFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowVersionKeySpecifier = ('_count' | 'botFlow' | 'botFlowId' | 'canvasTranslate' | 'connections' | 'id' | 'nodes' | 'select' | 'version' | 'zoom' | BotFlowVersionKeySpecifier)[];
+export type BotFlowVersionKeySpecifier = ('_count' | 'botFlow' | 'botFlowId' | 'canvasTranslate' | 'connections' | 'heads' | 'id' | 'nodes' | 'select' | 'version' | 'zoom' | BotFlowVersionKeySpecifier)[];
 export type BotFlowVersionFieldPolicy = {
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlow?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowId?: FieldPolicy<any> | FieldReadFunction<any>,
 	canvasTranslate?: FieldPolicy<any> | FieldReadFunction<any>,
 	connections?: FieldPolicy<any> | FieldReadFunction<any>,
+	heads?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	select?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -338,32 +339,49 @@ export type ConnectionSumAggregateFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FlowNodeKeySpecifier = ('NodeProps' | '_count' | 'botFlowVersionId' | 'children' | 'childrenVisible' | 'firstSubnode' | 'flow' | 'head' | 'height' | 'id' | 'info' | 'isSub' | 'lane' | 'nodeInfoId' | 'nodePropsId' | 'ports' | 'pos' | 'positionNumber' | 'prevNode' | 'selected' | 'subnodes' | 'subnodesVisible' | 'templateNode' | 'templateNodeId' | 'updatedAt' | 'visible' | 'width' | FlowNodeKeySpecifier)[];
+export type FlowLineKeySpecifier = ('flowLineNodes' | 'hasSubnodes' | FlowLineKeySpecifier)[];
+export type FlowLineFieldPolicy = {
+	flowLineNodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasSubnodes?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type FlowNodeKeySpecifier = ('NodeProps' | '_count' | 'allSuccessors' | 'botFlowVersionId' | 'children' | 'childrenTotalWidth' | 'childrenVisible' | 'complexParentNode' | 'firstSubnode' | 'flow' | 'flowLine' | 'head' | 'height' | 'id' | 'info' | 'isSub' | 'lane' | 'leftWidth' | 'nodeInfoId' | 'nodePropsId' | 'out1' | 'outConnections' | 'parent' | 'parentConnection' | 'ports' | 'pos' | 'positionNumber' | 'prevDirectNodes' | 'rightWidth' | 'selected' | 'subnodes' | 'subnodesVisible' | 'subnodesWidth' | 'templateNode' | 'templateNodeId' | 'totalWidth' | 'updatedAt' | 'visible' | 'width' | FlowNodeKeySpecifier)[];
 export type FlowNodeFieldPolicy = {
 	NodeProps?: FieldPolicy<any> | FieldReadFunction<any>,
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
+	allSuccessors?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowVersionId?: FieldPolicy<any> | FieldReadFunction<any>,
 	children?: FieldPolicy<any> | FieldReadFunction<any>,
+	childrenTotalWidth?: FieldPolicy<any> | FieldReadFunction<any>,
 	childrenVisible?: FieldPolicy<any> | FieldReadFunction<any>,
+	complexParentNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	firstSubnode?: FieldPolicy<any> | FieldReadFunction<any>,
 	flow?: FieldPolicy<any> | FieldReadFunction<any>,
+	flowLine?: FieldPolicy<any> | FieldReadFunction<any>,
 	head?: FieldPolicy<any> | FieldReadFunction<any>,
 	height?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	info?: FieldPolicy<any> | FieldReadFunction<any>,
 	isSub?: FieldPolicy<any> | FieldReadFunction<any>,
 	lane?: FieldPolicy<any> | FieldReadFunction<any>,
+	leftWidth?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodeInfoId?: FieldPolicy<any> | FieldReadFunction<any>,
 	nodePropsId?: FieldPolicy<any> | FieldReadFunction<any>,
+	out1?: FieldPolicy<any> | FieldReadFunction<any>,
+	outConnections?: FieldPolicy<any> | FieldReadFunction<any>,
+	parent?: FieldPolicy<any> | FieldReadFunction<any>,
+	parentConnection?: FieldPolicy<any> | FieldReadFunction<any>,
 	ports?: FieldPolicy<any> | FieldReadFunction<any>,
 	pos?: FieldPolicy<any> | FieldReadFunction<any>,
 	positionNumber?: FieldPolicy<any> | FieldReadFunction<any>,
-	prevNode?: FieldPolicy<any> | FieldReadFunction<any>,
+	prevDirectNodes?: FieldPolicy<any> | FieldReadFunction<any>,
+	rightWidth?: FieldPolicy<any> | FieldReadFunction<any>,
 	selected?: FieldPolicy<any> | FieldReadFunction<any>,
 	subnodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	subnodesVisible?: FieldPolicy<any> | FieldReadFunction<any>,
+	subnodesWidth?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodeId?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalWidth?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	visible?: FieldPolicy<any> | FieldReadFunction<any>,
 	width?: FieldPolicy<any> | FieldReadFunction<any>
@@ -1594,6 +1612,10 @@ export type StrictTypedTypePolicies = {
 	ConnectionSumAggregate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ConnectionSumAggregateKeySpecifier | (() => undefined | ConnectionSumAggregateKeySpecifier),
 		fields?: ConnectionSumAggregateFieldPolicy,
+	},
+	FlowLine?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FlowLineKeySpecifier | (() => undefined | FlowLineKeySpecifier),
+		fields?: FlowLineFieldPolicy,
 	},
 	FlowNode?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | FlowNodeKeySpecifier | (() => undefined | FlowNodeKeySpecifier),

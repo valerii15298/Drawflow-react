@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-import generatedSchema from "./schema.graphql";
+// import generatedSchema from "./schema.graphql";
 
 export const typeDefs = gql`
   type Pos {
@@ -8,9 +8,14 @@ export const typeDefs = gql`
     y: Float!
   }
 
+  type FlowLine {
+    flowLineNodes: [FlowNode!]!
+    hasSubnodes: FlowNode
+  }
+
   extend type FlowNode {
-    height: Int!
-    width: Int!
+    height: Float!
+    width: Float!
     pos: Pos!
     head: Int!
     lane: Int!
@@ -22,10 +27,24 @@ export const typeDefs = gql`
     selected: Boolean!
     isSub: Boolean!
     visible: Int!
-    prevNode: FlowNode
+    parent: FlowNode
     subnodes: [FlowNode!]!
     children(portIndex: Int!): [FlowNode!]!
     firstSubnode: FlowNode
+    parentConnection: Connection
+    allSuccessors: [FlowNode!]!
+    outConnections: [Connection!]!
+    out1: [FlowNode!]!
+    prevDirectNodes: [FlowNode!]!
+
+    subnodesWidth: Float!
+    complexParentNode: FlowNode
+    flowLine: FlowLine
+
+    totalWidth: Float!
+    childrenTotalWidth: Float!
+    leftWidth: Float!
+    rightWidth: Float!
   }
 
   extend type Port {
@@ -81,6 +100,7 @@ export const typeDefs = gql`
     canvasTranslate: Pos!
     zoom: Zoom!
     select: SelectEntity
+    heads: [FlowNode!]!
   }
 
   extend type Connection {
