@@ -30,7 +30,7 @@ export const wrap = <T>(
       fields: {
         // Picking __typename since it's a field that's always there:
         __typename(name, ctx) {
-          console.log({ name });
+          // console.log({ name });
           readField = ctx.readField;
           // Do something with readField (for example, store it elsewhere)...
           return name; // Don't change the __typename!
@@ -181,7 +181,7 @@ export const wrap = <T>(
           ${selection}
           ${propArr.length ? " } ".repeat(propArr.length - 1) : ""}
       }`;
-      console.log(fragment.loc?.source.body);
+      // console.log(fragment.loc?.source.body);
 
       return cache.updateFragment(
         {

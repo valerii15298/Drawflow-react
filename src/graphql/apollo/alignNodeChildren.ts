@@ -1,15 +1,15 @@
 import { FlowNode } from "../../generated/apollo";
 import { RecursiveFunc, Spacing } from "../../types";
 
-export const alignNodeChildren = (node: RecursiveFunc<FlowNode>) => {
-  const out1 = node.out1();
-  let xPos = node.pos().x() - (node.leftWidth() - node.width() / 2);
+export const alignNodeChildren = (thisNode: RecursiveFunc<FlowNode>) => {
+  const out1 = thisNode.out1();
+  let xPos = thisNode.pos().x() - (thisNode.leftWidth() - thisNode.width() / 2);
 
   for (const node of out1) {
     const x = xPos + (node.leftWidth() - node.width() / 2);
     node.pos.set(() => ({
       x,
-      y: node.pos().y() + node.height() + Spacing.y,
+      y: thisNode.pos().y() + thisNode.height() + Spacing.y,
     }));
 
     if (node.visible() > 0) {
@@ -18,13 +18,13 @@ export const alignNodeChildren = (node: RecursiveFunc<FlowNode>) => {
     alignNodeChildren(node);
   }
 
-  const subnodes = node.subnodes();
+  const subnodes = thisNode.subnodes();
   if (subnodes.length) {
-    xPos = node.pos().x() + node.width() + Spacing.x;
+    xPos = thisNode.pos().x() + thisNode.width() + Spacing.x;
     subnodes.forEach((subNode) => {
       subNode.pos.set(() => ({
         x: xPos,
-        y: node.pos().y() + (node.height() / 2 - subNode.height() / 2),
+        y: thisNode.pos().y() + (thisNode.height() / 2 - subNode.height() / 2),
       }));
 
       // delete this.state.ports[`${subNode.id}_out_2`]
