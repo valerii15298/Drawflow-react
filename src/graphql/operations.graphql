@@ -216,78 +216,77 @@ fragment connectionsList on BotFlowVersion {
   }
 }
 
+fragment flowNode on FlowNode {
+  id
+  NodeProps {
+    ...nodeProps
+  }
+  info {
+    ...nodeInfo
+  }
+  flow {
+    id
+  }
+  ports {
+    id
+    index
+    node {
+      id
+    }
+    outConnections {
+      id
+    }
+    inConnection {
+      id
+    }
+  }
+  isSub @client
+  parentConnection @client {
+    id
+  }
+  parent @client {
+    id
+  }
+  allSuccessors @client {
+    id
+  }
+  outConnections @client {
+    id
+  }
+  prevDirectNodes @client {
+    id
+  }
+  subnodesWidth @client
+  complexParentNode @client {
+    id
+  }
+  rightWidth @client
+  leftWidth @client
+  totalWidth @client
+  childrenTotalWidth @client
+  firstSubnode @client {
+    id
+  }
+  subnodes @client {
+    id
+  }
+
+  out1 @client {
+    id
+  }
+
+  selected @client
+  pos @client {
+    x
+    y
+  }
+  height @client
+  width @client
+}
+
 fragment nodesList on BotFlowVersion {
   nodes {
-    id
-    NodeProps {
-      ...nodeProps
-    }
-    info {
-      ...nodeInfo
-    }
-    flow {
-      id
-    }
-    ports {
-      id
-      index
-      node {
-        id
-      }
-      outConnections {
-        id
-      }
-      inConnection {
-        id
-      }
-    }
-    isSub @client
-    parentConnection @client {
-      id
-    }
-    parent @client {
-      id
-    }
-    allSuccessors @client {
-      id
-    }
-    outConnections @client {
-      id
-    }
-    prevDirectNodes @client {
-      id
-    }
-    subnodesWidth @client
-    complexParentNode @client {
-      id
-    }
-    rightWidth @client
-    leftWidth @client
-    totalWidth @client
-    childrenTotalWidth @client
-    firstSubnode @client {
-      id
-    }
-    subnodes @client {
-      id
-    }
-    children(portIndex: 2) @client {
-      id
-      info {
-        name
-      }
-    }
-    out1 @client {
-      id
-    }
-
-    selected @client
-    pos @client {
-      x
-      y
-    }
-    height @client
-    width @client
+    ...flowNode
   }
 }
 
@@ -296,11 +295,22 @@ query botFlow($where: BotFlowWhereUniqueInput!) {
     id
     name
     description
+    version @client
     versions {
       id
       version
       heads @client {
         id
+      }
+      canvasTranslate @client {
+        y
+        x
+      }
+      zoom @client {
+        max
+        min
+        tick
+        value
       }
       ...nodesList
       ...connectionsList
@@ -308,10 +318,74 @@ query botFlow($where: BotFlowWhereUniqueInput!) {
   }
 }
 
-#mutation botFlowVersion($flow: [AddBotFlowVersionInput!]!) {
-#    addBotFlowVersion(input: $flow) {
-#        botFlowVersion {
-#            id
-#        }
-#    }
-#}
+query rootInfo {
+  dragTemplate @client
+  canvas @client {
+    x
+    y
+    width
+  }
+  precanvas @client {
+    width
+  }
+  sidebarVisible @client
+  windowConfig @client {
+    id
+    mainId
+    sideId
+  }
+  drag @client
+  canvasDrag @client
+  botFlowId @client
+  newPathDirection @client {
+    y
+    x
+  }
+  mouseBlockDragPos @client {
+    x
+    y
+  }
+  clientCurrentMousePos @client {
+    x
+    y
+  }
+  nodeToCopy @client {
+    id
+  }
+  portToConnect @client {
+    id
+  }
+}
+
+mutation deleteConnection($where: ConnectionWhereUniqueInput!) {
+  deleteConnection(where: $where) {
+    id
+  }
+}
+
+mutation createConnection($data: ConnectionCreateInput!) {
+  createConnection(data: $data) {
+    id
+  }
+}
+
+mutation createFlowNode($data: FlowNodeCreateInput!) {
+  createFlowNode(data: $data) {
+    id
+  }
+}
+
+mutation deleteFlowNode($where: FlowNodeWhereUniqueInput!) {
+  deleteFlowNode(where: $where) {
+    id
+  }
+}
+
+mutation updateFlowNode(
+  $where: FlowNodeWhereUniqueInput!
+  $data: FlowNodeUpdateInput!
+) {
+  updateFlowNode(where: $where, data: $data) {
+    id
+  }
+}

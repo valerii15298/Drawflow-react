@@ -217,6 +217,7 @@ export type BotFlow = {
   id: Scalars['Int'];
   name: Scalars['String'];
   nextVersionNumber: Scalars['Int'];
+  version?: Maybe<Scalars['Int']>;
   versions: Array<BotFlowVersion>;
 };
 
@@ -1889,6 +1890,12 @@ export type IntWithAggregatesFilter = {
   not?: InputMaybe<NestedIntWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
+
+export enum LocalStorageKey {
+  BackgroundBlur = 'backgroundBlur',
+  BackgroundImageUrl = 'backgroundImageUrl',
+  BackgroundOpacity = 'backgroundOpacity'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -6286,6 +6293,7 @@ export type Query = {
   aggregateTemplateNode: AggregateTemplateNode;
   aggregateTemplateNodesGroup: AggregateTemplateNodesGroup;
   botFlow?: Maybe<BotFlow>;
+  botFlowId: Scalars['Int'];
   botFlowVersion?: Maybe<BotFlowVersion>;
   botFlowVersions: Array<BotFlowVersion>;
   botFlows: Array<BotFlow>;
@@ -6372,7 +6380,6 @@ export type Query = {
   templateNodes: Array<TemplateNode>;
   templateNodesGroup?: Maybe<TemplateNodesGroup>;
   templateNodesGroups: Array<TemplateNodesGroup>;
-  version: Scalars['Int'];
   windowConfig: WindowConfig;
 };
 
@@ -7930,9 +7937,24 @@ export type CanvasShape = {
   y: Scalars['Float'];
 };
 
+export enum MainWindow {
+  CodeEditor = 'codeEditor',
+  MainFlow = 'mainFlow',
+  NodeSettings = 'nodeSettings',
+  TemplateNodeSettings = 'templateNodeSettings'
+}
+
+export enum SideWindow {
+  FlowSettings = 'flowSettings',
+  GroupSettings = 'groupSettings',
+  None = 'none'
+}
+
 export type WindowConfig = {
   __typename?: 'windowConfig';
   id: Scalars['Int'];
+  mainId: MainWindow;
+  sideId: SideWindow;
 };
 
 export type NodeInfoFragment = { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string };
@@ -8031,14 +8053,57 @@ export type TemplateNodesGroupsDeleteMutation = { __typename?: 'Mutation', delet
 
 export type ConnectionsListFragment = { __typename?: 'BotFlowVersion', connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> };
 
-export type NodesListFragment = { __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, children: Array<{ __typename?: 'FlowNode', id: number, info: { __typename?: 'NodeInfo', name: string } }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }> };
+export type FlowNodeFragment = { __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } };
+
+export type NodesListFragment = { __typename?: 'BotFlowVersion', nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }> };
 
 export type BotFlowQueryVariables = Exact<{
   where: BotFlowWhereUniqueInput;
 }>;
 
 
-export type BotFlowQuery = { __typename?: 'Query', botFlow?: { __typename?: 'BotFlow', id: number, name: string, description: string, versions: Array<{ __typename?: 'BotFlowVersion', id: number, version: number, heads: Array<{ __typename?: 'FlowNode', id: number }>, nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, children: Array<{ __typename?: 'FlowNode', id: number, info: { __typename?: 'NodeInfo', name: string } }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }>, connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> }> } | null | undefined };
+export type BotFlowQuery = { __typename?: 'Query', botFlow?: { __typename?: 'BotFlow', id: number, name: string, description: string, version?: number | null | undefined, versions: Array<{ __typename?: 'BotFlowVersion', id: number, version: number, heads: Array<{ __typename?: 'FlowNode', id: number }>, canvasTranslate: { __typename?: 'Pos', y: number, x: number }, zoom: { __typename?: 'Zoom', max: number, min: number, tick: number, value: number }, nodes: Array<{ __typename?: 'FlowNode', id: number, isSub: boolean, subnodesWidth: number, rightWidth: number, leftWidth: number, totalWidth: number, childrenTotalWidth: number, selected: boolean, height: number, width: number, NodeProps: { __typename?: 'NodeProps', id: number, type: NodeType, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, flow: { __typename?: 'BotFlowVersion', id: number }, ports: Array<{ __typename?: 'Port', id: number, index: number, node: { __typename?: 'FlowNode', id: number }, outConnections: Array<{ __typename?: 'Connection', id: number }>, inConnection?: { __typename?: 'Connection', id: number } | null | undefined }>, parentConnection?: { __typename?: 'Connection', id: number } | null | undefined, parent?: { __typename?: 'FlowNode', id: number } | null | undefined, allSuccessors: Array<{ __typename?: 'FlowNode', id: number }>, outConnections: Array<{ __typename?: 'Connection', id: number }>, prevDirectNodes: Array<{ __typename?: 'FlowNode', id: number }>, complexParentNode?: { __typename?: 'FlowNode', id: number } | null | undefined, firstSubnode?: { __typename?: 'FlowNode', id: number } | null | undefined, subnodes: Array<{ __typename?: 'FlowNode', id: number }>, out1: Array<{ __typename?: 'FlowNode', id: number }>, pos: { __typename?: 'Pos', x: number, y: number } }>, connections: Array<{ __typename?: 'Connection', id: number, curvature: string, fromPort: { __typename?: 'Port', id: number }, toPort: { __typename?: 'Port', id: number } }> }> } | null | undefined };
+
+export type RootInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RootInfoQuery = { __typename?: 'Query', dragTemplate?: number | null | undefined, sidebarVisible: boolean, drag: boolean, canvasDrag: boolean, botFlowId: number, canvas?: { __typename?: 'canvasShape', x: number, y: number, width: number } | null | undefined, precanvas?: { __typename?: 'canvasShape', width: number } | null | undefined, windowConfig: { __typename?: 'windowConfig', id: number, mainId: MainWindow, sideId: SideWindow }, newPathDirection?: { __typename?: 'Pos', y: number, x: number } | null | undefined, mouseBlockDragPos?: { __typename?: 'Pos', x: number, y: number } | null | undefined, clientCurrentMousePos?: { __typename?: 'Pos', x: number, y: number } | null | undefined, nodeToCopy?: { __typename?: 'FlowNode', id: number } | null | undefined, portToConnect?: { __typename?: 'Port', id: number } | null | undefined };
+
+export type DeleteConnectionMutationVariables = Exact<{
+  where: ConnectionWhereUniqueInput;
+}>;
+
+
+export type DeleteConnectionMutation = { __typename?: 'Mutation', deleteConnection?: { __typename?: 'Connection', id: number } | null | undefined };
+
+export type CreateConnectionMutationVariables = Exact<{
+  data: ConnectionCreateInput;
+}>;
+
+
+export type CreateConnectionMutation = { __typename?: 'Mutation', createConnection: { __typename?: 'Connection', id: number } };
+
+export type CreateFlowNodeMutationVariables = Exact<{
+  data: FlowNodeCreateInput;
+}>;
+
+
+export type CreateFlowNodeMutation = { __typename?: 'Mutation', createFlowNode: { __typename?: 'FlowNode', id: number } };
+
+export type DeleteFlowNodeMutationVariables = Exact<{
+  where: FlowNodeWhereUniqueInput;
+}>;
+
+
+export type DeleteFlowNodeMutation = { __typename?: 'Mutation', deleteFlowNode?: { __typename?: 'FlowNode', id: number } | null | undefined };
+
+export type UpdateFlowNodeMutationVariables = Exact<{
+  where: FlowNodeWhereUniqueInput;
+  data: FlowNodeUpdateInput;
+}>;
+
+
+export type UpdateFlowNodeMutation = { __typename?: 'Mutation', updateFlowNode?: { __typename?: 'FlowNode', id: number } | null | undefined };
 
 export const NodeInfoFragmentDoc = gql`
     fragment nodeInfo on NodeInfo {
@@ -8178,82 +8243,81 @@ export const ConnectionsListFragmentDoc = gql`
   }
 }
     `;
-export const NodesListFragmentDoc = gql`
-    fragment nodesList on BotFlowVersion {
-  nodes {
-    id
-    NodeProps {
-      ...nodeProps
-    }
-    info {
-      ...nodeInfo
-    }
-    flow {
-      id
-    }
-    ports {
-      id
-      index
-      node {
-        id
-      }
-      outConnections {
-        id
-      }
-      inConnection {
-        id
-      }
-    }
-    isSub @client
-    parentConnection @client {
-      id
-    }
-    parent @client {
-      id
-    }
-    allSuccessors @client {
-      id
-    }
-    outConnections @client {
-      id
-    }
-    prevDirectNodes @client {
-      id
-    }
-    subnodesWidth @client
-    complexParentNode @client {
-      id
-    }
-    rightWidth @client
-    leftWidth @client
-    totalWidth @client
-    childrenTotalWidth @client
-    firstSubnode @client {
-      id
-    }
-    subnodes @client {
-      id
-    }
-    children(portIndex: 2) @client {
-      id
-      info {
-        name
-      }
-    }
-    out1 @client {
-      id
-    }
-    selected @client
-    pos @client {
-      x
-      y
-    }
-    height @client
-    width @client
+export const FlowNodeFragmentDoc = gql`
+    fragment flowNode on FlowNode {
+  id
+  NodeProps {
+    ...nodeProps
   }
+  info {
+    ...nodeInfo
+  }
+  flow {
+    id
+  }
+  ports {
+    id
+    index
+    node {
+      id
+    }
+    outConnections {
+      id
+    }
+    inConnection {
+      id
+    }
+  }
+  isSub @client
+  parentConnection @client {
+    id
+  }
+  parent @client {
+    id
+  }
+  allSuccessors @client {
+    id
+  }
+  outConnections @client {
+    id
+  }
+  prevDirectNodes @client {
+    id
+  }
+  subnodesWidth @client
+  complexParentNode @client {
+    id
+  }
+  rightWidth @client
+  leftWidth @client
+  totalWidth @client
+  childrenTotalWidth @client
+  firstSubnode @client {
+    id
+  }
+  subnodes @client {
+    id
+  }
+  out1 @client {
+    id
+  }
+  selected @client
+  pos @client {
+    x
+    y
+  }
+  height @client
+  width @client
 }
     ${NodePropsFragmentDoc}
 ${NodeInfoFragmentDoc}`;
+export const NodesListFragmentDoc = gql`
+    fragment nodesList on BotFlowVersion {
+  nodes {
+    ...flowNode
+  }
+}
+    ${FlowNodeFragmentDoc}`;
 export const TemplateNodesDocument = gql`
     query templateNodes($cursor: TemplateNodeWhereUniqueInput, $distinct: [TemplateNodeScalarFieldEnum!], $orderBy: [TemplateNodeOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodeWhereInput) {
   templateNodes(
@@ -8556,11 +8620,22 @@ export const BotFlowDocument = gql`
     id
     name
     description
+    version @client
     versions {
       id
       version
       heads @client {
         id
+      }
+      canvasTranslate @client {
+        y
+        x
+      }
+      zoom @client {
+        max
+        min
+        tick
+        value
       }
       ...nodesList
       ...connectionsList
@@ -8597,3 +8672,236 @@ export function useBotFlowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Bo
 export type BotFlowQueryHookResult = ReturnType<typeof useBotFlowQuery>;
 export type BotFlowLazyQueryHookResult = ReturnType<typeof useBotFlowLazyQuery>;
 export type BotFlowQueryResult = Apollo.QueryResult<BotFlowQuery, BotFlowQueryVariables>;
+export const RootInfoDocument = gql`
+    query rootInfo {
+  dragTemplate @client
+  canvas @client {
+    x
+    y
+    width
+  }
+  precanvas @client {
+    width
+  }
+  sidebarVisible @client
+  windowConfig @client {
+    id
+    mainId
+    sideId
+  }
+  drag @client
+  canvasDrag @client
+  botFlowId @client
+  newPathDirection @client {
+    y
+    x
+  }
+  mouseBlockDragPos @client {
+    x
+    y
+  }
+  clientCurrentMousePos @client {
+    x
+    y
+  }
+  nodeToCopy @client {
+    id
+  }
+  portToConnect @client {
+    id
+  }
+}
+    `;
+
+/**
+ * __useRootInfoQuery__
+ *
+ * To run a query within a React component, call `useRootInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRootInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRootInfoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRootInfoQuery(baseOptions?: Apollo.QueryHookOptions<RootInfoQuery, RootInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RootInfoQuery, RootInfoQueryVariables>(RootInfoDocument, options);
+      }
+export function useRootInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RootInfoQuery, RootInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RootInfoQuery, RootInfoQueryVariables>(RootInfoDocument, options);
+        }
+export type RootInfoQueryHookResult = ReturnType<typeof useRootInfoQuery>;
+export type RootInfoLazyQueryHookResult = ReturnType<typeof useRootInfoLazyQuery>;
+export type RootInfoQueryResult = Apollo.QueryResult<RootInfoQuery, RootInfoQueryVariables>;
+export const DeleteConnectionDocument = gql`
+    mutation deleteConnection($where: ConnectionWhereUniqueInput!) {
+  deleteConnection(where: $where) {
+    id
+  }
+}
+    `;
+export type DeleteConnectionMutationFn = Apollo.MutationFunction<DeleteConnectionMutation, DeleteConnectionMutationVariables>;
+
+/**
+ * __useDeleteConnectionMutation__
+ *
+ * To run a mutation, you first call `useDeleteConnectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteConnectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteConnectionMutation, { data, loading, error }] = useDeleteConnectionMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteConnectionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteConnectionMutation, DeleteConnectionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteConnectionMutation, DeleteConnectionMutationVariables>(DeleteConnectionDocument, options);
+      }
+export type DeleteConnectionMutationHookResult = ReturnType<typeof useDeleteConnectionMutation>;
+export type DeleteConnectionMutationResult = Apollo.MutationResult<DeleteConnectionMutation>;
+export type DeleteConnectionMutationOptions = Apollo.BaseMutationOptions<DeleteConnectionMutation, DeleteConnectionMutationVariables>;
+export const CreateConnectionDocument = gql`
+    mutation createConnection($data: ConnectionCreateInput!) {
+  createConnection(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateConnectionMutationFn = Apollo.MutationFunction<CreateConnectionMutation, CreateConnectionMutationVariables>;
+
+/**
+ * __useCreateConnectionMutation__
+ *
+ * To run a mutation, you first call `useCreateConnectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateConnectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createConnectionMutation, { data, loading, error }] = useCreateConnectionMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateConnectionMutation(baseOptions?: Apollo.MutationHookOptions<CreateConnectionMutation, CreateConnectionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateConnectionMutation, CreateConnectionMutationVariables>(CreateConnectionDocument, options);
+      }
+export type CreateConnectionMutationHookResult = ReturnType<typeof useCreateConnectionMutation>;
+export type CreateConnectionMutationResult = Apollo.MutationResult<CreateConnectionMutation>;
+export type CreateConnectionMutationOptions = Apollo.BaseMutationOptions<CreateConnectionMutation, CreateConnectionMutationVariables>;
+export const CreateFlowNodeDocument = gql`
+    mutation createFlowNode($data: FlowNodeCreateInput!) {
+  createFlowNode(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateFlowNodeMutationFn = Apollo.MutationFunction<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>;
+
+/**
+ * __useCreateFlowNodeMutation__
+ *
+ * To run a mutation, you first call `useCreateFlowNodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFlowNodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFlowNodeMutation, { data, loading, error }] = useCreateFlowNodeMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>(CreateFlowNodeDocument, options);
+      }
+export type CreateFlowNodeMutationHookResult = ReturnType<typeof useCreateFlowNodeMutation>;
+export type CreateFlowNodeMutationResult = Apollo.MutationResult<CreateFlowNodeMutation>;
+export type CreateFlowNodeMutationOptions = Apollo.BaseMutationOptions<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>;
+export const DeleteFlowNodeDocument = gql`
+    mutation deleteFlowNode($where: FlowNodeWhereUniqueInput!) {
+  deleteFlowNode(where: $where) {
+    id
+  }
+}
+    `;
+export type DeleteFlowNodeMutationFn = Apollo.MutationFunction<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>;
+
+/**
+ * __useDeleteFlowNodeMutation__
+ *
+ * To run a mutation, you first call `useDeleteFlowNodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteFlowNodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteFlowNodeMutation, { data, loading, error }] = useDeleteFlowNodeMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>(DeleteFlowNodeDocument, options);
+      }
+export type DeleteFlowNodeMutationHookResult = ReturnType<typeof useDeleteFlowNodeMutation>;
+export type DeleteFlowNodeMutationResult = Apollo.MutationResult<DeleteFlowNodeMutation>;
+export type DeleteFlowNodeMutationOptions = Apollo.BaseMutationOptions<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>;
+export const UpdateFlowNodeDocument = gql`
+    mutation updateFlowNode($where: FlowNodeWhereUniqueInput!, $data: FlowNodeUpdateInput!) {
+  updateFlowNode(where: $where, data: $data) {
+    id
+  }
+}
+    `;
+export type UpdateFlowNodeMutationFn = Apollo.MutationFunction<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>;
+
+/**
+ * __useUpdateFlowNodeMutation__
+ *
+ * To run a mutation, you first call `useUpdateFlowNodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFlowNodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFlowNodeMutation, { data, loading, error }] = useUpdateFlowNodeMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>(UpdateFlowNodeDocument, options);
+      }
+export type UpdateFlowNodeMutationHookResult = ReturnType<typeof useUpdateFlowNodeMutation>;
+export type UpdateFlowNodeMutationResult = Apollo.MutationResult<UpdateFlowNodeMutation>;
+export type UpdateFlowNodeMutationOptions = Apollo.BaseMutationOptions<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>;

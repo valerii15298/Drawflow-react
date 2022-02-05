@@ -1,19 +1,18 @@
 import {
   ApolloClient,
   ApolloProvider,
-  gql,
   InMemoryCache,
-  NormalizedCache,
-  ReadMergeModifyContext,
+  Reference,
 } from "@apollo/client";
-import { EntityStore } from "@apollo/client/cache";
-import {
-  ReadFieldFunction,
-  ReadFieldOptions,
-} from "@apollo/client/cache/core/types/common";
-import { StoreValue } from "@apollo/client/utilities";
 import { FC } from "react";
-import { Connection } from "../generated/apollo";
+import {
+  BotFlow,
+  Connection,
+  MainWindow,
+  Query,
+  SideWindow,
+} from "../generated/apollo";
+import { botFlowIdParam } from "./apollo/useData";
 import introspectionQueryResultData from "./fragmentTypes";
 import { typeDefs } from "./local-schema";
 import { TestApp } from "./testApp";
@@ -25,6 +24,33 @@ export const cache = new InMemoryCache({
   typePolicies,
 });
 
+export const wrapById = <T,>(id: string | Reference) => wrap<T>(cache, id);
+
+export const rootQuery = wrapById<Query>("ROOT_QUERY");
+export const currentBotFlow = wrapById<BotFlow>(`BotFlow:${botFlowIdParam}`);
+
+rootQuery.set(() => ({
+  dragTemplate: null,
+  canvasDrag: false,
+
+  botFlowId: 1,
+  sidebarVisible: false,
+  windowConfig: {
+    id: 0,
+    mainId: MainWindow.MainFlow,
+    sideId: SideWindow.None,
+  },
+  drag: false,
+  canvas: null,
+  precanvas: null,
+  newPathDirection: null,
+  mouseBlockDragPos: null,
+  clientCurrentMousePos: null,
+  nodeToCopy: null,
+  portToConnect: null,
+}));
+
+// cache.readField
 //@ts-ignore
 export const { data } = cache;
 

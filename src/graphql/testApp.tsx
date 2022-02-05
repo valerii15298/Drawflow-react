@@ -1,30 +1,32 @@
 import { gql } from "@apollo/client";
-import { BotFlowVersion, FlowNode, useBotFlowQuery } from "../generated/apollo";
+import {
+  BotFlow,
+  BotFlowVersion,
+  FlowNode,
+  Query,
+  useBotFlowQuery,
+  useRootInfoQuery,
+} from "../generated/apollo";
 import { alignBotFlowVersion } from "./apollo/alignBotFlowVersion";
 import { alignNodeChildren } from "./apollo/alignNodeChildren";
-import { cache, data as cacheData } from "./index";
-import { wrap } from "./wrap";
+import { useData } from "./apollo/useData";
+import { cache, data as cacheData, rootQuery, wrapById } from "./index";
+import { unwrap, wrap } from "./wrap";
 
 export const TestApp = () => {
-  const { error, loading, data } = useBotFlowQuery({
-    variables: { where: { id: 1 } },
-    onCompleted() {
-      console.log("On completed");
-    },
-  });
+  const { data: allData } = useData();
 
-  console.log({
-    error,
-    loading,
-    data,
-  });
+  const { data } = useRootInfoQuery();
 
-  if (error) return <div>Error: {error}</div>;
-  if (loading) return <div>Loading...{loading}</div>;
+  if (!allData || !data) {
+    return <div>Loading...</div>;
+  }
+  const { zoom, canvasTranslate } = allData;
+  const { newPathDirection, canvasDrag } = data;
 
   return (
     <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/*<pre>{JSON.stringify(allData || {}, null, 2)}</pre>*/}
       <button
         onClick={() => {
           //@ts-ignore
@@ -61,6 +63,16 @@ export const TestApp = () => {
         }}
       >
         Align
+      </button>
+      {/*<button onClick={() => {}}>fill data</button>*/}
+      <button
+        onClick={() => {
+          rootQuery().sidebarVisible.set((prev) => {
+            return !prev();
+          });
+        }}
+      >
+        sidebar flip
       </button>
     </div>
   );

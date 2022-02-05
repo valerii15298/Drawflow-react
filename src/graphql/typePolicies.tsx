@@ -1,22 +1,20 @@
 import lodash from "lodash";
-import { noContext } from "optimism";
-import {
-  BotFlowVersion,
-  Connection,
-  FlowNode,
-  NodeInfo,
-  Pos,
-  SelectEntity,
-} from "../generated/apollo";
-import {
-  StrictTypedTypePolicies,
-  TypedTypePolicies,
-} from "../generated/apollo-helpers";
-import { waitNumberOfMilliseconds } from "../tools/helpers";
+import { getDefaultZoomConfig } from "../config";
+import { BotFlowVersion, Connection, FlowNode, Pos } from "../generated/apollo";
+import { TypedTypePolicies } from "../generated/apollo-helpers";
 import { Spacing } from "../types";
-import { proxyTarget, unwrap, wrap } from "./wrap";
+import { unwrap, wrap } from "./wrap";
 
 export const typePolicies: TypedTypePolicies = {
+  BotFlow: {
+    fields: {
+      version: {
+        read() {
+          return 1;
+        },
+      },
+    },
+  },
   Connection: {
     // keyFields: ["id"],
     fields: {
@@ -91,13 +89,42 @@ export const typePolicies: TypedTypePolicies = {
         read(_, ctx) {
           const flowVersion = wrap<BotFlowVersion>(ctx)();
           const nodes = flowVersion.nodes();
-          return unwrap(nodes.filter((node) => !node.parent?.()));
+          return unwrap(nodes.filter((node) => !node().parent?.()));
+        },
+      },
+      zoom: {
+        read(zoom) {
+          if (zoom && typeof zoom === "object") {
+            return zoom;
+          }
+          return getDefaultZoomConfig();
+        },
+      },
+      canvasTranslate: {
+        read(pos: Pos) {
+          if (pos && typeof pos === "object") {
+            return pos;
+          }
+          return {
+            x: 0,
+            y: 0,
+          };
         },
       },
     },
   },
   FlowNode: {
     fields: {
+      childrenVisible: {
+        read() {
+          return true;
+        },
+      },
+      subnodesVisible: {
+        read() {
+          return true;
+        },
+      },
       height: {
         read() {
           return 200;
@@ -150,10 +177,11 @@ export const typePolicies: TypedTypePolicies = {
           const nodes: any[] = [];
           flow()
             .connections()
-            .forEach(({ fromPort, toPort }) => {
+            .forEach((conn) => {
+              const { fromPort, toPort } = conn();
               if (
                 fromPort().index() === portIndex &&
-                ports().some((port) => fromPort().id() === port.id())
+                ports().some((port) => fromPort().id() === port().id())
               ) {
                 nodes.push(toPort().node());
               }
@@ -219,7 +247,7 @@ export const typePolicies: TypedTypePolicies = {
           if (!out1.length) return 0;
           let totalWidth = 0;
           out1.forEach((node) => {
-            totalWidth += node.totalWidth();
+            totalWidth += node().totalWidth();
           });
           return totalWidth + Spacing.x * (out1.length - 1);
         },
@@ -250,8 +278,8 @@ export const typePolicies: TypedTypePolicies = {
             return selfLeftWidth;
           }
 
-          const leftChildWidth = out1[0].leftWidth();
-          const rightChildWidth = out1[out1.length - 1].rightWidth();
+          const leftChildWidth = out1[0]().leftWidth();
+          const rightChildWidth = out1[out1.length - 1]().rightWidth();
 
           const childrenRightWidth =
             leftChildWidth +
@@ -273,8 +301,8 @@ export const typePolicies: TypedTypePolicies = {
             return selfRightWidth;
           }
 
-          const leftChildWidth = out1[0].leftWidth();
-          const rightChildWidth = out1[out1.length - 1].rightWidth();
+          const leftChildWidth = out1[0]().leftWidth();
+          const rightChildWidth = out1[out1.length - 1]().rightWidth();
 
           const childrenRightWidth =
             rightChildWidth +
@@ -301,7 +329,7 @@ export const typePolicies: TypedTypePolicies = {
             return 0;
           }
           return node.subnodes().reduce((acc, subNode) => {
-            return acc + subNode.width() + Spacing.x;
+            return acc + subNode().width() + Spacing.x;
           }, 0);
         },
       },
@@ -322,9 +350,9 @@ export const typePolicies: TypedTypePolicies = {
       outConnections: {
         read(_, ctx) {
           const node = wrap<FlowNode>(ctx)();
-          const outPorts = node.ports().filter((port) => port.index() !== 1);
+          const outPorts = node.ports().filter((port) => port().index() !== 1);
           const outConnections = outPorts.reduce((acc, port) => {
-            acc.push(...port.outConnections());
+            acc.push(...port().outConnections());
             return acc;
           }, [] as any[]);
           return unwrap(outConnections);
@@ -338,7 +366,7 @@ export const typePolicies: TypedTypePolicies = {
           const allSuccessors = [...successors];
           // console.log({ allSuccessors });
           successors.forEach((node) =>
-            allSuccessors.push(...node.allSuccessors())
+            allSuccessors.push(...node().allSuccessors())
           );
           return unwrap(allSuccessors);
         },
@@ -355,8 +383,8 @@ export const typePolicies: TypedTypePolicies = {
       parentConnection: {
         read(_, ctx) {
           const node = wrap<FlowNode>(ctx)();
-          const port = node.ports().find((port) => port.index() === 1);
-          return unwrap(port?.inConnection?.());
+          const port = node.ports().find((port) => port().index() === 1);
+          return unwrap(port?.().inConnection?.());
         },
       },
       isSub: {

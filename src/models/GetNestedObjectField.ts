@@ -29,6 +29,11 @@ export const setNestedObjectField = (
       tmpObj = tmpObj[propName];
     });
   }
+  if (obj === null && !props.length) {
+    return typeof value === "object" && value !== null
+      ? JSON.parse(JSON.stringify(value))
+      : value;
+  }
   obj = JSON.parse(JSON.stringify(obj)) as typeof obj;
   const result = obj;
   if (props.length === 0) {
@@ -48,9 +53,9 @@ export const setNestedObjectField = (
   if (!(lastProp in obj)) {
     throw new TypeError(`cannot access property ${lastProp} on ${obj}`);
   }
-  if (typeof obj[lastProp] !== typeof value) {
-    // console.warn("Incompatible types!!");
-  }
+  // if (typeof obj[lastProp] !== typeof value) {
+  // console.warn("Incompatible types!!");
+  // }
   obj[lastProp] = value;
   return result;
 };

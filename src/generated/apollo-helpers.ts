@@ -155,13 +155,14 @@ export type AggregateTemplateNodesGroupFieldPolicy = {
 	_min?: FieldPolicy<any> | FieldReadFunction<any>,
 	_sum?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowKeySpecifier = ('_count' | 'description' | 'id' | 'name' | 'nextVersionNumber' | 'versions' | BotFlowKeySpecifier)[];
+export type BotFlowKeySpecifier = ('_count' | 'description' | 'id' | 'name' | 'nextVersionNumber' | 'version' | 'versions' | BotFlowKeySpecifier)[];
 export type BotFlowFieldPolicy = {
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	version?: FieldPolicy<any> | FieldReadFunction<any>,
 	versions?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BotFlowAvgAggregateKeySpecifier = ('id' | 'nextVersionNumber' | BotFlowAvgAggregateKeySpecifier)[];
@@ -1184,7 +1185,7 @@ export type PosFieldPolicy = {
 	x?: FieldPolicy<any> | FieldReadFunction<any>,
 	y?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('aggregateBotFlow' | 'aggregateBotFlowVersion' | 'aggregateConnection' | 'aggregateFlowNode' | 'aggregateNodeAudioProps' | 'aggregateNodeCountdownProps' | 'aggregateNodeFileProps' | 'aggregateNodeImageProps' | 'aggregateNodeInfo' | 'aggregateNodeLinkProps' | 'aggregateNodeProps' | 'aggregateNodeSwitchOptionProps' | 'aggregateNodeSwitchProps' | 'aggregateNodeTextProps' | 'aggregateNodeVideoProps' | 'aggregateNodeWaitProps' | 'aggregatePort' | 'aggregateTemplateNode' | 'aggregateTemplateNodesGroup' | 'botFlow' | 'botFlowVersion' | 'botFlowVersions' | 'botFlows' | 'canvas' | 'canvasDrag' | 'clientCurrentMousePos' | 'connection' | 'connections' | 'drag' | 'dragTemplate' | 'findFirstBotFlow' | 'findFirstBotFlowVersion' | 'findFirstConnection' | 'findFirstFlowNode' | 'findFirstNodeAudioProps' | 'findFirstNodeCountdownProps' | 'findFirstNodeFileProps' | 'findFirstNodeImageProps' | 'findFirstNodeInfo' | 'findFirstNodeLinkProps' | 'findFirstNodeProps' | 'findFirstNodeSwitchOptionProps' | 'findFirstNodeSwitchProps' | 'findFirstNodeTextProps' | 'findFirstNodeVideoProps' | 'findFirstNodeWaitProps' | 'findFirstPort' | 'findFirstTemplateNode' | 'findFirstTemplateNodesGroup' | 'findManyNodeAudioProps' | 'findManyNodeCountdownProps' | 'findManyNodeFileProps' | 'findManyNodeImageProps' | 'findManyNodeLinkProps' | 'findManyNodeProps' | 'findManyNodeSwitchOptionProps' | 'findManyNodeSwitchProps' | 'findManyNodeTextProps' | 'findManyNodeVideoProps' | 'findManyNodeWaitProps' | 'findUniqueNodeAudioProps' | 'findUniqueNodeCountdownProps' | 'findUniqueNodeFileProps' | 'findUniqueNodeImageProps' | 'findUniqueNodeLinkProps' | 'findUniqueNodeProps' | 'findUniqueNodeSwitchOptionProps' | 'findUniqueNodeSwitchProps' | 'findUniqueNodeTextProps' | 'findUniqueNodeVideoProps' | 'findUniqueNodeWaitProps' | 'flowNode' | 'flowNodes' | 'groupByBotFlow' | 'groupByBotFlowVersion' | 'groupByConnection' | 'groupByFlowNode' | 'groupByNodeAudioProps' | 'groupByNodeCountdownProps' | 'groupByNodeFileProps' | 'groupByNodeImageProps' | 'groupByNodeInfo' | 'groupByNodeLinkProps' | 'groupByNodeProps' | 'groupByNodeSwitchOptionProps' | 'groupByNodeSwitchProps' | 'groupByNodeTextProps' | 'groupByNodeVideoProps' | 'groupByNodeWaitProps' | 'groupByPort' | 'groupByTemplateNode' | 'groupByTemplateNodesGroup' | 'mouseBlockDragPos' | 'newPathDirection' | 'nodeInfo' | 'nodeInfos' | 'nodeToCopy' | 'port' | 'portToConnect' | 'ports' | 'precanvas' | 'sidebarVisible' | 'templateNode' | 'templateNodes' | 'templateNodesGroup' | 'templateNodesGroups' | 'version' | 'windowConfig' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('aggregateBotFlow' | 'aggregateBotFlowVersion' | 'aggregateConnection' | 'aggregateFlowNode' | 'aggregateNodeAudioProps' | 'aggregateNodeCountdownProps' | 'aggregateNodeFileProps' | 'aggregateNodeImageProps' | 'aggregateNodeInfo' | 'aggregateNodeLinkProps' | 'aggregateNodeProps' | 'aggregateNodeSwitchOptionProps' | 'aggregateNodeSwitchProps' | 'aggregateNodeTextProps' | 'aggregateNodeVideoProps' | 'aggregateNodeWaitProps' | 'aggregatePort' | 'aggregateTemplateNode' | 'aggregateTemplateNodesGroup' | 'botFlow' | 'botFlowId' | 'botFlowVersion' | 'botFlowVersions' | 'botFlows' | 'canvas' | 'canvasDrag' | 'clientCurrentMousePos' | 'connection' | 'connections' | 'drag' | 'dragTemplate' | 'findFirstBotFlow' | 'findFirstBotFlowVersion' | 'findFirstConnection' | 'findFirstFlowNode' | 'findFirstNodeAudioProps' | 'findFirstNodeCountdownProps' | 'findFirstNodeFileProps' | 'findFirstNodeImageProps' | 'findFirstNodeInfo' | 'findFirstNodeLinkProps' | 'findFirstNodeProps' | 'findFirstNodeSwitchOptionProps' | 'findFirstNodeSwitchProps' | 'findFirstNodeTextProps' | 'findFirstNodeVideoProps' | 'findFirstNodeWaitProps' | 'findFirstPort' | 'findFirstTemplateNode' | 'findFirstTemplateNodesGroup' | 'findManyNodeAudioProps' | 'findManyNodeCountdownProps' | 'findManyNodeFileProps' | 'findManyNodeImageProps' | 'findManyNodeLinkProps' | 'findManyNodeProps' | 'findManyNodeSwitchOptionProps' | 'findManyNodeSwitchProps' | 'findManyNodeTextProps' | 'findManyNodeVideoProps' | 'findManyNodeWaitProps' | 'findUniqueNodeAudioProps' | 'findUniqueNodeCountdownProps' | 'findUniqueNodeFileProps' | 'findUniqueNodeImageProps' | 'findUniqueNodeLinkProps' | 'findUniqueNodeProps' | 'findUniqueNodeSwitchOptionProps' | 'findUniqueNodeSwitchProps' | 'findUniqueNodeTextProps' | 'findUniqueNodeVideoProps' | 'findUniqueNodeWaitProps' | 'flowNode' | 'flowNodes' | 'groupByBotFlow' | 'groupByBotFlowVersion' | 'groupByConnection' | 'groupByFlowNode' | 'groupByNodeAudioProps' | 'groupByNodeCountdownProps' | 'groupByNodeFileProps' | 'groupByNodeImageProps' | 'groupByNodeInfo' | 'groupByNodeLinkProps' | 'groupByNodeProps' | 'groupByNodeSwitchOptionProps' | 'groupByNodeSwitchProps' | 'groupByNodeTextProps' | 'groupByNodeVideoProps' | 'groupByNodeWaitProps' | 'groupByPort' | 'groupByTemplateNode' | 'groupByTemplateNodesGroup' | 'mouseBlockDragPos' | 'newPathDirection' | 'nodeInfo' | 'nodeInfos' | 'nodeToCopy' | 'port' | 'portToConnect' | 'ports' | 'precanvas' | 'sidebarVisible' | 'templateNode' | 'templateNodes' | 'templateNodesGroup' | 'templateNodesGroups' | 'windowConfig' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	aggregateBotFlow?: FieldPolicy<any> | FieldReadFunction<any>,
 	aggregateBotFlowVersion?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1206,6 +1207,7 @@ export type QueryFieldPolicy = {
 	aggregateTemplateNode?: FieldPolicy<any> | FieldReadFunction<any>,
 	aggregateTemplateNodesGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlow?: FieldPolicy<any> | FieldReadFunction<any>,
+	botFlowId?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowVersion?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlowVersions?: FieldPolicy<any> | FieldReadFunction<any>,
 	botFlows?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1292,7 +1294,6 @@ export type QueryFieldPolicy = {
 	templateNodes?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodesGroup?: FieldPolicy<any> | FieldReadFunction<any>,
 	templateNodesGroups?: FieldPolicy<any> | FieldReadFunction<any>,
-	version?: FieldPolicy<any> | FieldReadFunction<any>,
 	windowConfig?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TemplateNodeKeySpecifier = ('FlowNode' | 'NodeProps' | '_count' | 'group' | 'id' | 'info' | 'nodeInfoId' | 'nodePropsId' | 'order' | 'templateNodesGroupId' | TemplateNodeKeySpecifier)[];
@@ -1436,9 +1437,11 @@ export type canvasShapeFieldPolicy = {
 	x?: FieldPolicy<any> | FieldReadFunction<any>,
 	y?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type windowConfigKeySpecifier = ('id' | windowConfigKeySpecifier)[];
+export type windowConfigKeySpecifier = ('id' | 'mainId' | 'sideId' | windowConfigKeySpecifier)[];
 export type windowConfigFieldPolicy = {
-	id?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	mainId?: FieldPolicy<any> | FieldReadFunction<any>,
+	sideId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
 	AffectedRowsOutput?: Omit<TypePolicy, "fields" | "keyFields"> & {

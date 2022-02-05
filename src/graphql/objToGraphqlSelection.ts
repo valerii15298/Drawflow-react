@@ -3,7 +3,7 @@ export const objToGraphqlSelection = (obj: Record<string, any>) => {
 
   for (const key in obj) {
     selection += " " + key;
-    if (typeof obj[key] === "object") {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
       selection += " " + objToGraphqlSelection(obj[key]);
     }
   }

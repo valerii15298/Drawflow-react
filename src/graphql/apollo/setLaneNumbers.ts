@@ -4,29 +4,30 @@ import { RecursiveFunc } from "../../types";
 export const setLaneNumbers = (flow: RecursiveFunc<BotFlowVersion>) => {
   let laneNodes = flow.heads();
   laneNodes.forEach((node) => {
-    node.lane.set(() => 0);
-    node.head.set(() => node.id());
+    node().lane.set(() => 0);
+    node().head.set(() => node().id());
   });
 
   while (laneNodes.length) {
     const nextLaneNodes: typeof laneNodes = [];
     laneNodes.forEach((node) => {
-      let lane = node.lane() + 1;
-      const subnodes = node.subnodes();
-      const head = node.head();
+      let lane = node().lane() + 1;
+      const subnodes = node().subnodes();
+      // console.log({ subnodes, pp: node().id() });
+      const head = node().head();
       if (typeof head !== "number") {
         throw new TypeError("Wrong type");
       }
       if (subnodes.length) {
         for (const sub of subnodes) {
-          sub.lane.set(() => lane++);
-          sub.head.set(() => head);
+          sub().lane.set(() => lane++);
+          sub().head.set(() => head);
         }
       }
-      const nextNodes = node.out1();
+      const nextNodes = node().out1();
       nextNodes.forEach((nextNode) => {
-        nextNode.head.set(() => head);
-        nextNode.lane.set(() => lane);
+        nextNode().head.set(() => head);
+        nextNode().lane.set(() => lane);
       });
       nextLaneNodes.push(...nextNodes);
     });
@@ -34,7 +35,7 @@ export const setLaneNumbers = (flow: RecursiveFunc<BotFlowVersion>) => {
   }
 
   flow.heads().forEach((node) => {
-    const head = node.head();
+    const head = node().head();
     for (
       let laneNumber = 0, positionNumber = 0, nextLaneNodes = [node];
       nextLaneNodes.length;
@@ -44,11 +45,11 @@ export const setLaneNumbers = (flow: RecursiveFunc<BotFlowVersion>) => {
         .nodes()
         .filter(
           (nextNode) =>
-            nextNode.lane() === laneNumber && nextNode.head() === head
+            nextNode().lane() === laneNumber && nextNode().head() === head
         );
 
       nextLaneNodes.forEach((nextNode) => {
-        nextNode.positionNumber.set(() => positionNumber++);
+        nextNode().positionNumber.set(() => positionNumber++);
       });
     }
   });

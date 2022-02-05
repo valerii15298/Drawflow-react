@@ -66,12 +66,32 @@ export const typeDefs = gql`
     imageUrl: String!
   }
 
+  enum mainWindow {
+    mainFlow
+    codeEditor
+    templateNodeSettings
+    nodeSettings
+  }
+  enum sideWindow {
+    groupSettings
+    flowSettings
+    none
+  }
+
+  enum LocalStorageKey {
+    backgroundOpacity
+    backgroundBlur
+    backgroundImageUrl
+  }
+
   type windowConfig {
     id: Int!
+    mainId: mainWindow!
+    sideId: sideWindow!
+    #    background: background!
   }
 
   extend type Query {
-    version: Int!
     dragTemplate: Int
     canvas: canvasShape
     precanvas: canvasShape
@@ -85,6 +105,8 @@ export const typeDefs = gql`
     clientCurrentMousePos: Pos
     nodeToCopy: FlowNode
     portToConnect: Port
+
+    botFlowId: Int!
   }
 
   type Zoom {
@@ -101,6 +123,10 @@ export const typeDefs = gql`
     zoom: Zoom!
     select: SelectEntity
     heads: [FlowNode!]!
+  }
+
+  extend type BotFlow {
+    version: Int
   }
 
   extend type Connection {

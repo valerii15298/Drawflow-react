@@ -1,16 +1,22 @@
 import "jsoneditor/dist/jsoneditor.css";
-import { useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 import "react-toggle/style.css";
-import styled from "styled-components";
+import { defaultBackgroundConfig } from "../config";
+import { SideWindow, useRootInfoQuery } from "../generated/apollo";
+import { useData } from "../graphql/apollo/useData";
 import {
   fetchFlow,
   fetchGroups,
   fetchTemplateNodes,
   initFlow,
 } from "../redux/api";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { mainWindow, sideWindow } from "../types";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useLocalStorage,
+} from "../redux/hooks";
+import { mainWindow } from "../types";
 import { CodeEditor } from "./CodeEditor";
 import { Drawflow } from "./Drawflow";
 import { FlowInfoSettings } from "./FlowInfoSettings";
@@ -18,13 +24,22 @@ import { GroupsSettings } from "./GroupsSettings";
 import { Header } from "./Header";
 import { NodeSettings } from "./NodeSettings/NodeSettings";
 import { TemplateNodeSettings } from "./NodeSettings/TemplateNodeSettings";
-import { Sidebar, ToggleSidebar } from "./Sidebar";
-import { FlowDiv, Main, MainDiv } from "./StyledComponents";
+import { Sidebar } from "./Sidebar";
+import { AppWrapperDiv, FlowDiv, Main, MainDiv } from "./StyledComponents";
 
 const AppCodeEditor = () => {
   const json = useAppSelector((s) => s);
   return <CodeEditor values={json} setValues={() => null} />;
 };
+
+const useLocalStorageBackground = () =>
+  useLocalStorage("windowConfig", defaultBackgroundConfig);
+
+const BackgroundContext = createContext<ReturnType<
+  typeof useLocalStorageBackground
+> | null>(null);
+
+export const useBackground = () => useContext(BackgroundContext);
 
 const MainFlow = () => {
   return (
@@ -35,11 +50,10 @@ const MainFlow = () => {
 };
 
 const MainTab = () => {
-  const dispatch = useAppDispatch();
-  const sidebarVisible = useAppSelector((s) => s.sidebarVisible) ?? true;
   const mainId = useAppSelector((s) => s.windowConfig.mainId);
   const id = useAppSelector((s) => s.windowConfig.id);
   const version = useAppSelector((s) => s.version);
+  // const {data} = useRootInfoQuery()
 
   if (mainId === mainWindow.templateNodeSettings) {
     return (
@@ -58,46 +72,29 @@ const MainTab = () => {
   }
 
   if (mainId === mainWindow.codeEditor) {
-    return (
-      <>
-        <span
-          style={{
-            position: "absolute",
-            zIndex: 2,
-            backgroundColor: "white",
-            top: -8,
-          }}
-        >
-          {!sidebarVisible && <ToggleSidebar />}
-        </span>
-        <AppCodeEditor />
-      </>
-    );
+    return <AppCodeEditor />;
   }
+  console.error("No correspondig component");
   return null;
 };
 
 const RightBar = () => {
-  const sideId = useAppSelector((s) => s.windowConfig.sideId);
+  // const sideId = useAppSelector((s) => s.windowConfig.sideId);
+  const sideId = useRootInfoQuery().data?.windowConfig.sideId;
 
-  if (sideId === sideWindow.flowSettings) {
+  if (sideId === SideWindow.FlowSettings) {
     return <FlowInfoSettings />;
   }
-  if (sideId === sideWindow.groupSettings) {
+  if (sideId === SideWindow.GroupSettings) {
     return <GroupsSettings />;
   }
 
   return null;
 };
 
-const AppWrapperDiv = styled.div`
-  flex: 1;
-  //width: calc(100vw - 408px);
-  //border-right: 2px solid lightgray;
-`;
-
 export const Flow = () => {
   // console.log("Render Flow");
+  useData();
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -107,17 +104,21 @@ export const Flow = () => {
     dispatch(initFlow());
   }, []);
 
+  const bg = useLocalStorageBackground();
+
   return (
-    <MainDiv>
-      <AppWrapperDiv>
-        <Header />
-        <Main>
-          <Sidebar />
-          <MainTab />
-          <RightBar />
-        </Main>
-      </AppWrapperDiv>
-      {/*<Chat />*/}
-    </MainDiv>
+    <BackgroundContext.Provider value={bg}>
+      <MainDiv>
+        <AppWrapperDiv>
+          <Header />
+          <Main>
+            <Sidebar />
+            <MainTab />
+            <RightBar />
+          </Main>
+        </AppWrapperDiv>
+        {/*<Chat />*/}
+      </MainDiv>
+    </BackgroundContext.Provider>
   );
 };

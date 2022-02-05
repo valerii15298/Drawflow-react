@@ -8,40 +8,57 @@ import {
 import { ReadFieldOptions } from "@apollo/client/cache";
 import { ReadFieldFunction } from "@apollo/client/cache/core/types/common";
 import { setNestedObjectField } from "../models/GetNestedObjectField";
-import { isArray, RecursiveFunc, setFunc } from "../types";
-import { cache } from "./index";
+import { isArray, RecursiveFunc, setFunc, wrapObj } from "../types";
+import { cache, data } from "./index";
 import { objToGraphqlSelection } from "./objToGraphqlSelection";
 
 export const proxyTarget = Symbol("proxyTarget");
 
+const rootQueryKey = "key_" + Math.random().toString().replaceAll(".", "_");
+
 export const wrap = <T>(
   ctxOrCache: FieldFunctionOptions | InMemoryCache,
   cacheId?: string | Reference
-): {
-  (): RecursiveFunc<T>;
-} & setFunc<T> => {
+): wrapObj<T, false> => {
+  // Must provide obj arguments if invoked in merge function(Apollo type policies),
+  // since in merge function there is no default current object context
+
   let readField: ReadFieldFunction;
   const cache = "readField" in ctxOrCache ? ctxOrCache.cache : ctxOrCache;
   if ("readField" in ctxOrCache) {
     readField = ctxOrCache.readField;
   } else {
+    // writing to cache to be sure that
+    // "ROOT_QUERY" will exist and we will be able to extract
+    // readField function
+    cache.writeFragment({
+      id: "ROOT_QUERY",
+      fragment: gql`
+          fragment qwn on Query {
+              ${rootQueryKey}
+          }
+      `,
+      data: {
+        [rootQueryKey]: true,
+      },
+    });
+
+    // extracting readField function
     ctxOrCache.modify({
       id: "ROOT_QUERY",
       fields: {
-        // Picking __typename since it's a field that's always there:
-        __typename(name, ctx) {
-          // console.log({ name });
+        [rootQueryKey](_, ctx) {
           readField = ctx.readField;
-          // Do something with readField (for example, store it elsewhere)...
-          return name; // Don't change the __typename!
+          return _;
         },
       },
     });
   }
   // @ts-ignore
   readField = readField as ReadFieldFunction;
-  // Must provide obj arguments if invoked in merge function(Apollo type policies),
-  // since in merge function there is no default current object context
+  if (!readField) {
+    throw new Error("Cannot extract readField");
+  }
   if (!cacheId) {
     // Trying to read default apollo ids
     cacheId = readField("__typename") + ":" + readField("id");
@@ -95,10 +112,18 @@ export const wrap = <T>(
           },
         });
 
+      // for case of array primitives
+      if (typeof target !== "object" || target === null) {
+        if (propName !== undefined) {
+          throw new TypeError("propName must be `undefined` in this case");
+        }
+        return target;
+      }
+
       if (!propName) {
         return createProxy(target, {
           parent,
-          propArr,
+          propArr: [...propArr],
         });
       }
 
@@ -107,30 +132,30 @@ export const wrap = <T>(
         fieldName: propName,
         from: target,
       });
-      // if (value === undefined) {
-      //   console.log({
-      //     target,
-      //     propName,
-      //     parent,
-      //     value,
-      //   });
-      // }
 
-      if (typeof value !== "object" || value === null) {
-        return value;
-      }
-
-      const handleValue = (value: StoreObject | Reference, index?: number) => {
+      const handleValue = (value: any, index?: number) => {
         if (typeof value !== "object" || value === null) {
-          !value &&
+          (value === undefined ||
+            (typeof index === "number" && value === null)) &&
             console.log({
               target,
               propName,
               parent,
               value,
             });
+
+          // for case of array primitives
+          if (typeof index === "number") {
+            return wrapValue({
+              target: value,
+              parent: parent ?? (target as Reference),
+              propArr: [...propArr, propName, index],
+            });
+          }
+
           return value;
         }
+
         // Returns id if typePolicy of `value` keyFields are not false and
         // `value` has all keyFields presented, e. g. if value can be referenced via {__ref: 'some id'}
         // if not(value is composed object) returns undefined
@@ -139,22 +164,31 @@ export const wrap = <T>(
         // if value is valid object(referencable object in apollo cache)
         // then pass to our initial function
         if (id) {
+          if (typeof index === "number") {
+            // console.log("access via array ref object");
+            return wrapValue({ target: value });
+          }
           return createProxy(value);
         }
 
         // if composed object
+        if (typeof index === "number") {
+          console.log("Composed object inside array");
+          return wrapValue({
+            target: value,
+            parent: parent ?? (target as Reference),
+            propArr: [...propArr, propName, index],
+          });
+        }
+
         return createProxy(value, {
           parent: parent ?? (target as Reference),
-          propArr:
-            typeof index === "number"
-              ? [...propArr, propName, index]
-              : [...propArr, propName],
+          propArr: [...propArr, propName],
         });
       };
 
       return isArray(value)
-        ? //@ts-ignore
-          value.map((v) => handleValue(v))
+        ? value.map((v, index) => handleValue(v, index))
         : handleValue(value);
     };
     const handleSetValue = (val: any) => {
@@ -166,22 +200,41 @@ export const wrap = <T>(
         propArr.push(propName);
       }
 
+      const stringPropArr = propArr.filter(
+        (prop) => typeof prop === "string"
+      ) as string[];
+
       let selection = typeof val === "object" ? objToGraphqlSelection(val) : "";
-      if (!propArr.length) {
+
+      // if (!propArr.length) { // maybe this one ??
+      if (!stringPropArr.length) {
         selection = selection.slice(1, -1);
       }
 
-      const fragment = gql`fragment ${
+      const graphqlTextFragment = `fragment ${
         "update_" +
         id.replaceAll(":", "_") +
         Date.now().toString() +
         Math.random().toString().replaceAll(".", "_")
       } on ${__typename} {
-          ${propArr.filter((prop) => typeof prop === "string").join(" { ")}
+          ${stringPropArr.join(" { ")}
           ${selection}
-          ${propArr.length ? " } ".repeat(propArr.length - 1) : ""}
+          ${stringPropArr.length ? " } ".repeat(stringPropArr.length - 1) : ""}
       }`;
-      // console.log(fragment.loc?.source.body);
+      // console.log({
+      //   graphqlTextFragment,
+      //   propArr,
+      //   selection,
+      // });
+
+      const fragment = gql`
+        ${graphqlTextFragment}
+      `;
+
+      // console.log({
+      //   fragment: fragment.loc?.source.body,
+      //   id,
+      // });
 
       return cache.updateFragment(
         {
@@ -194,14 +247,21 @@ export const wrap = <T>(
           //   value: val,
           //   propArr,
           // });
-          return setNestedObjectField(data, propArr, val);
+          const rezToSet = setNestedObjectField(data, propArr, val);
+          // console.log({ rezToSet });
+          return rezToSet;
         }
       );
     };
 
     func.set = (setFunc: any) => {
       const values = setFunc(func);
-      handleSetValue(values);
+      const rezOfSet = handleSetValue(values);
+      // console.log({ rezOfSet });
+      if (!rezOfSet) {
+        console.error(`Unsuccessful set operation, info: ${rezOfSet}`);
+      }
+      return rezOfSet;
     };
     return func;
   };
@@ -210,6 +270,9 @@ export const wrap = <T>(
 };
 
 export const unwrap = (value: any): Reference[] | any => {
+  if (typeof value === "function" || value instanceof Function) {
+    value = value();
+  }
   if (Array.isArray(value)) {
     //@ts-ignore
     return value.map(unwrap);

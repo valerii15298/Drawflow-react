@@ -1,4 +1,8 @@
+import { gql } from "@apollo/client";
 import { useEffect, useRef } from "react";
+import { useBotFlowQuery } from "../generated/apollo";
+import { useData } from "../graphql/apollo/useData";
+import { useFragment } from "../graphql/apollo/useFragment";
 
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -19,10 +23,13 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
   const drag = useDrag();
   const nodeId = useAppSelector((s) => selectActiveDrawflow(s).nodeId);
+  //${Math.random().toString().replaceAll(".", "_")}
+  const { data } = useData();
 
   const pos = useNodePos(id);
 
   const selected = useNodeIsSelected(id);
+
   const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -30,6 +37,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
   const node = useNode(id);
   const { port } = node;
 
+  // // move to resize observer
   useEffect(() => {
     if (ref.current) {
       const { offsetHeight, offsetWidth } = ref.current;
@@ -43,7 +51,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       // dispatch(actions.align());
       // console.log(`align node ${id}`);
     }
-  }, [dispatch, id, node]);
+  }, []);
 
   // update ports positions
   useEffect(() => {
@@ -87,6 +95,14 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       );
     }
   }, []);
+
+  // if (loading) return <div>Loading</div>;
+  // if (error) return <div>Error</div>;
+  // if (!data) return <div>No data</div>;
+  // const node = data.botFlow?.versions[0].nodes[0];
+  // if (!node) return <div>No node</div>;
+  // const selected = node.selected;
+  // const pos = node.pos;
 
   return (
     <BlockStyled
