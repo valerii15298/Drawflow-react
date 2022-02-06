@@ -91,6 +91,11 @@ export const typeDefs = gql`
     #    background: background!
   }
 
+  type clientPos {
+    clientX: Float!
+    clientY: Float!
+  }
+
   extend type Query {
     dragTemplate: Int
     canvas: canvasShape
@@ -100,9 +105,9 @@ export const typeDefs = gql`
 
     drag: Boolean!
     canvasDrag: Boolean!
-    newPathDirection: Pos
-    mouseBlockDragPos: Pos
-    clientCurrentMousePos: Pos
+    newPathDirection: clientPos
+    mouseBlockDragPos: clientPos
+    clientCurrentMousePos: clientPos
     nodeToCopy: FlowNode
     portToConnect: Port
 

@@ -298,52 +298,6 @@ export type RecursiveFunc<T extends Record<string, any>> = {
   [P in keyof T]: wrapObj<T[P]>;
 };
 
-// type RecObj<T> = T extends (infer U)[]
-//   ? {
-//       (options?: Omit<ReadFieldOptions, "fieldName" | "from">): RecObj<U>[];
-//       set: (arg: RecursivePartial<U>[]) => void;
-//     }
-//   : T extends primitiveType
-//   ? {
-//       (options?: Omit<ReadFieldOptions, "fieldName" | "from">): T;
-//       set: (setFunc: (currentField: (args?: any) => T) => T) => void;
-//     }
-//   : {
-//       (
-//         options?: Omit<ReadFieldOptions, "fieldName" | "from">
-//       ): RecursiveFunc<T>;
-//       set: (
-//         setFunc: (
-//           currentField: (args?: any) => RecursiveFunc<T>
-//         ) => RecursivePartial<T>
-//       ) => void;
-//     };
-
-// export type RecursiveFunc<T extends Record<string, any>> = {
-//   [P in keyof T]: T[P] extends (infer U)[]
-//     ? {
-//         (
-//           options?: Omit<ReadFieldOptions, "fieldName" | "from">
-//         ): RecursiveFunc<U>[];
-//         set: (arg: RecursivePartial<U>[]) => void;
-//       }
-//     : T[P] extends primitiveType
-//     ? {
-//         (options?: Omit<ReadFieldOptions, "fieldName" | "from">): T[P];
-//         set: (setFunc: (currentField: (args?: any) => T[P]) => T[P]) => void;
-//       }
-//     : {
-//         (options?: Omit<ReadFieldOptions, "fieldName" | "from">): RecursiveFunc<
-//           T[P]
-//         >;
-//         set: (
-//           setFunc: (
-//             currentField: (args?: any) => RecursiveFunc<T[P]>
-//           ) => RecursivePartial<T[P]>
-//         ) => void;
-//       };
-// };
-
 export type flowInfo = RecursiveNull<flowInfoStrict>;
 
 export enum mainWindow {

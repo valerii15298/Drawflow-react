@@ -1,6 +1,8 @@
 import { gql } from "@apollo/client";
 import { useEffect, useRef } from "react";
-import { useBotFlowQuery } from "../generated/apollo";
+import { useBotFlowQuery, useRootInfoQuery } from "../generated/apollo";
+import { rootQuery } from "../graphql";
+import { getCurrentBotFlowVersion } from "../graphql/apollo/alignBotFlowVersion";
 import { useData } from "../graphql/apollo/useData";
 import { useFragment } from "../graphql/apollo/useFragment";
 
@@ -21,80 +23,104 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
   // console.log(`Render node id: ${id}`);
   // return null;
 
-  const drag = useDrag();
-  const nodeId = useAppSelector((s) => selectActiveDrawflow(s).nodeId);
-  //${Math.random().toString().replaceAll(".", "_")}
-  const { data } = useData();
+  // const drag = useDrag();
+  // const nodeId = useAppSelector((s) => selectActiveDrawflow(s).nodeId);
 
-  const pos = useNodePos(id);
+  const node = useData().data?.nodes.find((node) => node.id === id);
 
-  const selected = useNodeIsSelected(id);
+  const { data } = useRootInfoQuery();
 
-  const dispatch = useAppDispatch();
+  // const pos = useNodePos(id);
+
+  // const selected = useNodeIsSelected(id);
+
+  // const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const node = useNode(id);
-  const { port } = node;
+  // const node = useNode(id);
+  // const { port } = node;
 
   // // move to resize observer
   useEffect(() => {
     if (ref.current) {
-      const { offsetHeight, offsetWidth } = ref.current;
-      dispatch(
-        actions.nodeSize({
-          height: offsetHeight,
-          width: offsetWidth,
-          id,
-        })
-      );
-      // dispatch(actions.align());
-      // console.log(`align node ${id}`);
-    }
-  }, []);
-
-  // update ports positions
-  useEffect(() => {
-    const getPorts = (type: portType, box: HTMLDivElement) => {
-      const puts = Array.from(
-        (box.querySelector(`.${type}puts`) as HTMLDivElement).children
-      );
-      return puts.map((elmt, portId) => {
-        const x = parseInt(getComputedStyle(elmt).left) + pos.x;
-        const y = parseInt(getComputedStyle(elmt).top) + pos.y;
-
-        return {
-          nodeId: id,
-          pos: {
-            x,
-            y,
-          },
-          portId: portId + 1,
-          type,
-        };
+      const observer = new ResizeObserver((entries) => {
+        // console.log({ entries });
+        const { offsetHeight, offsetWidth } = entries[0]
+          .target as HTMLDivElement;
       });
-    };
 
-    if (ref.current) {
-      const inputs = getPorts(portType.in, ref.current);
-      const outputs = getPorts(portType.out, ref.current);
-      dispatch(actions.pushPorts([...inputs, ...outputs]));
+      observer.observe(ref.current);
+      // return () => {
+      //   console.log("End observation");
+      //   observer.disconnect();
+      // };
     }
-  }, [dispatch, id, pos]);
+  }, [ref.current]);
 
-  useEffect(() => {
-    // when add new node shift it to left and up
-    if (ref.current && nodeId - 1 === id && drag) {
-      const { offsetHeight, offsetWidth } = ref.current;
-      dispatch(
-        actions.moveNode({
-          nodeId: id,
-          dx: -offsetWidth * 0.2,
-          dy: -offsetHeight * 0.2,
-        })
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (ref.current) {
+  //     const { offsetHeight, offsetWidth } = ref.current;
+  //     dispatch(
+  //       actions.nodeSize({
+  //         height: offsetHeight,
+  //         width: offsetWidth,
+  //         id,
+  //       })
+  //     );
+  //     // dispatch(actions.align());
+  //     // console.log(`align node ${id}`);
+  //   }
+  // }, []);
+
+  // // update ports positions, TODO move logic to ports, apollo
+  // useEffect(() => {
+  //   const getPorts = (type: portType, box: HTMLDivElement) => {
+  //     const puts = Array.from(
+  //       (box.querySelector(`.${type}puts`) as HTMLDivElement).children
+  //     );
+  //     return puts.map((elmt, portId) => {
+  //       const x = parseInt(getComputedStyle(elmt).left) + pos.x;
+  //       const y = parseInt(getComputedStyle(elmt).top) + pos.y;
+  //
+  //       return {
+  //         nodeId: id,
+  //         pos: {
+  //           x,
+  //           y,
+  //         },
+  //         portId: portId + 1,
+  //         type,
+  //       };
+  //     });
+  //   };
+  //
+  //   if (ref.current) {
+  //     const inputs = getPorts(portType.in, ref.current);
+  //     const outputs = getPorts(portType.out, ref.current);
+  //     dispatch(actions.pushPorts([...inputs, ...outputs]));
+  //   }
+  // }, [dispatch, id, pos]);
+
+  // // TODO  Uncomment, refactor to apollo logic
+  // useEffect(() => {
+  //   // when add new node shift it to left and up
+  //   if (ref.current && nodeId - 1 === id && drag) {
+  //     const { offsetHeight, offsetWidth } = ref.current;
+  //     dispatch(
+  //       actions.moveNode({
+  //         nodeId: id,
+  //         dx: -offsetWidth * 0.2,
+  //         dy: -offsetHeight * 0.2,
+  //       })
+  //     );
+  //   }
+  // }, []);
+
+  if (!node || !data) {
+    return <div>Loading...</div>;
+  }
+  const { selected, pos } = node;
 
   // if (loading) return <div>Loading</div>;
   // if (error) return <div>Error</div>;
@@ -117,18 +143,31 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
       onMouseDown={(e) => {
         e.stopPropagation();
         const { clientX, clientY } = e;
-        dispatch(
-          actions.select({
-            type: "node",
-            selectId: id,
-          })
-        );
-        dispatch(
-          actions.setMouseBlockDragPos({
+        getCurrentBotFlowVersion()?.set(() => ({
+          select: {
+            __typename: "FlowNode",
+            id,
+          },
+        }));
+        rootQuery.set(() => ({
+          mouseBlockDragPos: {
             clientX,
             clientY,
-          })
-        );
+          },
+          drag: true,
+        }));
+        // dispatch(
+        //   actions.select({
+        //     type: "node",
+        //     selectId: id,
+        //   })
+        // );
+        // dispatch(
+        //   actions.setMouseBlockDragPos({
+        //     clientX,
+        //     clientY,
+        //   })
+        // );
       }}
       onContextMenu={() => {
         // TODO show delete button
@@ -141,8 +180,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         {node.id}:{node.positionNumber}
       </div>
       <Block {...node} />
-      <Ports id={id} port={port} type={portType.in} />
-      <Ports id={id} port={port} type={portType.out} />
+      {/*<Ports id={id} port={port} type={portType.in} />*/}
+      {/*<Ports id={id} port={port} type={portType.out} />*/}
     </BlockStyled>
   );
 };

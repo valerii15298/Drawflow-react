@@ -6,10 +6,13 @@ const queryString = window.location.search;
 const queryParams = new URLSearchParams(queryString);
 export const botFlowIdParam = Number(queryParams.get("botFlowId"));
 
+const done = { v: false };
+
 export const useData = () => {
   const { data, ...rest } = useBotFlowQuery({
     variables: { where: { id: botFlowIdParam } },
     onCompleted(resp) {
+      if (done.v) return;
       if (!resp.botFlow) return;
       const cacheId = cache.identify(resp.botFlow);
       if (cacheId === undefined) {
@@ -21,23 +24,14 @@ export const useData = () => {
       botFlow()
         .versions()
         .forEach((botFlowVersion) => {
-          // test
+          done.v = true;
           botFlowVersion.set(() => ({
-            select: {
-              __typename: "FlowNode",
-              id: 1,
+            zoom: getDefaultZoomConfig(),
+            canvasTranslate: {
+              y: 0,
+              x: 0,
             },
           }));
-
-          if (!botFlowVersion().zoom()) {
-            botFlowVersion.set(() => ({
-              zoom: getDefaultZoomConfig(),
-              canvasTranslate: {
-                y: 0,
-                x: 0,
-              },
-            }));
-          }
         });
 
       console.log("On completed");

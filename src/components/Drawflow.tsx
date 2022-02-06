@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { defaultBackgroundConfig, getDefaultZoomConfig } from "../config";
 import {
   BotFlowVersion,
+  FlowNode,
+  Port,
   useDeleteConnectionMutation,
   useDeleteFlowNodeMutation,
   useRootInfoQuery,
@@ -30,7 +32,7 @@ import {
 import { useActiveFlow } from "../redux/selectors";
 import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { toggleAvailablePortToConnectThunk } from "../redux/thunks/toggleAvailablePortToConnectThunk";
-import { canvasShape, LocalStorageKey } from "../types";
+import { canvasShape, LocalStorageKey, RecursiveFunc } from "../types";
 import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
 import { useBackground } from "./Flow";
@@ -99,7 +101,7 @@ export const Drawflow = () => {
   //   y: 0,
   // };
 
-  console.log({ allData });
+  // console.log({ allData });
 
   const { newPathDirection, canvasDrag } = useRootInfoQuery().data ?? {
     newPathDirection: null,
@@ -114,7 +116,8 @@ export const Drawflow = () => {
   useEffect(() => {
     // dispatch(alignCurrentFlow());
     allData && alignCurrentBotFlowVersion();
-  }, [allData]);
+    console.log("Align current");
+  }, [!!allData]);
 
   useEffect(() => {
     const { current: flowDiv } = flowRef;
@@ -238,6 +241,61 @@ export const Drawflow = () => {
         if (canvasDrag && flowDiv) {
           updateTransform(flowDiv, movementX, movementY, zoom.value);
         }
+        rootQuery.set(() => ({
+          clientCurrentMousePos: {
+            clientX,
+            clientY,
+          },
+        }));
+        if (!allData) return;
+        if (rootQuery().canvasDrag()) {
+          getCurrentBotFlowVersion()?.().canvasTranslate.set((prev) => ({
+            x: prev().x() + movementX,
+            y: prev().y() + movementY,
+          }));
+        } else {
+          const select = getCurrentSelect()?.();
+          if (select) {
+            if (select.__typename?.() === "Port") {
+              const selectedPort = select as RecursiveFunc<Port>;
+              if (selectedPort.index() === 2) {
+                rootQuery.set(() => ({
+                  newPathDirection: {
+                    clientX,
+                    clientY,
+                  },
+                }));
+              }
+            } else if (
+              select.__typename?.() === "FlowNode" &&
+              rootQuery().drag()
+            ) {
+              // Drag node
+              console.log("Drag node");
+              const mouseBlockDragPos = rootQuery().mouseBlockDragPos;
+              if (mouseBlockDragPos?.()) {
+                const prevX = mouseBlockDragPos()!.clientX();
+                const prevY = mouseBlockDragPos()!.clientY();
+                mouseBlockDragPos.set(() => ({
+                  clientX,
+                  clientY,
+                }));
+                const coef = getCurrentBotFlowVersion()?.().zoom().value();
+                if (typeof coef !== "number") {
+                  throw new TypeError("zoom.value must be a number");
+                }
+                const dx = (clientX - prevX) / coef;
+                const dy = (clientY - prevY) / coef;
+                const selectedNode = select as RecursiveFunc<FlowNode>;
+                selectedNode.pos.set((pos) => ({
+                  x: pos().x() + dx,
+                  y: pos().y() + dy,
+                }));
+                // TODO untie if far away
+              }
+            }
+          }
+        }
         // dispatch(
         //   actions.canvasMouseMove({
         //     clientX,
@@ -285,7 +343,7 @@ export const Drawflow = () => {
       >
         <NodeList />
         <ConnectionList />
-        {newPathDirection && <NewPath />}
+        {/*{newPathDirection && <NewPath />}*/}
       </InnerDrawflow>
     </ParentDrawflow>
   );

@@ -55828,7 +55828,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Pos",
+              "name": "clientPos",
               "ofType": null
             },
             "isDeprecated": false,
@@ -61856,7 +61856,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Pos",
+              "name": "clientPos",
               "ofType": null
             },
             "isDeprecated": false,
@@ -61868,7 +61868,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Pos",
+              "name": "clientPos",
               "ofType": null
             },
             "isDeprecated": false,
@@ -69981,6 +69981,49 @@
           },
           {
             "name": "y",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "clientPos",
+        "description": null,
+        "fields": [
+          {
+            "name": "clientX",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientY",
             "description": null,
             "args": [],
             "type": {

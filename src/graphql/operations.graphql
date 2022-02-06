@@ -282,6 +282,7 @@ fragment flowNode on FlowNode {
   }
   height @client
   width @client
+  positionNumber @client
 }
 
 fragment nodesList on BotFlowVersion {
@@ -338,16 +339,16 @@ query rootInfo {
   canvasDrag @client
   botFlowId @client
   newPathDirection @client {
-    y
-    x
+    clientX
+    clientY
   }
   mouseBlockDragPos @client {
-    x
-    y
+    clientX
+    clientY
   }
   clientCurrentMousePos @client {
-    x
-    y
+    clientX
+    clientY
   }
   nodeToCopy @client {
     id

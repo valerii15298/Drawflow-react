@@ -7,7 +7,10 @@ import {
   useBotFlowQuery,
   useRootInfoQuery,
 } from "../generated/apollo";
-import { alignBotFlowVersion } from "./apollo/alignBotFlowVersion";
+import {
+  alignBotFlowVersion,
+  alignCurrentBotFlowVersion,
+} from "./apollo/alignBotFlowVersion";
 import { alignNodeChildren } from "./apollo/alignNodeChildren";
 import { useData } from "./apollo/useData";
 import { cache, data as cacheData, rootQuery, wrapById } from "./index";
@@ -73,6 +76,13 @@ export const TestApp = () => {
         }}
       >
         sidebar flip
+      </button>
+      <button
+        onClick={() => {
+          alignCurrentBotFlowVersion();
+        }}
+      >
+        align current
       </button>
     </div>
   );

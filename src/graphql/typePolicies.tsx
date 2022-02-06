@@ -78,11 +78,12 @@ export const typePolicies: TypedTypePolicies = {
   BotFlowVersion: {
     fields: {
       select: {
-        read(_, { toReference }) {
-          return toReference({
-            id: 1,
-            __typename: "FlowNode",
-          });
+        read(select = null, { toReference }) {
+          return select;
+          // return toReference({
+          //   id: 1,
+          //   __typename: "FlowNode",
+          // });
         },
       },
       heads: {
@@ -142,6 +143,7 @@ export const typePolicies: TypedTypePolicies = {
           if (!select) {
             return false;
           }
+          // console.log({ select: unwrap(select) });
           const __typename = select.__typename?.();
           const id = select.id();
           return (

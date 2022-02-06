@@ -7,15 +7,15 @@ import { ThreeDots } from "../svg";
 import { mainWindow, pureNode } from "../types";
 import { BlockDiv, TapMoreButton } from "./StyledComponents";
 
-export const Block = (props: pureNode) => {
+export const Block = (props: any) => {
   // console.log(props);
   const dispatch = useAppDispatch();
 
   return (
     <BlockDiv>
       <div>{props.id}</div>
-      {/*<span>{props?.info?.name}</span>*/}
-      <span>{props.data.name}</span>
+      <span>{props?.info?.name}</span>
+      {/*<span>{props.data.name}</span>*/}
 
       <TapMoreButton
         onMouseDown={(e) => {

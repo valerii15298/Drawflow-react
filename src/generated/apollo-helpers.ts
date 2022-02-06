@@ -1437,6 +1437,11 @@ export type canvasShapeFieldPolicy = {
 	x?: FieldPolicy<any> | FieldReadFunction<any>,
 	y?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type clientPosKeySpecifier = ('clientX' | 'clientY' | clientPosKeySpecifier)[];
+export type clientPosFieldPolicy = {
+	clientX?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientY?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type windowConfigKeySpecifier = ('id' | 'mainId' | 'sideId' | windowConfigKeySpecifier)[];
 export type windowConfigFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2107,6 +2112,10 @@ export type StrictTypedTypePolicies = {
 	canvasShape?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | canvasShapeKeySpecifier | (() => undefined | canvasShapeKeySpecifier),
 		fields?: canvasShapeFieldPolicy,
+	},
+	clientPos?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | clientPosKeySpecifier | (() => undefined | clientPosKeySpecifier),
+		fields?: clientPosFieldPolicy,
 	},
 	windowConfig?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | windowConfigKeySpecifier | (() => undefined | windowConfigKeySpecifier),
