@@ -49,7 +49,10 @@ export const useActiveFlow = () =>
             } = state;
             return {
               config: {
-                canvasTranslate: { x, y },
+                canvasTranslate: {
+                  x,
+                  y,
+                },
                 zoom,
               },
               newPathDirection,
@@ -171,30 +174,17 @@ export const useDrag = () =>
     )
   );
 
-export const usePortPos = ({
-  nodeId,
-  portId,
-  type,
-}: {
-  nodeId: number;
-  portId: number;
-  type: portType;
-}) =>
+export const usePortPos = ({ id }: { id: number }) =>
   useAppSelector(
     useMemo(
       () =>
         createDeepEqualSelector(
           (s: RootState) => {
-            return selectActiveDrawflow(s).ports.find(
-              (port) =>
-                port.nodeId === nodeId &&
-                port.portId === portId &&
-                port.type === type
-            )?.pos;
+            return selectActiveDrawflow(s).ports[id].pos;
           },
           (s) => s
         ),
-      [nodeId, portId, type]
+      [id]
     )
   );
 
@@ -220,12 +210,9 @@ export const useConnectionIds = () =>
           (s: RootState) => {
             const { connections } = selectActiveDrawflow(s);
 
-            return connections.reduce((acc: Array<number>, conn, index) => {
-              if (conn.visible) {
-                acc.push(index);
-              }
-              return acc;
-            }, []);
+            return Object.values(connections)
+              .filter((conn) => conn.visible !== false)
+              .map((conn) => conn.id);
           },
           (s) => s
         ),
@@ -249,34 +236,24 @@ export const useConnectionIds = () =>
 //     )
 //   );
 
-export const useConnectionCurvature = (index: number) =>
+export const useConnectionCurvature = (connId: number) =>
   useAppSelector(
     useMemo(
       () =>
         createDeepEqualSelector(
           (s: RootState) => {
             const state = selectActiveDrawflow(s);
-            const { startId, startPort, endId, endPort } =
-              state.connections[index];
-            const startPos = state.ports.find(
-              (port) =>
-                port.nodeId === startId &&
-                port.portId === startPort &&
-                port.type === portType.out
-            )?.pos;
-            const endPos = state.ports.find(
-              (port) =>
-                port.nodeId === endId &&
-                port.portId === endPort &&
-                port.type === portType.in
-            )?.pos;
-            return startPos && endPos
-              ? handler.createCurvature(startPos, endPos)
-              : "";
+            const { fromPort, toPort } = state.connections[connId];
+            const startPos = state.ports[fromPort.id].pos;
+            const endPos = state.ports[toPort.id].pos;
+            if (!startPos || !endPos) {
+              throw new TypeError("Cannot draw connection");
+            }
+            return handler.createCurvature(startPos, endPos);
           },
           (s) => s
         ),
-      [index]
+      [connId]
     )
   );
 

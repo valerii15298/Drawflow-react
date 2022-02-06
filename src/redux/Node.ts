@@ -4,7 +4,6 @@ import {
   canvasShape,
   connection,
   node,
-  port,
   portType,
   pos,
   stateData,
@@ -41,28 +40,61 @@ export default class Node {
   // }
 
   get portInPos(): pos | undefined {
-    return this.state.ports.find(
-      ({ nodeId, portId, type }) =>
-        nodeId === this.id && portId === 1 && type === portType.in
-    )?.pos;
+    return this.inPort?.pos;
   }
 
   get outPorts() {
-    return this.state.ports.filter(
+    return Object.values(this.state.ports).filter(
       ({ type, nodeId }) => this.id === nodeId && type === portType.out
     );
   }
 
   get parent(): Node | null {
-    const parentId = this.parentConnection?.startId;
+    const { parentConnection } = this;
+    if (!parentConnection) {
+      return null;
+    }
+    const parentId = this.state.ports[parentConnection.toPort.id].nodeId;
     return parentId ? this.flow.getNode(parentId) : null;
   }
 
+  get inPort() {
+    const inPort = Object.values(this.state.ports).find(
+      (port) => port.type === portType.in && port.nodeId === this.id
+    );
+    if (!inPort) {
+      throw new TypeError("Port not found");
+    }
+    return inPort;
+  }
+
+  get nodePorts() {
+    return Object.values(this.state.ports).filter(
+      (port) => port.nodeId === this.id
+    );
+  }
+
+  get portOut1() {
+    const outPort = Object.values(this.state.ports).find(
+      (port) =>
+        port.type === portType.out &&
+        port.nodeId === this.id &&
+        port.portId === 1
+    );
+    if (!outPort) {
+      throw new TypeError("Port not found");
+    }
+    return outPort;
+  }
+
   get parentConnection(): connection | undefined {
-    return this.state.connections.find((conn) => {
-      if (!conn) console.error({ conn });
-      const { endId, endPort } = conn;
-      return endId === this.id && endPort === 1;
+    const { inPort } = this;
+    if (!inPort) return;
+    return Object.values(this.state.connections).find((conn) => {
+      if (!conn) {
+        throw new TypeError("Connection is null!!!");
+      }
+      return conn.toPort.id === inPort.id;
     });
   }
 
@@ -84,8 +116,9 @@ export default class Node {
   }
 
   get outConnections() {
-    return this.state.connections.filter(({ startId }) => {
-      return startId === this.id;
+    const { outPorts } = this;
+    return Object.values(this.state.connections).filter(({ fromPort }) => {
+      return outPorts.some((port) => port.id === fromPort.id);
     });
   }
 
@@ -302,11 +335,21 @@ export default class Node {
   }
 
   children(portId: number) {
-    return this.state.connections
-      .filter(
-        ({ startId, startPort }) => startId === this.id && startPort === portId
-      )
-      .map((conn) => this.flow.getNode(conn.endId));
+    const outPort = this.outPorts.find(
+      (port) => port.portId === portId && port.type === portType.out
+    );
+    if (!outPort) {
+      throw new TypeError("Port not found");
+    }
+    return Object.values(this.state.connections)
+      .filter(({ fromPort }) => fromPort.id === outPort.id)
+      .map((conn) => {
+        const port = this.state.ports[conn.toPort.id];
+        if (!port) {
+          throw new TypeError("Port not found");
+        }
+        return this.flow.getNode(port.nodeId);
+      });
   }
 
   setPos(newPos: pos) {

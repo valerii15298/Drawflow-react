@@ -70,7 +70,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
     if (ref.current) {
       const inputs = getPorts(portType.in, ref.current);
       const outputs = getPorts(portType.out, ref.current);
-      dispatch(actions.pushPorts([...inputs, ...outputs]));
+      // TODO push ports
+      // dispatch(actions.pushPorts([...inputs, ...outputs]));
     }
   }, [dispatch, id, pos]);
 

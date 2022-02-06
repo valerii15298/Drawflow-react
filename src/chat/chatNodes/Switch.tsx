@@ -65,11 +65,11 @@ const NodeSwitch = (props: Props) => {
                   width: 100,
                   margin: "auto",
                 }}
-                src={option.nodeState.data.node_object_lists.props.image_link}
+                src={option.nodeState.NodeProps.NodeImageProps?.src}
                 alt=""
               />
               <button key={i} onClick={() => onChooseOption(option)}>
-                {option.nodeState.data.node_object_lists.props.text}
+                {option.nodeState.NodeProps.NodeImageProps?.src}
               </button>
             </div>
           </div>

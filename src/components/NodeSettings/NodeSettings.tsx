@@ -3,7 +3,7 @@ import { selectActiveDrawflow } from "../../redux/drawflowSlice";
 import { NodeSettingsContext, Settings } from "./Settings";
 
 export const NodeSettings = ({ id }: { id: number }) => {
-  const json = useAppSelector((s) => selectActiveDrawflow(s).drawflow[id].data);
+  const json = useAppSelector((s) => selectActiveDrawflow(s).drawflow[id]);
   // console.log(json);
   return (
     <NodeSettingsContext.Provider value={{ type: "node" }}>

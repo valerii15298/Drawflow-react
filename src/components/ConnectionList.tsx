@@ -8,7 +8,6 @@ const Connection = ({ id }: { id: number }) => {
 
 export const ConnectionList = () => {
   const connections = useConnectionIds();
-
   const conns = connections.map((id) => {
     return <Connection key={id} id={id} />;
   });

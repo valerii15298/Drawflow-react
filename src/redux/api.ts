@@ -1,54 +1,39 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GraphQLClient } from "graphql-request";
 import { getSdk } from "../generated/graphql-request";
-import {
-  block,
-  connections,
-  drawflow,
-  flowInfo,
-  flowType,
-  node,
-  Port,
-  portType,
-  purePort,
-  RecursivePartial,
-  stateData,
-} from "../types";
-import { setStateAction } from "./actions";
+import { connections, drawflow, ports, portType } from "../types";
 import { getDefaultStateData } from "./drawflowSlice";
-import { Flow } from "./Flow";
 
 const client = new GraphQLClient("http://localhost:3000/graphql");
 const sdk = getSdk(client);
 
-export const fetchBotFlow = createAsyncThunk(
-  "fetchBotFlow",
-  async (_, { dispatch }) => {
-    const data = await sdk.botFlow({ where: { id: 1 } });
-    const { botFlow } = data;
-    if (!botFlow) return;
-    const versions = botFlow.versions.map((ver) => {
-      const ports: Port[] = [];
-      const data = getDefaultStateData();
-      data.drawflow = ver.nodes.reduce((acc, v) => {
-        acc[v.id] = {
-          NodeProps: v.NodeProps,
-          info: v.info,
-          id: v.id,
-          port: {
-            in: 1,
-            out: 2,
-          },
-          pos: {
-            x: 0,
-            y: 0,
-          },
-          isSub: false,
-          height: 0,
-          width: 0,
-        };
-        v.ports.forEach(({ id, index }) =>
-          ports.push({
+export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
+  const data = await sdk.botFlow({ where: { id: 1 } });
+  const { botFlow } = data;
+  if (!botFlow) return;
+  return botFlow.versions.map((ver) => {
+    const ports: ports = {};
+    const data = getDefaultStateData();
+    data.drawflow = ver.nodes.reduce((acc, v) => {
+      acc[v.id] = {
+        NodeProps: v.NodeProps,
+        info: v.info,
+        id: v.id,
+        port: {
+          in: 1,
+          out: 2,
+        },
+        pos: {
+          x: 0,
+          y: 0,
+        },
+        isSub: false,
+        height: 0,
+        width: 0,
+      };
+      v.ports.forEach(
+        ({ id, index }) =>
+          (ports[id] = {
             id,
             type: index === 1 ? portType.in : portType.out,
             nodeId: v.id,
@@ -58,16 +43,17 @@ export const fetchBotFlow = createAsyncThunk(
               y: 0,
             },
           })
-        );
-        return acc;
-      }, {} as drawflow);
-      data.ports = ports;
-      data.connections = ver.connections;
-      return data;
-    });
-    return versions;
-  }
-);
+      );
+      return acc;
+    }, {} as drawflow);
+    data.ports = ports;
+    data.connections = ver.connections.reduce((acc, v) => {
+      acc[v.id] = v;
+      return acc;
+    }, {} as connections);
+    return data;
+  });
+});
 
 export const corsUrl = "http://localhost:8080/";
 
@@ -103,8 +89,6 @@ export enum REQUEST_TYPE {
   postGroups = 1155,
   getStepSettingsTemplates = 1222,
 }
-
-const flow_id = 25;
 
 export const request = async (
   scrdata_id: REQUEST_TYPE,
@@ -160,143 +144,10 @@ export const request = async (
   });
 };
 
-export const fetchFlow = createAsyncThunk(
-  "fetchFlow",
-  async (_, { dispatch }) => {
-    const resp = await request(REQUEST_TYPE.getFlow, {
-      item_id: flow_id,
-    });
-    if (resp.flows === null) {
-      alert("Such flow do not exist or was deleted!");
-      return;
-    }
-    const flowInfo = resp.flows[0] as flowInfo;
-    dispatch(setStateAction({ flowInfo }));
-  }
-);
+export const postFlow = createAsyncThunk("postFlow", () => {
+  console.log("postFlow");
+});
 
-export const postFlow = createAsyncThunk(
-  "fetchFlow",
-  async (_, { getState }) => {
-    const { flowInfo } = getState() as flowType;
-    if (!flowInfo) {
-      console.error("Cannot save flow, data is not available");
-      return;
-    }
-
-    const resp = await request(REQUEST_TYPE.postFlow, {
-      item_id: flow_id,
-      flows: [flowInfo],
-    });
-    if (resp.status === "OK") {
-      alert("Saved");
-    } else {
-      alert("Cannot save flow");
-    }
-  }
-);
-
-export const updateTemplateNode = createAsyncThunk(
-  "updateTemplateNode",
-  async (templateNode: RecursivePartial<string>, { dispatch }) => {
-    console.log("dde");
-  }
-);
-
-const fetchFlowVersionReqFunc = async (version: number) => {
-  const resp = await request(REQUEST_TYPE.getFlowDataVersion, {
-    item_id: flow_id,
-    show_ver: version,
-  });
-  const flow_steps = resp.flow_steps as null | step[];
-  if (flow_steps === null) {
-    return null;
-  }
-  // console.log(flow_steps[0]);
-  return flow_steps.filter(
-    ({ update_version }) => update_version === version || version === 0
-  );
-};
-
-export const fetchFlowVersion = createAsyncThunk(
-  "fetchFlowVersion",
-  fetchFlowVersionReqFunc
-);
-
-const getStepData = (state: stateData, id: number) => {
-  const flow = new Flow(state);
-  const node = flow.getNode(id);
-  const { nodeState } = node;
-  return {
-    node_position: nodeState.positionNumber,
-    flow_lane_id: nodeState.lane,
-    flow_step_x: Math.round(nodeState.pos.x),
-    flow_step_y: Math.round(nodeState.pos.y),
-    prev_node_unique_id: node.parent?.id ?? null,
-    this_node_unique_id: node.id,
-  };
-};
-
-export const postFlowVersion = createAsyncThunk(
-  "postFlowVersion",
-  async (_, { getState, dispatch }) => {
-    const appState = getState() as flowType;
-    const state = appState.flows[appState.version];
-    const flow = new Flow(state);
-    const { drawflow } = state;
-    const flow_steps = Object.values(
-      JSON.parse(JSON.stringify(drawflow)) as drawflow
-    ).map((node) => {
-      const { subnodes } = flow.getNode(node.id);
-      const { data } = node;
-      // data.flow_node = {};
-      // ["name", "description", "icon_link_selected"].forEach((key) => {
-      //   data.flow_node[`node_${key}`] = data[key];
-      //   delete data[key];
-      // });
-      // data.flow_node.node_tooltip = data.nodes_tooltip;
-      // delete data.nodes_tooltip;
-      return {
-        ...data,
-        ...getStepData(state, node.id),
-        node_attributes: subnodes.map(({ id }) => id),
-      };
-    });
-    if (flow_steps.length === 0) {
-      alert("Please add at least one node in flow to allow commit!");
-      return;
-    }
-    console.log(flow_steps);
-    const resp = await request(REQUEST_TYPE.postFlowDataVersion, {
-      item_id: flow_id,
-      flow_steps,
-    });
-    if (!(resp.status === "OK" && resp.sp_name === "OK")) {
-      console.error(resp);
-      alert(JSON.stringify(resp));
-    } else {
-      alert(`Flow successfully updated.`);
-      dispatch(fetchFlowVersion(0));
-    }
-  }
-);
-
-export const initFlow = createAsyncThunk(
-  "initFlow",
-  async (_, { dispatch }) => {
-    dispatch(fetchFlowVersion(0));
-  }
-);
-
-export const changeVersion = createAsyncThunk(
-  "changeVersion",
-  async (version: number, { dispatch, getState }) => {
-    const { flows } = getState() as flowType;
-    if (!flows[version]) {
-      dispatch(fetchFlowVersion(version));
-      return;
-    } else {
-      return version;
-    }
-  }
-);
+export const postFlowVersion = createAsyncThunk("postFlowVersion", () => {
+  console.log("postFlowVersion");
+});

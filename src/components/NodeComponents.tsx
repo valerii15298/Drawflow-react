@@ -15,7 +15,7 @@ export const Block = (props: pureNode) => {
     <BlockDiv>
       {/*<div>{props.id}</div>*/}
       {/*<span>{props.data.flow_node.node_name}</span>*/}
-      <span>{props.data.flow_node.node_name}</span>
+      <span>id: {props.id}</span>
       <TapMoreButton
         onMouseDown={(e) => {
           e.preventDefault();

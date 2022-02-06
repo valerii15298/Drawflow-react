@@ -1,5 +1,5 @@
 import { chatNodeType } from "../chat/chatNodes/chatNodeType";
-import { block, canvasShape, ObjectKeys, pos, step } from "../types";
+import { block, canvasShape, ObjectKeys, pos } from "../types";
 
 export const getNodeFromTemplate = (template: block) => {
   const keysToDeleteFromTemplate = [
@@ -15,7 +15,7 @@ export const getNodeFromTemplate = (template: block) => {
     "icon_link_selected",
   ];
   const data: block = JSON.parse(JSON.stringify(template));
-  const step: step = ObjectKeys(data).reduce(
+  const step: any = ObjectKeys(data).reduce(
     (acc, key) => {
       if (key in keysToDeleteFromTemplate) {
         return acc;
@@ -33,20 +33,20 @@ export const getNodeFromTemplate = (template: block) => {
       this_node_unique_id: 0,
       update_version: 0,
       id_nodes: 0,
-    } as step
+    }
   );
 
-  const propsToChange: Array<keyof block> = [
-    "name",
-    "description",
-    "icon_link_selected",
-  ];
-  propsToChange.forEach((key) => {
-    //@ts-ignore
-    step.flow_node[`node_${key}`] = data[key];
-  });
-  step.flow_node.node_tooltip = data.nodes_tooltip;
-  step.id_nodes = data.nodes_id;
+  // const propsToChange: Array<keyof block> = [
+  //   "name",
+  //   "description",
+  //   "icon_link_selected",
+  // ];
+  // propsToChange.forEach((key) => {
+  //   //@ts-ignore
+  //   step.flow_node[`node_${key}`] = data[key];
+  // });
+  // step.flow_node.node_tooltip = data.nodes_tooltip;
+  // step.id_nodes = data.nodes_id;
 
   return step;
 };

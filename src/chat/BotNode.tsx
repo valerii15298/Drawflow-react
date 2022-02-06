@@ -28,10 +28,12 @@ export const BotNodeMessageComponent = (props: IChatNodeData) => {
 
   let flowNodeData: any = {};
   if (flowNodeId !== undefined) {
-    const data = (flow.state.drawflow[flowNodeId]?.data.node_object_lists ?? {
+    // TODO fix this
+    //flow.state.drawflow[flowNodeId]?.data.node_object_lists
+    const data = {
       type: chatNodeType.Empty,
       renderable: false,
-    }) as {
+    } as {
       type: chatNodeType;
       [propName: string]: any;
     };

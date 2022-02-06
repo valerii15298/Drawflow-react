@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { changeVersion } from "../redux/api";
+import { setStateAction } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 export const SelectFlowVersion = () => {
@@ -19,7 +19,9 @@ export const SelectFlowVersion = () => {
       sx={{ width: "min-content" }}
       value={selectedVersion}
       onChange={(ev, value) => {
-        dispatch(changeVersion(value as number));
+        // TODO need to test this
+        dispatch(setStateAction({ version: value }));
+        // dispatch(changeVersion(value as number));
       }}
       renderInput={(params) => {
         return <TextField {...params} label="Version" />;

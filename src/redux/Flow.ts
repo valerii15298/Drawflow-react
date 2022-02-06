@@ -1,11 +1,5 @@
 import { syncTimer } from "../decorators";
-import {
-  addConnectionType,
-  connection,
-  moveNodeType,
-  Port,
-  stateData,
-} from "../types";
+import { addConnectionType, moveNodeType, Port, stateData } from "../types";
 import Node from "./Node";
 
 export class Flow {
@@ -88,11 +82,15 @@ export class Flow {
 
   addConnection(conn: addConnectionType) {
     // eslint-disable-next-line prefer-const
-    let { startId, startPort, endId, endPort } = conn;
-    const nodeIn = this.getNode(endId);
-    // console.log(startId);
-    const nodeOut = this.getNode(startId);
-    const connectAsSub = startPort === 2;
+    const fromPort = this.state.ports[conn.fromPort.id];
+    const toPort = this.state.ports[conn.toPort.id];
+    if (!fromPort || !toPort) {
+      throw new TypeError("Cannot find ports by id!!!");
+    }
+
+    const nodeIn = this.getNode(toPort.nodeId);
+    const nodeOut = this.getNode(fromPort.nodeId);
+    const connectAsSub = fromPort.portId === 2;
 
     if (nodeIn.parent || nodeOut.nodeState.visible === false) {
       return false;
@@ -108,20 +106,21 @@ export class Flow {
       return false;
     }
 
+    // let startId = 0, startPort = 0
     // Insertion to the subnodes
     let nextNode: Node | null = null;
     if (connectAsSub && nodeOut.subnodes.length) {
       if (nodeOut.nodeState.subnodesVisibility === false) {
         // connect subnode to the end when subnodes are hidden
-        startId = nodeOut.subnodes[nodeOut.subnodes.length - 1].id;
-        startPort = 1;
-        this.state.connections.push({
-          startId,
-          startPort,
-          endId,
-          endPort,
+        fromPort.id = nodeOut.subnodes[nodeOut.subnodes.length - 1].id;
+        fromPort.portId = 1;
+        this.state.connections[999] = {
+          // TODO Change id to one from server
+          id: 999,
+          fromPort,
+          toPort,
           visible: true,
-        });
+        };
         const { flowLineNodes } = flowLine as { flowLineNodes: Node[] };
         flowLineNodes.forEach((node) => node.toggleVisibility(false));
         return;
@@ -133,35 +132,39 @@ export class Flow {
       nextNode = nodeOut.out1[0];
     }
 
-    if (nextNode !== null) {
-      const connToDelete = this.state.connections.find(
+    if (nextNode) {
+      const connToDelete = Object.values(this.state.connections).find(
         (conn) =>
-          conn.startId === startId &&
-          conn.startPort === startPort &&
-          conn.endId === (nextNode as Node).id &&
-          conn.endPort === 1
-      ) as connection;
-      const indexConnToDelete = this.state.connections.indexOf(connToDelete);
-      this.state.connections.splice(indexConnToDelete, 1);
+          conn.fromPort.id === fromPort.id &&
+          conn.toPort.id === nextNode!.inPort.id
+      );
+      if (!connToDelete) {
+        throw new TypeError("Connection not found");
+      }
+      delete this.state.connections[connToDelete.id];
 
       const { flowLineNodes } = flowLine as { flowLineNodes: Node[] };
       const lastNode = flowLineNodes[flowLineNodes.length - 1];
-      this.state.connections.push({
-        startId: lastNode.id,
-        startPort: 1,
-        endId: nextNode.id,
-        endPort: 1,
+      this.state.connections[98] = {
+        // TODO delete hardcoded id
+        id: 98,
+        fromPort: {
+          id: lastNode.portOut1.id,
+        },
+        toPort: {
+          id: nextNode.inPort.id,
+        },
         visible: true,
-      });
+      };
     }
 
-    this.state.connections.push({
-      startId,
-      startPort,
-      endId,
-      endPort,
+    this.state.connections[187] = {
+      // TODO delete hardcoded id
+      id: 187,
+      fromPort,
+      toPort,
       visible: true,
-    });
+    };
   }
 
   moveNode({ dx, dy, nodeId }: moveNodeType) {
@@ -181,22 +184,17 @@ export class Flow {
   untieNodeIfFarAway(nodeId: number) {
     const currentNode = this.getNode(nodeId);
     if (currentNode.parentConnection) {
-      const { startPort, endPort, startId, endId } =
-        currentNode.parentConnection;
+      const { fromPort } = currentNode.parentConnection;
       // console.log({ startPort, endPort });
       const {
         pos: { x: x1, y: y1 },
-      } = this.state.ports.find(
-        ({ portId, nodeId, type }) =>
-          nodeId === startId && type === "out" && portId === startPort
-      ) as Port;
+      } = this.state.ports[fromPort.id];
 
-      const {
-        pos: { x: x2, y: y2 },
-      } = this.state.ports.find(
-        ({ portId, nodeId, type }) =>
-          nodeId === endId && type === "in" && portId === endPort
-      ) as Port;
+      const { inPort } = this.getNode(nodeId);
+      if (!inPort) {
+        throw new TypeError("No in port!!!");
+      }
+      const { x: x2, y: y2 } = inPort.pos;
 
       const distance = Math.hypot(x1 - x2, y1 - y2);
       // console.log({ distance });
@@ -207,10 +205,7 @@ export class Flow {
       }
 
       // remove connection
-      const indexConnToDelete = this.state.connections.indexOf(
-        currentNode.parentConnection
-      );
-      this.state.connections.splice(indexConnToDelete, 1);
+      delete this.state.connections[currentNode.parentConnection.id];
       // this.alignAll();
     }
   }

@@ -178,7 +178,9 @@ export const Chat = () => {
     }, {} as any);
     const nodes = ObjectKeys(drawflow).reduce((acc, key) => {
       acc[key] = {
-        data: drawflow[key].data,
+        // TODO check if all right, changed her
+        // data: drawflow[key].data,
+        data: drawflow[key],
       };
       return acc;
     }, {} as any);
@@ -200,7 +202,8 @@ export const Chat = () => {
     console.log("Run");
     const defaultBotNodeData: IChatNodeDataPreview = {
       ...getDefaultBotNodeData(),
-      ...head.nodeState.data.node_object_lists,
+      // TODO change hardcoded
+      ...head.nodeState.NodeProps.NodeImageProps,
       flowNodeId: head.id,
     };
     actions.appendMessageNode(defaultBotNodeData);

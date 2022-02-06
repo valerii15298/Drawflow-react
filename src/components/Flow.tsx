@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 import "react-toggle/style.css";
 import styled from "styled-components";
-import { fetchBotFlow, fetchFlow, initFlow } from "../redux/api";
+import { fetchBotFlow } from "../redux/api";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { mainWindow, sideWindow } from "../types";
 import { CodeEditor } from "./CodeEditor";
@@ -96,8 +96,8 @@ export const Flow = () => {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchFlow());
-    // dispatch(fetchBotFlow());
+    // dispatch(fetchFlow());
+    dispatch(fetchBotFlow());
     // dispatch(fetchGroups());
     // dispatch(fetchTemplateNodes());
     // dispatch(initFlow());

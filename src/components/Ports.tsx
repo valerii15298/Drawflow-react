@@ -102,18 +102,14 @@ const Port = (port: purePort) => {
         e.stopPropagation();
         dispatch(
           actions.selectPort({
-            type,
-            nodeId,
-            portId,
+            id: port.id,
           })
         );
       }}
       onMouseUp={() => {
         dispatch(
           actions.portMouseUp({
-            nodeId,
-            portId,
-            PortType: type,
+            id: port.id,
           })
         );
       }}
@@ -157,7 +153,8 @@ export const Ports = (props: { type: portType; id: number; port: port }) => {
   const arr = [];
 
   for (let i = 1; i <= port[type]; i++) {
-    arr.push(<Port key={i} nodeId={id} portId={i} type={type} />);
+    // TODO cahnge id from i !!!!
+    arr.push(<Port id={i} key={i} nodeId={id} portId={i} type={type} />);
   }
 
   return <div className={`${type}puts`}>{arr}</div>;

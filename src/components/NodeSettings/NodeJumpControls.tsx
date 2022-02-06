@@ -39,7 +39,7 @@ const SelectNextNodeItem = ({
     id,
     nodeState: {
       positionNumber,
-      data: { name },
+      info: { name },
     },
   } = node;
   return (
@@ -117,7 +117,7 @@ const NodeJumpControls = ({ id }: { id: number }) => {
     nodeState: {
       positionNumber,
       id,
-      data: { name },
+      info: { name },
     },
   }: Node) => (
     <SelectNodeSettingsItem onClick={() => jumpToNodeSettings(id)} key={id}>

@@ -11,7 +11,6 @@ import {
   setStateFunction,
   Slices,
   stateData,
-  step,
 } from "../types";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
@@ -90,25 +89,14 @@ const slice = createSlice({
       state.config.drag = payload.type === "node";
       state.select = payload;
     },
-    selectPort: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{ type: portType; nodeId: number; portId: number }>
-    ) => {
-      const port = state.ports.find(
-        ({ nodeId, portId, type }) =>
-          type === payload.type &&
-          portId === payload.portId &&
-          nodeId === payload.nodeId
-      );
+    selectPort: (state, { payload: { id } }: PayloadAction<{ id: number }>) => {
+      const port = state.ports[id];
       if (!port) {
-        console.error("Cannot find port to select in state.ports");
-        return;
+        throw new TypeError("Cannot find port to select in state.ports");
       }
-      const selectId = state.ports.indexOf(port);
+      const selectId = port.id;
       state.select = {
-        type: payload.type,
+        type: port.type,
         selectId,
       };
     },
@@ -198,80 +186,90 @@ const slice = createSlice({
       }
       // return flow.state;
     },
-    updateNode: (state, { payload: step }: PayloadAction<step>) => {
-      const id = step.this_node_unique_id;
-      state.drawflow[id].data = step;
-    },
+    // updateNode: (state, { payload: step }: PayloadAction<step>) => {
+    //   const id = step.this_node_unique_id;
+    //   state.drawflow[id].data = step;
+    // },
     deleteNode: (state) => {
-      const { connections, drawflow, ports, select } = state;
+      const { drawflow, ports, select } = state;
       if (select?.type !== "node") return;
       const { selectId } = select;
+      const flow = new Flow(state);
+      const selectedNode = flow.getNode(selectId);
 
       // find and delete connections
-      let connIndex = connections.length;
-      while (connIndex--) {
-        const { endId, startId } = connections[connIndex];
-        if ([startId, endId].includes(selectId)) {
-          connections.splice(connIndex, 1);
-          console.log(current(connections));
+      Object.values(state.connections).forEach((conn) => {
+        const { fromPort, toPort } = conn;
+        if (
+          selectedNode.nodePorts.some((p) =>
+            [fromPort.id, toPort.id].includes(p.id)
+          )
+        ) {
+          delete state.connections[conn.id];
         }
-      }
+      });
 
       // find and delete ports
-      let portIndex = ports.length;
-      while (portIndex--) {
-        const { nodeId } = ports[portIndex];
-        if (nodeId === selectId) {
-          ports.splice(portIndex, 1);
+      Object.values(state.ports).forEach((port) => {
+        if (port.nodeId === selectId) {
+          delete state.ports[port.id];
         }
-      }
+      });
 
       // 3. find in drawflow
       delete drawflow[selectId];
 
+      // clear select
       state.select = null;
-      console.log("GGG");
     },
     deletePath: (state) => {
-      const { connections, select } = state;
+      const { select } = state;
       if (select?.type === "path") {
         console.log("delete");
-        connections.splice(select.selectId, 1);
+        delete state.connections[select.selectId];
       }
     },
     load,
     portMouseUp: (
       state,
-      {
-        payload: { nodeId, portId, PortType },
-      }: PayloadAction<{ PortType: portType; nodeId: number; portId: number }>
+      { payload: { id } }: PayloadAction<{ id: number }>
     ) => {
       const { select } = state;
-      if (PortType !== portType.in || !select) return;
+      const portTo = state.ports[id];
+      if (!portTo) {
+        throw new TypeError("Port not found!!");
+      }
+
+      if (portTo.type !== portType.in || !select) return;
+      if (select.type !== portType.out) {
+        return;
+      }
       const port = state.ports[select.selectId];
 
-      const endId = nodeId;
-      const endPort = portId;
+      if (!port) {
+        throw new TypeError("Port not found!!");
+      }
 
-      const startId = port.nodeId;
-      const startPort = port.portId;
       // if connect to same node
-      if (startId === endId) return;
+      if (port.id === portTo.id) return;
+
       const flow = new Flow(state);
       flow.addConnection({
-        startId,
-        startPort,
-        endId,
-        endPort,
+        fromPort: {
+          id: select.selectId,
+        },
+        toPort: {
+          id: portTo.id,
+        },
       });
     },
     clear: () => initialState,
-    pushPorts: (state: stateData, { payload: ports }: PayloadAction<ports>) => {
-      if (ports.length === 0) return;
-      const { nodeId } = ports[0];
-      state.ports = state.ports.filter((port) => port.nodeId !== nodeId);
-      state.ports.push(...ports);
-    },
+    // pushPorts: (state: stateData, { payload: ports }: PayloadAction<ports>) => {
+    //   if (ports.length === 0) return;
+    //   const { nodeId } = ports[0];
+    //   state.ports = state.ports.filter((port) => port.nodeId !== nodeId);
+    //   state.ports.push(...ports);
+    // },
     zoom: (state, { payload }: PayloadAction<boolean | null>) => {
       const { zoom } = state.config;
       const { value, max, min, tick } = zoom;

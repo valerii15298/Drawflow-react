@@ -55,7 +55,13 @@ export interface Port extends purePort {
   pos: pos;
 }
 
-export type ports = Array<Port>;
+export type idPortType = number;
+export type idNodeType = number;
+export type idConnType = number;
+
+export type ports = {
+  [p: idPortType]: Port;
+};
 
 export interface block {
   renderable: boolean;
@@ -129,13 +135,15 @@ type versions = botFlow["versions"];
 type sNode = versions[number]["nodes"][number];
 // type purePort = versions[number]["nodes"][number]["ports"][number];
 
-type connection = versions[number]["connections"][number] & {
+export type connection = versions[number]["connections"][number] & {
   visible?: boolean;
 };
 
 export type addConnectionType = Omit<connection, "id">;
 
-export type connections = Array<connection>;
+export type connections = {
+  [p: idConnType]: connection;
+};
 
 export type data = {
   nodes: drawflow;
