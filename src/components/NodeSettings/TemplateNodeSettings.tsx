@@ -3,7 +3,7 @@ import {
   TemplateNodesQuery,
   useTemplateNodesQuery,
 } from "../../generated/apollo";
-import { apolloClient } from "../../graphql";
+import { apolloClient } from "../../graphql/apollo";
 import { NodeSettingsContext, Settings } from "./Settings";
 
 export type formType = TemplateNodesQuery["templateNodes"][number];

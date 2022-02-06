@@ -1,11 +1,9 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { api } from '../redux/baseApi';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -8001,12 +7999,12 @@ export type TemplateNodesQueryVariables = Exact<{
 
 export type TemplateNodesQuery = { __typename?: 'Query', templateNodes: Array<{ __typename?: 'TemplateNode', id: number, order: number, group: { __typename?: 'TemplateNodesGroup', id: number }, info: { __typename?: 'NodeInfo', id: number, name: string, description: string, iconLink: string }, NodeProps: { __typename?: 'NodeProps', type: NodeType, id: number, NodeFileProps?: { __typename?: 'NodeFileProps', info: string, url: string } | null | undefined, NodeLinkProps?: { __typename?: 'NodeLinkProps', src: string, text: string } | null | undefined, NodeSwitchOptionProps?: { __typename?: 'NodeSwitchOptionProps', imageLink: string, text: string } | null | undefined, NodeImageProps?: { __typename?: 'NodeImageProps', src: string } | null | undefined, NodeAudioProps?: { __typename?: 'NodeAudioProps', src: string } | null | undefined, NodeCountdownProps?: { __typename?: 'NodeCountdownProps', duration: number } | null | undefined, NodeSwitchProps?: { __typename?: 'NodeSwitchProps', SwitchDisplayType: SwitchDisplayType } | null | undefined, NodeVideoProps?: { __typename?: 'NodeVideoProps', src: string } | null | undefined, NodeTextProps?: { __typename?: 'NodeTextProps', src: string } | null | undefined, NodeWaitProps?: { __typename?: 'NodeWaitProps', src: string, delay: number } | null | undefined } }> };
 
-export type TemplateNodesMutationVariables = Exact<{
+export type TemplateNodesMutationMutationVariables = Exact<{
   input: TemplateNodeCreateInput;
 }>;
 
 
-export type TemplateNodesMutation = { __typename?: 'Mutation', createTemplateNode: { __typename?: 'TemplateNode', id: number } };
+export type TemplateNodesMutationMutation = { __typename?: 'Mutation', createTemplateNode: { __typename?: 'TemplateNode', id: number } };
 
 export type TemplateNodesUpdateMutationVariables = Exact<{
   data: TemplateNodeUpdateInput;
@@ -8035,12 +8033,12 @@ export type TemplateNodesGroupsQueryVariables = Exact<{
 
 export type TemplateNodesGroupsQuery = { __typename?: 'Query', templateNodesGroups: Array<{ __typename?: 'TemplateNodesGroup', id: number, name: string, description: string }> };
 
-export type TemplateNodesGroupsMutationVariables = Exact<{
+export type TemplateNodesGroupsMutationMutationVariables = Exact<{
   data: TemplateNodesGroupCreateInput;
 }>;
 
 
-export type TemplateNodesGroupsMutation = { __typename?: 'Mutation', createTemplateNodesGroup: { __typename?: 'TemplateNodesGroup', id: number } };
+export type TemplateNodesGroupsMutationMutation = { __typename?: 'Mutation', createTemplateNodesGroup: { __typename?: 'TemplateNodesGroup', id: number } };
 
 export type TemplateNodesGroupsUpdateMutationVariables = Exact<{
   data: TemplateNodesGroupUpdateInput;
@@ -8115,7 +8113,7 @@ export type UpdateFlowNodeMutationVariables = Exact<{
 
 export type UpdateFlowNodeMutation = { __typename?: 'Mutation', updateFlowNode?: { __typename?: 'FlowNode', id: number } | null | undefined };
 
-export const NodeInfoFragmentDoc = gql`
+export const NodeInfoFragmentDoc = `
     fragment nodeInfo on NodeInfo {
   id
   name
@@ -8123,61 +8121,61 @@ export const NodeInfoFragmentDoc = gql`
   iconLink
 }
     `;
-export const NodeFilePropsFragmentDoc = gql`
+export const NodeFilePropsFragmentDoc = `
     fragment NodeFileProps on NodeFileProps {
   info
   url
 }
     `;
-export const NodeLinkPropsFragmentDoc = gql`
+export const NodeLinkPropsFragmentDoc = `
     fragment NodeLinkProps on NodeLinkProps {
   src
   text
 }
     `;
-export const NodeSwitchOptionPropsFragmentDoc = gql`
+export const NodeSwitchOptionPropsFragmentDoc = `
     fragment NodeSwitchOptionProps on NodeSwitchOptionProps {
   imageLink
   text
 }
     `;
-export const NodeImagePropsFragmentDoc = gql`
+export const NodeImagePropsFragmentDoc = `
     fragment NodeImageProps on NodeImageProps {
   src
 }
     `;
-export const NodeAudioPropsFragmentDoc = gql`
+export const NodeAudioPropsFragmentDoc = `
     fragment NodeAudioProps on NodeAudioProps {
   src
 }
     `;
-export const NodeCountdownPropsFragmentDoc = gql`
+export const NodeCountdownPropsFragmentDoc = `
     fragment NodeCountdownProps on NodeCountdownProps {
   duration
 }
     `;
-export const NodeSwitchPropsFragmentDoc = gql`
+export const NodeSwitchPropsFragmentDoc = `
     fragment NodeSwitchProps on NodeSwitchProps {
   SwitchDisplayType
 }
     `;
-export const NodeVideoPropsFragmentDoc = gql`
+export const NodeVideoPropsFragmentDoc = `
     fragment NodeVideoProps on NodeVideoProps {
   src
 }
     `;
-export const NodeTextPropsFragmentDoc = gql`
+export const NodeTextPropsFragmentDoc = `
     fragment NodeTextProps on NodeTextProps {
   src
 }
     `;
-export const NodeWaitPropsFragmentDoc = gql`
+export const NodeWaitPropsFragmentDoc = `
     fragment NodeWaitProps on NodeWaitProps {
   src
   delay
 }
     `;
-export const NodePropsFragmentDoc = gql`
+export const NodePropsFragmentDoc = `
     fragment nodeProps on NodeProps {
   id
   type
@@ -8222,7 +8220,7 @@ ${NodeSwitchPropsFragmentDoc}
 ${NodeVideoPropsFragmentDoc}
 ${NodeTextPropsFragmentDoc}
 ${NodeWaitPropsFragmentDoc}`;
-export const TemplateNodeFragmentDoc = gql`
+export const TemplateNodeFragmentDoc = `
     fragment templateNode on TemplateNode {
   id
   order
@@ -8239,7 +8237,7 @@ export const TemplateNodeFragmentDoc = gql`
 }
     ${NodeInfoFragmentDoc}
 ${NodePropsFragmentDoc}`;
-export const ConnectionsListFragmentDoc = gql`
+export const ConnectionsListFragmentDoc = `
     fragment connectionsList on BotFlowVersion {
   connections {
     id
@@ -8252,7 +8250,7 @@ export const ConnectionsListFragmentDoc = gql`
   }
 }
     `;
-export const FlowNodeClientDataFragmentDoc = gql`
+export const FlowNodeClientDataFragmentDoc = `
     fragment flowNodeClientData on FlowNode {
   isSub @client
   parentConnection @client {
@@ -8297,7 +8295,7 @@ export const FlowNodeClientDataFragmentDoc = gql`
   positionNumber @client
 }
     `;
-export const FlowNodeFragmentDoc = gql`
+export const FlowNodeFragmentDoc = `
     fragment flowNode on FlowNode {
   id
   NodeProps {
@@ -8325,14 +8323,14 @@ export const FlowNodeFragmentDoc = gql`
 }
     ${NodePropsFragmentDoc}
 ${NodeInfoFragmentDoc}`;
-export const NodesListFragmentDoc = gql`
+export const NodesListFragmentDoc = `
     fragment nodesList on BotFlowVersion {
   nodes {
     ...flowNode
   }
 }
     ${FlowNodeFragmentDoc}`;
-export const BotFlowVersionClientDataFragmentDoc = gql`
+export const BotFlowVersionClientDataFragmentDoc = `
     fragment botFlowVersionClientData on BotFlowVersion {
   heads @client {
     id
@@ -8349,7 +8347,7 @@ export const BotFlowVersionClientDataFragmentDoc = gql`
   }
 }
     `;
-export const TemplateNodesDocument = gql`
+export const TemplateNodesDocument = `
     query templateNodes($cursor: TemplateNodeWhereUniqueInput, $distinct: [TemplateNodeScalarFieldEnum!], $orderBy: [TemplateNodeOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodeWhereInput) {
   templateNodes(
     cursor: $cursor
@@ -8363,140 +8361,28 @@ export const TemplateNodesDocument = gql`
   }
 }
     ${TemplateNodeFragmentDoc}`;
-
-/**
- * __useTemplateNodesQuery__
- *
- * To run a query within a React component, call `useTemplateNodesQuery` and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTemplateNodesQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *      distinct: // value for 'distinct'
- *      orderBy: // value for 'orderBy'
- *      skip: // value for 'skip'
- *      take: // value for 'take'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
-      }
-export function useTemplateNodesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesQuery, TemplateNodesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TemplateNodesQuery, TemplateNodesQueryVariables>(TemplateNodesDocument, options);
-        }
-export type TemplateNodesQueryHookResult = ReturnType<typeof useTemplateNodesQuery>;
-export type TemplateNodesLazyQueryHookResult = ReturnType<typeof useTemplateNodesLazyQuery>;
-export type TemplateNodesQueryResult = Apollo.QueryResult<TemplateNodesQuery, TemplateNodesQueryVariables>;
-export const TemplateNodesMutationDocument = gql`
+export const TemplateNodesMutationDocument = `
     mutation templateNodesMutation($input: TemplateNodeCreateInput!) {
   createTemplateNode(data: $input) {
     id
   }
 }
     `;
-export type TemplateNodesMutationMutationFn = Apollo.MutationFunction<TemplateNodesMutation, TemplateNodesMutationVariables>;
-
-/**
- * __useTemplateNodesMutation__
- *
- * To run a mutation, you first call `useTemplateNodesMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesMutation, { data, loading, error }] = useTemplateNodesMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useTemplateNodesMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesMutation, TemplateNodesMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesMutation, TemplateNodesMutationVariables>(TemplateNodesMutationDocument, options);
-      }
-export type TemplateNodesMutationHookResult = ReturnType<typeof useTemplateNodesMutation>;
-export type TemplateNodesMutationMutationResult = Apollo.MutationResult<TemplateNodesMutation>;
-export type TemplateNodesMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesMutation, TemplateNodesMutationVariables>;
-export const TemplateNodesUpdateDocument = gql`
+export const TemplateNodesUpdateDocument = `
     mutation templateNodesUpdate($data: TemplateNodeUpdateInput!, $where: TemplateNodeWhereUniqueInput!) {
   updateTemplateNode(data: $data, where: $where) {
     id
   }
 }
     `;
-export type TemplateNodesUpdateMutationFn = Apollo.MutationFunction<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
-
-/**
- * __useTemplateNodesUpdateMutation__
- *
- * To run a mutation, you first call `useTemplateNodesUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesUpdateMutation, { data, loading, error }] = useTemplateNodesUpdateMutation({
- *   variables: {
- *      data: // value for 'data'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>(TemplateNodesUpdateDocument, options);
-      }
-export type TemplateNodesUpdateMutationHookResult = ReturnType<typeof useTemplateNodesUpdateMutation>;
-export type TemplateNodesUpdateMutationResult = Apollo.MutationResult<TemplateNodesUpdateMutation>;
-export type TemplateNodesUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>;
-export const TemplateNodesDeleteDocument = gql`
+export const TemplateNodesDeleteDocument = `
     mutation templateNodesDelete($where: TemplateNodeWhereUniqueInput!) {
   deleteTemplateNode(where: $where) {
     id
   }
 }
     `;
-export type TemplateNodesDeleteMutationFn = Apollo.MutationFunction<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
-
-/**
- * __useTemplateNodesDeleteMutation__
- *
- * To run a mutation, you first call `useTemplateNodesDeleteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesDeleteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesDeleteMutation, { data, loading, error }] = useTemplateNodesDeleteMutation({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>(TemplateNodesDeleteDocument, options);
-      }
-export type TemplateNodesDeleteMutationHookResult = ReturnType<typeof useTemplateNodesDeleteMutation>;
-export type TemplateNodesDeleteMutationResult = Apollo.MutationResult<TemplateNodesDeleteMutation>;
-export type TemplateNodesDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>;
-export const TemplateNodesGroupsDocument = gql`
+export const TemplateNodesGroupsDocument = `
     query templateNodesGroups($cursor: TemplateNodesGroupWhereUniqueInput, $distinct: [TemplateNodesGroupScalarFieldEnum!], $orderBy: [TemplateNodesGroupOrderByWithRelationInput!], $skip: Int, $take: Int, $where: TemplateNodesGroupWhereInput) {
   templateNodesGroups(
     cursor: $cursor
@@ -8512,140 +8398,28 @@ export const TemplateNodesGroupsDocument = gql`
   }
 }
     `;
-
-/**
- * __useTemplateNodesGroupsQuery__
- *
- * To run a query within a React component, call `useTemplateNodesGroupsQuery` and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTemplateNodesGroupsQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *      distinct: // value for 'distinct'
- *      orderBy: // value for 'orderBy'
- *      skip: // value for 'skip'
- *      take: // value for 'take'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesGroupsQuery(baseOptions?: Apollo.QueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
-      }
-export function useTemplateNodesGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>(TemplateNodesGroupsDocument, options);
-        }
-export type TemplateNodesGroupsQueryHookResult = ReturnType<typeof useTemplateNodesGroupsQuery>;
-export type TemplateNodesGroupsLazyQueryHookResult = ReturnType<typeof useTemplateNodesGroupsLazyQuery>;
-export type TemplateNodesGroupsQueryResult = Apollo.QueryResult<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables>;
-export const TemplateNodesGroupsMutationDocument = gql`
+export const TemplateNodesGroupsMutationDocument = `
     mutation templateNodesGroupsMutation($data: TemplateNodesGroupCreateInput!) {
   createTemplateNodesGroup(data: $data) {
     id
   }
 }
     `;
-export type TemplateNodesGroupsMutationMutationFn = Apollo.MutationFunction<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
-
-/**
- * __useTemplateNodesGroupsMutation__
- *
- * To run a mutation, you first call `useTemplateNodesGroupsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesGroupsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesGroupsMutation, { data, loading, error }] = useTemplateNodesGroupsMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useTemplateNodesGroupsMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>(TemplateNodesGroupsMutationDocument, options);
-      }
-export type TemplateNodesGroupsMutationHookResult = ReturnType<typeof useTemplateNodesGroupsMutation>;
-export type TemplateNodesGroupsMutationMutationResult = Apollo.MutationResult<TemplateNodesGroupsMutation>;
-export type TemplateNodesGroupsMutationMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsMutation, TemplateNodesGroupsMutationVariables>;
-export const TemplateNodesGroupsUpdateDocument = gql`
+export const TemplateNodesGroupsUpdateDocument = `
     mutation templateNodesGroupsUpdate($data: TemplateNodesGroupUpdateInput!, $where: TemplateNodesGroupWhereUniqueInput!) {
   updateTemplateNodesGroup(data: $data, where: $where) {
     id
   }
 }
     `;
-export type TemplateNodesGroupsUpdateMutationFn = Apollo.MutationFunction<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
-
-/**
- * __useTemplateNodesGroupsUpdateMutation__
- *
- * To run a mutation, you first call `useTemplateNodesGroupsUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesGroupsUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesGroupsUpdateMutation, { data, loading, error }] = useTemplateNodesGroupsUpdateMutation({
- *   variables: {
- *      data: // value for 'data'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesGroupsUpdateMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>(TemplateNodesGroupsUpdateDocument, options);
-      }
-export type TemplateNodesGroupsUpdateMutationHookResult = ReturnType<typeof useTemplateNodesGroupsUpdateMutation>;
-export type TemplateNodesGroupsUpdateMutationResult = Apollo.MutationResult<TemplateNodesGroupsUpdateMutation>;
-export type TemplateNodesGroupsUpdateMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>;
-export const TemplateNodesGroupsDeleteDocument = gql`
+export const TemplateNodesGroupsDeleteDocument = `
     mutation templateNodesGroupsDelete($where: TemplateNodesGroupWhereUniqueInput!) {
   deleteTemplateNodesGroup(where: $where) {
     id
   }
 }
     `;
-export type TemplateNodesGroupsDeleteMutationFn = Apollo.MutationFunction<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
-
-/**
- * __useTemplateNodesGroupsDeleteMutation__
- *
- * To run a mutation, you first call `useTemplateNodesGroupsDeleteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTemplateNodesGroupsDeleteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [templateNodesGroupsDeleteMutation, { data, loading, error }] = useTemplateNodesGroupsDeleteMutation({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useTemplateNodesGroupsDeleteMutation(baseOptions?: Apollo.MutationHookOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>(TemplateNodesGroupsDeleteDocument, options);
-      }
-export type TemplateNodesGroupsDeleteMutationHookResult = ReturnType<typeof useTemplateNodesGroupsDeleteMutation>;
-export type TemplateNodesGroupsDeleteMutationResult = Apollo.MutationResult<TemplateNodesGroupsDeleteMutation>;
-export type TemplateNodesGroupsDeleteMutationOptions = Apollo.BaseMutationOptions<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>;
-export const BotFlowDocument = gql`
+export const BotFlowDocument = `
     query botFlow($where: BotFlowWhereUniqueInput!) {
   botFlow(where: $where) {
     id
@@ -8661,35 +8435,7 @@ export const BotFlowDocument = gql`
 }
     ${NodesListFragmentDoc}
 ${ConnectionsListFragmentDoc}`;
-
-/**
- * __useBotFlowQuery__
- *
- * To run a query within a React component, call `useBotFlowQuery` and pass it any options that fit your needs.
- * When your component renders, `useBotFlowQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBotFlowQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useBotFlowQuery(baseOptions: Apollo.QueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
-      }
-export function useBotFlowLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BotFlowQuery, BotFlowQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BotFlowQuery, BotFlowQueryVariables>(BotFlowDocument, options);
-        }
-export type BotFlowQueryHookResult = ReturnType<typeof useBotFlowQuery>;
-export type BotFlowLazyQueryHookResult = ReturnType<typeof useBotFlowLazyQuery>;
-export type BotFlowQueryResult = Apollo.QueryResult<BotFlowQuery, BotFlowQueryVariables>;
-export const RootInfoDocument = gql`
+export const RootInfoDocument = `
     query rootInfo {
   dragTemplate @client
   canvas @client {
@@ -8729,196 +8475,92 @@ export const RootInfoDocument = gql`
   }
 }
     `;
-
-/**
- * __useRootInfoQuery__
- *
- * To run a query within a React component, call `useRootInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useRootInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRootInfoQuery({
- *   variables: {
- *   },
- * });
- */
-export function useRootInfoQuery(baseOptions?: Apollo.QueryHookOptions<RootInfoQuery, RootInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RootInfoQuery, RootInfoQueryVariables>(RootInfoDocument, options);
-      }
-export function useRootInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RootInfoQuery, RootInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RootInfoQuery, RootInfoQueryVariables>(RootInfoDocument, options);
-        }
-export type RootInfoQueryHookResult = ReturnType<typeof useRootInfoQuery>;
-export type RootInfoLazyQueryHookResult = ReturnType<typeof useRootInfoLazyQuery>;
-export type RootInfoQueryResult = Apollo.QueryResult<RootInfoQuery, RootInfoQueryVariables>;
-export const DeleteConnectionDocument = gql`
+export const DeleteConnectionDocument = `
     mutation deleteConnection($where: ConnectionWhereUniqueInput!) {
   deleteConnection(where: $where) {
     id
   }
 }
     `;
-export type DeleteConnectionMutationFn = Apollo.MutationFunction<DeleteConnectionMutation, DeleteConnectionMutationVariables>;
-
-/**
- * __useDeleteConnectionMutation__
- *
- * To run a mutation, you first call `useDeleteConnectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteConnectionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteConnectionMutation, { data, loading, error }] = useDeleteConnectionMutation({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useDeleteConnectionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteConnectionMutation, DeleteConnectionMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteConnectionMutation, DeleteConnectionMutationVariables>(DeleteConnectionDocument, options);
-      }
-export type DeleteConnectionMutationHookResult = ReturnType<typeof useDeleteConnectionMutation>;
-export type DeleteConnectionMutationResult = Apollo.MutationResult<DeleteConnectionMutation>;
-export type DeleteConnectionMutationOptions = Apollo.BaseMutationOptions<DeleteConnectionMutation, DeleteConnectionMutationVariables>;
-export const CreateConnectionDocument = gql`
+export const CreateConnectionDocument = `
     mutation createConnection($data: ConnectionCreateInput!) {
   createConnection(data: $data) {
     id
   }
 }
     `;
-export type CreateConnectionMutationFn = Apollo.MutationFunction<CreateConnectionMutation, CreateConnectionMutationVariables>;
-
-/**
- * __useCreateConnectionMutation__
- *
- * To run a mutation, you first call `useCreateConnectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateConnectionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createConnectionMutation, { data, loading, error }] = useCreateConnectionMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useCreateConnectionMutation(baseOptions?: Apollo.MutationHookOptions<CreateConnectionMutation, CreateConnectionMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateConnectionMutation, CreateConnectionMutationVariables>(CreateConnectionDocument, options);
-      }
-export type CreateConnectionMutationHookResult = ReturnType<typeof useCreateConnectionMutation>;
-export type CreateConnectionMutationResult = Apollo.MutationResult<CreateConnectionMutation>;
-export type CreateConnectionMutationOptions = Apollo.BaseMutationOptions<CreateConnectionMutation, CreateConnectionMutationVariables>;
-export const CreateFlowNodeDocument = gql`
+export const CreateFlowNodeDocument = `
     mutation createFlowNode($data: FlowNodeCreateInput!) {
   createFlowNode(data: $data) {
     id
   }
 }
     `;
-export type CreateFlowNodeMutationFn = Apollo.MutationFunction<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>;
-
-/**
- * __useCreateFlowNodeMutation__
- *
- * To run a mutation, you first call `useCreateFlowNodeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateFlowNodeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createFlowNodeMutation, { data, loading, error }] = useCreateFlowNodeMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useCreateFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>(CreateFlowNodeDocument, options);
-      }
-export type CreateFlowNodeMutationHookResult = ReturnType<typeof useCreateFlowNodeMutation>;
-export type CreateFlowNodeMutationResult = Apollo.MutationResult<CreateFlowNodeMutation>;
-export type CreateFlowNodeMutationOptions = Apollo.BaseMutationOptions<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>;
-export const DeleteFlowNodeDocument = gql`
+export const DeleteFlowNodeDocument = `
     mutation deleteFlowNode($where: FlowNodeWhereUniqueInput!) {
   deleteFlowNode(where: $where) {
     id
   }
 }
     `;
-export type DeleteFlowNodeMutationFn = Apollo.MutationFunction<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>;
-
-/**
- * __useDeleteFlowNodeMutation__
- *
- * To run a mutation, you first call `useDeleteFlowNodeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteFlowNodeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteFlowNodeMutation, { data, loading, error }] = useDeleteFlowNodeMutation({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useDeleteFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>(DeleteFlowNodeDocument, options);
-      }
-export type DeleteFlowNodeMutationHookResult = ReturnType<typeof useDeleteFlowNodeMutation>;
-export type DeleteFlowNodeMutationResult = Apollo.MutationResult<DeleteFlowNodeMutation>;
-export type DeleteFlowNodeMutationOptions = Apollo.BaseMutationOptions<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>;
-export const UpdateFlowNodeDocument = gql`
+export const UpdateFlowNodeDocument = `
     mutation updateFlowNode($where: FlowNodeWhereUniqueInput!, $data: FlowNodeUpdateInput!) {
   updateFlowNode(where: $where, data: $data) {
     id
   }
 }
     `;
-export type UpdateFlowNodeMutationFn = Apollo.MutationFunction<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>;
 
-/**
- * __useUpdateFlowNodeMutation__
- *
- * To run a mutation, you first call `useUpdateFlowNodeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFlowNodeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateFlowNodeMutation, { data, loading, error }] = useUpdateFlowNodeMutation({
- *   variables: {
- *      where: // value for 'where'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateFlowNodeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>(UpdateFlowNodeDocument, options);
-      }
-export type UpdateFlowNodeMutationHookResult = ReturnType<typeof useUpdateFlowNodeMutation>;
-export type UpdateFlowNodeMutationResult = Apollo.MutationResult<UpdateFlowNodeMutation>;
-export type UpdateFlowNodeMutationOptions = Apollo.BaseMutationOptions<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>;
+const injectedRtkApi = api.injectEndpoints({
+  endpoints: (build) => ({
+    templateNodes: build.query<TemplateNodesQuery, TemplateNodesQueryVariables | void>({
+      query: (variables) => ({ document: TemplateNodesDocument, variables })
+    }),
+    templateNodesMutation: build.mutation<TemplateNodesMutationMutation, TemplateNodesMutationMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesMutationDocument, variables })
+    }),
+    templateNodesUpdate: build.mutation<TemplateNodesUpdateMutation, TemplateNodesUpdateMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesUpdateDocument, variables })
+    }),
+    templateNodesDelete: build.mutation<TemplateNodesDeleteMutation, TemplateNodesDeleteMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesDeleteDocument, variables })
+    }),
+    templateNodesGroups: build.query<TemplateNodesGroupsQuery, TemplateNodesGroupsQueryVariables | void>({
+      query: (variables) => ({ document: TemplateNodesGroupsDocument, variables })
+    }),
+    templateNodesGroupsMutation: build.mutation<TemplateNodesGroupsMutationMutation, TemplateNodesGroupsMutationMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesGroupsMutationDocument, variables })
+    }),
+    templateNodesGroupsUpdate: build.mutation<TemplateNodesGroupsUpdateMutation, TemplateNodesGroupsUpdateMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesGroupsUpdateDocument, variables })
+    }),
+    templateNodesGroupsDelete: build.mutation<TemplateNodesGroupsDeleteMutation, TemplateNodesGroupsDeleteMutationVariables>({
+      query: (variables) => ({ document: TemplateNodesGroupsDeleteDocument, variables })
+    }),
+    botFlow: build.query<BotFlowQuery, BotFlowQueryVariables>({
+      query: (variables) => ({ document: BotFlowDocument, variables })
+    }),
+    rootInfo: build.query<RootInfoQuery, RootInfoQueryVariables | void>({
+      query: (variables) => ({ document: RootInfoDocument, variables })
+    }),
+    deleteConnection: build.mutation<DeleteConnectionMutation, DeleteConnectionMutationVariables>({
+      query: (variables) => ({ document: DeleteConnectionDocument, variables })
+    }),
+    createConnection: build.mutation<CreateConnectionMutation, CreateConnectionMutationVariables>({
+      query: (variables) => ({ document: CreateConnectionDocument, variables })
+    }),
+    createFlowNode: build.mutation<CreateFlowNodeMutation, CreateFlowNodeMutationVariables>({
+      query: (variables) => ({ document: CreateFlowNodeDocument, variables })
+    }),
+    deleteFlowNode: build.mutation<DeleteFlowNodeMutation, DeleteFlowNodeMutationVariables>({
+      query: (variables) => ({ document: DeleteFlowNodeDocument, variables })
+    }),
+    updateFlowNode: build.mutation<UpdateFlowNodeMutation, UpdateFlowNodeMutationVariables>({
+      query: (variables) => ({ document: UpdateFlowNodeDocument, variables })
+    }),
+  }),
+});
+
+export { injectedRtkApi as api };
+export const { useTemplateNodesQuery, useLazyTemplateNodesQuery, useTemplateNodesMutationMutation, useTemplateNodesUpdateMutation, useTemplateNodesDeleteMutation, useTemplateNodesGroupsQuery, useLazyTemplateNodesGroupsQuery, useTemplateNodesGroupsMutationMutation, useTemplateNodesGroupsUpdateMutation, useTemplateNodesGroupsDeleteMutation, useBotFlowQuery, useLazyBotFlowQuery, useRootInfoQuery, useLazyRootInfoQuery, useDeleteConnectionMutation, useCreateConnectionMutation, useCreateFlowNodeMutation, useDeleteFlowNodeMutation, useUpdateFlowNodeMutation } = injectedRtkApi;
+

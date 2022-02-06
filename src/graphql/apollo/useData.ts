@@ -1,6 +1,6 @@
 import { getDefaultZoomConfig } from "../../config";
 import { BotFlow, useBotFlowQuery } from "../../generated/apollo";
-import { cache, wrapById } from "../index";
+import { cache, wrapById } from "./index";
 
 const queryString = window.location.search;
 const queryParams = new URLSearchParams(queryString);

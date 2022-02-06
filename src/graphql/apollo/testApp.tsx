@@ -1,31 +1,28 @@
 import { gql } from "@apollo/client";
-import {
-  BotFlow,
-  BotFlowVersion,
-  FlowNode,
-  Query,
-  useBotFlowQuery,
-  useRootInfoQuery,
-} from "../generated/apollo";
+import { BotFlowVersion, FlowNode } from "../../generated/apollo";
+import { useBotFlowQuery } from "../../generated/rtk-query";
 import {
   alignBotFlowVersion,
   alignCurrentBotFlowVersion,
-} from "./apollo/alignBotFlowVersion";
-import { alignNodeChildren } from "./apollo/alignNodeChildren";
-import { useData } from "./apollo/useData";
+} from "./alignBotFlowVersion";
+import { alignNodeChildren } from "./alignNodeChildren";
+import { useData } from "./useData";
 import { cache, data as cacheData, rootQuery, wrapById } from "./index";
 import { unwrap, wrap } from "./wrap";
 
 export const TestApp = () => {
-  const { data: allData } = useData();
+  // const { data: allData } = useData();
+  //
+  // const { data } = useRootInfoQuery();
+  //
+  // if (!allData || !data) {
+  //   return <div>Loading...</div>;
+  // }
 
-  const { data } = useRootInfoQuery();
+  const { data } = useBotFlowQuery({ where: { id: 1 } });
+  console.log({ data });
 
-  if (!allData || !data) {
-    return <div>Loading...</div>;
-  }
-  const { zoom, canvasTranslate } = allData;
-  const { newPathDirection, canvasDrag } = data;
+  return <div>dede</div>;
 
   return (
     <div>

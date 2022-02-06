@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { getSdk } from "../generated/graphql-request";
+import { getSdk } from "../generated/graphql-request";
+import { GraphQLClient } from "graphql-request";
 import {
   block,
   drawflow,
@@ -14,6 +15,10 @@ import {
 } from "../types";
 import { setStateAction } from "./actions";
 import { Flow } from "./Flow";
+
+// const client = new GraphQLClient("http://localhost:3000/graphql");
+// const sdk = getSdk(client);
+// sdk.botFlow({where: {id: 1}})
 
 export const corsUrl = "http://localhost:8080/";
 

@@ -204,7 +204,7 @@ directive @export(as: String) on FIELD
 fragment connectionsList on BotFlowVersion {
   connections {
     id
-    curvature @client
+    #    curvature @client
     #    visible @client
     #    selected @client
     fromPort {
@@ -216,30 +216,7 @@ fragment connectionsList on BotFlowVersion {
   }
 }
 
-fragment flowNode on FlowNode {
-  id
-  NodeProps {
-    ...nodeProps
-  }
-  info {
-    ...nodeInfo
-  }
-  flow {
-    id
-  }
-  ports {
-    id
-    index
-    node {
-      id
-    }
-    outConnections {
-      id
-    }
-    inConnection {
-      id
-    }
-  }
+fragment flowNodeClientData on FlowNode {
   isSub @client
   parentConnection @client {
     id
@@ -285,9 +262,51 @@ fragment flowNode on FlowNode {
   positionNumber @client
 }
 
+fragment flowNode on FlowNode {
+  id
+  NodeProps {
+    ...nodeProps
+  }
+  info {
+    ...nodeInfo
+  }
+  flow {
+    id
+  }
+  ports {
+    id
+    index
+    node {
+      id
+    }
+    outConnections {
+      id
+    }
+    inConnection {
+      id
+    }
+  }
+}
+
 fragment nodesList on BotFlowVersion {
   nodes {
     ...flowNode
+  }
+}
+
+fragment botFlowVersionClientData on BotFlowVersion {
+  heads @client {
+    id
+  }
+  canvasTranslate @client {
+    y
+    x
+  }
+  zoom @client {
+    max
+    min
+    tick
+    value
   }
 }
 
@@ -296,23 +315,10 @@ query botFlow($where: BotFlowWhereUniqueInput!) {
     id
     name
     description
-    version @client
+    #    version @client
     versions {
       id
       version
-      heads @client {
-        id
-      }
-      canvasTranslate @client {
-        y
-        x
-      }
-      zoom @client {
-        max
-        min
-        tick
-        value
-      }
       ...nodesList
       ...connectionsList
     }

@@ -7,8 +7,8 @@ import {
 } from "@apollo/client";
 import { ReadFieldOptions } from "@apollo/client/cache";
 import { ReadFieldFunction } from "@apollo/client/cache/core/types/common";
-import { setNestedObjectField } from "../models/GetNestedObjectField";
-import { isArray, RecursiveFunc, setFunc, wrapObj } from "../types";
+import { setNestedObjectField } from "../../models/GetNestedObjectField";
+import { isArray, RecursiveFunc, setFunc, wrapObj } from "../../types";
 import { cache, data } from "./index";
 import { objToGraphqlSelection } from "./objToGraphqlSelection";
 

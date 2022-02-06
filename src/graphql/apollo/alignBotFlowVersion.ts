@@ -1,4 +1,4 @@
-import { currentBotFlow } from "..";
+import { currentBotFlow } from "./index";
 import { BotFlowVersion } from "../../generated/apollo";
 import { RecursiveFunc } from "../../types";
 import { alignNodeChildren } from "./alignNodeChildren";

@@ -11,10 +11,10 @@ import {
   MainWindow,
   Query,
   SideWindow,
-} from "../generated/apollo";
-import { botFlowIdParam } from "./apollo/useData";
-import introspectionQueryResultData from "./fragmentTypes";
-import { typeDefs } from "./local-schema";
+} from "../../generated/apollo";
+import { botFlowIdParam } from "./useData";
+import introspectionQueryResultData from "../fragmentTypes";
+import { typeDefs } from "../local-schema";
 import { TestApp } from "./testApp";
 import { typePolicies } from "./typePolicies";
 import { wrap } from "./wrap";
@@ -64,7 +64,7 @@ export default (({ children }) => {
   return (
     <ApolloProvider client={apolloClient}>
       {children}
-      {/*<TestApp />*/}
+      <TestApp />
     </ApolloProvider>
   );
 }) as FC;

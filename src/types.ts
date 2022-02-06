@@ -329,6 +329,7 @@ export type groups = {
 };
 
 export interface flowType {
+  api: any;
   version: number;
   flows: stateData[];
   dragTemplate?: number | undefined;

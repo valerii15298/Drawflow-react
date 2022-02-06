@@ -24,6 +24,7 @@ import {
   fetchGroups,
   fetchTemplateNodes,
 } from "./api";
+import { api } from "./baseApi";
 import {
   drawflowSlice,
   initialState as drawflowInitialState,
@@ -34,6 +35,7 @@ import { Flow } from "./Flow";
 
 const initialState: flowType = {
   version: 0,
+  api: {},
   flows: [drawflowInitialState],
   templates: [],
   dragTemplate: 0,
@@ -244,6 +246,16 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchGroups.fulfilled, (state, { payload }) => {
       state.groups = payload;
     })
+    //@ts-ignore
+    // .addCase(api.reducerPath, (...args) => {
+    //   api.reducer(...args);
+    // })
+    .addMatcher(
+      (action) => action.type.startsWith(api.reducerPath),
+      (state, action) => {
+        state.api = api.reducer(state.api, action);
+      }
+    )
 
     // reducer for drawflow
     .addMatcher(
@@ -256,8 +268,16 @@ const reducer = createReducer(initialState, (builder) => {
       }
     );
 });
+
+console.log({
+  reducer,
+  p: api.reducerPath,
+});
+
 export const store = configureStore({
   reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

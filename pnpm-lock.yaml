@@ -16,10 +16,12 @@ specifiers:
   '@graphql-codegen/typescript-graphql-request': ^4.3.3
   '@graphql-codegen/typescript-operations': 2.2.2
   '@graphql-codegen/typescript-react-apollo': 3.2.3
+  '@graphql-codegen/typescript-rtk-query': ^2.2.4
   '@mui/icons-material': ^5.2.5
   '@mui/material': ^5.2.8
   '@reduxjs/toolkit': ^1.7.1
   '@rollup/plugin-graphql': ^1.1.0
+  '@rtk-query/graphql-request-base-query': ^1.0.3
   '@types/dom-mediacapture-record': ^1.0.11
   '@types/emoji-mart': ^3.0.9
   '@types/html-to-text': ^8.0.1
@@ -99,8 +101,10 @@ dependencies:
   '@emotion/styled': 11.6.0_023218a630dedcfdc5aa065bf93ff9d7
   '@fontsource/roboto': 4.5.1
   '@graphql-codegen/typescript-apollo-client-helpers': 2.1.9_graphql@16.2.0
+  '@graphql-codegen/typescript-rtk-query': 2.2.4_f4c90ee8e0520f21618939471890cb2f
   '@mui/icons-material': 5.2.5_f463eef15d59df5aa770d062739aa27b
   '@mui/material': 5.2.8_f5341c4d41f1e34c3a73251df9f98a19
+  '@rtk-query/graphql-request-base-query': 1.0.3_db8d0aeca10d8f5eaa93bbcb24664f80
   dotenv: 10.0.0
   emoji-mart: 3.0.1_react@17.0.2
   fast-deep-equal: 3.1.3
@@ -1189,6 +1193,20 @@ packages:
       lodash: 4.17.21
       tslib: 2.3.1
 
+  /@graphql-codegen/plugin-helpers/2.4.0_graphql@16.2.0:
+    resolution: {integrity: sha512-bQ2EwVU34wkTrWM4/LbXS4t+ROYFM3qzwrRX6aFNYwAPho/fubryBHmNuUTh4evACFMx1ymQ6QLnvOUAoXYZSQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-tools/utils': 8.6.1_graphql@16.2.0
+      change-case-all: 1.0.14
+      common-tags: 1.8.2
+      graphql: 16.2.0
+      import-from: 4.0.0
+      lodash: 4.17.21
+      tslib: 2.3.1
+    dev: false
+
   /@graphql-codegen/schema-ast/2.4.1_graphql@16.2.0:
     resolution: {integrity: sha512-bIWlKk/ShoVJfghA4Rt1OWnd34/dQmZM/vAe6fu6QKyOh44aAdqPtYQ2dbTyFXoknmu504etKJGEDllYNUJRfg==}
     peerDependencies:
@@ -1265,6 +1283,27 @@ packages:
       - supports-color
     dev: true
 
+  /@graphql-codegen/typescript-rtk-query/2.2.4_f4c90ee8e0520f21618939471890cb2f:
+    resolution: {integrity: sha512-duAis4jYpDuCOvKw27i6hN1VnUC/NLoT17InS0HeTi8DbURNNg9OTrD4KZGUH+Rq77rDNMeRLR+CkXCQNhYxow==}
+    peerDependencies:
+      '@reduxjs/toolkit': ^1.6.0
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql-request: ^3.4.0
+      graphql-tag: ^2.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 2.4.0_graphql@16.2.0
+      '@graphql-codegen/visitor-plugin-common': 2.6.0_graphql@16.2.0
+      '@reduxjs/toolkit': 1.7.1_react-redux@7.2.6+react@17.0.2
+      auto-bind: 4.0.0
+      change-case-all: 1.0.14
+      graphql: 16.2.0
+      graphql-request: 3.7.0_graphql@16.2.0
+      graphql-tag: 2.12.6_graphql@16.2.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@graphql-codegen/typescript/2.4.2_graphql@16.2.0:
     resolution: {integrity: sha512-8ajWidiFqF1KNAywtb/692SjwTyjzrDHo1sf2Q7Z+rh9qDEIrh83VHB8naT/1CefOvxj3MS6GbcsvJMizaE/AQ==}
     peerDependencies:
@@ -1298,6 +1337,26 @@ packages:
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
+
+  /@graphql-codegen/visitor-plugin-common/2.6.0_graphql@16.2.0:
+    resolution: {integrity: sha512-MysdJ8L/dIn62D+BFbiu6HSVaZfkAt0EI1g5twkpKzLmG7qDJ8P7KemFVFU/sCW3SVuhs7XabkSjnFK9uBquwg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 2.4.0_graphql@16.2.0
+      '@graphql-tools/optimize': 1.1.1_graphql@16.2.0
+      '@graphql-tools/relay-operation-optimizer': 6.4.1_graphql@16.2.0
+      '@graphql-tools/utils': 8.6.1_graphql@16.2.0
+      auto-bind: 4.0.0
+      change-case-all: 1.0.14
+      dependency-graph: 0.11.0
+      graphql: 16.2.0
+      graphql-tag: 2.12.6_graphql@16.2.0
+      parse-filepath: 1.0.2
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /@graphql-tools/apollo-engine-loader/7.2.1_graphql@16.2.0:
     resolution: {integrity: sha512-Fj/A8+9SXPTXkpKqhcSq7O9WZuMdy5zynGrnMyewbCuw1kSfzgC4pJB76ILSPa5ajOcC5bBmmvXm+yVFVRgVMg==}
@@ -2055,6 +2114,17 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
     dev: true
+
+  /@rtk-query/graphql-request-base-query/1.0.3_db8d0aeca10d8f5eaa93bbcb24664f80:
+    resolution: {integrity: sha512-oL/cE4Nm3GXjpVpTaFD+THwY71Tpk2XjuwYDEL8xk8gkfsx3GWbKRgcBX7x8xnUNcKobHXejjxkw9n1k/RpAbA==}
+    peerDependencies:
+      '@reduxjs/toolkit': ^1.6.0
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    dependencies:
+      '@reduxjs/toolkit': 1.7.1_react-redux@7.2.6+react@17.0.2
+      graphql: 16.2.0
+      graphql-request: 3.7.0_graphql@16.2.0
+    dev: false
 
   /@samverschueren/stream-to-observable/0.3.1_rxjs@6.6.7:
     resolution: {integrity: sha512-c/qwwcHyafOQuVQJj0IlBjf5yYgBI7YPJ77k4fOJYesb41jio65eaJODRUmfYKhTOFBrIZ66kgvGPlNbjuoRdQ==}

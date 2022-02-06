@@ -1,8 +1,13 @@
 import lodash from "lodash";
-import { getDefaultZoomConfig } from "../config";
-import { BotFlowVersion, Connection, FlowNode, Pos } from "../generated/apollo";
-import { TypedTypePolicies } from "../generated/apollo-helpers";
-import { Spacing } from "../types";
+import { getDefaultZoomConfig } from "../../config";
+import {
+  BotFlowVersion,
+  Connection,
+  FlowNode,
+  Pos,
+} from "../../generated/apollo";
+import { TypedTypePolicies } from "../../generated/apollo-helpers";
+import { Spacing } from "../../types";
 import { unwrap, wrap } from "./wrap";
 
 export const typePolicies: TypedTypePolicies = {

@@ -6,8 +6,10 @@ import "@fontsource/roboto/700.css";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+// import { ApiProvider } from "@reduxjs/toolkit/query/react";
+// import { api } from "./redux/baseApi";
 
-import Apollo from "./graphql/index";
+import Apollo from "./graphql/apollo";
 import { Flow } from "./components/Flow";
 import "./draft";
 import "./drawflow.scss";
