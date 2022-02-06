@@ -15,7 +15,6 @@ import {
 } from "../redux/hooks";
 import { Close } from "../svg";
 import { LocalStorageKey, sideWindow } from "../types";
-import { useBackground } from "./Flow";
 import {
   BackgroundImages,
   BackgroundSettingsDiv,
@@ -45,23 +44,18 @@ export const FlowInfoSettings = () => {
 
   const { flow_name, flow_description, run_times_max, user_run_limit_seconds } =
     flowInfo || {};
-
-  const bg = useBackground();
-  console.log({ ff: bg });
-  if (!bg) return <div>Loading...</div>;
-  const [{ opacity, blur, imageUrl }, setBgConfig] = bg;
-  // const [backgroundOpacity, setBackgroundOpacity] = useLocalStorage(
-  //   LocalStorageKey.backgroundOpacity,
-  //   50
-  // );
-  // const [backgroundBlur, setBackgroundBlur] = useLocalStorage(
-  //   LocalStorageKey.backgroundBlur,
-  //   50
-  // );
-  // const [backgroundImageUrl, setBackgroundImageUrl] = useLocalStorage(
-  //   LocalStorageKey.backgroundImageUrl,
-  //   ""
-  // );
+  const [backgroundOpacity, setBackgroundOpacity] = useLocalStorage(
+    LocalStorageKey.backgroundOpacity,
+    50
+  );
+  const [backgroundBlur, setBackgroundBlur] = useLocalStorage(
+    LocalStorageKey.backgroundBlur,
+    50
+  );
+  const [backgroundImageUrl, setBackgroundImageUrl] = useLocalStorage(
+    LocalStorageKey.backgroundImageUrl,
+    ""
+  );
 
   const genInput = (
     prop: Record<string, string | number | null | undefined>,
@@ -113,19 +107,15 @@ export const FlowInfoSettings = () => {
           Opacity:
           <input
             type="range"
-            value={opacity ?? 0}
+            value={backgroundOpacity ?? 0}
             min={0}
             max={100}
             onChange={(e) => {
               const opacity = +e.target.value;
-              setBgConfig((bg) => ({
-                ...bg,
-                opacity,
-              }));
-              // setBackgroundOpacity(opacity);
-              // dispatch(
-              //   setStateAction({ windowConfig: { background: { opacity } } })
-              // );
+              setBackgroundOpacity(opacity);
+              dispatch(
+                setStateAction({ windowConfig: { background: { opacity } } })
+              );
             }}
           />
         </label>
@@ -134,19 +124,15 @@ export const FlowInfoSettings = () => {
           <input
             onChange={(e) => {
               const blur = +e.target.value;
-              setBgConfig((bg) => ({
-                ...bg,
-                blur,
-              }));
-              // setBackgroundBlur(blur);
-              // dispatch(
-              //   setStateAction({ windowConfig: { background: { blur } } })
-              // );
+              setBackgroundBlur(blur);
+              dispatch(
+                setStateAction({ windowConfig: { background: { blur } } })
+              );
             }}
             type="range"
             min={0}
             max={100}
-            value={blur}
+            value={backgroundBlur}
           />
         </label>
         <BackgroundImages>
@@ -154,21 +140,17 @@ export const FlowInfoSettings = () => {
             <button
               key={url}
               onClick={() => {
-                setBgConfig((bg) => ({
-                  ...bg,
-                  imageUrl: url,
-                }));
-                // setBackgroundImageUrl(url);
-                // dispatch(
-                //   setStateAction({
-                //     windowConfig: { background: { imageUrl: url } },
-                //   })
-                // );
+                setBackgroundImageUrl(url);
+                dispatch(
+                  setStateAction({
+                    windowConfig: { background: { imageUrl: url } },
+                  })
+                );
               }}
             >
               <img
                 style={{
-                  border: imageUrl === url ? "2px solid blue" : "",
+                  border: backgroundImageUrl === url ? "2px solid blue" : "",
                 }}
                 src={url}
                 alt={"Background image"}

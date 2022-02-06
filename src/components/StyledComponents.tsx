@@ -604,8 +604,3 @@ export const AddTemplateNodeDiv = styled(NodeDiv)`
     cursor: pointer;
   }
 `;
-export const AppWrapperDiv = styled.div`
-  flex: 1;
-  //width: calc(100vw - 408px);
-  //border-right: 2px solid lightgray;
-`;

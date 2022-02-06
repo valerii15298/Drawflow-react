@@ -7,16 +7,15 @@ import { ThreeDots } from "../svg";
 import { mainWindow, pureNode } from "../types";
 import { BlockDiv, TapMoreButton } from "./StyledComponents";
 
-export const Block = (props: any) => {
+export const Block = (props: pureNode) => {
   // console.log(props);
   const dispatch = useAppDispatch();
 
   return (
     <BlockDiv>
-      <div>{props.id}</div>
-      <span>{props?.info?.name}</span>
-      {/*<span>{props.data.name}</span>*/}
-
+      {/*<div>{props.id}</div>*/}
+      {/*<span>{props.data.flow_node.node_name}</span>*/}
+      <span>{props.data.flow_node.node_name}</span>
       <TapMoreButton
         onMouseDown={(e) => {
           e.preventDefault();
