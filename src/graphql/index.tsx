@@ -29,26 +29,26 @@ export const wrapById = <T,>(id: string | Reference) => wrap<T>(cache, id);
 export const rootQuery = wrapById<Query>("ROOT_QUERY");
 export const currentBotFlow = wrapById<BotFlow>(`BotFlow:${botFlowIdParam}`);
 
-rootQuery.set(() => ({
-  dragTemplate: null,
-  canvasDrag: false,
-
-  botFlowId: 1,
-  sidebarVisible: false,
-  windowConfig: {
-    id: 0,
-    mainId: MainWindow.MainFlow,
-    sideId: SideWindow.None,
-  },
-  drag: false,
-  canvas: null,
-  precanvas: null,
-  newPathDirection: null,
-  mouseBlockDragPos: null,
-  clientCurrentMousePos: null,
-  nodeToCopy: null,
-  portToConnect: null,
-}));
+// rootQuery.set(() => ({
+//   dragTemplate: null,
+//   canvasDrag: false,
+//
+//   botFlowId: 1,
+//   sidebarVisible: false,
+//   windowConfig: {
+//     id: 0,
+//     mainId: MainWindow.MainFlow,
+//     sideId: SideWindow.None,
+//   },
+//   drag: false,
+//   canvas: null,
+//   precanvas: null,
+//   newPathDirection: null,
+//   mouseBlockDragPos: null,
+//   clientCurrentMousePos: null,
+//   nodeToCopy: null,
+//   portToConnect: null,
+// }));
 
 // cache.readField
 //@ts-ignore
@@ -64,15 +64,7 @@ export default (({ children }) => {
   return (
     <ApolloProvider client={apolloClient}>
       {children}
-      <TestApp />
-      <button
-        onClick={() => {
-          const conn = wrap<Connection>(cache, "Connection:2");
-          conn().curvature.set((prevCurvature) => "dedeqq");
-        }}
-      >
-        Set curvu
-      </button>
+      {/*<TestApp />*/}
     </ApolloProvider>
   );
 }) as FC;
