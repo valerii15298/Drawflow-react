@@ -2,13 +2,6 @@ overwrite: true
 schema: [ "src/graphql/schema.graphql", "src/graphql/local-schema.ts" ]
 documents: "src/graphql/operations.graphql"
 generates:
-  src/generated/rtk-query.ts:
-    plugins:
-      - typescript
-      - typescript-operations
-      - typescript-rtk-query:
-          importBaseApiFrom: '../redux/baseApi'
-          exportHooks: true
   src/generated/graphql-request.ts:
     plugins:
       - typescript

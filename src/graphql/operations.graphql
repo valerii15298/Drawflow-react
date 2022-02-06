@@ -270,21 +270,9 @@ fragment flowNode on FlowNode {
   info {
     ...nodeInfo
   }
-  flow {
-    id
-  }
   ports {
     id
     index
-    node {
-      id
-    }
-    outConnections {
-      id
-    }
-    inConnection {
-      id
-    }
   }
 }
 

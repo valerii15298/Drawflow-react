@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import { getTemplateNode } from "../../models/getTemplateNode";
+import { step } from "../../types";
 import { LeftBar } from "./LeftBar";
 import { RightBar } from "./RightBar";
 import { NodeSettingsDiv, NodeSettingsWrapper } from "./StyledComponents";

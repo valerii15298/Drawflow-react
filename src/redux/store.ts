@@ -18,13 +18,7 @@ import {
   setStateAction,
   toggleSidebar,
 } from "./actions";
-import {
-  changeVersion,
-  fetchFlowVersion,
-  fetchGroups,
-  fetchTemplateNodes,
-} from "./api";
-import { api } from "./baseApi";
+import { changeVersion, fetchBotFlow, fetchFlowVersion } from "./api";
 import {
   drawflowSlice,
   initialState as drawflowInitialState,
@@ -160,9 +154,9 @@ const reducer = createReducer(initialState, (builder) => {
       appState.canvas = payload;
     })
 
-    .addCase(fetchTemplateNodes.fulfilled, (state, { payload }) => {
-      // console.log(payload);
-      state.templates = payload;
+    .addCase(fetchBotFlow.fulfilled, (state, { payload }) => {
+      if (!payload) return;
+      state.flows = payload;
     })
 
     .addCase(fetchFlowVersion.fulfilled, (state, { payload: steps }) => {
@@ -243,19 +237,6 @@ const reducer = createReducer(initialState, (builder) => {
       });
       state.flows[state.version] = flow.state;
     })
-    .addCase(fetchGroups.fulfilled, (state, { payload }) => {
-      state.groups = payload;
-    })
-    //@ts-ignore
-    // .addCase(api.reducerPath, (...args) => {
-    //   api.reducer(...args);
-    // })
-    .addMatcher(
-      (action) => action.type.startsWith(api.reducerPath),
-      (state, action) => {
-        state.api = api.reducer(state.api, action);
-      }
-    )
 
     // reducer for drawflow
     .addMatcher(
@@ -269,15 +250,8 @@ const reducer = createReducer(initialState, (builder) => {
     );
 });
 
-console.log({
-  reducer,
-  p: api.reducerPath,
-});
-
 export const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

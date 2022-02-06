@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 import { BotFlowVersion, FlowNode } from "../../generated/apollo";
-import { useBotFlowQuery } from "../../generated/rtk-query";
 import {
   alignBotFlowVersion,
   alignCurrentBotFlowVersion,
@@ -18,9 +17,6 @@ export const TestApp = () => {
   // if (!allData || !data) {
   //   return <div>Loading...</div>;
   // }
-
-  const { data } = useBotFlowQuery({ where: { id: 1 } });
-  console.log({ data });
 
   return <div>dede</div>;
 

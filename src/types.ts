@@ -1,5 +1,5 @@
 import { ReadFieldOptions } from "@apollo/client/cache";
-import { chatNodeType } from "./chat/chatNodes/chatNodeType";
+import { BotFlowQuery } from "./generated/graphql-request";
 
 export enum Slices {
   Drawflow = "drawflow",
@@ -44,7 +44,7 @@ export type port = {
 };
 
 export interface purePort {
-  // id: number
+  id: number;
   nodeId: number;
   portId: number; // TODO delete field
   // index: number;
@@ -55,42 +55,11 @@ export interface Port extends purePort {
   pos: pos;
 }
 
-// export type ports = {
-//     [propName: string]: pos
-// }
-
 export type ports = Array<Port>;
 
-type dateTimeString = `${number}-${number}-${number}T${number}:${number}`;
-
 export interface block {
-  active: 0 | 1;
-  description: string;
-  execute_node_specific_date_time: dateTimeString;
-  execution_wait_time_seconds: number;
-  flow_action_scrdata_id: number;
-  flow_node_type_id: number;
-  icon_link: string;
-  icon_link_selected: string;
-  id_priority: number;
-  loop_cycle_reached_jump_to_node: number;
-  loop_cycles: number;
-  name: string;
-  node_attributes: any[];
-  node_object_lists: {
-    type: chatNodeType;
-    renderable: boolean;
-    props: any;
-  };
-  node_scrdata_id: number;
-  node_story: string;
-  nodes_group_id: number;
-  nodes_id: number;
-  nodes_tooltip: string;
-  order: number;
-  node_settings_json: Record<string, unknown>;
-  node_response_settings_json: Record<string, unknown>;
-  delete?: 0 | 1;
+  renderable: boolean;
+  props: any;
 }
 
 export const ObjectKeys = <O>(o: O) => {
@@ -101,37 +70,12 @@ export const isArray = Array.isArray as (
   arg: unknown
 ) => arg is unknown[] | readonly unknown[];
 
-// export const blockTypes = {
-//   active: "select",
-//   description: "text",
-//   execute_node_specific_date_time: "datetime",
-//   execution_wait_time_seconds: "number",
-//   flow_action_scrdata_id: "number",
-//   flow_node_type_id: "number",
-//   icon_link: "text",
-//   icon_link_selected: "text",
-//   id_priority: "number",
-//   loop_cycle_reached_jump_to_node: "number",
-//   loop_cycles: "number",
-//   name: "text",
-//   node_attributes: "any",
-//   node_object_lists: "any",
-//   node_scrdata_id: "number",
-//   node_story: "text",
-//   nodes_group_id: "number",
-//   nodes_id: "number",
-//   nodes_tooltip: "text",
-//   order: "number",
-//   node_settings_json: "any",
-//   node_response_settings_json: "any",
-// };
-
-export type dataNode = {
-  data: step;
+export interface dataNode extends Omit<sNode, "ports" | "id"> {
+  // data: step;
   port: port;
   pos: pos;
   isSub: boolean;
-};
+}
 
 export interface node extends dataNode {
   id: number;
@@ -158,6 +102,18 @@ export type RecursivePartial<T> = {
     : RecursivePartial<T[P]>;
 };
 
+type OmitDistributive<T, K extends PropertyKey> = T extends any
+  ? T extends object
+    ? Id<OmitRecursively<T, K>>
+    : T
+  : never;
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Id<T> = {} & { [P in keyof T]: T[P] }; // Cosmetic use only makes the tooltips expad the type can be removed
+type OmitRecursively<T, K extends PropertyKey> = Omit<
+  { [P in keyof T]: OmitDistributive<T[P], K> },
+  K
+>;
+
 export type updateNode = RecursivePartial<node>;
 
 export type drawflow = {
@@ -167,16 +123,17 @@ export type drawflow = {
 // export type connections = {
 //     [propName: string]: boolean
 // }
-export interface addConnectionType {
-  startId: number;
-  startPort: number;
-  endId: number;
-  endPort: number;
-}
 
-export interface connection extends addConnectionType {
+type botFlow = Exclude<BotFlowQuery["botFlow"], null | undefined>;
+type versions = botFlow["versions"];
+type sNode = versions[number]["nodes"][number];
+// type purePort = versions[number]["nodes"][number]["ports"][number];
+
+type connection = versions[number]["connections"][number] & {
   visible?: boolean;
-}
+};
+
+export type addConnectionType = Omit<connection, "id">;
 
 export type connections = Array<connection>;
 
@@ -189,13 +146,6 @@ export type select = {
   type: portType | "node" | "path";
   selectId: number;
 };
-
-export interface newStateData {
-  drawflow: drawflow;
-  ports: ports;
-  connections: connections;
-  portToConnect?: Port | undefined;
-}
 
 export interface stateData {
   nodeId: number;
@@ -217,9 +167,9 @@ export interface stateData {
   connections: connections;
   select: select | null;
   editLock: boolean;
-  mouseBlockDragPos: {
-    clientX?: number | undefined;
-    clientY?: number | undefined;
+  mouseBlockDragPos?: {
+    clientX: number;
+    clientY: number;
   };
   portToConnect?: Port | undefined;
   nodeToCopyId?: number;
@@ -313,32 +263,14 @@ export enum sideWindow {
   none,
 }
 
-export interface group {
-  id: number;
-  node_group_order: null | number;
-  node_group_name: string;
-  node_group_description: string;
-}
-
-export interface optGroup extends RecursivePartial<group> {
-  delete?: 0 | 1;
-}
-
-export type groups = {
-  [id: number]: group;
-};
-
 export interface flowType {
-  api: any;
   version: number;
   flows: stateData[];
   dragTemplate?: number | undefined;
-  templates: block[];
   canvas?: canvasShape;
   precanvas?: canvasShape;
   sidebarVisible?: boolean;
   flowInfo?: flowInfo;
-  groups: groups;
   windowConfig: {
     id: number;
     mainId: mainWindow;
@@ -362,21 +294,3 @@ export type moveNodeType = {
 };
 
 export type setStateFunction = (state: Record<string, any>) => void;
-
-export interface step extends block {
-  flow_lane_id: number;
-  flow_node: {
-    node_name: string;
-    node_description: string;
-    node_icon_link: string;
-    node_icon_link_selected: string;
-    node_tooltip: string;
-  };
-  node_position: number;
-  prev_node_unique_id: number;
-  this_node_unique_id: number;
-  update_version: number;
-  id_nodes: number;
-
-  [propName: string]: any;
-}

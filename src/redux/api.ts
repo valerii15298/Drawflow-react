@@ -1,24 +1,73 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getSdk } from "../generated/graphql-request";
 import { GraphQLClient } from "graphql-request";
+import { getSdk } from "../generated/graphql-request";
 import {
   block,
+  connections,
   drawflow,
   flowInfo,
   flowType,
-  group,
-  groups,
-  optGroup,
+  node,
+  Port,
+  portType,
+  purePort,
   RecursivePartial,
   stateData,
-  step,
 } from "../types";
 import { setStateAction } from "./actions";
+import { getDefaultStateData } from "./drawflowSlice";
 import { Flow } from "./Flow";
 
-// const client = new GraphQLClient("http://localhost:3000/graphql");
-// const sdk = getSdk(client);
-// sdk.botFlow({where: {id: 1}})
+const client = new GraphQLClient("http://localhost:3000/graphql");
+const sdk = getSdk(client);
+
+export const fetchBotFlow = createAsyncThunk(
+  "fetchBotFlow",
+  async (_, { dispatch }) => {
+    const data = await sdk.botFlow({ where: { id: 1 } });
+    const { botFlow } = data;
+    if (!botFlow) return;
+    const versions = botFlow.versions.map((ver) => {
+      const ports: Port[] = [];
+      const data = getDefaultStateData();
+      data.drawflow = ver.nodes.reduce((acc, v) => {
+        acc[v.id] = {
+          NodeProps: v.NodeProps,
+          info: v.info,
+          id: v.id,
+          port: {
+            in: 1,
+            out: 2,
+          },
+          pos: {
+            x: 0,
+            y: 0,
+          },
+          isSub: false,
+          height: 0,
+          width: 0,
+        };
+        v.ports.forEach(({ id, index }) =>
+          ports.push({
+            id,
+            type: index === 1 ? portType.in : portType.out,
+            nodeId: v.id,
+            portId: index === 1 ? 1 : index - 1,
+            pos: {
+              x: 0,
+              y: 0,
+            },
+          })
+        );
+        return acc;
+      }, {} as drawflow);
+      data.ports = ports;
+      data.connections = ver.connections;
+      return data;
+    });
+    return versions;
+  }
+);
 
 export const corsUrl = "http://localhost:8080/";
 
@@ -144,71 +193,6 @@ export const postFlow = createAsyncThunk(
     } else {
       alert("Cannot save flow");
     }
-  }
-);
-
-export const fetchGroups = createAsyncThunk("fetchGroups", async () => {
-  const resp = (await request(REQUEST_TYPE.getGroups)) as {
-    flow_nodes_group: group[];
-  };
-  const { flow_nodes_group } = resp;
-  return flow_nodes_group.reduce((acc: groups, next) => {
-    acc[next.id] = next;
-    return acc;
-  }, {});
-});
-
-export const updateGroup = createAsyncThunk(
-  "updateGroup",
-  async (group: optGroup, { dispatch }) => {
-    // console.log({ group });
-    if (!("delete" in group)) {
-      group.delete = 0;
-    }
-    const resp = await request(REQUEST_TYPE.postGroups, {
-      flow_nodes_group: [group],
-      item_id: group.id ?? 0,
-    });
-    // console.log({ resp });
-
-    if (resp.status === "OK") {
-      dispatch(fetchGroups());
-
-      // if creating new group
-      if (!group.id) {
-        group.id = resp.item_id;
-      }
-      alert(`Group ${group.id} updated`);
-    } else {
-      alert(
-        `Error: cannot ${group.id ? "update" : "create"} group ${
-          group.node_group_name
-        }`
-      );
-    }
-  }
-);
-
-export const fetchTemplateNodes = createAsyncThunk(
-  "fetchTemplateNodes",
-  async (_, { dispatch }) => {
-    const { flow_nodes } = (await request(
-      REQUEST_TYPE.getTemplateNodes,
-      {}
-    )) as {
-      flow_nodes: block[];
-    };
-    // console.log({ flow_nodes });
-    // const { queryTemplateNodesGroup, queryTemplateNode } =
-    //   await graphQlSdk.getGroupsAndTemplateNodes();
-    // dispatch(
-    //   setStateAction({
-    //     queryTemplateNodesGroup,
-    //     queryTemplateNode,
-    //   })
-    // );
-
-    return flow_nodes;
   }
 );
 

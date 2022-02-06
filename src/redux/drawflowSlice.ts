@@ -13,11 +13,10 @@ import {
   stateData,
   step,
 } from "../types";
-import { api } from "./baseApi";
 import { Flow } from "./Flow";
 import type { RootState } from "./store";
 
-export const initialState: stateData = {
+export const getDefaultStateData = (): stateData => ({
   nodeId: 1,
   canvasDrag: false,
   config: {
@@ -40,11 +39,8 @@ export const initialState: stateData = {
   newPathDirection: null,
   modalType: null,
   editLock: false,
-  mouseBlockDragPos: {
-    clientX: undefined,
-    clientY: undefined,
-  },
-};
+});
+export const initialState: stateData = getDefaultStateData();
 
 // load version from server
 const load = (
@@ -181,16 +177,16 @@ const slice = createSlice({
       // state = JSON.parse(JSON.stringify(state));
       const flow = new Flow(state);
       if (state.portToConnect && state.select?.selectId) {
-        const { nodeId: startId, portId: startPort } = state.portToConnect;
+        const { id } = state.portToConnect;
         // console.log(current(state.portToConnect));
-        // console.log([startId, startPort]);
         const endId = state.select.selectId;
-        const endPort = 1;
         flow.addConnection({
-          startId,
-          startPort,
-          endId,
-          endPort,
+          fromPort: {
+            id,
+          },
+          toPort: {
+            id: endId,
+          },
         });
       }
       state.portToConnect = undefined;
