@@ -54,9 +54,7 @@ export type idPortType = number;
 export type idNodeType = number;
 export type idConnType = number;
 
-export type ports = {
-  [p: idPortType]: Port;
-};
+export type ports = Record<idPortType, Port>;
 
 export interface block {
   renderable: boolean;
@@ -67,13 +65,31 @@ export const ObjectKeys = <O>(o: O) => {
   return Object.keys(o) as (keyof O)[];
 };
 
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
+type Cast<X, Y> = X extends Y ? X : Y;
+type FromEntries<T> = T extends [infer Key, any][]
+  ? {
+      [K in Cast<Key, string | number | symbol>]: Extract<
+        ArrayElement<T>,
+        [K, any]
+      >[1];
+    }
+  : { [key in string]: any };
+
+export type FromEntriesWithReadOnly<T> = FromEntries<DeepWriteable<T>>;
+
+declare global {
+  interface ObjectConstructor {
+    fromEntries<T>(obj: T): FromEntriesWithReadOnly<T>;
+  }
+}
+
 export const isArray = Array.isArray as (
   arg: unknown
 ) => arg is unknown[] | readonly unknown[];
 
 export interface dataNode extends Omit<sNode, "ports" | "id"> {
-  // data: step;
-  // port: port;
   pos: pos;
   isSub: boolean;
 }
@@ -117,18 +133,13 @@ type OmitRecursively<T, K extends PropertyKey> = Omit<
 
 export type updateNode = RecursivePartial<node>;
 
-export type drawflow = {
-  [id: number]: node;
-};
-
-// export type connections = {
-//     [propName: string]: boolean
-// }
+export type drawflow = Record<idNodeType, node>;
 
 type botFlow = Exclude<BotFlowQuery["botFlow"], null | undefined>;
 type versions = botFlow["versions"];
 type sNode = versions[number]["nodes"][number];
 // type purePort = versions[number]["nodes"][number]["ports"][number];
+export type pureTemplateNode = Pick<sNode, "NodeProps" | "info">;
 
 export type connection = versions[number]["connections"][number] & {
   visible: number;
@@ -136,9 +147,7 @@ export type connection = versions[number]["connections"][number] & {
 
 export type addConnectionType = Omit<connection, "id">;
 
-export type connections = {
-  [p: idConnType]: connection;
-};
+export type connections = Record<idConnType, connection>;
 
 export type data = {
   nodes: drawflow;
@@ -151,7 +160,6 @@ export type select = {
 };
 
 export interface stateData {
-  nodeId: number;
   canvasDrag: boolean;
   config: {
     drag: boolean;
@@ -267,9 +275,9 @@ export enum sideWindow {
 }
 
 export interface flowType {
+  dragTemplate: idNodeType | null;
   version: number;
-  flows: stateData[];
-  dragTemplate?: number | undefined;
+  flows: Record<number, stateData>;
   canvas?: canvasShape;
   precanvas?: canvasShape;
   sidebarVisible?: boolean;

@@ -3,7 +3,7 @@ import { setStateAction } from "../redux/actions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 export const SelectFlowVersion = () => {
-  const countVersions = useAppSelector((s) => s.flows.length);
+  const countVersions = useAppSelector((s) => Object.keys(s.flows).length);
   const selectedVersion = useAppSelector((s) => s.version);
   const dispatch = useAppDispatch();
 

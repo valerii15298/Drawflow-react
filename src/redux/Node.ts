@@ -277,7 +277,7 @@ export default class Node {
         x,
         y: this.pos.y + this.height + this.spacingY,
       });
-      if (node.nodeState.visible < 0) {
+      if (node.nodeState.visible === 0) {
         xPos += node.totalWidth + this.spacingX;
       }
       node.alignChildren();

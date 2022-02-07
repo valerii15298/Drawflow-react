@@ -38,6 +38,7 @@ export const useActiveFlow = () =>
       () =>
         createDeepEqualSelector(
           (s: RootState) => {
+            console.log({ s });
             const state = selectActiveDrawflow(s);
             const {
               config: {
@@ -267,18 +268,15 @@ export const useNewPathCurvature = () =>
               state.select.type !== portType.out ||
               !state.newPathDirection
             ) {
-              console.error("Cannot draw new path!");
-              return;
+              return null;
             }
             const selectedPort = state.ports[state.select.selectId];
             if (!selectedPort) {
-              console.error("No start port in newPath");
-              return;
+              throw new TypeError("No start port in newPath");
             }
             const startPos = selectedPort.pos;
             if (!s.canvas) {
-              console.error("Canvas shape is not available");
-              return;
+              throw new TypeError("Canvas shape is not available");
             }
 
             const { clientX, clientY } = state.newPathDirection;

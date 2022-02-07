@@ -1,16 +1,30 @@
 import { configureStore, createReducer } from "@reduxjs/toolkit";
+import lodash from "lodash";
+import { getDefaultFlowNode } from "../models/getDefaultFlowNode";
 import { getFlowInitialState } from "../models/getFlowInitialState";
 import handler from "../models/tools";
-import { clientPos, Slices } from "../types";
 import {
+  clientPos,
+  flowType,
+  node,
+  ObjectKeys,
+  portType,
+  Slices,
+} from "../types";
+import {
+  addNewNode,
   canvasShapeUpdated,
-  dragTemplate,
   insertCopiedNode,
   setStateAction,
   toggleSidebar,
 } from "./actions";
 import { fetchBotFlow } from "./api";
-import { drawflowSlice, selectActiveDrawflow, setState } from "./drawflowSlice";
+import {
+  drawflowSlice,
+  getDefaultStateData,
+  selectActiveDrawflow,
+  setState,
+} from "./drawflowSlice";
 
 const reducer = createReducer(getFlowInitialState(), (builder) => {
   builder
@@ -32,93 +46,172 @@ const reducer = createReducer(getFlowInitialState(), (builder) => {
         state.config.zoom.value,
         appState.canvas
       );
-      state.drawflow[state.nodeId] = {
+      const getId = () => {
+        const ids = ObjectKeys(state.drawflow);
+        return ids.length ? Math.max(...ids) + 1 : 1;
+      };
+
+      const id = getId();
+      state.drawflow[id] = {
         ...node,
-        id: state.nodeId,
+        id,
         height: 0,
         width: 0,
       };
-      ++state.nodeId;
     })
 
     .addCase(toggleSidebar, (state) => {
       state.sidebarVisible = !(state.sidebarVisible ?? true);
     })
 
-    // .addCase(
-    //   addNewNode,
-    //   (
-    //     appState: flowType,
-    //     { payload: { clientX, clientY } }: PayloadAction<clientPos>
-    //   ) => {
-    //     const state = appState.flows[appState.version];
-    //     const templateNode = appState.templates.find(
-    //       ({ nodes_id }) => nodes_id === appState.dragTemplate
-    //     );
-    //
-    //     if (!appState.dragTemplate) return;
-    //     if (!appState.canvas) {
-    //       console.error("Canvas shape is not available");
-    //       return;
-    //     }
-    //     if (!templateNode) {
-    //       console.error("Template node not found");
-    //       return;
-    //     }
-    //
-    //     // use template to get data for node
-    //     const node: node = {
-    //       id: 0,
-    //       data: getNodeFromTemplate(templateNode),
-    //       port: {
-    //         in: 1,
-    //         out: 2,
-    //       },
-    //       pos: {
-    //         x: 0,
-    //         y: 0,
-    //       },
-    //       isSub: false,
-    //       height: 0,
-    //       width: 0,
-    //     };
-    //     node.data.this_node_unique_id = state.nodeId;
-    //
-    //     node.pos = handler.getPos(
-    //       clientX,
-    //       clientY,
-    //       state.config.zoom.value,
-    //       appState.canvas
-    //     );
-    //     state.mouseBlockDragPos = {
-    //       clientX,
-    //       clientY,
-    //     };
-    //     state.drawflow[state.nodeId] = {
-    //       ...node,
-    //       id: state.nodeId,
-    //       height: 0,
-    //       width: 0,
-    //     };
-    //     state.select = {
-    //       type: "node",
-    //       selectId: state.nodeId++,
-    //     };
-    //     state.config.drag = true;
-    //
-    //     appState.dragTemplate = undefined;
-    //   }
-    // )
-    .addCase(dragTemplate, (appState, { payload }) => {
-      appState.dragTemplate = payload;
-    })
+    .addCase(
+      addNewNode,
+      (appState: flowType, { payload: { clientX, clientY, templateNode } }) => {
+        const state = appState.flows[appState.version];
+
+        if (!appState.canvas) {
+          throw new TypeError("Canvas shape is not available");
+        }
+
+        // use template to get data for node
+        const node: node = {
+          ...templateNode,
+          visible: 0,
+          id: 0,
+          pos: {
+            x: 0,
+            y: 0,
+          },
+          isSub: false,
+          height: 0,
+          width: 0,
+        };
+
+        node.pos = handler.getPos(
+          clientX,
+          clientY,
+          state.config.zoom.value,
+          appState.canvas
+        );
+        state.mouseBlockDragPos = {
+          clientX,
+          clientY,
+        };
+        // TODO change for id from server
+        const getId = (obj: Record<number, any>) => {
+          const ids = ObjectKeys(obj);
+          return ids.length ? Math.max(...ids) + 1 : 1;
+        };
+
+        // add ports to node
+
+        const id = getId(state.drawflow);
+        state.drawflow[id] = {
+          ...node,
+          id,
+        };
+        state.select = {
+          type: "node",
+          selectId: id,
+        };
+        state.config.drag = true;
+
+        let pid = getId(state.ports);
+        state.ports[pid] = {
+          id: pid,
+          type: portType.in,
+          nodeId: id,
+          portId: 1,
+          pos: {
+            x: 0,
+            y: 0,
+          },
+        };
+
+        pid = getId(state.ports);
+        state.ports[pid] = {
+          id: pid,
+          type: portType.out,
+          nodeId: id,
+          portId: 1,
+          pos: {
+            x: 0,
+            y: 0,
+          },
+        };
+
+        pid = getId(state.ports);
+        state.ports[pid] = {
+          id: pid,
+          type: portType.out,
+          nodeId: id,
+          portId: 2,
+          pos: {
+            x: 0,
+            y: 0,
+          },
+        };
+      }
+    )
     .addCase(canvasShapeUpdated, (appState, { payload }) => {
       appState.canvas = payload;
     })
 
     .addCase(fetchBotFlow.fulfilled, (state, { payload }) => {
       if (!payload) return;
-      state.flows = payload;
+
+      const { flows } = state;
+      const newFlows = state.flows;
+
+      // merge all
+      lodash.merge(state.flows, payload);
+      for (const flowId in payload) {
+        const newFlow = payload[flowId];
+        const oldFlow = flows[flowId];
+        const flow = (newFlows[flowId] = getDefaultStateData());
+
+        if (oldFlow) {
+          lodash.merge(flow, oldFlow);
+        }
+        // merge connections
+        flow.connections = {};
+        for (const connId in newFlow.connections) {
+          const oldConn = oldFlow?.connections[connId];
+          flow.connections[connId] = {
+            ...newFlow.connections[connId],
+            visible: oldConn ? oldConn.visible : 0,
+          };
+        }
+
+        //merge ports
+        flow.ports = {};
+        for (const portId in newFlow.ports) {
+          const oldPort = oldFlow?.ports[portId];
+          flow.ports[portId] = {
+            ...newFlow.ports[portId],
+            pos: oldPort
+              ? oldPort.pos
+              : {
+                  x: 0,
+                  y: 0,
+                },
+          };
+        }
+
+        // merge nodes
+        flow.drawflow = {};
+        for (const nodeId in newFlow.drawflow) {
+          const newNode = newFlow.drawflow[nodeId];
+          const oldNode = oldFlow?.drawflow[nodeId];
+          const node = (flow.drawflow[nodeId] = {
+            ...getDefaultFlowNode(),
+          });
+          lodash.merge(node, oldNode ?? {});
+          lodash.merge(node, newNode);
+        }
+      }
+      console.log({ newFlows });
+      state.flows = newFlows;
     })
 
     // reducer for drawflow

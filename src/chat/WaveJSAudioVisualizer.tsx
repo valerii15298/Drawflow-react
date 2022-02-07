@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-import WaveJS from "../../../wave.js-typescript/src";
-import IWaveOptions from "../../../wave.js-typescript/src/core/types/IWaveOptions";
+import WaveJS from "../../../wave-js/src";
+import IWaveOptions from "../../../wave-js/src/core/types/IWaveOptions";
 
 export const WaveJSAudioVisualizer = ({
   audioStream,

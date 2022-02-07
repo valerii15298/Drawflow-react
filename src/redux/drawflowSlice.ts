@@ -17,7 +17,6 @@ import { Flow } from "./Flow";
 import type { RootState } from "./store";
 
 export const getDefaultStateData = (): stateData => ({
-  nodeId: 1,
   canvasDrag: false,
   config: {
     drag: false,
@@ -42,17 +41,6 @@ export const getDefaultStateData = (): stateData => ({
   portToConnect: null,
 });
 export const initialState: stateData = getDefaultStateData();
-
-// load version from server
-const load = (
-  state: stateData,
-  { payload: { drawflow, connections } }: PayloadAction<loadType>
-) => {
-  Object.assign(state, initialState);
-  state.drawflow = drawflow;
-  state.nodeId = Math.max(...Object.keys(drawflow).map(Number)) + 1;
-  state.connections = connections;
-};
 
 export const setState = (
   state: Record<string, any>,
@@ -238,7 +226,6 @@ const slice = createSlice({
         new Flow(state).setLaneNumbers();
       }
     },
-    load,
     portMouseUp: (
       state,
       { payload: { id } }: PayloadAction<{ id: number }>

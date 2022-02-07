@@ -1,8 +1,14 @@
 import { createAction } from "@reduxjs/toolkit";
-import { canvasShape, clientPos, setStateFunction } from "../types";
+import {
+  pureTemplateNode,
+  canvasShape,
+  clientPos,
+  setStateFunction,
+} from "../types";
 
-export const addNewNode = createAction<clientPos>("addNewNode");
-export const dragTemplate = createAction<number | undefined>("dragTemplate");
+export const addNewNode = createAction<
+  clientPos & { templateNode: pureTemplateNode }
+>("addNewNode");
 export const canvasShapeUpdated =
   createAction<canvasShape>("canvasShapeUpdated");
 export const insertCopiedNode = createAction("insertCopiedNode");

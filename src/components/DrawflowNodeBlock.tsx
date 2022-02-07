@@ -8,6 +8,7 @@ import {
   useNodeIsSelected,
   useNodePos,
 } from "../redux/selectors";
+import { ObjectKeys } from "../types";
 import { Block } from "./NodeComponents";
 import { Ports } from "./Ports";
 import { BlockStyled } from "./StyledComponents";
@@ -17,7 +18,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
   // return null;
 
   const drag = useDrag();
-  const nodeId = useAppSelector((s) => selectActiveDrawflow(s).nodeId);
 
   const pos = useNodePos(id);
 
@@ -27,6 +27,10 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const node = useNode(id);
+  const maxNodeId = useAppSelector((s) => {
+    const state = selectActiveDrawflow(s);
+    return Math.max(1, ...ObjectKeys(state.drawflow));
+  });
 
   useEffect(() => {
     if (ref.current) {
@@ -43,13 +47,13 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
 
   useEffect(() => {
     // when add new node shift it to left and up
-    if (ref.current && nodeId - 1 === id && drag) {
+    if (ref.current && maxNodeId === id && drag) {
       const { offsetHeight, offsetWidth } = ref.current;
       dispatch(
         actions.moveNode({
           nodeId: id,
           dx: -offsetWidth * 0.2,
-          dy: -offsetHeight * 0.2,
+          dy: -offsetHeight * 0.3,
         })
       );
     }

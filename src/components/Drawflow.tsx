@@ -1,4 +1,8 @@
+import { EventEmitter } from "eventemitter3";
+import gql from "graphql-tag";
 import { useEffect, useRef } from "react";
+import { TemplateNodeFragmentDoc } from "../generated/graphql-request";
+import { cache } from "../graphql/apollo";
 import {
   addNewNode,
   canvasShapeUpdated,
@@ -13,7 +17,7 @@ import {
   useLocalStorage,
 } from "../redux/hooks";
 import { useActiveFlow } from "../redux/selectors";
-import { canvasShape, LocalStorageKey } from "../types";
+import { canvasShape, LocalStorageKey, pureTemplateNode } from "../types";
 import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
 import { NewPath } from "./NewPath";
@@ -25,6 +29,10 @@ import {
   InnerDrawflow,
   ParentDrawflow,
 } from "./StyledComponents";
+
+import gg from "../graphql/operations.graphql";
+
+// console.log({ gg });
 
 const updateTransform = (
   el: HTMLElement,
@@ -40,6 +48,8 @@ const updateTransform = (
     .map(Number) || [0, 0];
   el.style.transform = `translate(${x + dx}px, ${y + dy}px) scale(${scale})`;
 };
+
+export const eventEmitter = new EventEmitter();
 
 const useBackground = () => {
   const dispatch = useAppDispatch();
@@ -132,6 +142,8 @@ export const Drawflow = () => {
     (s) => s.windowConfig.background
   );
 
+  const dragTemplate = useAppSelector((s) => s.dragTemplate);
+
   return (
     <ParentDrawflow
       ref={precanvas}
@@ -176,9 +188,32 @@ export const Drawflow = () => {
       }}
       onMouseEnter={(e) => {
         const { clientX, clientY } = e;
-        // console.log("enter");
+        eventEmitter.emit("enter");
+        if (typeof dragTemplate !== "number") return;
+        const data = cache.readFragment({
+          id: `TemplateNode:${dragTemplate}`,
+          fragment: gql`
+            fragment templateDrag on TemplateNode {
+              ...templateNode
+            }
+            ${TemplateNodeFragmentDoc}
+          `,
+          fragmentName: "templateDrag",
+        });
+        if (!data) {
+          throw new TypeError("Fragment not found");
+        }
+        const { info, NodeProps } = data as pureTemplateNode;
+        console.log({
+          info,
+          NodeProps,
+        });
         dispatch(
           addNewNode({
+            templateNode: {
+              NodeProps,
+              info,
+            },
             clientX,
             clientY,
           })

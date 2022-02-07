@@ -1,7 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GraphQLClient } from "graphql-request";
 import { getSdk } from "../generated/graphql-request";
-import { connections, drawflow, ports, portType } from "../types";
+import {
+  connection,
+  connections,
+  drawflow,
+  idConnType,
+  idNodeType,
+  idPortType,
+  node,
+  Port,
+  ports,
+  portType,
+  RecursivePartial,
+  stateData,
+} from "../types";
 import { getDefaultStateData } from "./drawflowSlice";
 
 const client = new GraphQLClient("http://localhost:3000/graphql");
@@ -9,25 +22,10 @@ const sdk = getSdk(client);
 
 export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
   const data = await sdk.botFlow({ where: { id: 1 } });
-  const { botFlow } = data;
-  if (!botFlow) return;
-  return botFlow.versions.map((ver) => {
-    const ports: ports = {};
-    const data = getDefaultStateData();
-    data.drawflow = ver.nodes.reduce((acc, v) => {
-      acc[v.id] = {
-        NodeProps: v.NodeProps,
-        info: v.info,
-        id: v.id,
-        pos: {
-          x: 0,
-          y: 0,
-        },
-        isSub: false,
-        height: 0,
-        width: 0,
-        visible: 0,
-      };
+  const arr = data.botFlow?.versions.map((ver) => {
+    const ports: Record<idPortType, Omit<Port, "pos">> = {};
+    const drawflow = ver.nodes.reduce((acc, v) => {
+      acc[v.id] = v;
       v.ports.forEach(
         ({ id, index }) =>
           (ports[id] = {
@@ -35,24 +33,28 @@ export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
             type: index === 1 ? portType.in : portType.out,
             nodeId: v.id,
             portId: index === 1 ? 1 : index - 1,
-            pos: {
-              x: 0,
-              y: 0,
-            },
           })
       );
       return acc;
-    }, {} as drawflow);
-    data.ports = ports;
-    data.connections = ver.connections.reduce((acc, v) => {
+    }, {} as Record<idNodeType, Pick<node, "id" | "NodeProps" | "info">>);
+    const connections = ver.connections.reduce((acc, v) => {
       acc[v.id] = {
         ...v,
-        visible: 0,
       };
       return acc;
-    }, {} as connections);
-    return data;
+    }, {} as Record<idConnType, Omit<connection, "visible">>);
+    return [
+      ver.id,
+      {
+        drawflow,
+        ports,
+        connections,
+      },
+    ] as const;
   });
+  if (!arr) return;
+  console.log({ arr });
+  return Object.fromEntries(arr);
 });
 
 export const corsUrl = "http://localhost:8080/";
@@ -150,4 +152,24 @@ export const postFlow = createAsyncThunk("postFlow", () => {
 
 export const postFlowVersion = createAsyncThunk("postFlowVersion", () => {
   console.log("postFlowVersion");
+});
+
+export const addConnection = createAsyncThunk("addConnection", () => {
+  console.log("addConnection");
+});
+
+export const removeConnection = createAsyncThunk("removeConnection", () => {
+  console.log("removeConnection");
+});
+
+export const addFlowNode = createAsyncThunk("addFlowNode", () => {
+  console.log("addFlowNode");
+});
+
+export const removeFlowNode = createAsyncThunk("removeFlowNode", () => {
+  console.log("removeFlowNode");
+});
+
+export const updateFlowNode = createAsyncThunk("updateFlowNode", () => {
+  console.log("updateFlowNode");
 });

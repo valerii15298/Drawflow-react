@@ -216,7 +216,6 @@ export type BotFlow = {
   description: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  nextVersionNumber: Scalars['Int'];
   version?: Maybe<Scalars['Int']>;
   versions: Array<BotFlowVersion>;
 };
@@ -234,12 +233,10 @@ export type BotFlowVersionsArgs = {
 export type BotFlowAvgAggregate = {
   __typename?: 'BotFlowAvgAggregate';
   id?: Maybe<Scalars['Float']>;
-  nextVersionNumber?: Maybe<Scalars['Float']>;
 };
 
 export type BotFlowAvgOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowCount = {
@@ -253,28 +250,24 @@ export type BotFlowCountAggregate = {
   description: Scalars['Int'];
   id: Scalars['Int'];
   name: Scalars['Int'];
-  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowCountOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowCreateInput = {
-  description: Scalars['String'];
-  name: Scalars['String'];
-  nextVersionNumber: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   versions?: InputMaybe<BotFlowVersionCreateNestedManyWithoutBotFlowInput>;
 };
 
 export type BotFlowCreateManyInput = {
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-  name: Scalars['String'];
-  nextVersionNumber: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type BotFlowCreateNestedOneWithoutVersionsInput = {
@@ -289,9 +282,8 @@ export type BotFlowCreateOrConnectWithoutVersionsInput = {
 };
 
 export type BotFlowCreateWithoutVersionsInput = {
-  description: Scalars['String'];
-  name: Scalars['String'];
-  nextVersionNumber: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type BotFlowGroupBy = {
@@ -304,7 +296,6 @@ export type BotFlowGroupBy = {
   description: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
-  nextVersionNumber: Scalars['Int'];
 };
 
 export type BotFlowMaxAggregate = {
@@ -312,14 +303,12 @@ export type BotFlowMaxAggregate = {
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowMaxOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowMinAggregate = {
@@ -327,14 +316,12 @@ export type BotFlowMinAggregate = {
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowMinOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowOrderByWithAggregationInput = {
@@ -346,14 +333,12 @@ export type BotFlowOrderByWithAggregationInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowOrderByWithRelationInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
   versions?: InputMaybe<BotFlowVersionOrderByRelationAggregateInput>;
 };
 
@@ -365,8 +350,7 @@ export type BotFlowRelationFilter = {
 export enum BotFlowScalarFieldEnum {
   Description = 'description',
   Id = 'id',
-  Name = 'name',
-  NextVersionNumber = 'nextVersionNumber'
+  Name = 'name'
 }
 
 export type BotFlowScalarWhereWithAggregatesInput = {
@@ -376,31 +360,26 @@ export type BotFlowScalarWhereWithAggregatesInput = {
   description?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<IntWithAggregatesFilter>;
   name?: InputMaybe<StringWithAggregatesFilter>;
-  nextVersionNumber?: InputMaybe<IntWithAggregatesFilter>;
 };
 
 export type BotFlowSumAggregate = {
   __typename?: 'BotFlowSumAggregate';
   id?: Maybe<Scalars['Int']>;
-  nextVersionNumber?: Maybe<Scalars['Int']>;
 };
 
 export type BotFlowSumOrderByAggregateInput = {
   id?: InputMaybe<SortOrder>;
-  nextVersionNumber?: InputMaybe<SortOrder>;
 };
 
 export type BotFlowUpdateInput = {
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
   versions?: InputMaybe<BotFlowVersionUpdateManyWithoutBotFlowInput>;
 };
 
 export type BotFlowUpdateManyMutationInput = {
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowUpdateOneRequiredWithoutVersionsInput = {
@@ -414,7 +393,6 @@ export type BotFlowUpdateOneRequiredWithoutVersionsInput = {
 export type BotFlowUpdateWithoutVersionsInput = {
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
   name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  nextVersionNumber?: InputMaybe<IntFieldUpdateOperationsInput>;
 };
 
 export type BotFlowUpsertWithoutVersionsInput = {
@@ -783,7 +761,6 @@ export type BotFlowWhereInput = {
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
-  nextVersionNumber?: InputMaybe<IntFilter>;
   versions?: InputMaybe<BotFlowVersionListRelationFilter>;
 };
 
@@ -5547,17 +5524,14 @@ export type NodeTextPropsWhereUniqueInput = {
 export enum NodeType {
   Audio = 'Audio',
   Countdown = 'Countdown',
-  Delay = 'Delay',
-  Empty = 'Empty',
   File = 'File',
-  HttpRequest = 'HttpRequest',
   Image = 'Image',
   Link = 'Link',
-  SetTypingIndicator = 'SetTypingIndicator',
   Switch = 'Switch',
   SwitchOption = 'SwitchOption',
   Text = 'Text',
-  Video = 'Video'
+  Video = 'Video',
+  Wait = 'Wait'
 }
 
 export type NodeVideoProps = {

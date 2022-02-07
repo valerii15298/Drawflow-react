@@ -155,34 +155,31 @@ export type AggregateTemplateNodesGroupFieldPolicy = {
 	_min?: FieldPolicy<any> | FieldReadFunction<any>,
 	_sum?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowKeySpecifier = ('_count' | 'description' | 'id' | 'name' | 'nextVersionNumber' | 'version' | 'versions' | BotFlowKeySpecifier)[];
+export type BotFlowKeySpecifier = ('_count' | 'description' | 'id' | 'name' | 'version' | 'versions' | BotFlowKeySpecifier)[];
 export type BotFlowFieldPolicy = {
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>,
 	versions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowAvgAggregateKeySpecifier = ('id' | 'nextVersionNumber' | BotFlowAvgAggregateKeySpecifier)[];
+export type BotFlowAvgAggregateKeySpecifier = ('id' | BotFlowAvgAggregateKeySpecifier)[];
 export type BotFlowAvgAggregateFieldPolicy = {
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BotFlowCountKeySpecifier = ('versions' | BotFlowCountKeySpecifier)[];
 export type BotFlowCountFieldPolicy = {
 	versions?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowCountAggregateKeySpecifier = ('_all' | 'description' | 'id' | 'name' | 'nextVersionNumber' | BotFlowCountAggregateKeySpecifier)[];
+export type BotFlowCountAggregateKeySpecifier = ('_all' | 'description' | 'id' | 'name' | BotFlowCountAggregateKeySpecifier)[];
 export type BotFlowCountAggregateFieldPolicy = {
 	_all?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowGroupByKeySpecifier = ('_avg' | '_count' | '_max' | '_min' | '_sum' | 'description' | 'id' | 'name' | 'nextVersionNumber' | BotFlowGroupByKeySpecifier)[];
+export type BotFlowGroupByKeySpecifier = ('_avg' | '_count' | '_max' | '_min' | '_sum' | 'description' | 'id' | 'name' | BotFlowGroupByKeySpecifier)[];
 export type BotFlowGroupByFieldPolicy = {
 	_avg?: FieldPolicy<any> | FieldReadFunction<any>,
 	_count?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -191,27 +188,23 @@ export type BotFlowGroupByFieldPolicy = {
 	_sum?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowMaxAggregateKeySpecifier = ('description' | 'id' | 'name' | 'nextVersionNumber' | BotFlowMaxAggregateKeySpecifier)[];
+export type BotFlowMaxAggregateKeySpecifier = ('description' | 'id' | 'name' | BotFlowMaxAggregateKeySpecifier)[];
 export type BotFlowMaxAggregateFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowMinAggregateKeySpecifier = ('description' | 'id' | 'name' | 'nextVersionNumber' | BotFlowMinAggregateKeySpecifier)[];
+export type BotFlowMinAggregateKeySpecifier = ('description' | 'id' | 'name' | BotFlowMinAggregateKeySpecifier)[];
 export type BotFlowMinAggregateFieldPolicy = {
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	name?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BotFlowSumAggregateKeySpecifier = ('id' | 'nextVersionNumber' | BotFlowSumAggregateKeySpecifier)[];
+export type BotFlowSumAggregateKeySpecifier = ('id' | BotFlowSumAggregateKeySpecifier)[];
 export type BotFlowSumAggregateFieldPolicy = {
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	nextVersionNumber?: FieldPolicy<any> | FieldReadFunction<any>
+	id?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BotFlowVersionKeySpecifier = ('_count' | 'botFlow' | 'botFlowId' | 'canvasTranslate' | 'connections' | 'heads' | 'id' | 'nodes' | 'select' | 'version' | 'zoom' | BotFlowVersionKeySpecifier)[];
 export type BotFlowVersionFieldPolicy = {

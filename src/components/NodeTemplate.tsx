@@ -1,9 +1,10 @@
 import { useRef } from "react";
-import { dragTemplate, setStateAction } from "../redux/actions";
+import { setStateAction } from "../redux/actions";
 import { getFileUrl } from "../redux/api";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { ThreeDots } from "../svg";
 import { mainWindow } from "../types";
+import { eventEmitter } from "./Drawflow";
 import { formType } from "./NodeSettings/TemplateNodeSettings";
 import {
   NodeDiv,
@@ -16,17 +17,12 @@ export const NodeTemplate = (props: formType) => {
   const { id, order } = props;
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
-  const canvas = useAppSelector((s) => s.precanvas);
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (dragTemplate === undefined) {
-      return;
-    }
-    // dispatch(dragTemplate(id));
+    dispatch(setStateAction({ dragTemplate: id }));
     const { current } = ref;
     if (!current) {
-      console.error("No node to copy");
-      return;
+      throw new TypeError("No node to copy");
     }
     const { left, top } = current.getBoundingClientRect();
     const dx = e.clientX - left;
@@ -37,27 +33,24 @@ export const NodeTemplate = (props: formType) => {
     cloned.style.left = left + window.scrollX + "px";
     cloned.style.top = top + window.scrollY + "px";
     document.body.appendChild(cloned);
+    cloned.style.pointerEvents = "none";
     const drag = (e: MouseEvent) => {
       const { clientX, clientY } = e;
-      if (!canvas) {
-        console.error("Canvas is not ready! Cannot drag template");
-        return;
-      }
-      if (clientX >= canvas.x && clientY >= canvas.y) {
-        document.removeEventListener("mousemove", drag);
-        cloned.parentNode?.removeChild(cloned);
-        return;
-      }
       cloned.style.left = clientX - dx + window.scrollX + "px";
       cloned.style.top = clientY - dy + window.scrollY + "px";
     };
+    eventEmitter.on("enter", () => {
+      document.removeEventListener("mousemove", drag);
+      cloned.parentNode?.removeChild(cloned);
+    });
     document.addEventListener("mousemove", drag);
+
     document.addEventListener(
       "mouseup",
       () => {
         document.removeEventListener("mousemove", drag);
         cloned.parentNode?.removeChild(cloned);
-        dispatch(dragTemplate(undefined));
+        dispatch(setStateAction({ dragTemplate: null }));
       },
       { once: true }
     );
