@@ -13,8 +13,6 @@ import {
   useLocalStorage,
 } from "../redux/hooks";
 import { useActiveFlow } from "../redux/selectors";
-import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
-import { toggleAvailablePortToConnectThunk } from "../redux/thunks/toggleAvailablePortToConnectThunk";
 import { canvasShape, LocalStorageKey } from "../types";
 import { ConnectionList } from "./ConnectionList";
 import DrawflowZoomArea from "./DrawflowZoomArea";
@@ -92,7 +90,8 @@ export const Drawflow = () => {
   const precanvas = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    dispatch(alignCurrentFlow());
+    // dispatch(alignCurrentFlow());
+    dispatch(actions.alignCurrentFlow());
   }, []);
 
   useEffect(() => {
@@ -156,7 +155,8 @@ export const Drawflow = () => {
       }}
       onMouseUp={() => {
         dispatch(actions.canvasMouseUp());
-        dispatch(alignCurrentFlow());
+        // dispatch(alignCurrentFlow());
+        dispatch(actions.alignCurrentFlow());
       }}
       onMouseMove={(e) => {
         const { clientX, clientY, movementX, movementY } = e;
@@ -172,7 +172,7 @@ export const Drawflow = () => {
             movementY,
           })
         );
-        dispatch(toggleAvailablePortToConnectThunk());
+        // dispatch(toggleAvailablePortToConnectThunk());
       }}
       onMouseEnter={(e) => {
         const { clientX, clientY } = e;

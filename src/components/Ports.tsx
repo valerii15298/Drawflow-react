@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useNodeIsSub, useNodePos, usePortIsActive } from "../redux/selectors";
-import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
 import { portType, purePort } from "../types";
 
 const Indicator = styled.div<{ visible: boolean }>`
@@ -99,7 +98,8 @@ const Port = (port: purePort) => {
   ) => {
     e.preventDefault();
     dispatch(actions.toggleSubnodes({ id: nodeId }));
-    dispatch(alignCurrentFlow());
+    // dispatch(alignCurrentFlow());
+    dispatch(actions.alignCurrentFlow());
     e.stopPropagation();
   };
 
@@ -108,7 +108,9 @@ const Port = (port: purePort) => {
   ) => {
     e.preventDefault();
     dispatch(actions.toggleChildren({ id: nodeId }));
-    dispatch(alignCurrentFlow());
+    // dispatch(alignCurrentFlow());
+    dispatch(actions.alignCurrentFlow());
+
     e.stopPropagation();
   };
 
@@ -146,8 +148,6 @@ const Port = (port: purePort) => {
       <Indicator visible={isActive} />
     </StyledPort>
   );
-
-  return comp;
 
   if (type === "in" || isSub) {
     return comp;

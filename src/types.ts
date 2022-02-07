@@ -174,7 +174,7 @@ export interface stateData {
     clientX: number;
     clientY: number;
   };
-  portToConnect?: Port | undefined;
+  portToConnect: Port | null;
   nodeToCopyId?: number;
   clientCurrentMousePos?: clientPos;
   computing?: number;

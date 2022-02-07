@@ -1,3 +1,4 @@
+import lodash from "lodash";
 import { syncTimer } from "../decorators";
 import { addConnectionType, moveNodeType, Port, stateData } from "../types";
 import Node from "./Node";
@@ -86,29 +87,30 @@ export class Flow {
     if (conn.fromPort.id === conn.toPort.id) {
       return;
     }
-    const gId =
+    // TODO change from hardcoded!!
+    const getId = () =>
       Math.max(
         ...Object.values(this.state.connections).map((conn) => conn.id)
       ) + 1;
-    const fromPort = this.state.ports[conn.fromPort.id];
-    const toPort = this.state.ports[conn.toPort.id];
+    const fromPort = lodash.cloneDeep(this.state.ports[conn.fromPort.id]);
+    const toPort = lodash.cloneDeep(this.state.ports[conn.toPort.id]);
     if (!fromPort || !toPort) {
       throw new TypeError("Cannot find ports by id!!!");
     }
 
-    const nodeIn = this.getNode(toPort.nodeId);
-    const nodeOut = this.getNode(fromPort.nodeId);
+    const nodeTo = this.getNode(toPort.nodeId);
+    const nodeFrom = this.getNode(fromPort.nodeId);
     const connectAsSub = fromPort.portId === 2;
 
-    if (nodeIn.parent || nodeOut.nodeState.visible === false) {
+    if (nodeTo.parent || nodeFrom.nodeState.visible === false) {
       return false;
     }
 
-    const flowLine = nodeIn.flowLine;
+    const flowLine = nodeTo.flowLine;
 
     // console.log(flowLine);
     if (
-      (connectAsSub || nodeOut.isSub) &&
+      (connectAsSub || nodeFrom.isSub) &&
       (!flowLine || flowLine.hasSubnodes)
     ) {
       return false;
@@ -117,14 +119,15 @@ export class Flow {
     // let startId = 0, startPort = 0
     // Insertion to the subnodes
     let nextNode: Node | null = null;
-    if (connectAsSub && nodeOut.subnodes.length) {
-      if (nodeOut.nodeState.subnodesVisibility === false) {
+    if (connectAsSub && nodeFrom.subnodes.length) {
+      if (nodeFrom.nodeState.subnodesVisibility === false) {
         // connect subnode to the end when subnodes are hidden
-        fromPort.id = nodeOut.subnodes[nodeOut.subnodes.length - 1].id;
+        fromPort.id = nodeFrom.subnodes.at(-1)!.id;
         fromPort.portId = 1;
-        this.state.connections[gId] = {
+        const id = getId();
+        this.state.connections[id] = {
           // TODO Change id to one from server
-          id: gId,
+          id,
           fromPort,
           toPort,
           visible: true,
@@ -133,11 +136,13 @@ export class Flow {
         flowLineNodes.forEach((node) => node.toggleVisibility(false));
         return;
       } else {
-        nextNode = nodeOut.subnodes[0];
+        nextNode = nodeFrom.subnodes[0];
       }
     }
-    if (nodeOut.isSub && nodeOut.out1.length) {
-      nextNode = nodeOut.out1[0];
+    // insert into middle subnodes
+    if (nodeFrom.isSub && nodeFrom.out1.length) {
+      //next subnode in line
+      nextNode = nodeFrom.out1[0];
     }
 
     if (nextNode) {
@@ -151,11 +156,17 @@ export class Flow {
       }
       delete this.state.connections[connToDelete.id];
 
-      const { flowLineNodes } = flowLine as { flowLineNodes: Node[] };
-      const lastNode = flowLineNodes[flowLineNodes.length - 1];
-      this.state.connections[gId] = {
-        // TODO delete hardcoded id
-        id: gId,
+      if (!flowLine) {
+        throw new TypeError("flowLine is null!!");
+      }
+      const { flowLineNodes } = flowLine;
+      const lastNode = flowLineNodes.at(-1);
+      if (!lastNode) {
+        throw new TypeError("Last node is undefined");
+      }
+      const id = getId();
+      this.state.connections[id] = {
+        id,
         fromPort: {
           id: lastNode.portOut1.id,
         },
@@ -166,9 +177,10 @@ export class Flow {
       };
     }
 
-    this.state.connections[gId] = {
+    const id = getId();
+    this.state.connections[id] = {
       // TODO delete hardcoded id
-      id: gId,
+      id: id,
       fromPort,
       toPort,
       visible: true,
@@ -207,26 +219,27 @@ export class Flow {
       const distance = Math.hypot(x1 - x2, y1 - y2);
       // console.log({ distance });
       if (
-        Math.abs(distance - currentNode.spacingY) < this.distanceToDisconnect
+        Math.abs(distance - currentNode.spacingY) >= this.distanceToDisconnect
       ) {
-        return;
+        // remove connection
+        delete this.state.connections[currentNode.parentConnection.id];
+        this.setLaneNumbers();
+        // this.alignAll();
       }
-
-      // remove connection
-      delete this.state.connections[currentNode.parentConnection.id];
-      // this.alignAll();
     }
   }
 
   toggleAvailablePortToConnect(nodeId: number) {
-    if (!this.state.config.drag) return;
-
+    if (!this.state.config.drag) {
+      this.state.portToConnect = null;
+      return;
+    }
     const currentNode = this.getNode(nodeId);
     const currentNodeHead = currentNode.head;
 
     const nodeInPortPos = currentNode.portInPos;
 
-    let nearestPort: { port: Port; distance: number } | null = null;
+    let nearestPort: { port: Port; distance: number } | undefined;
 
     Object.entries(this.nodes)
       .filter(
@@ -235,7 +248,11 @@ export class Flow {
       )
       .forEach(([id, node]) => {
         if (Number(id) === nodeId) return;
+        const { isSub } = node;
         node.outPorts.forEach((port) => {
+          // if it is port of subnode for subnodes,
+          // because subnode cannot have subnodes itself
+          if (isSub && port.portId === 2) return;
           const { pos } = port;
           const distance = Math.hypot(
             nodeInPortPos.x - pos.x,
@@ -244,7 +261,7 @@ export class Flow {
 
           if (
             distance < this.distanceToConnect &&
-            (nearestPort === null || distance < nearestPort.distance)
+            (!nearestPort || distance < nearestPort.distance)
           ) {
             nearestPort = {
               port,
@@ -254,11 +271,10 @@ export class Flow {
         });
       });
 
-    if (nearestPort !== null) {
-      //@ts-ignore
+    if (nearestPort) {
       this.state.portToConnect = nearestPort.port;
     } else {
-      this.state.portToConnect = undefined;
+      this.state.portToConnect = null;
     }
   }
 

@@ -118,9 +118,7 @@ export const usePortIsActive = (port: purePort) =>
           (s: RootState) => {
             const { portToConnect } = selectActiveDrawflow(s);
             if (!portToConnect) return false;
-            const port2 = JSON.parse(JSON.stringify(portToConnect));
-            delete port2.pos;
-            return lodash.isEqual(port, port2);
+            return portToConnect.id === port.id;
           },
           (s) => s
         ),

@@ -39,6 +39,7 @@ export const getDefaultStateData = (): stateData => ({
   newPathDirection: null,
   modalType: null,
   editLock: false,
+  portToConnect: null,
 });
 export const initialState: stateData = getDefaultStateData();
 
@@ -158,9 +159,14 @@ const slice = createSlice({
 
         state.drawflow[nodeId].pos.x += dx;
         state.drawflow[nodeId].pos.y += dy;
-        new Flow(state).untieNodeIfFarAway(nodeId);
+        const flow = new Flow(state);
+        flow.untieNodeIfFarAway(nodeId);
+        flow.toggleAvailablePortToConnect(nodeId);
       }
       // return state;
+    },
+    alignCurrentFlow: (state) => {
+      new Flow(state).alignAll();
     },
     canvasMouseUp: (state) => {
       // state = JSON.parse(JSON.stringify(state));
@@ -178,7 +184,7 @@ const slice = createSlice({
           },
         });
       }
-      state.portToConnect = undefined;
+      state.portToConnect = null;
       state.newPathDirection = null;
       state.canvasDrag = false;
       state.config.drag = false;
@@ -228,6 +234,7 @@ const slice = createSlice({
       if (select?.type === "path") {
         console.log("delete");
         delete state.connections[select.selectId];
+        new Flow(state).setLaneNumbers();
       }
     },
     load,
