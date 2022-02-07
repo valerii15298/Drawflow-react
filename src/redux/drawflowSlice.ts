@@ -176,6 +176,7 @@ const slice = createSlice({
         // console.log(current(state.portToConnect));
         const endId = state.select.selectId;
         flow.addConnection({
+          visible: 0,
           fromPort: {
             id,
           },
@@ -263,6 +264,7 @@ const slice = createSlice({
 
       const flow = new Flow(state);
       flow.addConnection({
+        visible: 0,
         fromPort: {
           id: select.selectId,
         },

@@ -87,7 +87,7 @@ export interface node extends dataNode {
   positionNumber?: number;
   subnodesVisibility?: boolean;
   childrenVisibility?: boolean;
-  visible?: boolean;
+  visible: number;
   selected?: boolean;
 }
 
@@ -131,7 +131,7 @@ type sNode = versions[number]["nodes"][number];
 // type purePort = versions[number]["nodes"][number]["ports"][number];
 
 export type connection = versions[number]["connections"][number] & {
-  visible?: boolean;
+  visible: number;
 };
 
 export type addConnectionType = Omit<connection, "id">;

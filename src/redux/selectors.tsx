@@ -22,7 +22,7 @@ export const useNodeIds = () =>
             return (
               Object.entries(drawflow)
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                .filter(([id, { visible }]) => visible !== false)
+                .filter(([id, { visible }]) => visible >= 0)
                 .map(([id]) => Number(id))
             );
           },
@@ -209,7 +209,7 @@ export const useConnectionIds = () =>
             const { connections } = selectActiveDrawflow(s);
 
             return Object.values(connections)
-              .filter((conn) => conn.visible !== false)
+              .filter((conn) => conn.visible >= 0)
               .map((conn) => conn.id);
           },
           (s) => s

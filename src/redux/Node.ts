@@ -208,7 +208,7 @@ export default class Node {
 
   @memoize()
   private get totalWidth() {
-    if (this.nodeState.visible === false) return 0;
+    if (this.nodeState.visible < 0) return 0;
     return Math.max(
       this.width + this.subnodesWidth,
       this.leftWidth + this.rightWidth
@@ -229,7 +229,7 @@ export default class Node {
 
   @memoize()
   private get leftWidth(): number {
-    if (this.nodeState.visible === false) return 0;
+    if (this.nodeState.visible < 0) return 0;
     const { out1, childrenTotalWidth } = this;
     const selfLeftWidth = this.width / 2;
     if (!out1.length) {
@@ -247,7 +247,7 @@ export default class Node {
 
   @memoize()
   private get rightWidth(): number {
-    if (this.nodeState.visible === false) return 0;
+    if (this.nodeState.visible < 0) return 0;
     const { out1, childrenTotalWidth } = this;
     const selfRightWidth = this.width / 2 + this.subnodesWidth;
     if (!out1.length) {
@@ -277,7 +277,7 @@ export default class Node {
         x,
         y: this.pos.y + this.height + this.spacingY,
       });
-      if (node.nodeState.visible !== false) {
+      if (node.nodeState.visible < 0) {
         xPos += node.totalWidth + this.spacingX;
       }
       node.alignChildren();
@@ -302,20 +302,22 @@ export default class Node {
   }
 
   toggleVisibility(visible: boolean) {
-    // set self visibility
-    this.update({ visible });
+    const v = visible ? 1 : -1;
 
-    this.parentConnection && (this.parentConnection.visible = visible);
+    // set self visibility
+    this.nodeState.visible += v;
+
+    this.parentConnection && (this.parentConnection.visible += v);
 
     // set conns visibility to value of visible
     this.outConnections.forEach((conn) => {
-      conn.visible = visible;
+      conn.visible += v;
     });
   }
 
   toggleChildrenVisibility() {
     const visibility = this.nodeState.childrenVisibility ?? true;
-    this.update({ childrenVisibility: !visibility });
+    this.nodeState.childrenVisibility = !visibility;
     const { subnodes, allSuccessors } = this;
     allSuccessors.forEach((node) => {
       if (!subnodes.includes(node)) {
@@ -326,7 +328,7 @@ export default class Node {
 
   toggleSubnodesVisibility() {
     const visibility = this.nodeState.subnodesVisibility ?? true;
-    this.update({ subnodesVisibility: !visibility });
+    this.nodeState.subnodesVisibility = !visibility;
     this.subnodes.forEach((node) => {
       node.toggleVisibility(!visibility);
     });

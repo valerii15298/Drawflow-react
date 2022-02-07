@@ -26,6 +26,7 @@ export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
         isSub: false,
         height: 0,
         width: 0,
+        visible: 0,
       };
       v.ports.forEach(
         ({ id, index }) =>
@@ -44,7 +45,10 @@ export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
     }, {} as drawflow);
     data.ports = ports;
     data.connections = ver.connections.reduce((acc, v) => {
-      acc[v.id] = v;
+      acc[v.id] = {
+        ...v,
+        visible: 0,
+      };
       return acc;
     }, {} as connections);
     return data;
