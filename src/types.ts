@@ -38,11 +38,6 @@ export type clientPos = {
   clientY: number;
 };
 
-export type port = {
-  in: number;
-  out: number;
-};
-
 export interface purePort {
   id: number;
   nodeId: number;
@@ -78,7 +73,7 @@ export const isArray = Array.isArray as (
 
 export interface dataNode extends Omit<sNode, "ports" | "id"> {
   // data: step;
-  port: port;
+  // port: port;
   pos: pos;
   isSub: boolean;
 }

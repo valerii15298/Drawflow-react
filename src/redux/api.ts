@@ -19,10 +19,6 @@ export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
         NodeProps: v.NodeProps,
         info: v.info,
         id: v.id,
-        port: {
-          in: 1,
-          out: 2,
-        },
         pos: {
           x: 0,
           y: 0,

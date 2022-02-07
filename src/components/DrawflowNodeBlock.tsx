@@ -8,7 +8,6 @@ import {
   useNodeIsSelected,
   useNodePos,
 } from "../redux/selectors";
-import { portType } from "../types";
 import { Block } from "./NodeComponents";
 import { Ports } from "./Ports";
 import { BlockStyled } from "./StyledComponents";
@@ -28,7 +27,6 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const node = useNode(id);
-  const { port } = node;
 
   useEffect(() => {
     if (ref.current) {
@@ -40,40 +38,8 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
           id,
         })
       );
-      // dispatch(actions.align());
-      // console.log(`align node ${id}`);
     }
   }, [dispatch, id, node]);
-
-  // update ports positions
-  useEffect(() => {
-    const getPorts = (type: portType, box: HTMLDivElement) => {
-      const puts = Array.from(
-        (box.querySelector(`.${type}puts`) as HTMLDivElement).children
-      );
-      return puts.map((elmt, portId) => {
-        const x = parseInt(getComputedStyle(elmt).left) + pos.x;
-        const y = parseInt(getComputedStyle(elmt).top) + pos.y;
-
-        return {
-          nodeId: id,
-          pos: {
-            x,
-            y,
-          },
-          portId: portId + 1,
-          type,
-        };
-      });
-    };
-
-    if (ref.current) {
-      const inputs = getPorts(portType.in, ref.current);
-      const outputs = getPorts(portType.out, ref.current);
-      // TODO push ports
-      // dispatch(actions.pushPorts([...inputs, ...outputs]));
-    }
-  }, [dispatch, id, pos]);
 
   useEffect(() => {
     // when add new node shift it to left and up
@@ -126,8 +92,7 @@ const DrawflowNodeBlock = ({ id }: { id: number }) => {
         {node.id}:{node.positionNumber}
       </div>
       <Block {...node} />
-      <Ports id={id} port={port} type={portType.in} />
-      <Ports id={id} port={port} type={portType.out} />
+      <Ports id={id} />
     </BlockStyled>
   );
 };

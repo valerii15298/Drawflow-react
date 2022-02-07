@@ -1,12 +1,11 @@
-import styled, { css } from "styled-components";
-import { actions } from "../redux/drawflowSlice";
-import { useAppDispatch } from "../redux/hooks";
-import { useNodeIsSub, usePortIsActive } from "../redux/selectors";
-import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
-import { port, portType, purePort } from "../types";
-import { MouseEvent } from "react";
-
 import Tooltip from "@mui/material/Tooltip";
+import { MouseEvent, useEffect, useRef } from "react";
+import styled, { css } from "styled-components";
+import { actions, selectActiveDrawflow } from "../redux/drawflowSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useNodeIsSub, useNodePos, usePortIsActive } from "../redux/selectors";
+import { alignCurrentFlow } from "../redux/thunks/alignWorkerThunk";
+import { portType, purePort } from "../types";
 
 const Indicator = styled.div<{ visible: boolean }>`
   width: 15px;
@@ -76,6 +75,24 @@ const Port = (port: purePort) => {
   const isActive = usePortIsActive(port);
   const isSub = useNodeIsSub(nodeId);
   const StyledPort = styledPorts[type][portId - 1];
+  const nodePos = useNodePos(nodeId);
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (ref.current) {
+      const elmt = ref.current;
+      const x = parseInt(getComputedStyle(elmt).left) + nodePos.x;
+      const y = parseInt(getComputedStyle(elmt).top) + nodePos.y;
+      dispatch(
+        actions.pushPort({
+          id: port.id,
+          pos: {
+            x,
+            y,
+          },
+        })
+      );
+    }
+  }, [dispatch, nodePos]);
 
   const toggleSubnodes = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -97,6 +114,7 @@ const Port = (port: purePort) => {
 
   const comp = (
     <StyledPort
+      ref={ref}
       isSub={isSub}
       onMouseDown={(e) => {
         e.stopPropagation();
@@ -129,6 +147,8 @@ const Port = (port: purePort) => {
     </StyledPort>
   );
 
+  return comp;
+
   if (type === "in" || isSub) {
     return comp;
   }
@@ -148,14 +168,26 @@ const Port = (port: purePort) => {
   );
 };
 
-export const Ports = (props: { type: portType; id: number; port: port }) => {
-  const { id, port, type } = props;
-  const arr = [];
+export const Ports = ({ id }: { id: number }) => {
+  const ports = useAppSelector((s) =>
+    Object.values(selectActiveDrawflow(s).ports).filter((p) => p.nodeId === id)
+  );
 
-  for (let i = 1; i <= port[type]; i++) {
-    // TODO cahnge id from i !!!!
-    arr.push(<Port id={i} key={i} nodeId={id} portId={i} type={type} />);
-  }
+  const portsIn = ports.filter((p) => p.type === portType.in);
+  const portsOut = ports.filter((p) => p.type === portType.out);
 
-  return <div className={`${type}puts`}>{arr}</div>;
+  return (
+    <>
+      <div className={`inputs`}>
+        {portsIn.map((p) => (
+          <Port key={p.id} {...p} />
+        ))}
+      </div>
+      <div className={`outputs`}>
+        {portsOut.map((p) => (
+          <Port key={p.id} {...p} />
+        ))}
+      </div>
+    </>
+  );
 };

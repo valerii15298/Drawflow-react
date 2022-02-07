@@ -39,8 +39,8 @@ export default class Node {
   //   return this.nodeState.port;
   // }
 
-  get portInPos(): pos | undefined {
-    return this.inPort?.pos;
+  get portInPos(): pos {
+    return this.inPort.pos;
   }
 
   get outPorts() {
@@ -54,7 +54,7 @@ export default class Node {
     if (!parentConnection) {
       return null;
     }
-    const parentId = this.state.ports[parentConnection.toPort.id].nodeId;
+    const parentId = this.state.ports[parentConnection.fromPort.id].nodeId;
     return parentId ? this.flow.getNode(parentId) : null;
   }
 
@@ -87,7 +87,7 @@ export default class Node {
     return outPort;
   }
 
-  get parentConnection(): connection | undefined {
+  get parentConnection() {
     const { inPort } = this;
     if (!inPort) return;
     return Object.values(this.state.connections).find((conn) => {
@@ -267,7 +267,6 @@ export default class Node {
     const { out1 } = this;
     this.update({
       isSub: false,
-      port: { out: 2 },
     });
 
     let xPos = this.pos.x - (this.leftWidth - this.width / 2);
@@ -290,7 +289,6 @@ export default class Node {
       subnodes.forEach((subNode) => {
         subNode.update({
           isSub: true,
-          port: { out: 1 },
         });
         subNode.setPos({
           x: xPos,

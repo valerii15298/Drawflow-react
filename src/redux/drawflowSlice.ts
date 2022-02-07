@@ -7,6 +7,7 @@ import {
   ObjectKeys,
   ports,
   portType,
+  pos,
   select,
   setStateFunction,
   Slices,
@@ -173,7 +174,7 @@ const slice = createSlice({
             id,
           },
           toPort: {
-            id: endId,
+            id: flow.getNode(endId).inPort.id,
           },
         });
       }
@@ -264,12 +265,13 @@ const slice = createSlice({
       });
     },
     clear: () => initialState,
-    // pushPorts: (state: stateData, { payload: ports }: PayloadAction<ports>) => {
-    //   if (ports.length === 0) return;
-    //   const { nodeId } = ports[0];
-    //   state.ports = state.ports.filter((port) => port.nodeId !== nodeId);
-    //   state.ports.push(...ports);
-    // },
+    pushPort: (
+      state: stateData,
+      { payload: { id, pos } }: PayloadAction<{ id: number; pos: pos }>
+    ) => {
+      // console.log(...Object.values(pos), id);
+      state.ports[id].pos = pos;
+    },
     zoom: (state, { payload }: PayloadAction<boolean | null>) => {
       const { zoom } = state.config;
       const { value, max, min, tick } = zoom;

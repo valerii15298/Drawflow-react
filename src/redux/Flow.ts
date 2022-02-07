@@ -80,8 +80,16 @@ export class Flow {
     return true;
   }*/
 
+  // @syncTimer()
   addConnection(conn: addConnectionType) {
     // eslint-disable-next-line prefer-const
+    if (conn.fromPort.id === conn.toPort.id) {
+      return;
+    }
+    const gId =
+      Math.max(
+        ...Object.values(this.state.connections).map((conn) => conn.id)
+      ) + 1;
     const fromPort = this.state.ports[conn.fromPort.id];
     const toPort = this.state.ports[conn.toPort.id];
     if (!fromPort || !toPort) {
@@ -114,9 +122,9 @@ export class Flow {
         // connect subnode to the end when subnodes are hidden
         fromPort.id = nodeOut.subnodes[nodeOut.subnodes.length - 1].id;
         fromPort.portId = 1;
-        this.state.connections[999] = {
+        this.state.connections[gId] = {
           // TODO Change id to one from server
-          id: 999,
+          id: gId,
           fromPort,
           toPort,
           visible: true,
@@ -145,9 +153,9 @@ export class Flow {
 
       const { flowLineNodes } = flowLine as { flowLineNodes: Node[] };
       const lastNode = flowLineNodes[flowLineNodes.length - 1];
-      this.state.connections[98] = {
+      this.state.connections[gId] = {
         // TODO delete hardcoded id
-        id: 98,
+        id: gId,
         fromPort: {
           id: lastNode.portOut1.id,
         },
@@ -158,9 +166,9 @@ export class Flow {
       };
     }
 
-    this.state.connections[187] = {
+    this.state.connections[gId] = {
       // TODO delete hardcoded id
-      id: 187,
+      id: gId,
       fromPort,
       toPort,
       visible: true,
@@ -210,7 +218,6 @@ export class Flow {
     }
   }
 
-  // @syncTimer()
   toggleAvailablePortToConnect(nodeId: number) {
     if (!this.state.config.drag) return;
 
@@ -218,7 +225,6 @@ export class Flow {
     const currentNodeHead = currentNode.head;
 
     const nodeInPortPos = currentNode.portInPos;
-    if (!nodeInPortPos) return;
 
     let nearestPort: { port: Port; distance: number } | null = null;
 
@@ -254,7 +260,6 @@ export class Flow {
     } else {
       this.state.portToConnect = undefined;
     }
-    // console.timeEnd("toggle");
   }
 
   setLaneNumbers() {
