@@ -3,7 +3,8 @@ import {
   pureTemplateNode,
   canvasShape,
   clientPos,
-  setStateFunction,
+  RecursivePartial,
+  flowType,
 } from "../types";
 
 export const addNewNode = createAction<
@@ -13,6 +14,5 @@ export const canvasShapeUpdated =
   createAction<canvasShape>("canvasShapeUpdated");
 export const insertCopiedNode = createAction("insertCopiedNode");
 export const toggleSidebar = createAction("toggleSidebar");
-export const setStateAction = createAction<
-  Record<string, any> | setStateFunction
->("setState");
+export const setStateAction =
+  createAction<RecursivePartial<flowType>>("setState");

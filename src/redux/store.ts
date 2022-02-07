@@ -161,10 +161,12 @@ const reducer = createReducer(getFlowInitialState(), (builder) => {
       if (!payload) return;
 
       const { flows } = state;
-      const newFlows = state.flows;
-
-      // merge all
-      lodash.merge(state.flows, payload);
+      const newFlows = {} as typeof flows;
+      for (const id in flows) {
+        if (!(id in payload)) {
+          newFlows[id] = flows[id];
+        }
+      }
       for (const flowId in payload) {
         const newFlow = payload[flowId];
         const oldFlow = flows[flowId];

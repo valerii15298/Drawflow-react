@@ -53,7 +53,7 @@ export const fetchBotFlow = createAsyncThunk("fetchBotFlow", async () => {
     ] as const;
   });
   if (!arr) return;
-  console.log({ arr });
+  // console.log({ arr });
   return Object.fromEntries(arr);
 });
 
@@ -154,7 +154,7 @@ export const postFlowVersion = createAsyncThunk("postFlowVersion", () => {
   console.log("postFlowVersion");
 });
 
-export const addConnection = createAsyncThunk("addConnection", () => {
+export const addConnection = createAsyncThunk("addConnection", (ss) => {
   console.log("addConnection");
 });
 

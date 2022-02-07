@@ -303,5 +303,3 @@ export type moveNodeType = {
   dy: number;
   nodeId: number;
 };
-
-export type setStateFunction = (state: Record<string, any>) => void;

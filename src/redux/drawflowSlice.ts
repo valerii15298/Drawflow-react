@@ -8,8 +8,8 @@ import {
   ports,
   portType,
   pos,
+  RecursivePartial,
   select,
-  setStateFunction,
   Slices,
   stateData,
 } from "../types";
@@ -44,7 +44,7 @@ export const initialState: stateData = getDefaultStateData();
 
 export const setState = (
   state: Record<string, any>,
-  { payload }: PayloadAction<Record<string, unknown> | setStateFunction>
+  { payload }: PayloadAction<Record<string, any>>
 ) => {
   const newState = lodash.merge(state, payload);
   ObjectKeys(newState).forEach((key) => {
@@ -56,7 +56,10 @@ const slice = createSlice({
   name: Slices.Drawflow,
   initialState,
   reducers: {
-    setState,
+    setState: (
+      state: stateData,
+      action: PayloadAction<RecursivePartial<stateData>>
+    ) => setState(state, action),
     setEditLock: (state, { payload }: PayloadAction<boolean>) => {
       state.editLock = payload;
     },
