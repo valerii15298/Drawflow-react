@@ -5,6 +5,7 @@ import {
   connection,
   connections,
   drawflow,
+  flowType,
   idConnType,
   idNodeType,
   idPortType,
@@ -15,7 +16,12 @@ import {
   RecursivePartial,
   stateData,
 } from "../types";
-import { getDefaultStateData } from "./drawflowSlice";
+import {
+  actions,
+  getDefaultStateData,
+  selectActiveDrawflow,
+} from "./drawflowSlice";
+import { Flow } from "./Flow";
 
 const client = new GraphQLClient("http://localhost:3000/graphql");
 const sdk = getSdk(client);
@@ -173,3 +179,35 @@ export const removeFlowNode = createAsyncThunk("removeFlowNode", () => {
 export const updateFlowNode = createAsyncThunk("updateFlowNode", () => {
   console.log("updateFlowNode");
 });
+
+export const canvasMouseUp = createAsyncThunk(
+  "canvasMouseUp",
+  (_, { dispatch, getState }) => {
+    const appState = getState() as flowType;
+    const state = selectActiveDrawflow(appState);
+    const flow = new Flow(state);
+    if (state.portToConnect && state.select?.selectId) {
+      const { id } = state.portToConnect;
+      const endId = state.select.selectId;
+      const conns = flow.addConnection({
+        visible: 0,
+        fromPort: {
+          id,
+        },
+        toPort: {
+          id: flow.getNode(endId).inPort.id,
+        },
+      });
+      // process conns:
+      // delete conns, add generated ids to new ones,
+      // insert into state new ones,
+      // send to server as transactions,
+      // if fail on server then:
+      //    show error,
+      //    keep local stop merging,
+      //    push into queue to process as transaction
+      //    and push to server later when will be online
+    }
+    dispatch(actions.canvasMouseUp());
+  }
+);

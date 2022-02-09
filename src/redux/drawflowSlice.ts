@@ -160,22 +160,6 @@ const slice = createSlice({
       new Flow(state).alignAll();
     },
     canvasMouseUp: (state) => {
-      // state = JSON.parse(JSON.stringify(state));
-      const flow = new Flow(state);
-      if (state.portToConnect && state.select?.selectId) {
-        const { id } = state.portToConnect;
-        // console.log(current(state.portToConnect));
-        const endId = state.select.selectId;
-        flow.addConnection({
-          visible: 0,
-          fromPort: {
-            id,
-          },
-          toPort: {
-            id: flow.getNode(endId).inPort.id,
-          },
-        });
-      }
       state.portToConnect = null;
       state.newPathDirection = null;
       state.canvasDrag = false;
@@ -183,7 +167,6 @@ const slice = createSlice({
       if (state.select?.type === portType.out) {
         state.select = null;
       }
-      // return flow.state;
     },
     // updateNode: (state, { payload: step }: PayloadAction<step>) => {
     //   const id = step.this_node_unique_id;
